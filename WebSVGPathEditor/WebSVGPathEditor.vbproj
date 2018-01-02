@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{10FF7A3A-4B96-423E-AF1E-CB5C3D1BEDBF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>WebSVGPathEditor.My.MyApplication</StartupObject>
+    <RootNamespace>WebSVGPathEditor</RootNamespace>
+    <AssemblyName>WeSP</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>WeSP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>WeSP.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>weSP.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Async.vb" />
+    <Compile Include="Figure.vb" />
+    <Compile Include="Form_about.Designer.vb">
+      <DependentUpon>Form_about.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_about.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_help.Designer.vb">
+      <DependentUpon>Form_help.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_help.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_scale.Designer.vb">
+      <DependentUpon>Form_scale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_scale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SVG.vb" />
+    <Compile Include="SomeClasses.vb" />
+    <Compile Include="Commands.vb" />
+    <Compile Include="Form_main.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_main.Designer.vb">
+      <DependentUpon>Form_main.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_result.Designer.vb">
+      <DependentUpon>Form_result.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form_result.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module1.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SVGPath.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form_main.resx">
+      <DependentUpon>Form_main.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_about.resx">
+      <DependentUpon>Form_about.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_help.resx">
+      <DependentUpon>Form_help.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_result.resx">
+      <DependentUpon>Form_result.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_scale.resx">
+      <DependentUpon>Form_scale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\selection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\placeBetween.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\move.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\moveItem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\placeBetween1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\points.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mirrorHor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mirrorVert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lineto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\moveto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bezier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\closePath.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curveto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\horLineto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vertLineto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ellipticalArc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\noMirror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\points2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="weSP.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
