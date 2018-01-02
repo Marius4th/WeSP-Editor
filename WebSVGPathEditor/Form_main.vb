@@ -1237,4 +1237,10 @@ Public Class Form_main
         Next
         Pic_canvas.Invalidate()
     End Sub
+
+    Private Sub Num_gridWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_gridWidth.ValueChanged, Num_gridHeight.ValueChanged
+        grid = New SizeF(Num_gridWidth.Value, Num_gridHeight.Value)
+        gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
+        Pic_canvas.Invalidate()
+    End Sub
 End Class

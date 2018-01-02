@@ -41,6 +41,10 @@ Partial Class Form_main
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UndoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RedoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
+        Me.DeleteToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
+        Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowRealSizePreviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SVGToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -97,6 +101,9 @@ Partial Class Form_main
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Col_stroke = New System.Windows.Forms.PictureBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Num_gridHeight = New System.Windows.Forms.NumericUpDown()
+        Me.Num_gridWidth = New System.Windows.Forms.NumericUpDown()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.Num_zoom = New System.Windows.Forms.NumericUpDown()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Num_canvasHeight = New System.Windows.Forms.NumericUpDown()
@@ -128,13 +135,6 @@ Partial Class Form_main
         Me.Lb_figures = New System.Windows.Forms.ListBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.Num_gridHeight = New System.Windows.Forms.NumericUpDown()
-        Me.Num_gridWidth = New System.Windows.Forms.NumericUpDown()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.SelectAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator8 = New System.Windows.Forms.ToolStripSeparator()
-        Me.DeleteToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator9 = New System.Windows.Forms.ToolStripSeparator()
         Me.Group_info.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
@@ -145,6 +145,8 @@ Partial Class Form_main
         CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
+        CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Num_gridWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_zoom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_canvasHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_canvasWidth, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,8 +167,6 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pan_canvas.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num_gridWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Group_info
@@ -268,6 +268,26 @@ Partial Class Form_main
         '
         resources.ApplyResources(Me.RedoToolStripMenuItem, "RedoToolStripMenuItem")
         Me.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem"
+        '
+        'ToolStripSeparator9
+        '
+        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
+        resources.ApplyResources(Me.ToolStripSeparator9, "ToolStripSeparator9")
+        '
+        'DeleteToolStripMenuItem2
+        '
+        Me.DeleteToolStripMenuItem2.Name = "DeleteToolStripMenuItem2"
+        resources.ApplyResources(Me.DeleteToolStripMenuItem2, "DeleteToolStripMenuItem2")
+        '
+        'ToolStripSeparator8
+        '
+        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
+        resources.ApplyResources(Me.ToolStripSeparator8, "ToolStripSeparator8")
+        '
+        'SelectAllToolStripMenuItem
+        '
+        Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
+        resources.ApplyResources(Me.SelectAllToolStripMenuItem, "SelectAllToolStripMenuItem")
         '
         'ViewToolStripMenuItem
         '
@@ -678,6 +698,27 @@ Partial Class Form_main
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'Num_gridHeight
+        '
+        Me.Num_gridHeight.DecimalPlaces = 1
+        resources.ApplyResources(Me.Num_gridHeight, "Num_gridHeight")
+        Me.Num_gridHeight.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_gridHeight.Name = "Num_gridHeight"
+        Me.Num_gridHeight.Value = New Decimal(New Integer() {32, 0, 0, 0})
+        '
+        'Num_gridWidth
+        '
+        Me.Num_gridWidth.DecimalPlaces = 1
+        resources.ApplyResources(Me.Num_gridWidth, "Num_gridWidth")
+        Me.Num_gridWidth.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_gridWidth.Name = "Num_gridWidth"
+        Me.Num_gridWidth.Value = New Decimal(New Integer() {32, 0, 0, 0})
+        '
+        'Label2
+        '
+        resources.ApplyResources(Me.Label2, "Label2")
+        Me.Label2.Name = "Label2"
+        '
         'Num_zoom
         '
         Me.Num_zoom.DecimalPlaces = 1
@@ -900,47 +941,6 @@ Partial Class Form_main
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Num_gridHeight
-        '
-        Me.Num_gridHeight.DecimalPlaces = 1
-        resources.ApplyResources(Me.Num_gridHeight, "Num_gridHeight")
-        Me.Num_gridHeight.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
-        Me.Num_gridHeight.Name = "Num_gridHeight"
-        Me.Num_gridHeight.Value = New Decimal(New Integer() {32, 0, 0, 0})
-        '
-        'Num_gridWidth
-        '
-        Me.Num_gridWidth.DecimalPlaces = 1
-        resources.ApplyResources(Me.Num_gridWidth, "Num_gridWidth")
-        Me.Num_gridWidth.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
-        Me.Num_gridWidth.Name = "Num_gridWidth"
-        Me.Num_gridWidth.Value = New Decimal(New Integer() {32, 0, 0, 0})
-        '
-        'Label2
-        '
-        resources.ApplyResources(Me.Label2, "Label2")
-        Me.Label2.Name = "Label2"
-        '
-        'SelectAllToolStripMenuItem
-        '
-        Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
-        resources.ApplyResources(Me.SelectAllToolStripMenuItem, "SelectAllToolStripMenuItem")
-        '
-        'ToolStripSeparator8
-        '
-        Me.ToolStripSeparator8.Name = "ToolStripSeparator8"
-        resources.ApplyResources(Me.ToolStripSeparator8, "ToolStripSeparator8")
-        '
-        'DeleteToolStripMenuItem2
-        '
-        Me.DeleteToolStripMenuItem2.Name = "DeleteToolStripMenuItem2"
-        resources.ApplyResources(Me.DeleteToolStripMenuItem2, "DeleteToolStripMenuItem2")
-        '
-        'ToolStripSeparator9
-        '
-        Me.ToolStripSeparator9.Name = "ToolStripSeparator9"
-        resources.ApplyResources(Me.ToolStripSeparator9, "ToolStripSeparator9")
-        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
@@ -977,6 +977,8 @@ Partial Class Form_main
         CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Num_gridWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_zoom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_canvasHeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_canvasWidth, System.ComponentModel.ISupportInitialize).EndInit()
@@ -998,8 +1000,6 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pan_canvas.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num_gridWidth, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
