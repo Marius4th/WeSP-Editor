@@ -1,5 +1,5 @@
 ﻿'WeSP, a program for creating/editing simple SVG graphics for webs.
-'Copyright(C) 2017-2018  Marius I.V., @marius4th
+'Copyright(C) 2018  Marius I.V., @marius4th
 
 'This program Is free software: you can redistribute it And/Or modify
 'it under the terms Of the GNU General Public License As published by
