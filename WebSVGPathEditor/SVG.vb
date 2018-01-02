@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public NotInheritable Class SVG
-    Public Shared paths As New List(Of SVGPath)
+    Public Shared paths As New ListWithEvents(Of SVGPath)
     Public Shared selectedPaths As New List(Of SVGPath)
 
     Public Shared CanvasImg As New Bitmap(640, 640)
@@ -201,6 +201,19 @@ Public NotInheritable Class SVG
 
         newPath.FillColor = SelectedPath.FillColor
         newPath.StrokeColor = SelectedPath.StrokeColor
+    End Sub
+
+    Public Shared Sub RemovePath(ByRef path As SVGPath)
+        RaiseEvent OnPathRemoving(paths.Last)
+
+        If selectedPaths.Contains(path) Then
+            selectedPaths.Remove(path)
+        End If
+
+        paths.Remove(path)
+
+        If paths.Count <= 0 Then AddPath()
+        If SelectedPath Is Nothing Then SelectedPath = paths(paths.Count - 1)
     End Sub
 
     Public Shared Sub SelectPath(index As Integer)

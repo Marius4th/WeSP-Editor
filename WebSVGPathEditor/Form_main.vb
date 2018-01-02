@@ -14,6 +14,8 @@
 'You should have received a copy Of the GNU General Public License
 'along with this program.  If Not, see < https: //www.gnu.org/licenses/>.
 
+Imports System.Windows.Input
+
 Public Class Form_main
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -54,6 +56,8 @@ Public Class Form_main
         If Form_result.Visible Then
             Form_result.Pic_realSize.Size = SVG.CanvasSize.ToSize
         End If
+
+        AddToHistory()
     End Sub
 
     Public Sub SVG_OnCanvasZoomChanged()
@@ -73,14 +77,20 @@ Public Class Form_main
         Combo_path.SelectedIndex = Combo_path.Items.Count - 1
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
+
+        AddToHistory()
     End Sub
 
     Public Sub SVG_OnPathRemoving(ByRef path As SVGPath)
         Combo_path.Items.RemoveAt(path.GetIndex())
+
+        AddToHistory()
     End Sub
 
     Public Sub SVG_OnPathClear()
         Combo_path.Items.Clear()
+
+        AddToHistory()
     End Sub
 
     Public Sub SVG_OnSelectPath(ByRef path As SVGPath)
@@ -115,16 +125,22 @@ Public Class Form_main
         Lb_figures.SelectedIndices.Clear()
         Lb_figures.SelectedIndex = Lb_figures.Items.Count - 1
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     Public Sub SVGPath_OnFigureRemoving(ByRef sender As SVGPath, ByRef fig As Figure)
         Lb_figures.Items.RemoveAt(fig.GetIndex())
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     Public Sub SVGPath_OnFiguresClear(ByRef sender As SVGPath)
         Lb_figures.Items.Clear()
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
@@ -132,16 +148,22 @@ Public Class Form_main
     Public Sub Figure_OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
         If sender.HaveMoveto Then But_moveto.Enabled = False
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     Public Sub Figure_OnPPointRemoving(ByRef sender As Figure, ByRef pp As PathPoint)
         If SVG.selectedPoints.Contains(pp) Then SVG.selectedPoints.Remove(pp)
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     Public Sub Figure_OnPPointsClear(ByRef sender As Figure)
         If SVG.SelectedFigure Is sender Then SVG.selectedPoints.Clear()
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     Public Sub PPoint_OnModified(ByRef pp As PathPoint)
@@ -165,6 +187,7 @@ Public Class Form_main
             Lb_selPoints.Items.Item(index) = pp.GetString(False)
         End If
         Pic_canvas.Invalidate()
+
     End Sub
 
     Private WithEvents theSelPoints As ListWithEvents(Of PathPoint) = SVG.selectedPoints
@@ -497,6 +520,10 @@ Public Class Form_main
         Pan_canvas_MouseUp(sender, e)
         Pic_canvas.Invalidate()
         'Timer_canvasMMove.Enabled = False
+
+        If pressedMButton <> MouseButtons.None Then
+            AddToHistory()
+        End If
 
         pressedMButton = MouseButtons.None
     End Sub
@@ -965,10 +992,10 @@ Public Class Form_main
 
     Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click
         SVG.selectedPoints.Clear()
-        SVG.paths.Clear()
-        Lb_figures.Items.Clear()
 
-        SVG.paths.Add(New SVGPath())
+        For Each path As SVGPath In SVG.selectedPaths
+            path.Clear()
+        Next
 
         Pic_canvas.Invalidate()
     End Sub
@@ -985,7 +1012,9 @@ Public Class Form_main
     End Sub
 
     Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
-        SVG.paths.Remove(SVG.SelectedPath)
+        For Each path As SVGPath In SVG.selectedPaths.AsEnumerable.Reverse
+            SVG.RemovePath(path)
+        Next
     End Sub
 
     Private Sub ClearToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem1.Click
@@ -1242,5 +1271,13 @@ Public Class Form_main
         grid = New SizeF(Num_gridWidth.Value, Num_gridHeight.Value)
         gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
         Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub UndoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UndoToolStripMenuItem.Click
+        Undo()
+    End Sub
+
+    Private Sub RedoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RedoToolStripMenuItem.Click
+        Redo()
     End Sub
 End Class

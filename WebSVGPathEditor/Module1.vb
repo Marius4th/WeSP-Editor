@@ -43,6 +43,40 @@ Public Module Module1
     Public defFilePath As String = My.Application.Info.DirectoryPath & "\untitled.wsvg"
     Public filePath As String = defFilePath
 
+    Public history As New List(Of String)
+    Public historySelected As Integer = 0
+    Public historyLock As Boolean = False
+
+    Public Sub AddToHistory()
+        If historyLock Then Return
+        Dim latest As String = SVG.GetHtml
+
+        If historySelected < history.Count - 1 Then
+            history.RemoveRange(historySelected + 1, history.Count - historySelected - 1)
+        End If
+
+        If history.Count <= 0 OrElse history.Last <> latest Then
+            history.Add(latest)
+            historySelected = history.Count - 1
+        End If
+    End Sub
+
+    Public Sub Undo()
+        If history.Count <= 0 Then Return
+        historyLock = True
+        historySelected = Math.Max(historySelected - 1, 0)
+        SVG.ParseString(history(historySelected))
+        historyLock = False
+    End Sub
+
+    Public Sub Redo()
+        If history.Count <= 0 Then Return
+        historyLock = True
+        historySelected = Math.Min(historySelected + 1, history.Count - 1)
+        SVG.ParseString(history(historySelected))
+        historyLock = False
+    End Sub
+
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'APIs
 

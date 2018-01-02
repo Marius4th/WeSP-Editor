@@ -261,13 +261,13 @@ Partial Class Form_main
         '
         'UndoToolStripMenuItem
         '
-        resources.ApplyResources(Me.UndoToolStripMenuItem, "UndoToolStripMenuItem")
         Me.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem"
+        resources.ApplyResources(Me.UndoToolStripMenuItem, "UndoToolStripMenuItem")
         '
         'RedoToolStripMenuItem
         '
-        resources.ApplyResources(Me.RedoToolStripMenuItem, "RedoToolStripMenuItem")
         Me.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem"
+        resources.ApplyResources(Me.RedoToolStripMenuItem, "RedoToolStripMenuItem")
         '
         'ToolStripSeparator9
         '
