@@ -7,13 +7,14 @@ For a binary of this project check https://github.com/Marius4th/WeSP-Editor/rele
 
 You can contact me at [@marius4th](https://twitter.com/marius4th) on twitter.
 
-### Some things on my To Do list:\n
+### Some things on my To Do list:
 
 - [ ] Commands:
   - [ ] Fully implement 'A'A (Elliptical Arc).
   - [ ] See if I should add the 'S' and 'T' commands as they are the reflexion of 'C' and 'Q'.
   - [ ] See if I add 'H' and 'V' or leave them as linetos, because you can use SHIFT for right angles is you need them.
-- [ ] Implement undo and redo.
+- [x] Implement simple undo and redo.
+- [ ] Implement better undo and redo.
 - [ ] Improve mirroring points.
 - [ ] Add path string optimizations to compress/shorten it as much as possible.
 - [ ] Improve the interface.
