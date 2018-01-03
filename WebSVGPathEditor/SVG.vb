@@ -320,10 +320,10 @@ Public NotInheritable Class SVG
 
         'Parse SVG's Size
         If str.ToLower.Contains("width=""") Then
-            SVG.CanvasSize = New SizeF(Convert.ToSingle(GetHTMLPropertyValue(str.ToLower, "width")), SVG.CanvasSize.Height)
+            SVG.CanvasSize = New SizeF(Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "width")), SVG.CanvasSize.Height)
         End If
         If str.ToLower.Contains("height=""") Then
-            SVG.CanvasSize = New SizeF(SVG.CanvasSize.Width, Convert.ToSingle(GetHTMLPropertyValue(str.ToLower, "height")))
+            SVG.CanvasSize = New SizeF(SVG.CanvasSize.Width, Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "height")))
         End If
 
         For Each path As String In Split(str, "<path")
@@ -334,16 +334,21 @@ Public NotInheritable Class SVG
 
             'Parse path's colors
             If path.ToLower.Contains("stroke=""") Then
-                substr = GetHTMLPropertyValue(path.ToLower, "stroke")
+                substr = GetHTMLAttributeValue(path.ToLower, "stroke")
                 If IsStringHexColor(substr) Then SVG.SelectedPath.StrokeColor = HexStringToColor(substr)
             End If
             If path.ToLower.Contains("fill=""") Then
-                substr = GetHTMLPropertyValue(path.ToLower, "fill")
+                substr = GetHTMLAttributeValue(path.ToLower, "fill")
                 If IsStringHexColor(substr) Then SVG.SelectedPath.FillColor = HexStringToColor(substr)
             End If
 
+            If path.ToLower.Contains("stroke-width=""") Then
+                substr = GetHTMLAttributeValue(path.ToLower, "stroke-width")
+                If substr.Length > 0 Then SVG.SelectedPath.StrokeWidth = CInt(substr)
+            End If
+
             'Parse path's commands
-            d = GetHTMLPropertyValue(path, "d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
+            d = GetHTMLAttributeValue(path, "d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
 
             For Each fig As String In Split(d, "Z")
                 If fig.Length <= 1 Then Continue For
@@ -441,7 +446,7 @@ Public NotInheritable Class SVG
 
         'Zoom
         If wesp.ToLower.Contains("zoom=""") Then
-            CanvasZoom = Convert.ToSingle(GetHTMLPropertyValue(wesp.ToLower, "zoom"))
+            CanvasZoom = Convert.ToSingle(GetHTMLAttributeValue(wesp.ToLower, "zoom"))
         End If
 
         'Mirrored PPoints
@@ -450,7 +455,7 @@ Public NotInheritable Class SVG
         Dim ppData As String()
         For Each item As String In mirrors
             If Not item.Contains("posi") Then Continue For
-            substr = GetHTMLPropertyValue(item, "id")
+            substr = GetHTMLAttributeValue(item, "id")
             ppData = substr.Split(",")
             If ppData.Length = 3 Then
                 pathi = Convert.ToInt32(ppData(0))
@@ -458,13 +463,13 @@ Public NotInheritable Class SVG
                 ppi = Convert.ToInt32(ppData(2))
             End If
 
-            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPPoint(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "ppi"))), Convert.ToInt32(GetHTMLPropertyValue(item, "orient")))
-            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPos(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "posi"))), Convert.ToInt32(GetHTMLPropertyValue(item, "orient")))
+            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPPoint(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, "ppi"))), Convert.ToInt32(GetHTMLAttributeValue(item, "orient")))
+            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPos(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, "posi"))), Convert.ToInt32(GetHTMLAttributeValue(item, "orient")))
 
             With SVG.paths(pathi).Figure(figi)(ppi)
                 '.mirroredPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "posi")))
                 '.mirroredPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "ppi")))
-                .isMirrorOrigin = Convert.ToInt32(GetHTMLPropertyValue(item, "orig"))
+                .isMirrorOrigin = Convert.ToInt32(GetHTMLAttributeValue(item, "orig"))
                 '.mirrorOrient = Convert.ToInt32(GetHTMLPropertyValue(item, "orient"))
             End With
         Next

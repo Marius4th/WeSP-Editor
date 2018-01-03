@@ -522,7 +522,7 @@ Public Module Module1
         Return New RectangleF(minx, miny, maxx - minx, maxy - miny)
     End Function
 
-    Public Function GetHTMLPropertyValue(html As String, propName As String, Optional isNameAlone As Boolean = True) As String
+    Public Function GetHTMLAttributeValue(html As String, propName As String, Optional isNameAlone As Boolean = True) As String
         'html = html.Replace("'", """")
         'propName = propName.Replace("'", """")
         If isNameAlone Then propName &= "="""

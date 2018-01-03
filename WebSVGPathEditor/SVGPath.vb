@@ -2,10 +2,13 @@
     Private figures As New List(Of Figure)
     Public selectedPoints As New ListWithEvents(Of PathPoint)
     Public selectedFigures As New ListWithEvents(Of Figure)
-    Public _strokeColor As Color = Color.LightGray
-    Public _strokePen As New Pen(StrokeColor, 2)
-    Public _fillColor As Color = Color.WhiteSmoke
-    Public _fillBrush As New SolidBrush(_fillColor)
+    Private _strokeWidth As Integer = 2
+    Private _strokeColor As Color = Color.LightGray
+    Private _strokePen As New Pen(StrokeColor, _strokeWidth)
+    Private _fillColor As Color = Color.WhiteSmoke
+    Private _fillBrush As New SolidBrush(_fillColor)
+
+    Public Shared Event OnStrokeWidthChanged(ByRef path As SVGPath)
 
     Public Property StrokeColor() As Color
         Get
@@ -14,6 +17,16 @@
         Set(ByVal value As Color)
             _strokeColor = value
             _strokePen.Color = value
+        End Set
+    End Property
+
+    Public Property StrokeWidth() As Integer
+        Get
+            Return _strokeWidth
+        End Get
+        Set(ByVal value As Integer)
+            _strokeWidth = value
+            _strokePen.Width = value
         End Set
     End Property
 
@@ -62,7 +75,7 @@
     Public Shared Event OnFiguresClear(ByRef sender As SVGPath)
 
     Public Sub New()
-        _strokePen.LineJoin = Drawing2D.LineJoin.Round
+        _strokePen.LineJoin = Drawing2D.LineJoin.Miter
 
         SVG.SelectedPath = Me
         AddFigure()
@@ -182,6 +195,8 @@
         graphs.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
         graphs.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
+        _strokePen.Width = _strokeWidth * SVG.CanvasZoom
+
         'Draw the Path of every Figure
         For Each fig As Figure In figures
             fig.DrawPath(graphs, _strokePen, _fillBrush)
@@ -243,7 +258,7 @@
     End Function
 
     Public Function GetHtml() As String
-        Dim str As String = "<path stroke=""#" & ColorToHexString(strokeColor) & """ fill=""#" & ColorToHexString(fillColor) & """ d=""" _
+        Dim str As String = "<path stroke=""#" & ColorToHexString(StrokeColor) & """ stroke-width=""" & _strokeWidth & """ fill=""#" & ColorToHexString(FillColor) & """ d=""" _
             & GetString() & """/>"
 
         Return str

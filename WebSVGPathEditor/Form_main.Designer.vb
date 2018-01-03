@@ -135,6 +135,8 @@ Partial Class Form_main
         Me.Lb_figures = New System.Windows.Forms.ListBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.Num_strokeWidth = New System.Windows.Forms.NumericUpDown()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Group_info.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
@@ -167,6 +169,7 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pan_canvas.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Group_info
@@ -650,6 +653,8 @@ Partial Class Form_main
         '
         'TabPage4
         '
+        Me.TabPage4.Controls.Add(Me.Num_strokeWidth)
+        Me.TabPage4.Controls.Add(Me.Label9)
         Me.TabPage4.Controls.Add(Me.Col_fill)
         Me.TabPage4.Controls.Add(Me.Label8)
         Me.TabPage4.Controls.Add(Me.Label7)
@@ -941,6 +946,19 @@ Partial Class Form_main
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'Num_strokeWidth
+        '
+        Me.Num_strokeWidth.DecimalPlaces = 1
+        resources.ApplyResources(Me.Num_strokeWidth, "Num_strokeWidth")
+        Me.Num_strokeWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.Num_strokeWidth.Name = "Num_strokeWidth"
+        Me.Num_strokeWidth.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'Label9
+        '
+        resources.ApplyResources(Me.Label9, "Label9")
+        Me.Label9.Name = "Label9"
+        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
@@ -1000,6 +1018,7 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pan_canvas.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1117,4 +1136,6 @@ Partial Class Form_main
     Friend WithEvents SelectAllToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator9 As ToolStripSeparator
     Friend WithEvents DeleteToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents Num_strokeWidth As NumericUpDown
+    Friend WithEvents Label9 As Label
 End Class

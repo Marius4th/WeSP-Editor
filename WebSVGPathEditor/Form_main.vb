@@ -38,6 +38,7 @@ Public Class Form_main
         AddHandler SVGPath.OnFigureAdded, AddressOf SVGPath_OnFigureAdded
         AddHandler SVGPath.OnFigureRemoving, AddressOf SVGPath_OnFigureRemoving
         AddHandler SVGPath.OnFiguresClear, AddressOf SVGPath_OnFiguresClear
+        AddHandler SVGPath.OnStrokeWidthChanged, AddressOf SVGPath_OnStrokeWidthChanged
 
         AddHandler PathPoint.OnModified, AddressOf PPoint_OnModified
     End Sub
@@ -141,6 +142,12 @@ Public Class Form_main
         Pic_canvas.Invalidate()
 
         AddToHistory()
+    End Sub
+
+    Public Sub SVGPath_OnStrokeWidthChanged(ByRef path As SVGPath)
+        If path Is SVG.SelectedPath Then
+            Num_strokeWidth.Value = path.StrokeWidth
+        End If
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
@@ -392,7 +399,7 @@ Public Class Form_main
 
     Private Sub Pic_canvas_Click(sender As Object, e As EventArgs) Handles Pic_canvas.Click
         'Dim mpos As Point = GetMousePlacePos(Pic_canvas)
-
+        Pan_canvas.Focus()
         Pic_canvas.Invalidate()
     End Sub
 
@@ -1279,5 +1286,11 @@ Public Class Form_main
 
     Private Sub RedoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RedoToolStripMenuItem.Click
         Redo()
+    End Sub
+
+    Private Sub Num_strokeWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_strokeWidth.ValueChanged
+        If SVG.SelectedPath Is Nothing Then Return
+        SVG.SelectedPath.StrokeWidth = Num_strokeWidth.Value
+        Pic_canvas.Invalidate()
     End Sub
 End Class
