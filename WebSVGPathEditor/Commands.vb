@@ -247,7 +247,7 @@ Public Module Commands
         End Function
 
         Public Overridable Function GetString(Optional optimize As Boolean = True) As String
-            Dim strData As String = pos.X & "," & pos.Y
+            Dim strData As String = Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
             If optimize = True Then
                 If prevPPoint IsNot Nothing Then
                     If pointType = PointType.lineto Then
@@ -261,7 +261,7 @@ Public Module Commands
 
                     If prevPPoint.pointType = pointType OrElse (prevPPoint.pointType = PointType.moveto AndAlso pointType = PointType.lineto) Then
                         strData = OptimizeString(strData)
-                        Return "" & strData
+                        Return " " & strData
                     End If
                 End If
             End If
@@ -456,12 +456,12 @@ Public Module Commands
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
-            Dim strData As String = size.Width / 2 & "," & size.Height / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & pos.X & "," & pos.Y
+            Dim strData As String = Math.Round(size.Width, 3) / 2 & "," & Math.Round(size.Height, 3) / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
             If optimize = True Then
                 If prevPPoint IsNot Nothing Then
                     If prevPPoint.pointType = pointType Then
                         strData = OptimizeString(strData)
-                        Return "" & strData
+                        Return " " & strData
                     End If
                 End If
             End If
@@ -550,12 +550,12 @@ Public Module Commands
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
-            Dim strData As String = refPoint.X & "," & refPoint.Y & " " & pos.X & "," & pos.Y
+            Dim strData As String = Math.Round(refPoint.X, 3) & "," & Math.Round(refPoint.Y, 3) & " " & Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
             If optimize = True Then
                 If prevPPoint IsNot Nothing Then
                     If prevPPoint.pointType = pointType Then
                         strData = OptimizeString(strData)
-                        Return "" & strData
+                        Return " " & strData
                     End If
                 End If
             End If
@@ -646,15 +646,15 @@ Public Module Commands
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
-            Dim strData As String = refPoint1.X & "," & refPoint1.Y & " " &
-                refPoint2.X & "," & refPoint2.Y & " " &
-                pos.X & "," & pos.Y
+            Dim strData As String = Math.Round(refPoint1.X, 3) & "," & Math.Round(refPoint1.Y, 3) & " " &
+                Math.Round(refPoint2.X, 3) & "," & Math.Round(refPoint2.Y, 3) & " " &
+                Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
 
             If optimize = True Then
                 If prevPPoint IsNot Nothing Then
                     If prevPPoint.pointType = pointType Then
                         strData = OptimizeString(strData)
-                        Return "" & strData
+                        Return " " & strData
                     End If
                 End If
             End If

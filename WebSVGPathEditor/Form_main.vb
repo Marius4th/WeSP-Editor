@@ -333,11 +333,6 @@ Public Class Form_main
 
         InitHandlers()
 
-        Dim ee As String = ".32.59"
-        Dim test As String() = ee.Split(".")
-
-
-
         'Make grid background
         RefreshBackGrid()
 
@@ -936,7 +931,7 @@ Public Class Form_main
         'If mouse over canvas
         If Pic_canvas.ClientRectangle.Contains(mpos.ToPoint) Then
 
-            If e.KeyCode = Keys.A AndAlso e.Control Then
+            If e.KeyCode = Keys.A AndAlso e.Modifiers = Keys.Control Then
                 'Select all points in the selected path
                 For Each fig As Figure In SVG.GetSelectedFigures()
                     fig.SelectAllPPoints(True)
@@ -963,7 +958,12 @@ Public Class Form_main
                         pp.Mirror(Orientation.Vertical)
                     Next
                 End If
-
+            ElseIf e.KeyCode = Keys.Z AndAlso (e.Modifiers = (Keys.Shift Or Keys.Control)) Then
+                'Redo
+                Redo()
+            ElseIf e.KeyCode = Keys.Z AndAlso e.Modifiers = Keys.Control Then
+                'Undo
+                Undo()
             End If
 
         End If

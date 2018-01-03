@@ -2,7 +2,7 @@
     Private figures As New List(Of Figure)
     Public selectedPoints As New ListWithEvents(Of PathPoint)
     Public selectedFigures As New ListWithEvents(Of Figure)
-    Private _strokeWidth As Integer = 2
+    Private _strokeWidth As Integer = 1
     Private _strokeColor As Color = Color.LightGray
     Private _strokePen As New Pen(StrokeColor, _strokeWidth)
     Private _fillColor As Color = Color.WhiteSmoke

@@ -373,7 +373,7 @@ Public NotInheritable Class SVG
                             'Parse the string to get all the numbers
                             For Each item As String In Split(dat, ",")
                                 If item.Length <= 0 Then Continue For
-                                Dim dots As String() = item.Split(".")
+                                Dim dots As String() = Split(item, ".")
 
                                 If dots.Length > 2 Then
                                     coords.Add(Convert.ToSingle(dots(0) & "." & dots(1)))
@@ -450,13 +450,13 @@ Public NotInheritable Class SVG
         End If
 
         'Mirrored PPoints
-        Dim mirrors As String() = wesp.Split(New String() {"<mirror"}, StringSplitOptions.RemoveEmptyEntries)
+        Dim mirrors As String() = Split(wesp, "<mirror", -1, StringSplitOptions.RemoveEmptyEntries)
         Dim pathi, figi, ppi As Integer
         Dim ppData As String()
         For Each item As String In mirrors
             If Not item.Contains("posi") Then Continue For
             substr = GetHTMLAttributeValue(item, "id")
-            ppData = substr.Split(",")
+            ppData = Split(substr, ",")
             If ppData.Length = 3 Then
                 pathi = Convert.ToInt32(ppData(0))
                 figi = Convert.ToInt32(ppData(1))
