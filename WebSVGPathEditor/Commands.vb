@@ -54,7 +54,7 @@ Public Module Commands
 
         Public Sub New(ptype As PointType, ByRef position As CPointF, ByRef paFig As Figure)
             pointType = ptype
-            pos = position
+            pos = CType(position, PointF)
             selPoint = pos
             prevPPoint = Nothing
             parent = paFig
@@ -62,6 +62,13 @@ Public Module Commands
             mirroredPos = Nothing
             isMirrorOrigin = False
         End Sub
+
+        Public Overridable Function Clone(Optional pa As Figure = Nothing) As PathPoint
+            If pa Is Nothing Then pa = Me.parent
+            Dim dup As New PathPoint(Me.pointType, CType(Me.pos, PointF), pa)
+            dup.RefreshPrevPPoint()
+            Return dup
+        End Function
 
         Public Overridable Sub SetMirrorPPoint(ByRef pp As PathPoint, orient As Orientation)
             'If mirroredPP Is Nothing AndAlso pointType <> PointType.moveto Then
@@ -291,8 +298,21 @@ Public Module Commands
         End Sub
 
         Public Sub StickToGrid()
-            Dim off As CPointF = SVG.StickToCanvasGrid(pos) - pos
-            Me.Offset(off)
+            'Dim off As CPointF = SVG.StickPointToCanvasGrid(pos) - pos
+            'Me.Offset(off)
+            SetPosition(SVG.StickPointToCanvasGrid(pos))
+        End Sub
+
+        Public Sub RoundPosition()
+            SetPosition(New SizeF(Math.Round(pos.X), Math.Round(pos.Y)))
+        End Sub
+
+        Public Sub FloorPosition()
+            SetPosition(New SizeF(Math.Floor(pos.X), Math.Floor(pos.Y)))
+        End Sub
+
+        Public Sub CeilPosition()
+            SetPosition(New SizeF(Math.Ceiling(pos.X), Math.Ceiling(pos.Y)))
         End Sub
 
         Public Sub Delete()
@@ -455,6 +475,13 @@ Public Module Commands
             Me.sweep = sweep
         End Sub
 
+        Public Overrides Function Clone(Optional pa As Figure = Nothing) As PathPoint
+            If pa Is Nothing Then pa = Me.parent
+            Dim dup As New PPEllipticalArc(CType(Me.pos, PointF), Me.sweep, pa)
+            dup.size = Me.size
+            Return dup
+        End Function
+
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
             Dim strData As String = Math.Round(size.Width, 3) / 2 & "," & Math.Round(size.Height, 3) / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
             If optimize = True Then
@@ -541,6 +568,12 @@ Public Module Commands
             MyBase.New(PointType.quadraticBezierCurve, position, paFig)
             Me.refPoint = refp
         End Sub
+
+        Public Overrides Function Clone(Optional pa As Figure = Nothing) As PathPoint
+            If pa Is Nothing Then pa = Me.parent
+            Dim dup As New PPBezier(CType(Me.pos, PointF), CType(Me.refPoint, PointF), pa)
+            Return dup
+        End Function
 
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             refPoint.X += ammount.X
@@ -635,6 +668,12 @@ Public Module Commands
             Me.refPoint1 = refp1
             Me.refPoint2 = refp2
         End Sub
+
+        Public Overrides Function Clone(Optional pa As Figure = Nothing) As PathPoint
+            If pa Is Nothing Then pa = Me.parent
+            Dim dup As New PPCurveto(CType(Me.pos, PointF), CType(Me.refPoint1, PointF), CType(Me.refPoint2, PointF), pa)
+            Return dup
+        End Function
 
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             refPoint1.X += ammount.X

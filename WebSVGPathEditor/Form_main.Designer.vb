@@ -56,7 +56,7 @@ Partial Class Form_main
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.MoveTo00ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StickAllToGridToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RoundPositionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScaleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -96,11 +96,16 @@ Partial Class Form_main
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.Lab_zoom = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.Num_strokeWidth = New System.Windows.Forms.NumericUpDown()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Col_fill = New System.Windows.Forms.PictureBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Col_stroke = New System.Windows.Forms.PictureBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Num_stickyGHeight = New System.Windows.Forms.NumericUpDown()
+        Me.Num_stikyGWidth = New System.Windows.Forms.NumericUpDown()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.Num_gridHeight = New System.Windows.Forms.NumericUpDown()
         Me.Num_gridWidth = New System.Windows.Forms.NumericUpDown()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -135,8 +140,10 @@ Partial Class Form_main
         Me.Lb_figures = New System.Windows.Forms.ListBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.Num_strokeWidth = New System.Windows.Forms.NumericUpDown()
-        Me.Label9 = New System.Windows.Forms.Label()
+        Me.DuplicateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FlipHorizontallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
+        Me.FlipVerticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Group_info.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
@@ -144,9 +151,12 @@ Partial Class Form_main
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage4.SuspendLayout()
+        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
+        CType(Me.Num_stickyGHeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Num_stikyGWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_gridWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_zoom, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,7 +179,6 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pan_canvas.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Group_info
@@ -331,7 +340,7 @@ Partial Class Form_main
         '
         'PathToolStripMenuItem
         '
-        Me.PathToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator4, Me.MoveTo00ToolStripMenuItem, Me.StickAllToGridToolStripMenuItem, Me.ScaleToolStripMenuItem, Me.ToolStripSeparator2, Me.ClearToolStripMenuItem, Me.DeleteToolStripMenuItem})
+        Me.PathToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator4, Me.MoveTo00ToolStripMenuItem, Me.RoundPositionsToolStripMenuItem, Me.ScaleToolStripMenuItem, Me.ToolStripSeparator2, Me.ClearToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.PathToolStripMenuItem.Name = "PathToolStripMenuItem"
         resources.ApplyResources(Me.PathToolStripMenuItem, "PathToolStripMenuItem")
         '
@@ -350,10 +359,10 @@ Partial Class Form_main
         Me.MoveTo00ToolStripMenuItem.Name = "MoveTo00ToolStripMenuItem"
         resources.ApplyResources(Me.MoveTo00ToolStripMenuItem, "MoveTo00ToolStripMenuItem")
         '
-        'StickAllToGridToolStripMenuItem
+        'RoundPositionsToolStripMenuItem
         '
-        Me.StickAllToGridToolStripMenuItem.Name = "StickAllToGridToolStripMenuItem"
-        resources.ApplyResources(Me.StickAllToGridToolStripMenuItem, "StickAllToGridToolStripMenuItem")
+        Me.RoundPositionsToolStripMenuItem.Name = "RoundPositionsToolStripMenuItem"
+        resources.ApplyResources(Me.RoundPositionsToolStripMenuItem, "RoundPositionsToolStripMenuItem")
         '
         'ScaleToolStripMenuItem
         '
@@ -377,7 +386,7 @@ Partial Class Form_main
         '
         'FigureToolStripMenuItem
         '
-        Me.FigureToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateFigureToolStripMenuItem, Me.ToolStripSeparator3, Me.ClearToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
+        Me.FigureToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateFigureToolStripMenuItem, Me.DuplicateToolStripMenuItem, Me.ToolStripSeparator10, Me.FlipHorizontallyToolStripMenuItem, Me.FlipVerticallyToolStripMenuItem, Me.ToolStripSeparator3, Me.ClearToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
         Me.FigureToolStripMenuItem.Name = "FigureToolStripMenuItem"
         resources.ApplyResources(Me.FigureToolStripMenuItem, "FigureToolStripMenuItem")
         '
@@ -663,6 +672,19 @@ Partial Class Form_main
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.UseVisualStyleBackColor = True
         '
+        'Num_strokeWidth
+        '
+        Me.Num_strokeWidth.DecimalPlaces = 1
+        resources.ApplyResources(Me.Num_strokeWidth, "Num_strokeWidth")
+        Me.Num_strokeWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.Num_strokeWidth.Name = "Num_strokeWidth"
+        Me.Num_strokeWidth.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'Label9
+        '
+        resources.ApplyResources(Me.Label9, "Label9")
+        Me.Label9.Name = "Label9"
+        '
         'Col_fill
         '
         Me.Col_fill.BackColor = System.Drawing.Color.White
@@ -691,6 +713,9 @@ Partial Class Form_main
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.Num_stickyGHeight)
+        Me.TabPage2.Controls.Add(Me.Num_stikyGWidth)
+        Me.TabPage2.Controls.Add(Me.Label10)
         Me.TabPage2.Controls.Add(Me.Num_gridHeight)
         Me.TabPage2.Controls.Add(Me.Num_gridWidth)
         Me.TabPage2.Controls.Add(Me.Label2)
@@ -703,11 +728,35 @@ Partial Class Form_main
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'Num_stickyGHeight
+        '
+        Me.Num_stickyGHeight.DecimalPlaces = 1
+        resources.ApplyResources(Me.Num_stickyGHeight, "Num_stickyGHeight")
+        Me.Num_stickyGHeight.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_stickyGHeight.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Num_stickyGHeight.Name = "Num_stickyGHeight"
+        Me.Num_stickyGHeight.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Num_stikyGWidth
+        '
+        Me.Num_stikyGWidth.DecimalPlaces = 1
+        resources.ApplyResources(Me.Num_stikyGWidth, "Num_stikyGWidth")
+        Me.Num_stikyGWidth.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_stikyGWidth.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Num_stikyGWidth.Name = "Num_stikyGWidth"
+        Me.Num_stikyGWidth.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Label10
+        '
+        resources.ApplyResources(Me.Label10, "Label10")
+        Me.Label10.Name = "Label10"
+        '
         'Num_gridHeight
         '
         Me.Num_gridHeight.DecimalPlaces = 1
         resources.ApplyResources(Me.Num_gridHeight, "Num_gridHeight")
         Me.Num_gridHeight.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_gridHeight.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Num_gridHeight.Name = "Num_gridHeight"
         Me.Num_gridHeight.Value = New Decimal(New Integer() {32, 0, 0, 0})
         '
@@ -716,6 +765,7 @@ Partial Class Form_main
         Me.Num_gridWidth.DecimalPlaces = 1
         resources.ApplyResources(Me.Num_gridWidth, "Num_gridWidth")
         Me.Num_gridWidth.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_gridWidth.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Num_gridWidth.Name = "Num_gridWidth"
         Me.Num_gridWidth.Value = New Decimal(New Integer() {32, 0, 0, 0})
         '
@@ -729,6 +779,7 @@ Partial Class Form_main
         Me.Num_zoom.DecimalPlaces = 1
         resources.ApplyResources(Me.Num_zoom, "Num_zoom")
         Me.Num_zoom.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.Num_zoom.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.Num_zoom.Name = "Num_zoom"
         Me.Num_zoom.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
@@ -742,6 +793,7 @@ Partial Class Form_main
         Me.Num_canvasHeight.DecimalPlaces = 1
         resources.ApplyResources(Me.Num_canvasHeight, "Num_canvasHeight")
         Me.Num_canvasHeight.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_canvasHeight.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Num_canvasHeight.Name = "Num_canvasHeight"
         Me.Num_canvasHeight.Value = New Decimal(New Integer() {64, 0, 0, 0})
         '
@@ -750,6 +802,7 @@ Partial Class Form_main
         Me.Num_canvasWidth.DecimalPlaces = 1
         resources.ApplyResources(Me.Num_canvasWidth, "Num_canvasWidth")
         Me.Num_canvasWidth.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
+        Me.Num_canvasWidth.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Num_canvasWidth.Name = "Num_canvasWidth"
         Me.Num_canvasWidth.Value = New Decimal(New Integer() {64, 0, 0, 0})
         '
@@ -946,18 +999,25 @@ Partial Class Form_main
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Num_strokeWidth
+        'DuplicateToolStripMenuItem
         '
-        Me.Num_strokeWidth.DecimalPlaces = 1
-        resources.ApplyResources(Me.Num_strokeWidth, "Num_strokeWidth")
-        Me.Num_strokeWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num_strokeWidth.Name = "Num_strokeWidth"
-        Me.Num_strokeWidth.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.DuplicateToolStripMenuItem.Name = "DuplicateToolStripMenuItem"
+        resources.ApplyResources(Me.DuplicateToolStripMenuItem, "DuplicateToolStripMenuItem")
         '
-        'Label9
+        'FlipHorizontallyToolStripMenuItem
         '
-        resources.ApplyResources(Me.Label9, "Label9")
-        Me.Label9.Name = "Label9"
+        Me.FlipHorizontallyToolStripMenuItem.Name = "FlipHorizontallyToolStripMenuItem"
+        resources.ApplyResources(Me.FlipHorizontallyToolStripMenuItem, "FlipHorizontallyToolStripMenuItem")
+        '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        resources.ApplyResources(Me.ToolStripSeparator10, "ToolStripSeparator10")
+        '
+        'FlipVerticallyToolStripMenuItem
+        '
+        Me.FlipVerticallyToolStripMenuItem.Name = "FlipVerticallyToolStripMenuItem"
+        resources.ApplyResources(Me.FlipVerticallyToolStripMenuItem, "FlipVerticallyToolStripMenuItem")
         '
         'Form_main
         '
@@ -991,10 +1051,13 @@ Partial Class Form_main
         Me.TabPage1.PerformLayout()
         Me.TabPage4.ResumeLayout(False)
         Me.TabPage4.PerformLayout()
+        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        CType(Me.Num_stickyGHeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Num_stikyGWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_gridWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_zoom, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1018,7 +1081,6 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pan_canvas.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1066,7 +1128,7 @@ Partial Class Form_main
     Friend WithEvents TabControl1 As TabControl
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
-    Friend WithEvents StickAllToGridToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RoundPositionsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Tb_html As TextBox
     Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FigureToolStripMenuItem As ToolStripMenuItem
@@ -1138,4 +1200,11 @@ Partial Class Form_main
     Friend WithEvents DeleteToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents Num_strokeWidth As NumericUpDown
     Friend WithEvents Label9 As Label
+    Friend WithEvents Num_stickyGHeight As NumericUpDown
+    Friend WithEvents Num_stikyGWidth As NumericUpDown
+    Friend WithEvents Label10 As Label
+    Friend WithEvents DuplicateToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator10 As ToolStripSeparator
+    Friend WithEvents FlipHorizontallyToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents FlipVerticallyToolStripMenuItem As ToolStripMenuItem
 End Class

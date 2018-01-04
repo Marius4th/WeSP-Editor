@@ -15,6 +15,37 @@
         'SVG.SelectedFigure = Me
     End Sub
 
+    Public Function Clone(Optional pa As SVGPath = Nothing) As Figure
+        If pa Is Nothing Then pa = Me.parent
+        Dim dup As New Figure(pa)
+        Dim pp As PathPoint
+
+        For i As Integer = 0 To points.Count - 1
+            pp = points(i)
+            dup.Add(pp.Clone(dup), refs(i))
+        Next
+
+        Return dup
+    End Function
+
+    Public Sub FlipHorizontally()
+        Dim moveto As PathPoint = GetMoveto()
+
+        For Each pp As PathPoint In points
+            If pp.pointType = PointType.moveto Then Continue For
+            pp.Offset(New PointF((moveto.pos.X - pp.pos.X) * 2.0, 0))
+        Next
+    End Sub
+
+    Public Sub FlipVertically()
+        Dim moveto As PathPoint = GetMoveto()
+
+        For Each pp As PathPoint In points
+            If pp.pointType = PointType.moveto Then Continue For
+            pp.Offset(New PointF(0, (moveto.pos.Y - pp.pos.Y) * 2.0))
+        Next
+    End Sub
+
     '----------------------------------------------------------------------------------------------------------------------
     Public Iterator Function GetEnumerator() As IEnumerator(Of PathPoint) Implements IEnumerable(Of PathPoint).GetEnumerator
         For Each pp As PathPoint In points
@@ -334,11 +365,11 @@
         Return Nothing
     End Function
 
-    Public Function AddPPoint(ptype As PointType, ppos As PointF) As PathPoint
+    Public Function AddPPoint(ptype As PointType, ppos As CPointF) As PathPoint
         Return Me.InsertPPoint(ptype, ppos, Me.Count)
     End Function
 
-    Public Function InsertPPointAtPos(ptype As PointType, ppos As PointF, refPos As Point) As PathPoint
+    Public Function InsertPPointAtPos(ptype As PointType, ppos As CPointF, refPos As Point) As PathPoint
         Static index As Integer
 
         Dim closest() As PathPoint = Me.GetClosestPointsLineDist(refPos, False)

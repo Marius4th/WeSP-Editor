@@ -78,14 +78,39 @@
         _strokePen.LineJoin = Drawing2D.LineJoin.Miter
 
         SVG.SelectedPath = Me
-        AddFigure()
+        AddNewFigure()
     End Sub
 
-    Public Sub AddFigure()
-        figures.Add(New Figure(Me))
-        SelectedFigure = figures.Last
-        RaiseEvent OnFigureAdded(Me, figures.Last)
+    Public Function InsertNewFigure(index As Integer) As Figure
+        Dim newFig As Figure = New Figure(Me)
+        figures.Insert(index, newFig)
+        SelectedFigure = newFig
+        RaiseEvent OnFigureAdded(Me, newFig)
+
+        Return newFig
+    End Function
+
+    Public Function AddNewFigure() As Figure
+        Return InsertNewFigure(figures.Count)
+    End Function
+
+    Public Sub Insert(index As Integer, ByRef fig As Figure)
+        figures.Insert(index, fig)
+        SelectedFigure = fig
+        RaiseEvent OnFigureAdded(Me, fig)
     End Sub
+
+    Public Sub Add(ByRef fig As Figure)
+        figures.Add(fig)
+        SelectedFigure = fig
+        RaiseEvent OnFigureAdded(Me, fig)
+    End Sub
+
+    Public Function DuplicateFigure(ByRef fig As Figure) As Figure
+        Dim newFig As Figure = fig.Clone
+        Insert(fig.GetIndex + 1, newFig)
+        Return newFig
+    End Function
 
     Public Sub Remove(ByRef fig As Figure)
         fig.Clear()
@@ -263,14 +288,6 @@
 
         Return str
     End Function
-
-    Public Sub SetStrokeColor(col As Color)
-        strokeColor = col
-    End Sub
-
-    Public Sub SetFillColor(col As Color)
-        fillColor = col
-    End Sub
 
     Public Sub Scale(scale As Double, Optional centered As Boolean = True)
         For Each fig As Figure In figures

@@ -295,7 +295,7 @@ Public Module Module1
         Dim mpos As PointF = Cursor.Position
         mpos = ctrl.PointToClient(mpos.ToPoint)
         ClampPoint(mpos, New Rectangle(0, 0, SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height))
-        If My.Computer.Keyboard.AltKeyDown Then SnapPointToGrid(mpos, New Size(SVG.CanvasZoom, SVG.CanvasZoom))
+        If My.Computer.Keyboard.AltKeyDown Then SnapPointToGrid(mpos, New SizeF(SVG.CanvasZoom * SVG.StikyGrid.Width, SVG.CanvasZoom * SVG.StikyGrid.Width))
 
         Return SVG.UnZoom(mpos)
     End Function

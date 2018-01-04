@@ -8,7 +8,7 @@ Public NotInheritable Class SVG
     Private Shared _canvasSize As New SizeF(64, 64)
     Private Shared _canvasSizeZoomed As New Size(640, 640)
     Private Shared _canvasZoom As Single = 10.0
-    Public Shared CanvasGrid As New SizeF(1.0, 1.0)
+    Private Shared _stickyGrid As New SizeF(1.0, 1.0)
 
     Public Shared Event OnCanvasSizeChanged()
     Public Shared Event OnCanvasZoomChanged()
@@ -18,6 +18,7 @@ Public NotInheritable Class SVG
     Public Shared Event OnSelectPath(ByRef path As SVGPath)
     Public Shared Event OnSelectFigure(ByRef fig As Figure)
     Public Shared Event OnSelectPoint(ByRef pp As PathPoint)
+    Public Shared Event OnStickyGridChanged()
 
     Public Shared selectedPoints As New ListWithEvents(Of PathPoint)
 
@@ -55,6 +56,16 @@ Public NotInheritable Class SVG
             _canvasZoom = Math.Min(maxZoom, Math.Max(0.1F, value))
             _canvasSizeZoomed = New Size(_canvasSize.Width * _canvasZoom, _canvasSize.Height * _canvasZoom)
             RaiseEvent OnCanvasZoomChanged()
+        End Set
+    End Property
+
+    Public Shared Property StikyGrid() As SizeF
+        Get
+            Return _stickyGrid
+        End Get
+        Set(ByVal value As SizeF)
+            _stickyGrid = value
+            RaiseEvent OnStickyGridChanged()
         End Set
     End Property
 
@@ -106,6 +117,8 @@ Public NotInheritable Class SVG
 
     Public Shared Sub Init()
         AddPath()
+        RaiseEvent OnCanvasSizeChanged()
+        RaiseEvent OnCanvasZoomChanged()
     End Sub
 
     Public Shared Event OnCanvasSelectedPointsChanged()
@@ -290,8 +303,8 @@ Public NotInheritable Class SVG
         Return New RectangleF(rc.X * _canvasZoom, rc.Y * _canvasZoom, rc.Width * _canvasZoom, rc.Height * _canvasZoom)
     End Function
 
-    Public Shared Function StickToCanvasGrid(pt As CPointF) As CPointF
-        Return New CPointF(Math.Round(pt.X / SVG.CanvasGrid.Width) * SVG.CanvasGrid.Width, Math.Round(pt.Y / SVG.CanvasGrid.Height) * SVG.CanvasGrid.Height)
+    Public Shared Function StickPointToCanvasGrid(pt As CPointF) As CPointF
+        Return New CPointF(Math.Round(pt.X / SVG.StikyGrid.Width) * SVG.StikyGrid.Width, Math.Round(pt.Y / SVG.StikyGrid.Height) * SVG.StikyGrid.Height)
     End Function
 
     Public Shared Sub RefreshPlacementRefs(mpos As PointF)
@@ -355,7 +368,7 @@ Public NotInheritable Class SVG
                 'dData = Regex.Split(d, "([A-Z]+)", RegexOptions.IgnoreCase)
                 figData = Regex.Split(fig, "([A-Z]+)", RegexOptions.IgnoreCase)
 
-                If Not SVG.SelectedFigure.IsEmpty Then SVG.SelectedPath.AddFigure()
+                If Not SVG.SelectedFigure.IsEmpty Then SVG.SelectedPath.AddNewFigure()
 
                 For Each dat As String In figData
                     If dat.Length <= 0 Then Continue For

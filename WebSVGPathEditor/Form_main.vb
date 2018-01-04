@@ -30,6 +30,7 @@ Public Class Form_main
         AddHandler SVG.OnSelectPath, AddressOf SVG_OnSelectPath
         AddHandler SVG.OnSelectFigure, AddressOf SVG_OnSelectFigure
         AddHandler SVG.OnSelectPoint, AddressOf SVG_OnSelectPoint
+        AddHandler SVG.OnStickyGridChanged, AddressOf SVG_OnStickyGridChanged
 
         AddHandler Figure.OnPPointAdded, AddressOf Figure_OnPPointAdded
         AddHandler Figure.OnPPointRemoving, AddressOf Figure_OnPPointRemoving
@@ -71,6 +72,8 @@ Public Class Form_main
         gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
 
         Lab_zoom.Text = "Zoom: " & Math.Round(SVG.CanvasZoom * 100, 1) & "%"
+
+        RefreshBackGrid()
     End Sub
 
     Public Sub SVG_OnPathAdded(ByRef path As SVGPath)
@@ -97,6 +100,7 @@ Public Class Form_main
     Public Sub SVG_OnSelectPath(ByRef path As SVGPath)
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
+        Num_strokeWidth.Value = path.StrokeWidth
 
         Lb_figures.Items.Clear()
         For Each fig In path.GetFigures
@@ -108,6 +112,7 @@ Public Class Form_main
                 Lb_figures.SelectedIndices.Add(fig.GetIndex())
             Next
         End If
+
         Pic_canvas.Invalidate()
     End Sub
 
@@ -118,6 +123,18 @@ Public Class Form_main
 
     Public Sub SVG_OnSelectPoint(ByRef pp As PathPoint)
     End Sub
+
+    Public Sub SVG_OnStickyGridChanged()
+        If SVG.StikyGrid.Width <> Num_stikyGWidth.Value Then
+            Num_stikyGWidth.Value = SVG.StikyGrid.Width
+        End If
+        If SVG.StikyGrid.Height <> Num_stickyGHeight.Value Then
+            Num_stickyGHeight.Value = SVG.StikyGrid.Height
+        End If
+        RefreshBackGrid()
+        'Pic_canvas.Invalidate()
+    End Sub
+
 
     '----------------------------------------------------------------------------------------------------------------------------
 
@@ -297,7 +314,7 @@ Public Class Form_main
 
     'Redraw the canva's back grid
     Public Sub RefreshBackGrid()
-        Dim bm As New Bitmap(CInt(SVG.CanvasZoom), CInt(SVG.CanvasZoom))
+        Dim bm As New Bitmap(CInt(SVG.CanvasZoom * SVG.StikyGrid.Width), CInt(SVG.CanvasZoom * SVG.StikyGrid.Height))
         Dim grx As Graphics = Graphics.FromImage(bm)
         Dim br As New SolidBrush(Color.Black)
         Dim pen As New Pen(Color.FromArgb(255, 30, 30, 30), 1)
@@ -917,7 +934,7 @@ Public Class Form_main
         selectedType = PointType.moveto
         HighlightButton(But_moveto, True)
 
-        SVG.SelectedPath.AddFigure()
+        SVG.SelectedPath.AddNewFigure()
         But_moveto.Enabled = True
 
         Pic_canvas.Invalidate()
@@ -1007,9 +1024,9 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
-    Private Sub StickAllToGridToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StickAllToGridToolStripMenuItem.Click
+    Private Sub RoundPositionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RoundPositionsToolStripMenuItem.Click
         For Each pp As PathPoint In SVG.GetAllPPoints
-            pp.StickToGrid()
+            pp.RoundPosition()
         Next
         Pic_canvas.Invalidate()
     End Sub
@@ -1068,7 +1085,7 @@ Public Class Form_main
     Private Sub Col_stroke_Click(sender As Object, e As EventArgs) Handles Col_stroke.Click
         If ColorDialog1.ShowDialog = DialogResult.OK Then
             Col_stroke.BackColor = ColorDialog1.Color
-            SVG.SelectedPath.SetStrokeColor(ColorDialog1.Color)
+            SVG.SelectedPath.StrokeColor = ColorDialog1.Color
             Pic_canvas.Refresh()
         End If
     End Sub
@@ -1076,7 +1093,7 @@ Public Class Form_main
     Private Sub Col_fill_Click(sender As Object, e As EventArgs) Handles Col_fill.Click
         If ColorDialog1.ShowDialog = DialogResult.OK Then
             Col_fill.BackColor = ColorDialog1.Color
-            SVG.SelectedPath.SetFillColor(ColorDialog1.Color)
+            SVG.SelectedPath.FillColor = ColorDialog1.Color
             Pic_canvas.Refresh()
         End If
     End Sub
@@ -1274,8 +1291,14 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
-    Private Sub Num_gridWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_gridWidth.ValueChanged, Num_gridHeight.ValueChanged
-        grid = New SizeF(Num_gridWidth.Value, Num_gridHeight.Value)
+    Private Sub Num_gridWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_gridWidth.ValueChanged
+        grid = New SizeF(Num_gridWidth.Value, grid.Height)
+        gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub Num_gridHeight_ValueChanged(sender As Object, e As EventArgs) Handles Num_gridHeight.ValueChanged
+        grid = New SizeF(grid.Width, Num_gridHeight.Value)
         gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
         Pic_canvas.Invalidate()
     End Sub
@@ -1291,6 +1314,37 @@ Public Class Form_main
     Private Sub Num_strokeWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_strokeWidth.ValueChanged
         If SVG.SelectedPath Is Nothing Then Return
         SVG.SelectedPath.StrokeWidth = Num_strokeWidth.Value
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub Num_stikyGWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_stikyGWidth.ValueChanged
+        SVG.StikyGrid = New SizeF(Num_stikyGWidth.Value, SVG.StikyGrid.Height)
+    End Sub
+
+    Private Sub Num_stickyGHeight_ValueChanged(sender As Object, e As EventArgs) Handles Num_stickyGHeight.ValueChanged
+        SVG.StikyGrid = New SizeF(SVG.StikyGrid.Width, Num_stickyGHeight.Value)
+    End Sub
+
+    Private Sub DuplicateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DuplicateToolStripMenuItem.Click
+        If SVG.SelectedPath Is Nothing Then Return
+        For Each fig As Figure In SVG.GetSelectedFigures.Reverse
+            SVG.SelectedPath.DuplicateFigure(fig)
+        Next
+    End Sub
+
+    Private Sub FlipHorizontallyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FlipHorizontallyToolStripMenuItem.Click
+        If SVG.SelectedPath Is Nothing Then Return
+        For Each fig As Figure In SVG.GetSelectedFigures.Reverse
+            fig.FlipHorizontally()
+        Next
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub FlipVerticallyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FlipVerticallyToolStripMenuItem.Click
+        If SVG.SelectedPath Is Nothing Then Return
+        For Each fig As Figure In SVG.GetSelectedFigures.Reverse
+            fig.FlipVertically()
+        Next
         Pic_canvas.Invalidate()
     End Sub
 End Class
