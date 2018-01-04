@@ -527,7 +527,10 @@ Public Module Module1
         'propName = propName.Replace("'", """")
         If isNameAlone Then propName &= "="""
 
-        Dim subStart As Integer = html.IndexOf(propName) + propName.Length
+        Dim subStart As Integer = html.IndexOf(propName)
+        If subStart < 0 Then Return ""
+
+        subStart += propName.Length
         Dim subEnd As Integer = html.IndexOf("""", subStart)
         Dim substr As String = html.Substring(subStart, subEnd - subStart)
 

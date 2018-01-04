@@ -340,28 +340,29 @@ Public NotInheritable Class SVG
         End If
 
         For Each path As String In Split(str, "<path")
+            path = path.Replace("'", """")
             If Not path.Contains("d=""") Then Continue For
 
             If Not SVG.SelectedPath.IsEmpty Then SVG.AddPath()
-            path = path.Replace("'", """")
+
 
             'Parse path's colors
             If path.ToLower.Contains("stroke=""") Then
-                substr = GetHTMLAttributeValue(path.ToLower, "stroke")
+                substr = GetHTMLAttributeValue(path.ToLower, " stroke")
                 If IsStringHexColor(substr) Then SVG.SelectedPath.StrokeColor = HexStringToColor(substr)
             End If
             If path.ToLower.Contains("fill=""") Then
-                substr = GetHTMLAttributeValue(path.ToLower, "fill")
+                substr = GetHTMLAttributeValue(path.ToLower, " fill")
                 If IsStringHexColor(substr) Then SVG.SelectedPath.FillColor = HexStringToColor(substr)
             End If
 
             If path.ToLower.Contains("stroke-width=""") Then
-                substr = GetHTMLAttributeValue(path.ToLower, "stroke-width")
+                substr = GetHTMLAttributeValue(path.ToLower, " stroke-width")
                 If substr.Length > 0 Then SVG.SelectedPath.StrokeWidth = CInt(substr)
             End If
 
             'Parse path's commands
-            d = GetHTMLAttributeValue(path, "d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
+            d = GetHTMLAttributeValue(path, " d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
 
             For Each fig As String In Split(d, "Z")
                 If fig.Length <= 1 Then Continue For
@@ -459,7 +460,7 @@ Public NotInheritable Class SVG
 
         'Zoom
         If wesp.ToLower.Contains("zoom=""") Then
-            CanvasZoom = Convert.ToSingle(GetHTMLAttributeValue(wesp.ToLower, "zoom"))
+            CanvasZoom = Convert.ToSingle(GetHTMLAttributeValue(wesp.ToLower, " zoom"))
         End If
 
         'Mirrored PPoints
@@ -468,7 +469,7 @@ Public NotInheritable Class SVG
         Dim ppData As String()
         For Each item As String In mirrors
             If Not item.Contains("posi") Then Continue For
-            substr = GetHTMLAttributeValue(item, "id")
+            substr = GetHTMLAttributeValue(item, " id")
             ppData = Split(substr, ",")
             If ppData.Length = 3 Then
                 pathi = Convert.ToInt32(ppData(0))
@@ -476,13 +477,13 @@ Public NotInheritable Class SVG
                 ppi = Convert.ToInt32(ppData(2))
             End If
 
-            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPPoint(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, "ppi"))), Convert.ToInt32(GetHTMLAttributeValue(item, "orient")))
-            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPos(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, "posi"))), Convert.ToInt32(GetHTMLAttributeValue(item, "orient")))
+            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPPoint(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " ppi"))), Convert.ToInt32(GetHTMLAttributeValue(item, " orient")))
+            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPos(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " posi"))), Convert.ToInt32(GetHTMLAttributeValue(item, " orient")))
 
             With SVG.paths(pathi).Figure(figi)(ppi)
                 '.mirroredPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "posi")))
                 '.mirroredPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "ppi")))
-                .isMirrorOrigin = Convert.ToInt32(GetHTMLAttributeValue(item, "orig"))
+                .isMirrorOrigin = Convert.ToInt32(GetHTMLAttributeValue(item, " orig"))
                 '.mirrorOrient = Convert.ToInt32(GetHTMLPropertyValue(item, "orient"))
             End With
         Next
