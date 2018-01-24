@@ -330,6 +330,18 @@
   <data name="Lb_selPoints.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
+  <metadata name="Context_selPoints.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>697, 8</value>
+  </metadata>
+  <data name="Context_selPoints.Size" type="System.Drawing.Size, System.Drawing">
+    <value>119, 54</value>
+  </data>
+  <data name="&gt;&gt;Context_selPoints.Name" xml:space="preserve">
+    <value>Context_selPoints</value>
+  </data>
+  <data name="&gt;&gt;Context_selPoints.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Lb_selPoints.ItemHeight" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
@@ -352,104 +364,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Lb_selPoints.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>14, 8</value>
   </metadata>
-  <data name="FileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="FileToolStripMenuItem.Text" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="EditToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
-  </data>
-  <data name="EditToolStripMenuItem.Text" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="ViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="ViewToolStripMenuItem.Text" xml:space="preserve">
-    <value>View</value>
-  </data>
-  <data name="SVGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
-  </data>
-  <data name="SVGToolStripMenuItem.Text" xml:space="preserve">
-    <value>SVG</value>
-  </data>
-  <data name="PathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 20</value>
-  </data>
-  <data name="PathToolStripMenuItem.Text" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="CreateFigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="CreateFigureToolStripMenuItem.Text" xml:space="preserve">
-    <value>Create Figure</value>
-  </data>
-  <data name="DuplicateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="DuplicateToolStripMenuItem.Text" xml:space="preserve">
-    <value>Duplicate</value>
-  </data>
-  <data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 6</value>
-  </data>
-  <data name="FlipHorizontallyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="FlipHorizontallyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Flip Horizontally</value>
-  </data>
-  <data name="FlipVerticallyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="FlipVerticallyToolStripMenuItem.Text" xml:space="preserve">
-    <value>Flip Vertically</value>
-  </data>
-  <data name="ToolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 6</value>
-  </data>
-  <data name="ClearToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="ClearToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="DeleteToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
-  </data>
-  <data name="DeleteToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="FigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
-  </data>
-  <data name="FigureToolStripMenuItem.Text" xml:space="preserve">
-    <value>Figure</value>
-  </data>
-  <data name="HelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="HelpToolStripMenuItem.Text" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="TESTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 20</value>
-  </data>
-  <data name="TESTToolStripMenuItem.Text" xml:space="preserve">
-    <value>TEST</value>
-  </data>
-  <data name="TESTToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -472,7 +391,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
+  </data>
+  <data name="FileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="FileToolStripMenuItem.Text" xml:space="preserve">
+    <value>File</value>
   </data>
   <data name="SaveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 22</value>
@@ -510,6 +435,12 @@
   <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
+  <data name="EditToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 20</value>
+  </data>
+  <data name="EditToolStripMenuItem.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="UndoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 22</value>
   </data>
@@ -540,32 +471,50 @@
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>Select All</value>
   </data>
+  <data name="ViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="ViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="ShowRealSizePreviewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 22</value>
   </data>
   <data name="ShowRealSizePreviewToolStripMenuItem.Text" xml:space="preserve">
     <value>Show Real Size Preview</value>
   </data>
+  <data name="SVGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 20</value>
+  </data>
+  <data name="SVGToolStripMenuItem.Text" xml:space="preserve">
+    <value>SVG</value>
+  </data>
   <data name="MoveTo00ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="MoveTo00ToolStripMenuItem1.Text" xml:space="preserve">
     <value>Move to (0,0)</value>
   </data>
   <data name="CropToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="CropToolStripMenuItem.Text" xml:space="preserve">
     <value>Crop</value>
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="ClearToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="ClearToolStripMenuItem2.Text" xml:space="preserve">
     <value>Clear</value>
+  </data>
+  <data name="PathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 20</value>
+  </data>
+  <data name="PathToolStripMenuItem.Text" xml:space="preserve">
+    <value>Path</value>
   </data>
   <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
@@ -609,6 +558,60 @@
   <data name="DeleteToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="FigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 20</value>
+  </data>
+  <data name="FigureToolStripMenuItem.Text" xml:space="preserve">
+    <value>Figure</value>
+  </data>
+  <data name="CreateFigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="CreateFigureToolStripMenuItem.Text" xml:space="preserve">
+    <value>Create Figure</value>
+  </data>
+  <data name="DuplicateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="DuplicateToolStripMenuItem.Text" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 6</value>
+  </data>
+  <data name="FlipHorizontallyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="FlipHorizontallyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Flip Horizontally</value>
+  </data>
+  <data name="FlipVerticallyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="FlipVerticallyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Flip Vertically</value>
+  </data>
+  <data name="ToolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 6</value>
+  </data>
+  <data name="ClearToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ClearToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="DeleteToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="DeleteToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="HelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="HelpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
   <data name="ViewHelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 22</value>
   </data>
@@ -623,6 +626,15 @@
   </data>
   <data name="AboutToolStripMenuItem.Text" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="TESTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="TESTToolStripMenuItem.Text" xml:space="preserve">
+    <value>TEST</value>
+  </data>
+  <data name="TESTToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="AddLotsOPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>164, 22</value>
@@ -796,7 +808,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Pan_tools.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="But_movement.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
@@ -1215,87 +1227,6 @@
   <data name="Pan_toggles.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="&gt;&gt;But_mirror.Name" xml:space="preserve">
-    <value>But_mirror</value>
-  </data>
-  <data name="&gt;&gt;But_mirror.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_mirror.Parent" xml:space="preserve">
-    <value>Pan_toggles</value>
-  </data>
-  <data name="&gt;&gt;But_mirror.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorVert.Name" xml:space="preserve">
-    <value>But_mirrorVert</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorVert.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorVert.Parent" xml:space="preserve">
-    <value>Pan_toggles</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorVert.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorHor.Name" xml:space="preserve">
-    <value>But_mirrorHor</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorHor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorHor.Parent" xml:space="preserve">
-    <value>Pan_toggles</value>
-  </data>
-  <data name="&gt;&gt;But_mirrorHor.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;But_showPoints.Name" xml:space="preserve">
-    <value>But_showPoints</value>
-  </data>
-  <data name="&gt;&gt;But_showPoints.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_showPoints.Parent" xml:space="preserve">
-    <value>Pan_toggles</value>
-  </data>
-  <data name="&gt;&gt;But_showPoints.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;But_placeBetClosest.Name" xml:space="preserve">
-    <value>But_placeBetClosest</value>
-  </data>
-  <data name="&gt;&gt;But_placeBetClosest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_placeBetClosest.Parent" xml:space="preserve">
-    <value>Pan_toggles</value>
-  </data>
-  <data name="&gt;&gt;But_placeBetClosest.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Pan_toggles.Location" type="System.Drawing.Point, System.Drawing">
-    <value>48, 27</value>
-  </data>
-  <data name="Pan_toggles.Size" type="System.Drawing.Size, System.Drawing">
-    <value>640, 42</value>
-  </data>
-  <data name="Pan_toggles.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;Pan_toggles.Name" xml:space="preserve">
-    <value>Pan_toggles</value>
-  </data>
-  <data name="&gt;&gt;Pan_toggles.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Pan_toggles.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Pan_toggles.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="But_mirror.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
   </data>
@@ -1464,6 +1395,27 @@
   <data name="&gt;&gt;But_placeBetClosest.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="Pan_toggles.Location" type="System.Drawing.Point, System.Drawing">
+    <value>48, 27</value>
+  </data>
+  <data name="Pan_toggles.Size" type="System.Drawing.Size, System.Drawing">
+    <value>640, 42</value>
+  </data>
+  <data name="Pan_toggles.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;Pan_toggles.Name" xml:space="preserve">
+    <value>Pan_toggles</value>
+  </data>
+  <data name="&gt;&gt;Pan_toggles.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pan_toggles.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Pan_toggles.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="Label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -1498,7 +1450,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="TabControl1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -1573,7 +1525,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;Lab_zoom.Name" xml:space="preserve">
     <value>Lab_zoom</value>
@@ -2830,7 +2782,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Box_html.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="Button1.Location" type="System.Drawing.Point, System.Drawing">
     <value>880, 15</value>
@@ -2923,7 +2875,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Pan_canvas.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Pic_canvas.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2974,7 +2926,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Combo_path.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -3010,7 +2962,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <metadata name="ColorDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>295, 8</value>
@@ -3049,7 +3001,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Lb_figures.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -3076,7 +3028,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Lb_figures.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="SaveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>418, 8</value>
@@ -3084,6 +3036,21 @@
   <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>555, 8</value>
   </metadata>
+  <data name="DeselectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="DeselectToolStripMenuItem.Text" xml:space="preserve">
+    <value>Deselect</value>
+  </data>
+  <data name="DelteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="DelteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -3464,6 +3431,30 @@
   <data name="&gt;&gt;CreateFigureToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;DuplicateToolStripMenuItem.Name" xml:space="preserve">
+    <value>DuplicateToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;DuplicateToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator10.Name" xml:space="preserve">
+    <value>ToolStripSeparator10</value>
+  </data>
+  <data name="&gt;&gt;ToolStripSeparator10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FlipHorizontallyToolStripMenuItem.Name" xml:space="preserve">
+    <value>FlipHorizontallyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;FlipHorizontallyToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FlipVerticallyToolStripMenuItem.Name" xml:space="preserve">
+    <value>FlipVerticallyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;FlipVerticallyToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;ToolStripSeparator3.Name" xml:space="preserve">
     <value>ToolStripSeparator3</value>
   </data>
@@ -3536,29 +3527,23 @@
   <data name="&gt;&gt;OpenFileDialog1.Type" xml:space="preserve">
     <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;DuplicateToolStripMenuItem.Name" xml:space="preserve">
-    <value>DuplicateToolStripMenuItem</value>
+  <data name="&gt;&gt;DeselectToolStripMenuItem.Name" xml:space="preserve">
+    <value>DeselectToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;DuplicateToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;DeselectToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;FlipHorizontallyToolStripMenuItem.Name" xml:space="preserve">
-    <value>FlipHorizontallyToolStripMenuItem</value>
+  <data name="&gt;&gt;DelteToolStripMenuItem.Name" xml:space="preserve">
+    <value>DelteToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;FlipHorizontallyToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;DelteToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolStripSeparator10.Name" xml:space="preserve">
-    <value>ToolStripSeparator10</value>
+  <data name="&gt;&gt;ToolStripSeparator11.Name" xml:space="preserve">
+    <value>ToolStripSeparator11</value>
   </data>
-  <data name="&gt;&gt;ToolStripSeparator10.Type" xml:space="preserve">
+  <data name="&gt;&gt;ToolStripSeparator11.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FlipVerticallyToolStripMenuItem.Name" xml:space="preserve">
-    <value>FlipVerticallyToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;FlipVerticallyToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form_main</value>

@@ -101,6 +101,14 @@
         RaiseEvent OnPPointAdded(Me, item)
     End Sub
 
+    Public Sub Move(destIndex As Integer, ByRef srcItem As PathPoint)
+        Dim indx = srcItem.GetIndex
+        Dim isref As Boolean = refs(indx)
+
+        Me.Remove(srcItem)
+        Me.Insert(destIndex, srcItem, isref)
+    End Sub
+
     Public Sub RemoveAt(index As Integer)
         RaiseEvent OnPPointRemoving(Me, points(index))
         points.RemoveAt(index)

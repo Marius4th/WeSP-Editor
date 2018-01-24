@@ -528,7 +528,7 @@ Public Module Module1
         If isNameAlone Then propName &= "="""
 
         Dim subStart As Integer = html.IndexOf(propName)
-        If subStart < 0 Then Return ""
+        If subStart < 0 Then Return "0"
 
         subStart += propName.Length
         Dim subEnd As Integer = html.IndexOf("""", subStart)

@@ -128,6 +128,9 @@
 
     Public Sub Clear()
         RaiseEvent OnFiguresClear(Me)
+        For Each fig As Figure In figures
+            fig.Clear()
+        Next
         figures.Clear()
         If SVG.SelectedPath Is Me Then SVG.selectedPoints.Clear()
     End Sub

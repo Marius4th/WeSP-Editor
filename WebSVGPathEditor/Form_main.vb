@@ -32,6 +32,11 @@ Public Class Form_main
         AddHandler SVG.OnSelectPoint, AddressOf SVG_OnSelectPoint
         AddHandler SVG.OnStickyGridChanged, AddressOf SVG_OnStickyGridChanged
 
+        AddHandler SVG.selectedPoints.OnAdd, AddressOf SVGSelectedPoints_OnAdd
+        AddHandler SVG.selectedPoints.OnRemoving, AddressOf SVGSelectedPoints_OnRemoving
+        AddHandler SVG.selectedPoints.OnRemovingRange, AddressOf SVGSelectedPoints_OnRemovingRange
+        AddHandler SVG.selectedPoints.OnClear, AddressOf SVGSelectedPoints_OnClear
+
         AddHandler Figure.OnPPointAdded, AddressOf Figure_OnPPointAdded
         AddHandler Figure.OnPPointRemoving, AddressOf Figure_OnPPointRemoving
         AddHandler Figure.OnPPointsClear, AddressOf Figure_OnPPointsClear
@@ -214,22 +219,21 @@ Public Class Form_main
 
     End Sub
 
-    Private WithEvents theSelPoints As ListWithEvents(Of PathPoint) = SVG.selectedPoints
-    Public Sub SVGSelectedPoints_OnAdd(sender As ListWithEvents(Of PathPoint), d As PathPoint) Handles theSelPoints.OnAdd
+    Public Sub SVGSelectedPoints_OnAdd(sender As ListWithEvents(Of PathPoint), d As PathPoint)
         Lb_selPoints.Items.Add(d.GetString(False))
         Pic_canvas.Invalidate()
     End Sub
-    Public Sub SVGSelectedPoints_OnRemoveAt(sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer) Handles theSelPoints.OnRemoveAt
-        For i As Integer = start To start + count
+    Public Sub SVGSelectedPoints_OnRemovingRange(sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer)
+        For i As Integer = start To start + count - 1
             Lb_selPoints.Items.RemoveAt(i)
         Next
         Pic_canvas.Invalidate()
     End Sub
-    Public Sub SVGSelectedPoints_OnRemove(sender As ListWithEvents(Of PathPoint), d As PathPoint) Handles theSelPoints.OnRemove
-        Lb_selPoints.Items.Add(d.GetString())
+    Public Sub SVGSelectedPoints_OnRemoving(sender As ListWithEvents(Of PathPoint), d As PathPoint)
+        Lb_selPoints.Items.RemoveAt(sender.IndexOf(d))
         Pic_canvas.Invalidate()
     End Sub
-    Public Sub SVGSelectedPoints_OnClear(sender As ListWithEvents(Of PathPoint)) Handles theSelPoints.OnClear
+    Public Sub SVGSelectedPoints_OnClear(sender As ListWithEvents(Of PathPoint))
         Lb_selPoints.Items.Clear()
         Pic_canvas.Invalidate()
     End Sub
@@ -817,39 +821,49 @@ Public Class Form_main
     End Sub
 
     Private Sub But_mirrorHor_Click(sender As Object, e As EventArgs) Handles But_mirrorHor.Click
-        'mirrorHor = Not mirrorHor
-        'HighlightButton(But_mirrorHor, mirrorHor)
-        'mirrorVert = False
-        'HighlightButton(But_mirrorVert, mirrorVert)
+        If SVG.SelectedPath Is Nothing OrElse SVG.SelectedPath.selectedFigures.Count > 1 Then Return
+
+        historyLock = True
+
+        Dim lastPP As PathPoint = SVG.GetSelectedPPLastInPath()
+        SVG.SortSelectedPoints()
 
         If SVG.selectedPoints.Count > 0 Then
-            If SVG.selectedPoints.Last.HasSecondaryPoints() Then
-                SVG.SelectedFigure.AddPPoint(PointType.lineto, SVG.selectedPoints.Last.pos).SetMirrorPos(SVG.selectedPoints.Last, Orientation.Horizontal)
-            End If
+            Dim ph As PathPoint = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos) '.SetMirrorPos(lastPP, Orientation.Horizontal)
+
             For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
                 pp.Mirror(Orientation.Horizontal)
             Next
 
+            lastPP.SetMirrorPos(ph, Orientation.Horizontal)
             Pic_canvas.Refresh()
         End If
+
+        historyLock = False
+        AddToHistory()
     End Sub
 
     Private Sub But_mirrorVert_Click(sender As Object, e As EventArgs) Handles But_mirrorVert.Click
-        'mirrorVert = Not mirrorVert
-        'HighlightButton(But_mirrorVert, mirrorVert)
-        'mirrorHor = False
-        'HighlightButton(But_mirrorHor, mirrorHor)
+        If SVG.SelectedPath Is Nothing OrElse SVG.SelectedPath.selectedFigures.Count > 1 Then Return
+
+        historyLock = True
+
+        Dim lastPP As PathPoint = SVG.GetSelectedPPLastInPath()
+        SVG.SortSelectedPoints()
 
         If SVG.selectedPoints.Count > 0 Then
-            If SVG.selectedPoints.Last.HasSecondaryPoints() Then
-                SVG.SelectedFigure.AddPPoint(PointType.lineto, SVG.selectedPoints.Last.pos).SetMirrorPos(SVG.selectedPoints.Last, Orientation.Vertical)
-            End If
+            Dim ph As PathPoint = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos)
+
             For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
                 pp.Mirror(Orientation.Vertical)
             Next
 
+            lastPP.SetMirrorPos(ph, Orientation.Vertical)
             Pic_canvas.Refresh()
         End If
+
+        historyLock = False
+        AddToHistory()
     End Sub
 
     Private Sub But_selection_Click(sender As Object, e As EventArgs) Handles But_selection.Click
@@ -1346,5 +1360,34 @@ Public Class Form_main
             fig.FlipVertically()
         Next
         Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub DeselectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeselectToolStripMenuItem.Click
+        Dim tmpSel As New List(Of Integer)
+        For Each item In Lb_selPoints.SelectedIndices
+            tmpSel.Add(item)
+        Next
+
+        tmpSel.Reverse()
+        For Each item In tmpSel
+            SVG.selectedPoints.RemoveAt(item)
+        Next
+    End Sub
+
+    Private Sub DelteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DelteToolStripMenuItem.Click
+        Dim tmpSel As New List(Of Integer)
+        For Each item In Lb_selPoints.SelectedIndices
+            tmpSel.Add(item)
+        Next
+
+        tmpSel.Reverse()
+        For Each item In tmpSel
+            SVG.SelectedFigure.Remove(SVG.selectedPoints(item))
+            'SVG.selectedPoints.RemoveAt(item)
+        Next
+    End Sub
+
+    Private Sub But_mirror_Click(sender As Object, e As EventArgs) Handles But_mirror.Click
+        SVG.SelectedPoint.Clone(1, Nothing)
     End Sub
 End Class

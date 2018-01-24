@@ -63,99 +63,81 @@ Public Module Commands
             isMirrorOrigin = False
         End Sub
 
-        Public Overridable Function Clone(Optional pa As Figure = Nothing) As PathPoint
+        Public Overridable Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PathPoint(Me.pointType, CType(Me.pos, PointF), pa)
+            pa.Insert(destIndex, dup, False)
             dup.RefreshPrevPPoint()
             Return dup
         End Function
 
-        Public Overridable Sub SetMirrorPPoint(ByRef pp As PathPoint, orient As Orientation)
-            'If mirroredPP Is Nothing AndAlso pointType <> PointType.moveto Then
+        Public Overridable Function Clone(Optional pa As Figure = Nothing) As PathPoint
+            Return Clone(parent.Count, pa)
+        End Function
+
+        Public Overridable Sub SetMirrorPPoint(ByRef mirror As PathPoint, orient As Orientation)
             If pointType <> PointType.moveto Then
-                Dim selPP As PathPoint = pp
-                If pp.HasSecondaryPoints() Then
-                    selPP = pp.prevPPoint
-                End If
+                mirror.mirroredPP = Me
+                mirror.mirrorOrient = orient
+                mirror.isMirrorOrigin = True
 
-                pp.mirrorOrient = orient
-                pp.mirroredPP = Me
-                pp.mirroredPP.RefreshPrevPPoint()
-                pp.isMirrorOrigin = True
+                Me.mirroredPP = mirror
+                Me.mirrorOrient = orient
+                Me.isMirrorOrigin = True
 
-                mirroredPP = pp  'For secondary data
-                mirrorOrient = orient
-                isMirrorOrigin = False
-                mirroredPos = selPP  'For position
-                If selPP.pointType = PointType.moveto Then nonInteractve = True
-
-                selPP.mirroredPos = Me  'For position
-                selPP.mirrorOrient = orient
-                selPP.isMirrorOrigin = True
-
-                If selPP IsNot pp Then selPP.RefreshMirror()
-                pp.RefreshMirror()
+                mirror.RefreshSeccondaryData()
             End If
         End Sub
 
-        Public Overridable Sub SetMirrorPos(ByRef pp As PathPoint, orient As Orientation)
-            'If mirroredPos Is Nothing AndAlso pointType <> PointType.moveto Then
+        Public Overridable Sub SetMirrorPos(ByRef mirror As PathPoint, orient As Orientation)
             If pointType <> PointType.moveto Then
-                pp.mirrorOrient = orient
-                pp.isMirrorOrigin = True
+                mirror.mirroredPos = Me
+                mirror.mirrorOrient = orient
+                mirror.isMirrorOrigin = True
 
-                mirrorOrient = orient
-                isMirrorOrigin = False
-                mirroredPos = pp  'For position
-                If pp.pointType = PointType.moveto Then nonInteractve = True
+                Me.mirroredPos = mirror
+                Me.mirrorOrient = orient
+                Me.isMirrorOrigin = True
 
-                pp.mirroredPos = Me  'For position
-                pp.mirrorOrient = orient
-                pp.isMirrorOrigin = True
-
-                pp.RefreshMirror()
+                mirror.RefreshPosition()
             End If
         End Sub
 
         Public Overridable Sub Mirror(orient As Orientation)
             If mirroredPP Is Nothing AndAlso pointType <> PointType.moveto Then
-                Dim selPP As PathPoint = Me
-                If Me.HasSecondaryPoints() Then
-                    selPP = prevPPoint
-                End If
-
-                mirrorOrient = orient
-                'If prevPPoint IsNot Nothing AndAlso prevPPoint.mirroredPP IsNot Nothing Then
-                '    mirroredPP = parent.InsertPPoint(pointType, pos, prevPPoint.mirroredPos.GetIndex)
+                Dim clon As PathPoint = Me.Clone()
+                'If prevPPoint.mirroredPos IsNot Nothing Then
+                '    clon = Me.Clone(prevPPoint.mirroredPos.GetIndex - 1, Nothing)
                 'Else
-                mirroredPP = parent.AddPPoint(pointType, pos)
+                '    clon = Me.Clone()
                 'End If
 
-                mirroredPP.RefreshPrevPPoint()
+                mirroredPP = clon
+                mirroredPos = clon.prevPPoint
+                mirrorOrient = orient
                 isMirrorOrigin = True
 
-                mirroredPP.mirroredPP = Me  'For secondary data
-                mirroredPP.mirrorOrient = orient
-                mirroredPP.isMirrorOrigin = False
-                mirroredPP.mirroredPos = selPP  'For position
-                If selPP.pointType = PointType.moveto Then mirroredPP.nonInteractve = True
+                clon.mirroredPP = Me
+                clon.mirroredPos = Me.prevPPoint
+                clon.mirrorOrient = orient
+                clon.isMirrorOrigin = False
 
-                selPP.mirroredPos = mirroredPP  'For position
-                selPP.mirrorOrient = orient
-                selPP.isMirrorOrigin = True
+                If Me.prevPPoint.pointType = PointType.moveto Then
+                    clon.nonInteractve = True
+                    Me.prevPPoint.mirroredPos = clon
+                End If
 
-                'If prevPPoint IsNot Nothing AndAlso prevPPoint.mirroredPP IsNot Nothing Then
-                '    mirroredPP.mirroredPos = prevPPoint
-                '    prevPPoint.mirroredPos.mirroredPos = Me
-
-                'End If
-
-                If selPP IsNot Me Then selPP.RefreshMirror()
-                RefreshMirror()
+                clon.RefreshPosition()
+                clon.RefreshSeccondaryData()
             End If
         End Sub
 
         Public Sub RefreshPosition()
+            'If mirroredPos.pointType = PointType.moveto Then
+            '    SetPosition(mirroredPos.pos, False)
+            '    Return
+            'End If
+
             Dim moveto As PathPoint = parent.GetMoveto()
 
             If moveto IsNot Nothing AndAlso mirroredPos IsNot Nothing Then
@@ -379,6 +361,14 @@ Public Module Commands
             pos.Y = prevpp.pos.Y + pos.Y
         End Sub
 
+        Public Function GetNextPPoint() As PathPoint
+            Dim indx As Integer = Me.GetIndex
+            If parent.Count > indx + 1 Then
+                Return parent(indx + 1)
+            End If
+            Return Nothing
+        End Function
+
     End Class
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -475,10 +465,12 @@ Public Module Commands
             Me.sweep = sweep
         End Sub
 
-        Public Overrides Function Clone(Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PPEllipticalArc(CType(Me.pos, PointF), Me.sweep, pa)
             dup.size = Me.size
+            pa.Insert(destIndex, dup, False)
+            dup.RefreshPrevPPoint()
             Return dup
         End Function
 
@@ -569,9 +561,11 @@ Public Module Commands
             Me.refPoint = refp
         End Sub
 
-        Public Overrides Function Clone(Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PPBezier(CType(Me.pos, PointF), CType(Me.refPoint, PointF), pa)
+            pa.Insert(destIndex, dup, False)
+            dup.RefreshPrevPPoint()
             Return dup
         End Function
 
@@ -669,9 +663,11 @@ Public Module Commands
             Me.refPoint2 = refp2
         End Sub
 
-        Public Overrides Function Clone(Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PPCurveto(CType(Me.pos, PointF), CType(Me.refPoint1, PointF), CType(Me.refPoint2, PointF), pa)
+            pa.Insert(destIndex, dup, False)
+            dup.RefreshPrevPPoint()
             Return dup
         End Function
 

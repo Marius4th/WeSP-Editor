@@ -265,19 +265,25 @@ Public Module SomeClasses
             RaiseEvent OnAdd(Me, item)
         End Sub
 
+        Public Sub CopyTo(ByRef dest As ListWithEvents(Of T))
+            For Each item As T In data
+                dest.Add(item)
+            Next
+        End Sub
+
         Public Sub RemoveAt(index As Integer)
+            RaiseEvent OnRemovingRange(Me, index, 1)
             data.RemoveAt(index)
-            RaiseEvent OnRemoveAt(Me, index, 1)
         End Sub
 
         Public Sub Remove(ByRef pp As T)
+            RaiseEvent OnRemoving(Me, pp)
             data.Remove(pp)
-            RaiseEvent OnRemove(Me, pp)
         End Sub
 
         Public Sub RemoveRange(index As Integer, count As Integer)
+            RaiseEvent OnRemovingRange(Me, index, count)
             data.RemoveRange(index, count)
-            RaiseEvent OnRemoveAt(Me, index, count)
         End Sub
 
         Public Function Count() As Integer
@@ -285,14 +291,22 @@ Public Module SomeClasses
         End Function
 
         Public Sub Clear()
-            data.Clear()
             RaiseEvent OnClear(Me)
+            data.Clear()
         End Sub
+
+        Public Shared Widening Operator CType(enumer As List(Of T)) As ListWithEvents(Of T)
+            Dim lw As New ListWithEvents(Of T)
+            For Each item As T In enumer
+                lw.Add(item)
+            Next
+            Return lw
+        End Operator
 
         '----------------------------------------------------------------------------------------------------------------------
         Public Event OnAdd(sender As ListWithEvents(Of T), d As T)
-        Public Event OnRemove(sender As ListWithEvents(Of T), d As T)
-        Public Event OnRemoveAt(sender As ListWithEvents(Of T), start As Integer, count As Integer)
+        Public Event OnRemoving(sender As ListWithEvents(Of T), d As T)
+        Public Event OnRemovingRange(sender As ListWithEvents(Of T), start As Integer, count As Integer)
         Public Event OnClear(sender As ListWithEvents(Of T))
     End Class
 

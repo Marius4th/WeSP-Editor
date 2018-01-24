@@ -191,8 +191,9 @@ Public NotInheritable Class SVG
                         str &= "<mirror id=""" & path.GetIndex & "," & fig.GetIndex & "," & pp.GetIndex & """"
                         str &= " posi=""" & pp.mirroredPos.GetIndex & """"
                         str &= " ppi=""" & pp.mirroredPP.GetIndex & """"
-                        str &= " orig=""" & Convert.ToInt32(pp.isMirrorOrigin) & """"
+                        str &= " orig=""" & CInt(pp.isMirrorOrigin) & """"
                         str &= " orient=""" & pp.mirrorOrient & """"
+                        str &= " noninteract=""" & CInt(pp.nonInteractve) & """"
                         str &= ">" & vbCrLf
                     End If
                 Next
@@ -275,9 +276,6 @@ Public NotInheritable Class SVG
 
     Public Shared Sub Clear()
         For Each path As SVGPath In paths
-            For Each fig As Figure In path.GetFigures
-                fig.Clear()
-            Next
             path.Clear()
         Next
         selectedPoints.Clear()
@@ -467,6 +465,8 @@ Public NotInheritable Class SVG
         Dim mirrors As String() = Split(wesp, "<mirror", -1, StringSplitOptions.RemoveEmptyEntries)
         Dim pathi, figi, ppi As Integer
         Dim ppData As String()
+        Dim pp, mirPP, mirPos As PathPoint
+        Dim orient As Orientation
         For Each item As String In mirrors
             If Not item.Contains("posi") Then Continue For
             substr = GetHTMLAttributeValue(item, " id")
@@ -477,17 +477,48 @@ Public NotInheritable Class SVG
                 ppi = Convert.ToInt32(ppData(2))
             End If
 
-            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPPoint(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " ppi"))), Convert.ToInt32(GetHTMLAttributeValue(item, " orient")))
-            SVG.paths(pathi).Figure(figi)(ppi).SetMirrorPos(SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " posi"))), Convert.ToInt32(GetHTMLAttributeValue(item, " orient")))
+            pp = SVG.paths(pathi).Figure(figi)(ppi)
+            mirPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " ppi")))
+            mirPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " posi")))
+            orient = Convert.ToInt32(GetHTMLAttributeValue(item, " orient"))
 
-            With SVG.paths(pathi).Figure(figi)(ppi)
+            pp.SetMirrorPPoint(mirPP, orient)
+            Form_main.Pic_canvas.Refresh()
+            pp.SetMirrorPos(mirPos, orient)
+            Form_main.Pic_canvas.Refresh()
+
+            With pp
                 '.mirroredPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "posi")))
                 '.mirroredPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "ppi")))
                 .isMirrorOrigin = Convert.ToInt32(GetHTMLAttributeValue(item, " orig"))
+                .nonInteractve = Convert.ToInt32(GetHTMLAttributeValue(item, " noninteract"))
                 '.mirrorOrient = Convert.ToInt32(GetHTMLPropertyValue(item, "orient"))
             End With
         Next
 
+    End Sub
+
+    Public Shared Function GetSelectedPPLastInPath() As PathPoint
+        Dim higherIndex As Integer = -1
+        Dim higherPP As PathPoint = Nothing
+        For Each pp As PathPoint In selectedPoints
+            If pp.GetIndex() > higherIndex Then
+                higherIndex = pp.GetIndex()
+                higherPP = pp
+            End If
+        Next
+
+        Return higherPP
+    End Function
+
+    Public Shared Sub SortSelectedPoints()
+        Dim oredered As ListWithEvents(Of PathPoint) = selectedPoints.OrderBy(Function(pp) pp.GetIndex()).ToList
+        'For Each pp As PathPoint In oredered
+        '    Console.WriteLine(pp.GetIndex())
+        'Next
+        'selectedPoints = oredered
+        selectedPoints.Clear()
+        oredered.CopyTo(selectedPoints)
     End Sub
 
 End Class

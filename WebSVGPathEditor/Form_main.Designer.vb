@@ -22,6 +22,7 @@ Partial Class Form_main
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form_main))
         Me.Group_info = New System.Windows.Forms.GroupBox()
         Me.Lab_sizeH = New System.Windows.Forms.Label()
@@ -63,6 +64,10 @@ Partial Class Form_main
         Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FigureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CreateFigureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DuplicateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
+        Me.FlipHorizontallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FlipVerticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ClearToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -140,10 +145,10 @@ Partial Class Form_main
         Me.Lb_figures = New System.Windows.Forms.ListBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.DuplicateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FlipHorizontallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
-        Me.FlipVerticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Context_selPoints = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.DeselectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DelteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator()
         Me.Group_info.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
@@ -179,6 +184,7 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pan_canvas.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Context_selPoints.SuspendLayout()
         Me.SuspendLayout()
         '
         'Group_info
@@ -214,6 +220,7 @@ Partial Class Form_main
         'Lb_selPoints
         '
         resources.ApplyResources(Me.Lb_selPoints, "Lb_selPoints")
+        Me.Lb_selPoints.ContextMenuStrip = Me.Context_selPoints
         Me.Lb_selPoints.FormattingEnabled = True
         Me.Lb_selPoints.Name = "Lb_selPoints"
         Me.Lb_selPoints.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
@@ -394,6 +401,26 @@ Partial Class Form_main
         '
         Me.CreateFigureToolStripMenuItem.Name = "CreateFigureToolStripMenuItem"
         resources.ApplyResources(Me.CreateFigureToolStripMenuItem, "CreateFigureToolStripMenuItem")
+        '
+        'DuplicateToolStripMenuItem
+        '
+        Me.DuplicateToolStripMenuItem.Name = "DuplicateToolStripMenuItem"
+        resources.ApplyResources(Me.DuplicateToolStripMenuItem, "DuplicateToolStripMenuItem")
+        '
+        'ToolStripSeparator10
+        '
+        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
+        resources.ApplyResources(Me.ToolStripSeparator10, "ToolStripSeparator10")
+        '
+        'FlipHorizontallyToolStripMenuItem
+        '
+        Me.FlipHorizontallyToolStripMenuItem.Name = "FlipHorizontallyToolStripMenuItem"
+        resources.ApplyResources(Me.FlipHorizontallyToolStripMenuItem, "FlipHorizontallyToolStripMenuItem")
+        '
+        'FlipVerticallyToolStripMenuItem
+        '
+        Me.FlipVerticallyToolStripMenuItem.Name = "FlipVerticallyToolStripMenuItem"
+        resources.ApplyResources(Me.FlipVerticallyToolStripMenuItem, "FlipVerticallyToolStripMenuItem")
         '
         'ToolStripSeparator3
         '
@@ -999,25 +1026,26 @@ Partial Class Form_main
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'DuplicateToolStripMenuItem
+        'Context_selPoints
         '
-        Me.DuplicateToolStripMenuItem.Name = "DuplicateToolStripMenuItem"
-        resources.ApplyResources(Me.DuplicateToolStripMenuItem, "DuplicateToolStripMenuItem")
+        Me.Context_selPoints.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeselectToolStripMenuItem, Me.ToolStripSeparator11, Me.DelteToolStripMenuItem})
+        Me.Context_selPoints.Name = "Context_selPoints"
+        resources.ApplyResources(Me.Context_selPoints, "Context_selPoints")
         '
-        'FlipHorizontallyToolStripMenuItem
+        'DeselectToolStripMenuItem
         '
-        Me.FlipHorizontallyToolStripMenuItem.Name = "FlipHorizontallyToolStripMenuItem"
-        resources.ApplyResources(Me.FlipHorizontallyToolStripMenuItem, "FlipHorizontallyToolStripMenuItem")
+        Me.DeselectToolStripMenuItem.Name = "DeselectToolStripMenuItem"
+        resources.ApplyResources(Me.DeselectToolStripMenuItem, "DeselectToolStripMenuItem")
         '
-        'ToolStripSeparator10
+        'DelteToolStripMenuItem
         '
-        Me.ToolStripSeparator10.Name = "ToolStripSeparator10"
-        resources.ApplyResources(Me.ToolStripSeparator10, "ToolStripSeparator10")
+        Me.DelteToolStripMenuItem.Name = "DelteToolStripMenuItem"
+        resources.ApplyResources(Me.DelteToolStripMenuItem, "DelteToolStripMenuItem")
         '
-        'FlipVerticallyToolStripMenuItem
+        'ToolStripSeparator11
         '
-        Me.FlipVerticallyToolStripMenuItem.Name = "FlipVerticallyToolStripMenuItem"
-        resources.ApplyResources(Me.FlipVerticallyToolStripMenuItem, "FlipVerticallyToolStripMenuItem")
+        Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
+        resources.ApplyResources(Me.ToolStripSeparator11, "ToolStripSeparator11")
         '
         'Form_main
         '
@@ -1081,6 +1109,7 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pan_canvas.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Context_selPoints.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1207,4 +1236,8 @@ Partial Class Form_main
     Friend WithEvents ToolStripSeparator10 As ToolStripSeparator
     Friend WithEvents FlipHorizontallyToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FlipVerticallyToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Context_selPoints As ContextMenuStrip
+    Friend WithEvents DeselectToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator11 As ToolStripSeparator
+    Friend WithEvents DelteToolStripMenuItem As ToolStripMenuItem
 End Class
