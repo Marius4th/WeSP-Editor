@@ -1,7 +1,7 @@
 # WeSP-Editor
 A simple program for creating and editing vector graphics (SVG) for the web.
 
-I started this project because I wanted to make some vector graphics for a web and I thought it would be more fun to make my own program rather than learning to use something like Illustrator. It is also great for learning new stuff ^^.
+I started this project for fun, to learn about SVGs and to make something easy to use for making/editing SVG paths for the web.
 
 For a binary of this project check https://github.com/Marius4th/WeSP-Editor/releases
 
