@@ -5,10 +5,27 @@
     Private points As New List(Of PathPoint)
     Private refs As New List(Of Boolean) 'Keeps track of which ppoints are references to ppoints in other figures
     Public parent As SVGPath
+    Public mirrorOrient As Orientation = Orientation.None
+    Private _numMirrored As Integer = 0
 
     Public Shared Event OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
     Public Shared Event OnPPointRemoving(ByRef sender As Figure, ByRef pp As PathPoint)
     Public Shared Event OnPPointsClear(ByRef sender As Figure)
+
+    Public Property NumMirrored() As Integer
+        Get
+            Return _numMirrored
+        End Get
+        Set(ByVal value As Integer)
+            _numMirrored = value
+            If _numMirrored = 1 AndAlso Me.Last IsNot Nothing AndAlso Me.Last.nonInteractve Then
+                Me.Remove(Me.Last)
+            End If
+            If _numMirrored <= 0 Then
+                mirrorOrient = Orientation.None
+            End If
+        End Set
+    End Property
 
     Public Sub New(ByRef paPath As SVGPath)
         parent = paPath
@@ -107,10 +124,16 @@
 
         Me.Remove(srcItem)
         Me.Insert(destIndex, srcItem, isref)
+
+        If srcItem.mirroredPP IsNot Nothing Then numMirrored -= 1
+        srcItem.mirroredPP.mirroredPP = Nothing
     End Sub
 
     Public Sub RemoveAt(index As Integer)
         RaiseEvent OnPPointRemoving(Me, points(index))
+
+        points(index).Dispose()
+
         points.RemoveAt(index)
         refs.RemoveAt(index)
         If index < points.Count Then
@@ -126,6 +149,7 @@
     Public Sub RemoveRange(start As Integer, count As Integer)
         For i As Integer = start To Math.Min(start + count, points.Count - 1)
             RaiseEvent OnPPointRemoving(Me, points(i))
+            points(i).Dispose()
         Next
         points.RemoveRange(start, count)
         refs.RemoveRange(start, count)
@@ -252,35 +276,42 @@
 
         If points.Count <= 0 Then Return {Nothing, Nothing}
 
-        If points.Count > 1 Then
-            firstIndex = points.Count - 1
-            'If points(firstIndex).pointType = PointType.closepath AndAlso Me.Count > 2 Then firstIndex = Me.Count - 2
-            secondIndex = 0
+        'If points.Count > 1 Then
+        '    firstIndex = points.Count - 1
+        '    'If points(firstIndex).pointType = PointType.closepath AndAlso Me.Count > 2 Then firstIndex = Me.Count - 2
+        '    secondIndex = 0
 
-            If Not points(0).pointType = PointType.moveto Then
-                Dim buf As Integer = firstIndex
-                firstIndex = secondIndex
-                secondIndex = buf
-            End If
+        '    If Not points(0).pointType = PointType.moveto Then
+        '        Dim buf As Integer = firstIndex
+        '        firstIndex = secondIndex
+        '        secondIndex = buf
+        '    End If
 
-            If incSecPoints = False Then
-                closestDist = LineLength(Midpoint(points(firstIndex).pos, points(secondIndex).pos), pos)
-            Else
-                closestDist = LineLength(Midpoint(points(firstIndex).GetClosestPoint(pos), points(secondIndex).GetClosestPoint(pos)), pos)
-            End If
-        End If
+        '    If incSecPoints = False Then
+        '        closestDist = LineLength(Midpoint(points(firstIndex).pos, points(secondIndex).pos), pos)
+        '    Else
+        '        closestDist = LineLength(Midpoint(points(firstIndex).GetClosestPoint(pos), points(secondIndex).GetClosestPoint(pos)), pos)
+        '    End If
+        'End If
 
         Dim p1, p2 As PathPoint
         Dim dist As Single
-        For i As Integer = 1 To points.Count - 1
-            p1 = points(i - 1)
+        For i As Integer = 0 To points.Count - 1
+            If i > 0 Then
+                p1 = points(i - 1)
+            Else
+                p1 = points.Last
+            End If
             p2 = points(i)
+
+            If p1.nonInteractve Then Continue For
 
             dist = LineLength(Midpoint(p1.pos, p2.pos), pos)
 
             If dist < closestDist Then
                 closestDist = dist
                 firstIndex = i - 1
+                If firstIndex < 0 Then firstIndex = points.Count - 1
                 secondIndex = i
             End If
         Next

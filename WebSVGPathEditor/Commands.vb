@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.ComponentModel
+Imports Microsoft.Win32.SafeHandles
+Imports System.Runtime.InteropServices
 
 Public Module Commands
 
@@ -21,17 +23,20 @@ Public Module Commands
     Public Enum Orientation
         Horizontal = 0
         Vertical = 1
+        None
     End Enum
 
     'Public MustInherit Class PathPoint
     Public Class PathPoint
+        Implements IDisposable
+
         Public pointType As PointType
         Public pos As CPointF
         Public prevPPoint As PathPoint
         Public selPoint As CPointF
         Public mirroredPP As PathPoint      'Only mirror the position
         Public mirroredPos As PathPoint    'Mirror the econdary info
-        Public mirrorOrient As Orientation
+        Public mirrorOrient As Orientation = Orientation.None
         Public isMirrorOrigin As Boolean
 
         Public locked As Boolean = False    'Can't be modified
@@ -63,6 +68,49 @@ Public Module Commands
             isMirrorOrigin = False
         End Sub
 
+
+
+
+
+
+
+        Dim disposed As Boolean = False
+
+        ' Public implementation of Dispose pattern callable by consumers.
+        Public Sub Dispose() _
+              Implements IDisposable.Dispose
+            Dispose(True)
+            GC.SuppressFinalize(Me)
+        End Sub
+
+        ' Protected implementation of Dispose pattern.
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If disposed Then Return
+
+            If disposing Then
+                ' Free any other managed objects here.
+                '
+            End If
+
+            ' Free any unmanaged objects here.
+            '
+            If mirroredPP IsNot Nothing Then
+                'parent.numMirrored -= 1
+                mirroredPP.mirroredPP = Nothing
+                If mirroredPP.nonInteractve Then mirroredPP.nonInteractve = False
+            End If
+            If mirroredPos IsNot Nothing Then
+                'If mirroredPP Is Nothing Then parent.numMirrored -= 1
+                parent.NumMirrored -= 1
+                mirroredPos.mirroredPos = Nothing
+            End If
+
+            mirroredPP = Nothing
+            mirroredPos = Nothing
+
+            disposed = True
+        End Sub
+
         Public Overridable Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PathPoint(Me.pointType, CType(Me.pos, PointF), pa)
@@ -77,6 +125,7 @@ Public Module Commands
 
         Public Overridable Sub SetMirrorPPoint(ByRef mirror As PathPoint, orient As Orientation)
             If pointType <> PointType.moveto Then
+                'If mirroredPos Is Nothing And mirroredPP Is Nothing Then parent.numMirrored += 1
                 mirror.mirroredPP = Me
                 mirror.mirrorOrient = orient
                 mirror.isMirrorOrigin = True
@@ -86,11 +135,13 @@ Public Module Commands
                 Me.isMirrorOrigin = True
 
                 mirror.RefreshSeccondaryData()
+                parent.mirrorOrient = orient
             End If
         End Sub
 
         Public Overridable Sub SetMirrorPos(ByRef mirror As PathPoint, orient As Orientation)
             If pointType <> PointType.moveto Then
+                If mirroredPos Is Nothing OrElse mirror.mirroredPos Is Nothing Then parent.NumMirrored += 1
                 mirror.mirroredPos = Me
                 mirror.mirrorOrient = orient
                 mirror.isMirrorOrigin = True
@@ -100,25 +151,42 @@ Public Module Commands
                 Me.isMirrorOrigin = True
 
                 mirror.RefreshPosition()
+                parent.mirrorOrient = orient
             End If
         End Sub
 
         Public Overridable Sub Mirror(orient As Orientation)
             If mirroredPP Is Nothing AndAlso pointType <> PointType.moveto Then
-                Dim clon As PathPoint = Me.Clone()
-                'If prevPPoint.mirroredPos IsNot Nothing Then
-                '    clon = Me.Clone(prevPPoint.mirroredPos.GetIndex - 1, Nothing)
-                'Else
-                '    clon = Me.Clone()
-                'End If
+                Dim clon As PathPoint ' = Me.Clone()
+                If prevPPoint.mirroredPos IsNot Nothing Then
+                    'Add the mirroring ppoint in prev ppoint's mirror's pos
+                    clon = Me.Clone(prevPPoint.mirroredPos.GetIndex + 1, Nothing)
 
-                mirroredPP = clon
-                mirroredPos = clon.prevPPoint
+                    mirroredPP = clon
+                    mirroredPos = prevPPoint.mirroredPos
+                    mirroredPos.mirroredPos = Me
+
+                    clon.mirroredPP = Me
+                    clon.mirroredPos = prevPPoint
+
+                    prevPPoint.mirroredPos = clon
+
+                    mirroredPos.RefreshPosition()
+                    mirroredPos.RefreshSeccondaryData()
+                    mirroredPos.nonInteractve = False
+                Else
+                    'Add the mirroring ppoint to the end of the figure
+                    clon = Me.Clone()
+
+                    mirroredPP = clon
+                    mirroredPos = clon.prevPPoint
+
+                    clon.mirroredPP = Me
+                    clon.mirroredPos = Me.prevPPoint
+                End If
+
                 mirrorOrient = orient
                 isMirrorOrigin = True
-
-                clon.mirroredPP = Me
-                clon.mirroredPos = Me.prevPPoint
                 clon.mirrorOrient = orient
                 clon.isMirrorOrigin = False
 
@@ -129,6 +197,8 @@ Public Module Commands
 
                 clon.RefreshPosition()
                 clon.RefreshSeccondaryData()
+                parent.mirrorOrient = orient
+                parent.numMirrored += 1
             End If
         End Sub
 

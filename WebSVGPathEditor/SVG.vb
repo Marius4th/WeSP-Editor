@@ -129,7 +129,7 @@ Public NotInheritable Class SVG
         For Each path As SVGPath In selectedPaths
             For Each fig As Figure In path.selectedFigures
                 For Each pp As PathPoint In fig
-                    If pp.pos Is Nothing Then Continue For
+                    If pp.pos Is Nothing OrElse pp.nonInteractve Then Continue For
 
                     If rect.Contains(pp.pos.X, pp.pos.Y) Then
                         If clear = False AndAlso selectedPoints.Contains(pp) Then Continue For
@@ -191,9 +191,9 @@ Public NotInheritable Class SVG
                         str &= "<mirror id=""" & path.GetIndex & "," & fig.GetIndex & "," & pp.GetIndex & """"
                         str &= " posi=""" & pp.mirroredPos.GetIndex & """"
                         str &= " ppi=""" & pp.mirroredPP.GetIndex & """"
-                        str &= " orig=""" & CInt(pp.isMirrorOrigin) & """"
+                        str &= " orig=""" & pp.isMirrorOrigin & """"
                         str &= " orient=""" & pp.mirrorOrient & """"
-                        str &= " noninteract=""" & CInt(pp.nonInteractve) & """"
+                        str &= " noninteract=""" & pp.nonInteractve & """"
                         str &= ">" & vbCrLf
                     End If
                 Next
@@ -490,8 +490,8 @@ Public NotInheritable Class SVG
             With pp
                 '.mirroredPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "posi")))
                 '.mirroredPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "ppi")))
-                .isMirrorOrigin = Convert.ToInt32(GetHTMLAttributeValue(item, " orig"))
-                .nonInteractve = Convert.ToInt32(GetHTMLAttributeValue(item, " noninteract"))
+                .isMirrorOrigin = CBool(GetHTMLAttributeValue(item, " orig"))
+                .nonInteractve = CBool(GetHTMLAttributeValue(item, " noninteract"))
                 '.mirrorOrient = Convert.ToInt32(GetHTMLPropertyValue(item, "orient"))
             End With
         Next

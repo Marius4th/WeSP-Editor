@@ -222,6 +222,45 @@ Public Class Form_main
     Public Sub SVGSelectedPoints_OnAdd(sender As ListWithEvents(Of PathPoint), d As PathPoint)
         Lb_selPoints.Items.Add(d.GetString(False))
         Pic_canvas.Invalidate()
+
+        If SVG.SelectedPath IsNot Nothing AndAlso SVG.SelectedFigure.numMirrored > 0 Then
+            Dim anyMirrored As Boolean = False
+            Dim prevMirrored As Boolean = False
+
+            For Each pp As PathPoint In SVG.selectedPoints
+                If pp.mirroredPos IsNot Nothing Then
+                    anyMirrored = True
+                    If prevMirrored Then Exit For
+                End If
+
+                If pp.prevPPoint Is Nothing Then Continue For
+                If pp.prevPPoint.mirroredPos IsNot Nothing Then
+                    prevMirrored = True
+                    If anyMirrored Then Exit For
+                End If
+            Next
+
+            If prevMirrored Then
+                But_mirrorHor.Enabled = True
+                But_mirrorVert.Enabled = True
+            Else
+                But_mirrorHor.Enabled = False
+                But_mirrorVert.Enabled = False
+            End If
+
+            If anyMirrored Then
+                If SVG.SelectedFigure.mirrorOrient = Orientation.Horizontal Then HighlightButton(But_mirrorHor, True)
+                If SVG.SelectedFigure.mirrorOrient = Orientation.Vertical Then HighlightButton(But_mirrorVert, True)
+            Else
+                HighlightButton(But_mirrorHor, False)
+                HighlightButton(But_mirrorVert, False)
+            End If
+        Else
+            HighlightButton(But_mirrorHor, False)
+            HighlightButton(But_mirrorVert, False)
+            But_mirrorHor.Enabled = True
+            But_mirrorVert.Enabled = True
+        End If
     End Sub
     Public Sub SVGSelectedPoints_OnRemovingRange(sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer)
         For i As Integer = start To start + count - 1
@@ -794,7 +833,6 @@ Public Class Form_main
         '' Draw the path to screen.
         'e.Graphics.DrawPath(New Pen(Color.Red, 3), myPath)
 
-
         ' ---------------------------------------------------------------------------------------------------------------------
 
         UpdateStats()
@@ -822,6 +860,7 @@ Public Class Form_main
 
     Private Sub But_mirrorHor_Click(sender As Object, e As EventArgs) Handles But_mirrorHor.Click
         If SVG.SelectedPath Is Nothing OrElse SVG.SelectedPath.selectedFigures.Count > 1 Then Return
+        If SVG.SelectedFigure.mirrorOrient = Orientation.Vertical Then Return
 
         historyLock = True
 
@@ -829,13 +868,20 @@ Public Class Form_main
         SVG.SortSelectedPoints()
 
         If SVG.selectedPoints.Count > 0 Then
-            Dim ph As PathPoint = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos) '.SetMirrorPos(lastPP, Orientation.Horizontal)
+            Dim ph As PathPoint = Nothing
+            If SVG.SelectedFigure.numMirrored <= 0 Then
+                ph = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos) '.SetMirrorPos(lastPP, Orientation.Horizontal)
 
-            For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
-                pp.Mirror(Orientation.Horizontal)
-            Next
+                For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
+                    pp.Mirror(Orientation.Horizontal)
+                Next
+            Else
+                For Each pp As PathPoint In SVG.selectedPoints
+                    pp.Mirror(Orientation.Horizontal)
+                Next
+            End If
 
-            lastPP.SetMirrorPos(ph, Orientation.Horizontal)
+            If ph IsNot Nothing Then lastPP.SetMirrorPos(ph, Orientation.Horizontal)
             Pic_canvas.Refresh()
         End If
 
@@ -845,6 +891,7 @@ Public Class Form_main
 
     Private Sub But_mirrorVert_Click(sender As Object, e As EventArgs) Handles But_mirrorVert.Click
         If SVG.SelectedPath Is Nothing OrElse SVG.SelectedPath.selectedFigures.Count > 1 Then Return
+        If SVG.SelectedFigure.mirrorOrient = Orientation.Horizontal Then Return
 
         historyLock = True
 
@@ -852,13 +899,20 @@ Public Class Form_main
         SVG.SortSelectedPoints()
 
         If SVG.selectedPoints.Count > 0 Then
-            Dim ph As PathPoint = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos)
+            Dim ph As PathPoint = Nothing
+            If SVG.SelectedFigure.numMirrored <= 0 Then
+                ph = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos)
 
-            For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
-                pp.Mirror(Orientation.Vertical)
-            Next
+                For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
+                    pp.Mirror(Orientation.Vertical)
+                Next
+            Else
+                For Each pp As PathPoint In SVG.selectedPoints
+                    pp.Mirror(Orientation.Vertical)
+                Next
+            End If
 
-            lastPP.SetMirrorPos(ph, Orientation.Vertical)
+            If ph IsNot Nothing Then lastPP.SetMirrorPos(ph, Orientation.Vertical)
             Pic_canvas.Refresh()
         End If
 
@@ -1256,6 +1310,7 @@ Public Class Form_main
             SaveFileDialog1.FileName = IO.Path.GetFileName(filePath)
             If SaveFileDialog1.ShowDialog = DialogResult.OK Then
                 filePath = SaveFileDialog1.FileName
+                Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
             Else
                 Return
             End If
@@ -1268,6 +1323,7 @@ Public Class Form_main
         SaveFileDialog1.Filter = "WSVG|*.wsvg"
         If SaveFileDialog1.ShowDialog = DialogResult.OK Then
             filePath = SaveFileDialog1.FileName
+            Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
             IO.File.WriteAllText(filePath, SVG.GetHtml)
         End If
     End Sub
