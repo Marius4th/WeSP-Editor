@@ -171,11 +171,11 @@ Public NotInheritable Class SVG
         Return paths.IndexOf(path)
     End Function
 
-    Public Shared Function GetHtml() As String
-        Dim str As String = "<svg width=""" & _canvasSize.Width & """ height=""" & _canvasSize.Height & """ viewbox=""0 0 " & _canvasSize.Width & " " & _canvasSize.Height & """>" & vbCrLf
+    Public Shared Function GetHtml(optimize As Boolean) As String
+        Dim str As String = "<svg viewbox=""0 0 " & Ceil(_canvasSize.Width, 1) & " " & Ceil(_canvasSize.Height, 1) & """ width=""" & Ceil(_canvasSize.Width, 1) & "px"" height=""" & Ceil(_canvasSize.Height, 1) & "px"">" & vbCrLf
 
         For Each path As SVGPath In paths
-            str &= vbTab & path.GetHtml() & vbCrLf
+            str &= vbTab & path.GetHtml(optimize) & vbCrLf
         Next
 
         str &= "</svg>" & vbCrLf & vbCrLf
@@ -331,10 +331,10 @@ Public NotInheritable Class SVG
 
         'Parse SVG's Size
         If str.ToLower.Contains("width=""") Then
-            SVG.CanvasSize = New SizeF(Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "width")), SVG.CanvasSize.Height)
+            SVG.CanvasSize = New SizeF(Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "width").GetNumbers), SVG.CanvasSize.Height)
         End If
         If str.ToLower.Contains("height=""") Then
-            SVG.CanvasSize = New SizeF(SVG.CanvasSize.Width, Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "height")))
+            SVG.CanvasSize = New SizeF(SVG.CanvasSize.Width, Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "height").GetNumbers))
         End If
 
         For Each path As String In Split(str, "<path")
@@ -355,7 +355,7 @@ Public NotInheritable Class SVG
             End If
 
             If path.ToLower.Contains("stroke-width=""") Then
-                substr = GetHTMLAttributeValue(path.ToLower, " stroke-width")
+                substr = GetHTMLAttributeValue(path.ToLower, " stroke-width").GetNumbers
                 If substr.Length > 0 Then SVG.SelectedPath.StrokeWidth = CInt(substr)
             End If
 

@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
+Imports System.Text.RegularExpressions
 
 Public Module Module1
     'Constants
@@ -11,6 +12,7 @@ Public Module Module1
     Public showPoints As Boolean = True
     Public mirrorHor As Boolean = False
     Public mirrorVert As Boolean = False
+    Public optimizePath As Boolean = True
 
     'Tools
     Public Enum Tool
@@ -49,7 +51,7 @@ Public Module Module1
 
     Public Sub AddToHistory()
         If historyLock Then Return
-        Dim latest As String = SVG.GetHtml
+        Dim latest As String = SVG.GetHtml(optimizePath)
 
         If historySelected < history.Count - 1 Then
             history.RemoveRange(historySelected + 1, history.Count - historySelected - 1)
@@ -123,6 +125,18 @@ Public Module Module1
     <Extension()>
     Public Function ToPoint(ByRef ptf As PointF) As Point
         Return New Point(ptf.X, ptf.Y)
+    End Function
+
+    <Extension()>
+    Public Function RemoveLetters(str As String) As String
+        Static rx As New Regex("[A-Za-z]")
+        Return rx.Replace(str, "")
+    End Function
+
+    <Extension()>
+    Public Function GetNumbers(str As String) As String
+        Static rx As New Regex("[^\d,.]")
+        Return rx.Replace(str, "")
     End Function
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -535,6 +549,93 @@ Public Module Module1
         Dim substr As String = html.Substring(subStart, subEnd - subStart)
 
         Return substr
+    End Function
+
+    Public Function Ceil(a As Double, digits As Integer) As Double
+        digits = Math.Pow(10, digits)
+        Return Math.Ceiling(a * digits) / digits
+    End Function
+
+    Public Function OptimizePathD(d As String) As String
+        Dim figData As String()
+        Dim ppType As PointType = PointType.moveto
+        Dim ppRelative As Boolean = False
+        Dim lastType As PointType = PointType.smoothCurveto
+        Dim lastRelative As Boolean = False
+
+        Dim optD As String = ""
+
+        For Each fig As String In Split(d, "Z")
+            If fig.Length <= 1 Then Continue For
+            'dData = Regex.Split(d, "([A-Z]+)", RegexOptions.IgnoreCase)
+            figData = Regex.Split(fig, "([A-Z]+)", RegexOptions.IgnoreCase)
+
+            Dim lastHadDecimals As Boolean = True
+
+            For Each dat As String In figData
+                If dat.Length <= 0 Then Continue For
+
+                Select Case dat.ToUpper
+                    Case Chr(PointType.moveto), Chr(PointType.lineto), Chr(PointType.horizontalLineto), Chr(PointType.verticalLineto), Chr(PointType.curveto), Chr(PointType.smoothCurveto), Chr(PointType.quadraticBezierCurve), Chr(PointType.smoothQuadraticBezierCurveto), Chr(PointType.ellipticalArc)
+                        ppType = Asc(dat.ToUpper)
+                        If dat = dat.ToUpper Then
+                            ppRelative = False
+                        Else
+                            ppRelative = True
+                        End If
+
+                        If ppType <> lastType AndAlso (lastType <> PointType.moveto OrElse ppType <> PointType.lineto) OrElse lastRelative <> ppRelative Then
+                            optD = Regex.Replace(optD, "\s+$|,+$", "")
+                            lastType = ppType
+                            lastRelative = ppRelative
+                            optD &= dat
+                        End If
+
+                    Case Else
+                        Dim coords As New List(Of Single)
+                        Dim numb As String = ""
+                        Dim strLst As String() = dat.Split(New String() {" "}, StringSplitOptions.RemoveEmptyEntries)
+                        Dim numLst As String()
+
+                        'Parse the string to get all the numbers
+                        For si As Integer = 0 To strLst.Length - 1
+                            numLst = strLst(si).Split(New String() {","}, StringSplitOptions.RemoveEmptyEntries)
+                            For ni As Integer = 0 To numLst.Length - 1
+                                numb = numLst(ni)
+
+                                If numb.StartsWith("0.") Then
+                                    If lastHadDecimals AndAlso (optD.EndsWith(" ") OrElse optD.EndsWith(",")) Then optD = optD.Remove(optD.Length - 1, 1)
+                                    optD &= numb.Remove(0, 1)
+                                Else
+                                    optD &= numb
+                                End If
+
+                                If ni < numLst.Length - 1 Then
+                                    optD &= ","
+                                End If
+
+                                If numb.Contains(".") Then
+                                    lastHadDecimals = True
+                                Else
+                                    lastHadDecimals = False
+                                End If
+                            Next
+
+                            optD &= " "
+                        Next
+
+                        'optD &= dat
+                End Select
+
+            Next
+            optD = Regex.Replace(optD, "\s+$|,+$", "")
+            optD &= "Z"
+        Next
+
+        optD = optD.Replace(" -", "-")
+        optD = Regex.Replace(optD, "\s\s+", " ")
+
+        Return optD
     End Function
 
 End Module

@@ -271,23 +271,24 @@
         Return pathRc
     End Function
 
-    Public Function GetString() As String
+    Public Function GetString(optimize As Boolean) As String
         Dim str As String = ""
 
         For Each fig As Figure In figures
             For Each pp As PathPoint In fig
-                str &= pp.GetString(False) & " "
+                str &= pp.GetString(optimize) & " "
             Next
             str &= "Z"
         Next
-        'If Me.GetAllPPoints().Count > 0 AndAlso Me.GetAllPPoints().Last.pointType <> PointType.closepath Then str &= "Z"
 
+        'If Me.GetAllPPoints().Count > 0 AndAlso Me.GetAllPPoints().Last.pointType <> PointType.closepath Then str &= "Z"
+        If optimize Then Return OptimizePathD(str)
         Return str
     End Function
 
-    Public Function GetHtml() As String
+    Public Function GetHtml(optimize As Boolean) As String
         Dim str As String = "<path stroke=""#" & ColorToHexString(StrokeColor) & """ stroke-width=""" & _strokeWidth & """ fill=""#" & ColorToHexString(FillColor) & """ d=""" _
-            & GetString() & """/>"
+            & GetString(optimize) & """/>"
 
         Return str
     End Function

@@ -836,7 +836,7 @@ Public Class Form_main
         ' ---------------------------------------------------------------------------------------------------------------------
 
         UpdateStats()
-        If Not Tb_html.Focused Then Tb_html.Text = SVG.GetHtml
+        If Not Tb_html.Focused Then Tb_html.Text = SVG.GetHtml(optimizePath)
 
         'Clean
         grxCanvas.Dispose()
@@ -1012,9 +1012,9 @@ Public Class Form_main
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     Private Sub Form1_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        Dim mpos As CPointF = GetMousePlacePos(Pic_canvas)
+        Dim mpos As Point = Pic_canvas.PointToClient(Cursor.Position)
         'If mouse over canvas
-        If Pic_canvas.ClientRectangle.Contains(mpos.ToPoint) Then
+        If Pic_canvas.ClientRectangle.Contains(mpos) Then
 
             If e.KeyCode = Keys.A AndAlso e.Modifiers = Keys.Control Then
                 'Select all points in the selected path
@@ -1316,7 +1316,7 @@ Public Class Form_main
             End If
         End If
 
-        IO.File.WriteAllText(filePath, SVG.GetHtml)
+        IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
     End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsToolStripMenuItem.Click
@@ -1324,7 +1324,7 @@ Public Class Form_main
         If SaveFileDialog1.ShowDialog = DialogResult.OK Then
             filePath = SaveFileDialog1.FileName
             Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
-            IO.File.WriteAllText(filePath, SVG.GetHtml)
+            IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
         End If
     End Sub
 
@@ -1446,4 +1446,10 @@ Public Class Form_main
     Private Sub But_mirror_Click(sender As Object, e As EventArgs) Handles But_mirror.Click
         SVG.SelectedPoint.Clone(1, Nothing)
     End Sub
+
+    Private Sub Cb_optimize_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_optimize.CheckedChanged
+        optimizePath = Cb_optimize.Checked
+        Pic_canvas.Refresh()
+    End Sub
+
 End Class

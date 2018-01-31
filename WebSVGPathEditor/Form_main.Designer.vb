@@ -30,6 +30,10 @@ Partial Class Form_main
         Me.Lab_sizeW = New System.Windows.Forms.Label()
         Me.Lab_mposX = New System.Windows.Forms.Label()
         Me.Lb_selPoints = New System.Windows.Forms.ListBox()
+        Me.Context_selPoints = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.DeselectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator()
+        Me.DelteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -134,6 +138,7 @@ Partial Class Form_main
         Me.Num1_1 = New System.Windows.Forms.NumericUpDown()
         Me.Tb_html = New System.Windows.Forms.TextBox()
         Me.Box_html = New System.Windows.Forms.GroupBox()
+        Me.Cb_optimize = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Pic_preview = New System.Windows.Forms.PictureBox()
         Me.Pan_canvas = New System.Windows.Forms.Panel()
@@ -145,11 +150,8 @@ Partial Class Form_main
         Me.Lb_figures = New System.Windows.Forms.ListBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.Context_selPoints = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.DeselectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DelteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator11 = New System.Windows.Forms.ToolStripSeparator()
         Me.Group_info.SuspendLayout()
+        Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
         Me.Pan_toggles.SuspendLayout()
@@ -184,7 +186,6 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pan_canvas.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Context_selPoints.SuspendLayout()
         Me.SuspendLayout()
         '
         'Group_info
@@ -224,6 +225,27 @@ Partial Class Form_main
         Me.Lb_selPoints.FormattingEnabled = True
         Me.Lb_selPoints.Name = "Lb_selPoints"
         Me.Lb_selPoints.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        '
+        'Context_selPoints
+        '
+        Me.Context_selPoints.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeselectToolStripMenuItem, Me.ToolStripSeparator11, Me.DelteToolStripMenuItem})
+        Me.Context_selPoints.Name = "Context_selPoints"
+        resources.ApplyResources(Me.Context_selPoints, "Context_selPoints")
+        '
+        'DeselectToolStripMenuItem
+        '
+        Me.DeselectToolStripMenuItem.Name = "DeselectToolStripMenuItem"
+        resources.ApplyResources(Me.DeselectToolStripMenuItem, "DeselectToolStripMenuItem")
+        '
+        'ToolStripSeparator11
+        '
+        Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
+        resources.ApplyResources(Me.ToolStripSeparator11, "ToolStripSeparator11")
+        '
+        'DelteToolStripMenuItem
+        '
+        Me.DelteToolStripMenuItem.Name = "DelteToolStripMenuItem"
+        resources.ApplyResources(Me.DelteToolStripMenuItem, "DelteToolStripMenuItem")
         '
         'MenuStrip1
         '
@@ -960,11 +982,20 @@ Partial Class Form_main
         'Box_html
         '
         resources.ApplyResources(Me.Box_html, "Box_html")
+        Me.Box_html.Controls.Add(Me.Cb_optimize)
         Me.Box_html.Controls.Add(Me.Button1)
         Me.Box_html.Controls.Add(Me.Pic_preview)
         Me.Box_html.Controls.Add(Me.Tb_html)
         Me.Box_html.Name = "Box_html"
         Me.Box_html.TabStop = False
+        '
+        'Cb_optimize
+        '
+        resources.ApplyResources(Me.Cb_optimize, "Cb_optimize")
+        Me.Cb_optimize.Checked = True
+        Me.Cb_optimize.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Cb_optimize.Name = "Cb_optimize"
+        Me.Cb_optimize.UseVisualStyleBackColor = True
         '
         'Button1
         '
@@ -1026,27 +1057,6 @@ Partial Class Form_main
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Context_selPoints
-        '
-        Me.Context_selPoints.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeselectToolStripMenuItem, Me.ToolStripSeparator11, Me.DelteToolStripMenuItem})
-        Me.Context_selPoints.Name = "Context_selPoints"
-        resources.ApplyResources(Me.Context_selPoints, "Context_selPoints")
-        '
-        'DeselectToolStripMenuItem
-        '
-        Me.DeselectToolStripMenuItem.Name = "DeselectToolStripMenuItem"
-        resources.ApplyResources(Me.DeselectToolStripMenuItem, "DeselectToolStripMenuItem")
-        '
-        'DelteToolStripMenuItem
-        '
-        Me.DelteToolStripMenuItem.Name = "DelteToolStripMenuItem"
-        resources.ApplyResources(Me.DelteToolStripMenuItem, "DelteToolStripMenuItem")
-        '
-        'ToolStripSeparator11
-        '
-        Me.ToolStripSeparator11.Name = "ToolStripSeparator11"
-        resources.ApplyResources(Me.ToolStripSeparator11, "ToolStripSeparator11")
-        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
@@ -1070,6 +1080,7 @@ Partial Class Form_main
         Me.Name = "Form_main"
         Me.Group_info.ResumeLayout(False)
         Me.Group_info.PerformLayout()
+        Me.Context_selPoints.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
         Me.Pan_tools.ResumeLayout(False)
@@ -1109,7 +1120,6 @@ Partial Class Form_main
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pan_canvas.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Context_selPoints.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1240,4 +1250,5 @@ Partial Class Form_main
     Friend WithEvents DeselectToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator11 As ToolStripSeparator
     Friend WithEvents DelteToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Cb_optimize As CheckBox
 End Class
