@@ -18,6 +18,7 @@ Public NotInheritable Class SVG
     Public Shared Event OnSelectPath(ByRef path As SVGPath)
     Public Shared Event OnSelectPoint(ByRef pp As PathPoint)
     Public Shared Event OnStickyGridChanged()
+    Public Shared Event OnChangePathIndex(oldIndx As Integer, newIndx As Integer)
 
     Public Shared selectedPoints As New ListWithEvents(Of PathPoint)
 
@@ -232,6 +233,19 @@ Public NotInheritable Class SVG
         SelectedPath = paths(index)
 
         RaiseEvent OnSelectPath(paths(index))
+    End Sub
+
+    Public Shared Sub ChangePathIndex(oldIndx As Integer, newIndx As Integer)
+        Dim path As SVGPath = paths(oldIndx)
+        'If destIndex > index Then destIndex -= 1
+
+        'RaiseEvent OnFigureRemoving(Me, fig)
+        RaiseEvent OnChangePathIndex(oldIndx, newIndx)
+
+        paths.RemoveAt(oldIndx)
+        paths.Insert(newIndx, path)
+        SelectedPath = path
+        'Me.Insert(destIndex, fig)
     End Sub
 
     Public Shared Function GetBounds() As RectangleF

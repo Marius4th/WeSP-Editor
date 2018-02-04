@@ -145,7 +145,6 @@ Partial Class Form_main
         Me.Pic_preview = New System.Windows.Forms.PictureBox()
         Me.Pan_canvas = New System.Windows.Forms.Panel()
         Me.Pic_canvas = New System.Windows.Forms.PictureBox()
-        Me.Combo_path = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -158,6 +157,13 @@ Partial Class Form_main
         Me.But_figMoveBottom = New System.Windows.Forms.Button()
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
+        Me.Lb_paths = New System.Windows.Forms.ListBox()
+        Me.But_pathMoveUp = New System.Windows.Forms.Button()
+        Me.But_pathMoveDown = New System.Windows.Forms.Button()
+        Me.But_pathMoveTop = New System.Windows.Forms.Button()
+        Me.But_pathMoveBottom = New System.Windows.Forms.Button()
+        Me.But_addPath = New System.Windows.Forms.Button()
+        Me.But_removePath = New System.Windows.Forms.Button()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -1047,13 +1053,6 @@ Partial Class Form_main
         Me.Pic_canvas.Name = "Pic_canvas"
         Me.Pic_canvas.TabStop = False
         '
-        'Combo_path
-        '
-        resources.ApplyResources(Me.Combo_path, "Combo_path")
-        Me.Combo_path.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.Combo_path.FormattingEnabled = True
-        Me.Combo_path.Name = "Combo_path"
-        '
         'Label1
         '
         resources.ApplyResources(Me.Label1, "Label1")
@@ -1134,11 +1133,78 @@ Partial Class Form_main
         Me.But_removeFigure.Name = "But_removeFigure"
         Me.But_removeFigure.UseVisualStyleBackColor = False
         '
+        'Lb_paths
+        '
+        resources.ApplyResources(Me.Lb_paths, "Lb_paths")
+        Me.Lb_paths.FormattingEnabled = True
+        Me.Lb_paths.Name = "Lb_paths"
+        '
+        'But_pathMoveUp
+        '
+        Me.But_pathMoveUp.BackColor = System.Drawing.Color.Snow
+        Me.But_pathMoveUp.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveUp
+        resources.ApplyResources(Me.But_pathMoveUp, "But_pathMoveUp")
+        Me.But_pathMoveUp.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_pathMoveUp.Name = "But_pathMoveUp"
+        Me.But_pathMoveUp.UseVisualStyleBackColor = False
+        '
+        'But_pathMoveDown
+        '
+        Me.But_pathMoveDown.BackColor = System.Drawing.Color.Snow
+        Me.But_pathMoveDown.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveDown
+        resources.ApplyResources(Me.But_pathMoveDown, "But_pathMoveDown")
+        Me.But_pathMoveDown.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_pathMoveDown.Name = "But_pathMoveDown"
+        Me.But_pathMoveDown.UseVisualStyleBackColor = False
+        '
+        'But_pathMoveTop
+        '
+        Me.But_pathMoveTop.BackColor = System.Drawing.Color.Snow
+        Me.But_pathMoveTop.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveTop
+        resources.ApplyResources(Me.But_pathMoveTop, "But_pathMoveTop")
+        Me.But_pathMoveTop.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_pathMoveTop.Name = "But_pathMoveTop"
+        Me.But_pathMoveTop.UseVisualStyleBackColor = False
+        '
+        'But_pathMoveBottom
+        '
+        Me.But_pathMoveBottom.BackColor = System.Drawing.Color.Snow
+        Me.But_pathMoveBottom.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveBottom
+        resources.ApplyResources(Me.But_pathMoveBottom, "But_pathMoveBottom")
+        Me.But_pathMoveBottom.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_pathMoveBottom.Name = "But_pathMoveBottom"
+        Me.But_pathMoveBottom.UseVisualStyleBackColor = False
+        '
+        'But_addPath
+        '
+        Me.But_addPath.BackColor = System.Drawing.Color.Snow
+        Me.But_addPath.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.add
+        resources.ApplyResources(Me.But_addPath, "But_addPath")
+        Me.But_addPath.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_addPath.Name = "But_addPath"
+        Me.But_addPath.UseVisualStyleBackColor = False
+        '
+        'But_removePath
+        '
+        Me.But_removePath.BackColor = System.Drawing.Color.Snow
+        Me.But_removePath.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
+        resources.ApplyResources(Me.But_removePath, "But_removePath")
+        Me.But_removePath.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_removePath.Name = "But_removePath"
+        Me.But_removePath.UseVisualStyleBackColor = False
+        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
+        Me.Controls.Add(Me.But_pathMoveUp)
+        Me.Controls.Add(Me.But_pathMoveDown)
+        Me.Controls.Add(Me.But_pathMoveTop)
+        Me.Controls.Add(Me.But_pathMoveBottom)
+        Me.Controls.Add(Me.But_addPath)
+        Me.Controls.Add(Me.But_removePath)
+        Me.Controls.Add(Me.Lb_paths)
         Me.Controls.Add(Me.But_figMoveUp)
         Me.Controls.Add(Me.But_figMoveDown)
         Me.Controls.Add(Me.But_figMoveTop)
@@ -1147,7 +1213,6 @@ Partial Class Form_main
         Me.Controls.Add(Me.But_removeFigure)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Lb_figures)
-        Me.Controls.Add(Me.Combo_path)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Pan_canvas)
         Me.Controls.Add(Me.Box_html)
@@ -1262,7 +1327,6 @@ Partial Class Form_main
     Friend WithEvents Pan_canvas As Panel
     Friend WithEvents TESTToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AddLotsOPointsToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents Combo_path As ComboBox
     Friend WithEvents Label1 As Label
     Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
@@ -1343,4 +1407,11 @@ Partial Class Form_main
     Friend WithEvents But_figMoveUp As Button
     Friend WithEvents Num_decimals As NumericUpDown
     Friend WithEvents Label11 As Label
+    Friend WithEvents Lb_paths As ListBox
+    Friend WithEvents But_pathMoveUp As Button
+    Friend WithEvents But_pathMoveDown As Button
+    Friend WithEvents But_pathMoveTop As Button
+    Friend WithEvents But_pathMoveBottom As Button
+    Friend WithEvents But_addPath As Button
+    Friend WithEvents But_removePath As Button
 End Class

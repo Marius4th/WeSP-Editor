@@ -30,6 +30,7 @@ Public Class Form_main
         AddHandler SVG.OnSelectPath, AddressOf SVG_OnSelectPath
         AddHandler SVG.OnSelectPoint, AddressOf SVG_OnSelectPoint
         AddHandler SVG.OnStickyGridChanged, AddressOf SVG_OnStickyGridChanged
+        AddHandler SVG.OnChangePathIndex, AddressOf SVG_OnChangePathIndex
 
         AddHandler SVG.selectedPoints.OnAdd, AddressOf SVGSelectedPoints_OnAdd
         AddHandler SVG.selectedPoints.OnRemoving, AddressOf SVGSelectedPoints_OnRemoving
@@ -45,7 +46,7 @@ Public Class Form_main
         AddHandler SVGPath.OnFiguresClear, AddressOf SVGPath_OnFiguresClear
         AddHandler SVGPath.OnStrokeWidthChanged, AddressOf SVGPath_OnStrokeWidthChanged
         AddHandler SVGPath.OnSelectFigure, AddressOf SVGPath_OnSelectFigure
-        AddHandler SVGPath.OnMoveFigure, AddressOf SVGPath_OnMoveFigure
+        AddHandler SVGPath.OnChangeFigureIndex, AddressOf SVGPath_OnChangeFigureIndex
 
         AddHandler PathPoint.OnModified, AddressOf PPoint_OnModified
     End Sub
@@ -83,8 +84,8 @@ Public Class Form_main
     End Sub
 
     Public Sub SVG_OnPathAdded(ByRef path As SVGPath)
-        Combo_path.Items.Add("Path " & path.GetIndex() + 1)
-        Combo_path.SelectedIndex = Combo_path.Items.Count - 1
+        Lb_paths.Items.Add("Path " & path.GetIndex() + 1)
+        Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
 
@@ -92,13 +93,13 @@ Public Class Form_main
     End Sub
 
     Public Sub SVG_OnPathRemoving(ByRef path As SVGPath)
-        Combo_path.Items.RemoveAt(path.GetIndex())
+        Lb_paths.Items.RemoveAt(path.GetIndex())
 
         AddToHistory()
     End Sub
 
     Public Sub SVG_OnPathClear()
-        Combo_path.Items.Clear()
+        Lb_paths.Items.Clear()
 
         AddToHistory()
     End Sub
@@ -136,6 +137,12 @@ Public Class Form_main
         End If
         RefreshBackGrid()
         'Pic_canvas.Invalidate()
+    End Sub
+
+    Public Sub SVG_OnChangePathIndex(oldIndx As Integer, newIndx As Integer)
+        Dim oldItem = Lb_paths.Items(oldIndx)
+        Lb_paths.Items.RemoveAt(oldIndx)
+        Lb_paths.Items.Insert(newIndx, oldItem)
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
@@ -181,7 +188,7 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
-    Public Sub SVGPath_OnMoveFigure(ByRef sender As SVGPath, ByRef fig As Figure, oldIndx As Integer, newIndx As Integer)
+    Public Sub SVGPath_OnChangeFigureIndex(ByRef sender As SVGPath, oldIndx As Integer, newIndx As Integer)
         If SVG.SelectedPath IsNot sender Then Return
         Dim oldItem = Lb_figures.Items(oldIndx)
         Lb_figures.Items.RemoveAt(oldIndx)
@@ -1119,7 +1126,7 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
-    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click, But_removePath.Click
         For Each path As SVGPath In SVG.selectedPaths.AsEnumerable.Reverse
             SVG.RemovePath(path)
         Next
@@ -1158,14 +1165,7 @@ Public Class Form_main
         Next
     End Sub
 
-    Private Sub Combo_path_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Combo_path.SelectedIndexChanged
-        If Combo_path.SelectedIndex <> SVG.SelectedPath.GetIndex Then
-            SVG.SelectedPath = SVG.paths(Combo_path.SelectedIndex)
-        End If
-
-    End Sub
-
-    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click
+    Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click, But_addPath.Click
         SVG.AddPath()
     End Sub
 
@@ -1483,7 +1483,7 @@ Public Class Form_main
         Dim selIndxes As List(Of Integer) = Lb_figures.SelectedIndices.ToList
         For Each indx As Integer In selIndxes
             If indx - 1 < 0 Then Continue For
-            SVG.SelectedPath.MoveFigure(indx, indx - 1)
+            SVG.SelectedPath.ChangeFigureIndex(indx, indx - 1)
         Next
         For Each indx As Integer In selIndxes
             If indx - 1 < 0 Then Continue For
@@ -1496,7 +1496,7 @@ Public Class Form_main
         selIndxes.Reverse()
         For Each indx As Integer In selIndxes
             If indx + 1 > Lb_figures.Items.Count - 1 Then Continue For
-            SVG.SelectedPath.MoveFigure(indx, indx + 1)
+            SVG.SelectedPath.ChangeFigureIndex(indx, indx + 1)
         Next
         For Each indx As Integer In selIndxes
             If indx + 1 > Lb_figures.Items.Count - 1 Then Continue For
@@ -1509,7 +1509,7 @@ Public Class Form_main
         Dim indxShift As Integer = selIndxes(0)
         For Each indx As Integer In selIndxes
             If indx - indxShift < 0 Then Continue For
-            SVG.SelectedPath.MoveFigure(indx, indx - indxShift)
+            SVG.SelectedPath.ChangeFigureIndex(indx, indx - indxShift)
         Next
         For Each indx As Integer In selIndxes
             If indx - indxShift < 0 Then Continue For
@@ -1523,7 +1523,7 @@ Public Class Form_main
         selIndxes.Reverse()
         For Each indx As Integer In selIndxes
             If indx + indxShift < 0 Then Continue For
-            SVG.SelectedPath.MoveFigure(indx, indx + indxShift)
+            SVG.SelectedPath.ChangeFigureIndex(indx, indx + indxShift)
         Next
         For Each indx As Integer In selIndxes
             If indx + indxShift > Lb_figures.Items.Count - 1 Then Continue For
@@ -1531,7 +1531,67 @@ Public Class Form_main
         Next
     End Sub
 
-    Private Sub But_removeFigure_Click(sender As Object, e As EventArgs) Handles But_removeFigure.Click
+    Private Sub Lb_paths_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_paths.SelectedIndexChanged
+        'Select the last path if nothing is selected
+        If Lb_paths.SelectedIndices.Count <= 0 Then
+            Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
+        End If
 
+        If Lb_paths.SelectedIndex >= 0 AndAlso Lb_paths.SelectedIndex <> SVG.SelectedPath.GetIndex Then
+            SVG.SelectedPath = SVG.paths(Lb_paths.SelectedIndex)
+        End If
     End Sub
+
+    Private Sub But_pathMoveUp_Click(sender As Object, e As EventArgs) Handles But_pathMoveUp.Click
+        Dim selIndxes As List(Of Integer) = Lb_paths.SelectedIndices.ToList
+        For Each indx As Integer In selIndxes
+            If indx - 1 < 0 Then Continue For
+            SVG.ChangePathIndex(indx, indx - 1)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx - 1 < 0 Then Continue For
+            Lb_paths.SelectedIndex = indx - 1
+        Next
+    End Sub
+
+    Private Sub But_pathMoveDown_Click(sender As Object, e As EventArgs) Handles But_pathMoveDown.Click
+        Dim selIndxes As List(Of Integer) = Lb_paths.SelectedIndices.ToList
+        selIndxes.Reverse()
+        For Each indx As Integer In selIndxes
+            If indx + 1 > Lb_paths.Items.Count - 1 Then Continue For
+            SVG.ChangePathIndex(indx, indx + 1)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx + 1 > Lb_paths.Items.Count - 1 Then Continue For
+            Lb_paths.SelectedIndex = indx + 1
+        Next
+    End Sub
+
+    Private Sub But_pathMoveTop_Click(sender As Object, e As EventArgs) Handles But_pathMoveTop.Click
+        Dim selIndxes As List(Of Integer) = Lb_paths.SelectedIndices.ToList
+        Dim indxShift As Integer = selIndxes(0)
+        For Each indx As Integer In selIndxes
+            If indx - indxShift < 0 Then Continue For
+            SVG.ChangePathIndex(indx, indx - indxShift)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx - indxShift < 0 Then Continue For
+            Lb_paths.SelectedIndex = indx - indxShift
+        Next
+    End Sub
+
+    Private Sub But_pathMoveBottom_Click(sender As Object, e As EventArgs) Handles But_pathMoveBottom.Click
+        Dim selIndxes As List(Of Integer) = Lb_paths.SelectedIndices.ToList
+        Dim indxShift As Integer = (Lb_paths.Items.Count - 1) - selIndxes.Last
+        selIndxes.Reverse()
+        For Each indx As Integer In selIndxes
+            If indx + indxShift < 0 Then Continue For
+            SVG.ChangePathIndex(indx, indx + indxShift)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx + indxShift > Lb_paths.Items.Count - 1 Then Continue For
+            Lb_paths.SelectedIndex = indx + indxShift
+        Next
+    End Sub
+
 End Class

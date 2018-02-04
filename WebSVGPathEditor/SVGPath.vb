@@ -74,7 +74,7 @@
     Public Shared Event OnFiguresClear(ByRef sender As SVGPath)
     Public Shared Event OnStrokeWidthChanged(ByRef sender As SVGPath)
     Public Shared Event OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
-    Public Shared Event OnMoveFigure(ByRef sender As SVGPath, ByRef fig As Figure, oldIndx As Integer, newIndx As Integer)
+    Public Shared Event OnChangeFigureIndex(ByRef sender As SVGPath, oldIndx As Integer, newIndx As Integer)
 
     Public Sub New()
         _strokePen.LineJoin = Drawing2D.LineJoin.Miter
@@ -164,15 +164,15 @@
         Return figures(index)
     End Function
 
-    Public Sub MoveFigure(index As Integer, destIndex As Integer)
-        Dim fig As Figure = figures(index)
+    Public Sub ChangeFigureIndex(oldIndx As Integer, newIndx As Integer)
+        Dim fig As Figure = figures(oldIndx)
         'If destIndex > index Then destIndex -= 1
 
         'RaiseEvent OnFigureRemoving(Me, fig)
-        RaiseEvent OnMoveFigure(Me, fig, index, destIndex)
+        RaiseEvent OnChangeFigureIndex(Me, oldIndx, newIndx)
 
-        figures.RemoveAt(index)
-        figures.Insert(destIndex, fig)
+        figures.RemoveAt(oldIndx)
+        figures.Insert(newIndx, fig)
         SelectedFigure = fig
         'Me.Insert(destIndex, fig)
     End Sub
