@@ -16,7 +16,6 @@ Public NotInheritable Class SVG
     Public Shared Event OnPathRemoving(ByRef path As SVGPath)
     Public Shared Event OnPathClear()
     Public Shared Event OnSelectPath(ByRef path As SVGPath)
-    Public Shared Event OnSelectFigure(ByRef fig As Figure)
     Public Shared Event OnSelectPoint(ByRef pp As PathPoint)
     Public Shared Event OnStickyGridChanged()
 
@@ -89,7 +88,6 @@ Public NotInheritable Class SVG
         Set(ByVal value As Figure)
             If SelectedPath Is Nothing Then Return
             SelectedPath.SelectedFigure = value
-            RaiseEvent OnSelectFigure(value)
         End Set
     End Property
 

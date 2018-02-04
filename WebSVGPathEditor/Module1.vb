@@ -30,6 +30,7 @@ Public Module Module1
     Public mouseLastPos As PointF
     Public movingObject As Boolean = False
     Public movingCanvas As Boolean = False
+    Public decimalPlaces As Integer = 2
 
     Public selectionRect As New RectangleF(0, 0, 0, 0)
     Public selStart As New PointF(0, 0)
@@ -137,6 +138,15 @@ Public Module Module1
     Public Function GetNumbers(str As String) As String
         Static rx As New Regex("[^\d,.]")
         Return rx.Replace(str, "")
+    End Function
+
+    <Extension()>
+    Public Function ToList(sellist As ListBox.SelectedIndexCollection) As List(Of Integer)
+        Dim lst As New List(Of Integer)
+        For Each indx In sellist
+            lst.Add(indx)
+        Next
+        Return lst
     End Function
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -633,9 +643,22 @@ Public Module Module1
         Next
 
         optD = optD.Replace(" -", "-")
+        optD = optD.Replace(",-", "-")
         optD = Regex.Replace(optD, "\s\s+", " ")
 
         Return optD
+    End Function
+
+    Public Function CutDecimals(num As Double) As Double
+        Return Math.Round(num, decimalPlaces)
+    End Function
+
+    Public Function CutDecimals(pt As PointF) As PointF
+        Return New PointF(Math.Round(pt.X, decimalPlaces), Math.Round(pt.Y, decimalPlaces))
+    End Function
+
+    Public Function CutDecimals(sz As SizeF) As SizeF
+        Return New SizeF(Math.Round(sz.Width, decimalPlaces), Math.Round(sz.Height, decimalPlaces))
     End Function
 
 End Module

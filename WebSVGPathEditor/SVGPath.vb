@@ -8,8 +8,6 @@
     Private _fillColor As Color = Color.WhiteSmoke
     Private _fillBrush As New SolidBrush(_fillColor)
 
-    Public Shared Event OnStrokeWidthChanged(ByRef path As SVGPath)
-
     Public Property StrokeColor() As Color
         Get
             Return _strokeColor
@@ -47,6 +45,7 @@
         Set(ByVal value As Figure)
             selectedFigures.Clear()
             selectedFigures.Add(value)
+            RaiseEvent OnSelectFigure(Me, value)
         End Set
     End Property
 
@@ -73,6 +72,9 @@
     Public Shared Event OnFigureAdded(ByRef sender As SVGPath, ByRef fig As Figure)
     Public Shared Event OnFigureRemoving(ByRef sender As SVGPath, ByRef fig As Figure)
     Public Shared Event OnFiguresClear(ByRef sender As SVGPath)
+    Public Shared Event OnStrokeWidthChanged(ByRef sender As SVGPath)
+    Public Shared Event OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
+    Public Shared Event OnMoveFigure(ByRef sender As SVGPath, ByRef fig As Figure, oldIndx As Integer, newIndx As Integer)
 
     Public Sub New()
         _strokePen.LineJoin = Drawing2D.LineJoin.Miter
@@ -84,8 +86,8 @@
     Public Function InsertNewFigure(index As Integer) As Figure
         Dim newFig As Figure = New Figure(Me)
         figures.Insert(index, newFig)
-        SelectedFigure = newFig
         RaiseEvent OnFigureAdded(Me, newFig)
+        SelectedFigure = newFig
 
         Return newFig
     End Function
@@ -96,14 +98,14 @@
 
     Public Sub Insert(index As Integer, ByRef fig As Figure)
         figures.Insert(index, fig)
-        SelectedFigure = fig
         RaiseEvent OnFigureAdded(Me, fig)
+        SelectedFigure = fig
     End Sub
 
     Public Sub Add(ByRef fig As Figure)
         figures.Add(fig)
-        SelectedFigure = fig
         RaiseEvent OnFigureAdded(Me, fig)
+        SelectedFigure = fig
     End Sub
 
     Public Function DuplicateFigure(ByRef fig As Figure) As Figure
@@ -117,7 +119,8 @@
 
         'Always have at least one figure in a path
         If figures.Count > 1 Then
-            RaiseEvent OnFigureRemoving(Me, figures.Last)
+            'RaiseEvent OnFigureRemoving(Me, figures.Last)
+            RaiseEvent OnFigureRemoving(Me, fig)
             Dim fi As Integer = fig.GetIndex
 
             figures.Remove(fig)
@@ -160,6 +163,19 @@
     Public Function Figure(ByVal index As Integer) As Figure
         Return figures(index)
     End Function
+
+    Public Sub MoveFigure(index As Integer, destIndex As Integer)
+        Dim fig As Figure = figures(index)
+        'If destIndex > index Then destIndex -= 1
+
+        'RaiseEvent OnFigureRemoving(Me, fig)
+        RaiseEvent OnMoveFigure(Me, fig, index, destIndex)
+
+        figures.RemoveAt(index)
+        figures.Insert(destIndex, fig)
+        SelectedFigure = fig
+        'Me.Insert(destIndex, fig)
+    End Sub
 
     Public Sub Offset(ammount As PointF)
         For Each fig As Figure In figures

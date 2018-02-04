@@ -306,11 +306,13 @@ Public Module Commands
         End Function
 
         Public Overridable Function GetString(Optional optimize As Boolean = True) As String
+            Dim cutPos As PointF = CutDecimals(pos)
+
             Dim relative As Boolean = False
             Dim relPos As PointF
             If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = pos - prevPPoint.pos
-                If prevPPoint IsNot Nothing AndAlso (Math.Round(relPos.X, 3) & Math.Round(relPos.Y, 3)).Length < (Math.Round(pos.X, 3) & Math.Round(pos.Y, 3)).Length Then
+                relPos = CutDecimals(pos - prevPPoint.pos)
+                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
                     relative = True
                 End If
             End If
@@ -318,19 +320,19 @@ Public Module Commands
             If pointType = PointType.lineto Then
                 'Treat it as a Horizontal/Vertical Lineto
                 If prevPPoint.pos.Y = pos.Y Then
-                    If relative Then Return "h" & Math.Round(relPos.X, 3)
-                    Return "H" & Math.Round(pos.X, 3)
+                    If relative Then Return "h" & relPos.X
+                    Return "H" & cutPos.X
                 ElseIf prevPPoint.pos.X = pos.X Then
-                    If relative Then Return "v" & Math.Round(relPos.Y, 3)
-                    Return "V" & Math.Round(pos.Y, 3)
+                    If relative Then Return "v" & relPos.Y
+                    Return "V" & cutPos.Y
                 End If
             End If
 
             If relative Then
-                Return Chr(pointType).ToString.ToLower & Math.Round(relPos.X, 3) & "," & Math.Round(relPos.Y, 3)
+                Return Chr(pointType).ToString.ToLower & relPos.X & "," & relPos.Y
             End If
 
-            Return Chr(pointType) & Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
+            Return Chr(pointType) & cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overridable Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
@@ -550,20 +552,23 @@ Public Module Commands
         End Function
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
+            Dim cutPos As PointF = CutDecimals(pos)
+            Dim cutSize As SizeF = CutDecimals(size)
+
             Dim relative As Boolean = False
             Dim relPos As PointF
             If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = pos - prevPPoint.pos
-                If prevPPoint IsNot Nothing AndAlso (Math.Round(relPos.X, 3) & Math.Round(relPos.Y, 3)).Length < (Math.Round(pos.X, 3) & Math.Round(pos.Y, 3)).Length Then
+                relPos = CutDecimals(pos - prevPPoint.pos)
+                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
                     relative = True
                 End If
             End If
 
             If relative Then
-                Return Chr(pointType).ToString.ToLower & Math.Round(size.Width, 3) / 2 & "," & Math.Round(size.Height, 3) / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & Math.Round(relPos.X, 3) & "," & Math.Round(relPos.Y, 3)
+                Return Chr(pointType).ToString.ToLower & cutSize.Width / 2 & "," & cutSize.Height / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & relPos.X & "," & relPos.Y
             End If
 
-            Return Chr(pointType) & Math.Round(size.Width, 3) / 2 & "," & Math.Round(size.Height, 3) / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
+            Return Chr(pointType) & cutSize.Width / 2 & "," & cutSize.Height / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
@@ -655,21 +660,24 @@ Public Module Commands
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
+            Dim cutPos As PointF = CutDecimals(pos)
+            Dim cutRef As PointF = CutDecimals(refPoint)
+
             Dim relative As Boolean = False
             Dim relPos As PointF
             If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = pos - prevPPoint.pos
-                If prevPPoint IsNot Nothing AndAlso (Math.Round(relPos.X, 3) & Math.Round(relPos.Y, 3)).Length < (Math.Round(pos.X, 3) & Math.Round(pos.Y, 3)).Length Then
+                relPos = CutDecimals(pos - prevPPoint.pos)
+                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
                     relative = True
                 End If
             End If
 
             If relative Then
-                Dim relRefP As PointF = refPoint - prevPPoint.pos
-                Return Chr(pointType).ToString.ToLower & Math.Round(relRefP.X, 3) & "," & Math.Round(relRefP.Y, 3) & " " & Math.Round(relPos.X, 3) & "," & Math.Round(relPos.Y, 3)
+                Dim relRefP As PointF = CutDecimals(refPoint - prevPPoint.pos)
+                Return Chr(pointType).ToString.ToLower & relRefP.X & "," & relRefP.Y & " " & relPos.X & "," & relPos.Y
             End If
 
-            Return Chr(pointType) & Math.Round(refPoint.X, 3) & "," & Math.Round(refPoint.Y, 3) & " " & Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
+            Return Chr(pointType) & cutRef.X & "," & cutRef.Y & " " & cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
@@ -764,26 +772,30 @@ Public Module Commands
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
+            Dim cutPos As PointF = CutDecimals(pos)
+            Dim cutRef1 As PointF = CutDecimals(refPoint1)
+            Dim cutRef2 As PointF = CutDecimals(refPoint2)
+
             Dim relative As Boolean = False
-            Static relPos As PointF
+            Dim relPos As PointF
             If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = pos - prevPPoint.pos
-                If prevPPoint IsNot Nothing AndAlso (Math.Round(relPos.X, 3) & Math.Round(relPos.Y, 3)).Length < (Math.Round(pos.X, 3) & Math.Round(pos.Y, 3)).Length Then
+                relPos = CutDecimals(pos - prevPPoint.pos)
+                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
                     relative = True
                 End If
             End If
 
             If relative Then
-                Dim relRefP1 As PointF = refPoint1 - prevPPoint.pos
-                Dim relRefP2 As PointF = refPoint2 - prevPPoint.pos
-                Return Chr(pointType).ToString.ToLower & Math.Round(relRefP1.X, 3) & "," & Math.Round(relRefP1.Y, 3) & " " &
-                        Math.Round(relRefP2.X, 3) & "," & Math.Round(relRefP2.Y, 3) & " " &
-                        Math.Round(relPos.X, 3) & "," & Math.Round(relPos.Y, 3)
+                Dim relRefP1 As PointF = CutDecimals(refPoint1 - prevPPoint.pos)
+                Dim relRefP2 As PointF = CutDecimals(refPoint2 - prevPPoint.pos)
+                Return Chr(pointType).ToString.ToLower & relRefP1.X & "," & relRefP1.Y & " " &
+                        relRefP2.X & "," & relRefP2.Y & " " &
+                        relPos.X & "," & relPos.Y
             End If
 
-            Return Chr(pointType) & Math.Round(refPoint1.X, 3) & "," & Math.Round(refPoint1.Y, 3) & " " &
-                Math.Round(refPoint2.X, 3) & "," & Math.Round(refPoint2.Y, 3) & " " &
-                Math.Round(pos.X, 3) & "," & Math.Round(pos.Y, 3)
+            Return Chr(pointType) & cutRef1.X & "," & cutRef1.Y & " " &
+                    cutRef2.X & "," & cutRef2.Y & " " &
+                    cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)

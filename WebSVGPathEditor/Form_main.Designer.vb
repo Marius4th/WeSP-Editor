@@ -107,11 +107,13 @@ Partial Class Form_main
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.Num_strokeWidth = New System.Windows.Forms.NumericUpDown()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.Col_fill = New System.Windows.Forms.PictureBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.Col_fill = New System.Windows.Forms.PictureBox()
         Me.Col_stroke = New System.Windows.Forms.PictureBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Num_decimals = New System.Windows.Forms.NumericUpDown()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.Num_stickyGHeight = New System.Windows.Forms.NumericUpDown()
         Me.Num_stikyGWidth = New System.Windows.Forms.NumericUpDown()
         Me.Label10 = New System.Windows.Forms.Label()
@@ -150,6 +152,12 @@ Partial Class Form_main
         Me.Lb_figures = New System.Windows.Forms.ListBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.But_figMoveUp = New System.Windows.Forms.Button()
+        Me.But_figMoveDown = New System.Windows.Forms.Button()
+        Me.But_figMoveTop = New System.Windows.Forms.Button()
+        Me.But_figMoveBottom = New System.Windows.Forms.Button()
+        Me.But_addFigure = New System.Windows.Forms.Button()
+        Me.But_removeFigure = New System.Windows.Forms.Button()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -162,6 +170,7 @@ Partial Class Form_main
         CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
+        CType(Me.Num_decimals, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_stickyGHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_stikyGWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -713,9 +722,9 @@ Partial Class Form_main
         '
         Me.TabPage4.Controls.Add(Me.Num_strokeWidth)
         Me.TabPage4.Controls.Add(Me.Label9)
-        Me.TabPage4.Controls.Add(Me.Col_fill)
         Me.TabPage4.Controls.Add(Me.Label8)
         Me.TabPage4.Controls.Add(Me.Label7)
+        Me.TabPage4.Controls.Add(Me.Col_fill)
         Me.TabPage4.Controls.Add(Me.Col_stroke)
         resources.ApplyResources(Me.TabPage4, "TabPage4")
         Me.TabPage4.Name = "TabPage4"
@@ -734,14 +743,6 @@ Partial Class Form_main
         resources.ApplyResources(Me.Label9, "Label9")
         Me.Label9.Name = "Label9"
         '
-        'Col_fill
-        '
-        Me.Col_fill.BackColor = System.Drawing.Color.White
-        Me.Col_fill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        resources.ApplyResources(Me.Col_fill, "Col_fill")
-        Me.Col_fill.Name = "Col_fill"
-        Me.Col_fill.TabStop = False
-        '
         'Label8
         '
         resources.ApplyResources(Me.Label8, "Label8")
@@ -751,6 +752,14 @@ Partial Class Form_main
         '
         resources.ApplyResources(Me.Label7, "Label7")
         Me.Label7.Name = "Label7"
+        '
+        'Col_fill
+        '
+        Me.Col_fill.BackColor = System.Drawing.Color.White
+        Me.Col_fill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        resources.ApplyResources(Me.Col_fill, "Col_fill")
+        Me.Col_fill.Name = "Col_fill"
+        Me.Col_fill.TabStop = False
         '
         'Col_stroke
         '
@@ -762,6 +771,8 @@ Partial Class Form_main
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.Num_decimals)
+        Me.TabPage2.Controls.Add(Me.Label11)
         Me.TabPage2.Controls.Add(Me.Num_stickyGHeight)
         Me.TabPage2.Controls.Add(Me.Num_stikyGWidth)
         Me.TabPage2.Controls.Add(Me.Label10)
@@ -776,6 +787,18 @@ Partial Class Form_main
         resources.ApplyResources(Me.TabPage2, "TabPage2")
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'Num_decimals
+        '
+        resources.ApplyResources(Me.Num_decimals, "Num_decimals")
+        Me.Num_decimals.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.Num_decimals.Name = "Num_decimals"
+        Me.Num_decimals.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'Label11
+        '
+        resources.ApplyResources(Me.Label11, "Label11")
+        Me.Label11.Name = "Label11"
         '
         'Num_stickyGHeight
         '
@@ -1005,8 +1028,8 @@ Partial Class Form_main
         '
         'Pic_preview
         '
-        resources.ApplyResources(Me.Pic_preview, "Pic_preview")
         Me.Pic_preview.BackColor = System.Drawing.Color.Black
+        resources.ApplyResources(Me.Pic_preview, "Pic_preview")
         Me.Pic_preview.Name = "Pic_preview"
         Me.Pic_preview.TabStop = False
         '
@@ -1057,11 +1080,71 @@ Partial Class Form_main
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'But_figMoveUp
+        '
+        Me.But_figMoveUp.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveUp.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveUp
+        resources.ApplyResources(Me.But_figMoveUp, "But_figMoveUp")
+        Me.But_figMoveUp.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveUp.Name = "But_figMoveUp"
+        Me.But_figMoveUp.UseVisualStyleBackColor = False
+        '
+        'But_figMoveDown
+        '
+        Me.But_figMoveDown.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveDown.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveDown
+        resources.ApplyResources(Me.But_figMoveDown, "But_figMoveDown")
+        Me.But_figMoveDown.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveDown.Name = "But_figMoveDown"
+        Me.But_figMoveDown.UseVisualStyleBackColor = False
+        '
+        'But_figMoveTop
+        '
+        Me.But_figMoveTop.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveTop.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveTop
+        resources.ApplyResources(Me.But_figMoveTop, "But_figMoveTop")
+        Me.But_figMoveTop.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveTop.Name = "But_figMoveTop"
+        Me.But_figMoveTop.UseVisualStyleBackColor = False
+        '
+        'But_figMoveBottom
+        '
+        Me.But_figMoveBottom.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveBottom.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveBottom
+        resources.ApplyResources(Me.But_figMoveBottom, "But_figMoveBottom")
+        Me.But_figMoveBottom.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveBottom.Name = "But_figMoveBottom"
+        Me.But_figMoveBottom.UseVisualStyleBackColor = False
+        '
+        'But_addFigure
+        '
+        Me.But_addFigure.BackColor = System.Drawing.Color.Snow
+        Me.But_addFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.add
+        resources.ApplyResources(Me.But_addFigure, "But_addFigure")
+        Me.But_addFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_addFigure.Name = "But_addFigure"
+        Me.But_addFigure.UseVisualStyleBackColor = False
+        '
+        'But_removeFigure
+        '
+        Me.But_removeFigure.BackColor = System.Drawing.Color.Snow
+        Me.But_removeFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
+        resources.ApplyResources(Me.But_removeFigure, "But_removeFigure")
+        Me.But_removeFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_removeFigure.Name = "But_removeFigure"
+        Me.But_removeFigure.UseVisualStyleBackColor = False
+        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
+        Me.Controls.Add(Me.But_figMoveUp)
+        Me.Controls.Add(Me.But_figMoveDown)
+        Me.Controls.Add(Me.But_figMoveTop)
+        Me.Controls.Add(Me.But_figMoveBottom)
+        Me.Controls.Add(Me.But_addFigure)
+        Me.Controls.Add(Me.But_removeFigure)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Lb_figures)
         Me.Controls.Add(Me.Combo_path)
@@ -1095,6 +1178,7 @@ Partial Class Form_main
         CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        CType(Me.Num_decimals, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_stickyGHeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_stikyGWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_gridHeight, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1251,4 +1335,12 @@ Partial Class Form_main
     Friend WithEvents ToolStripSeparator11 As ToolStripSeparator
     Friend WithEvents DelteToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Cb_optimize As CheckBox
+    Friend WithEvents But_removeFigure As Button
+    Friend WithEvents But_addFigure As Button
+    Friend WithEvents But_figMoveBottom As Button
+    Friend WithEvents But_figMoveTop As Button
+    Friend WithEvents But_figMoveDown As Button
+    Friend WithEvents But_figMoveUp As Button
+    Friend WithEvents Num_decimals As NumericUpDown
+    Friend WithEvents Label11 As Label
 End Class

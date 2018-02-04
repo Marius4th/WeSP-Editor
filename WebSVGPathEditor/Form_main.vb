@@ -28,7 +28,6 @@ Public Class Form_main
         AddHandler SVG.OnPathRemoving, AddressOf SVG_OnPathRemoving
         AddHandler SVG.OnPathClear, AddressOf SVG_OnPathClear
         AddHandler SVG.OnSelectPath, AddressOf SVG_OnSelectPath
-        AddHandler SVG.OnSelectFigure, AddressOf SVG_OnSelectFigure
         AddHandler SVG.OnSelectPoint, AddressOf SVG_OnSelectPoint
         AddHandler SVG.OnStickyGridChanged, AddressOf SVG_OnStickyGridChanged
 
@@ -45,6 +44,8 @@ Public Class Form_main
         AddHandler SVGPath.OnFigureRemoving, AddressOf SVGPath_OnFigureRemoving
         AddHandler SVGPath.OnFiguresClear, AddressOf SVGPath_OnFiguresClear
         AddHandler SVGPath.OnStrokeWidthChanged, AddressOf SVGPath_OnStrokeWidthChanged
+        AddHandler SVGPath.OnSelectFigure, AddressOf SVGPath_OnSelectFigure
+        AddHandler SVGPath.OnMoveFigure, AddressOf SVGPath_OnMoveFigure
 
         AddHandler PathPoint.OnModified, AddressOf PPoint_OnModified
     End Sub
@@ -112,6 +113,8 @@ Public Class Form_main
             Lb_figures.Items.Add("Figure " & fig.GetIndex() + 1)
         Next
         'Change selected figure
+        Lb_figures.SelectionMode = SelectionMode.None
+        Lb_figures.SelectionMode = SelectionMode.MultiExtended
         If SVG.SelectedPath IsNot Nothing Then
             For Each fig As Figure In SVG.SelectedPath.selectedFigures.Reverse
                 Lb_figures.SelectedIndices.Add(fig.GetIndex())
@@ -119,11 +122,6 @@ Public Class Form_main
         End If
 
         Pic_canvas.Invalidate()
-    End Sub
-
-    Public Sub SVG_OnSelectFigure(ByRef fig As Figure)
-        Pic_canvas.Invalidate()
-        Lb_figures.SelectedIndex = fig.GetIndex()
     End Sub
 
     Public Sub SVG_OnSelectPoint(ByRef pp As PathPoint)
@@ -140,13 +138,14 @@ Public Class Form_main
         'Pic_canvas.Invalidate()
     End Sub
 
-
     '----------------------------------------------------------------------------------------------------------------------------
 
     Public Sub SVGPath_OnFigureAdded(ByRef sender As SVGPath, ByRef fig As Figure)
+        If SVG.SelectedPath IsNot sender Then Return
         Lb_figures.Items.Add("Figure " & fig.GetIndex() + 1)
-        Lb_figures.SelectedIndices.Clear()
-        Lb_figures.SelectedIndex = Lb_figures.Items.Count - 1
+        'Lb_figures.SelectedIndices.Clear()
+        'Lb_figures.SelectedIndex = fig.GetIndex
+
         Pic_canvas.Invalidate()
 
         AddToHistory()
@@ -166,10 +165,27 @@ Public Class Form_main
         AddToHistory()
     End Sub
 
-    Public Sub SVGPath_OnStrokeWidthChanged(ByRef path As SVGPath)
-        If path Is SVG.SelectedPath Then
-            Num_strokeWidth.Value = path.StrokeWidth
+    Public Sub SVGPath_OnStrokeWidthChanged(ByRef sender As SVGPath)
+        If sender Is SVG.SelectedPath Then
+            Num_strokeWidth.Value = sender.StrokeWidth
         End If
+    End Sub
+
+    Public Sub SVGPath_OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
+        If SVG.SelectedPath IsNot sender Then Return
+        If Lb_figures.Items.Count <= 0 Then Return
+
+        Lb_figures.SelectionMode = SelectionMode.One
+        Lb_figures.SelectedIndex = fig.GetIndex()
+        Lb_figures.SelectionMode = SelectionMode.MultiExtended
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Public Sub SVGPath_OnMoveFigure(ByRef sender As SVGPath, ByRef fig As Figure, oldIndx As Integer, newIndx As Integer)
+        If SVG.SelectedPath IsNot sender Then Return
+        Dim oldItem = Lb_figures.Items(oldIndx)
+        Lb_figures.Items.RemoveAt(oldIndx)
+        Lb_figures.Items.Insert(newIndx, oldItem)
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
@@ -995,7 +1011,7 @@ Public Class Form_main
         HighlightButton(But_elliArc, True)
     End Sub
 
-    Private Sub But_closePath_Click(sender As Object, e As EventArgs) Handles But_closePath.Click, CreateFigureToolStripMenuItem.Click
+    Private Sub But_closePath_Click(sender As Object, e As EventArgs) Handles But_closePath.Click, CreateFigureToolStripMenuItem.Click, But_addFigure.Click
         UnhighlightAll()
         selectedTool = Tool.Drawing
 
@@ -1114,11 +1130,14 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
-    Private Sub DeleteToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem1.Click
+    Private Sub DeleteToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem1.Click, But_removeFigure.Click
         'Lb_figurePoints.Items.Clear()
         'Combo_figure.Items.RemoveAt(Combo_figure.SelectedIndex)
+        If SVG.SelectedPath Is Nothing Then Return
+        For Each fig As Figure In SVG.SelectedPath.selectedFigures.AsEnumerable.Reverse
+            SVG.SelectedPath.Remove(fig)
+        Next
 
-        SVG.SelectedPath.Remove(SVG.SelectedFigure)
         Pic_canvas.Invalidate()
     End Sub
 
@@ -1216,6 +1235,7 @@ Public Class Form_main
     Private Sub Lb_figures_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_figures.SelectedIndexChanged
         'Change selected figure
         If SVG.SelectedPath IsNot Nothing Then
+            'Select the last figure if nothing is selected
             If Lb_figures.SelectedIndices.Count <= 0 Then
                 Lb_figures.SelectedIndex = Lb_figures.Items.Count - 1
             End If
@@ -1232,6 +1252,7 @@ Public Class Form_main
                     SVG.SelectedPath.selectedFigures.Remove(fig)
                 End If
             Next
+
             Pic_canvas.Refresh()
         End If
     End Sub
@@ -1332,14 +1353,15 @@ Public Class Form_main
         OpenFileDialog1.Filter = "WSVG|*.wsvg"
         If OpenFileDialog1.ShowDialog = DialogResult.OK Then
             filePath = OpenFileDialog1.FileName
+            Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
             SVG.ParseString(IO.File.ReadAllText(filePath))
         End If
     End Sub
 
     Private Sub Pic_preview_Resize(sender As Object, e As EventArgs) Handles Pic_preview.Resize
-        If Pic_preview.Width > 64 Or Pic_preview.Height > 64 Then
-            Pic_preview.Size = New Size(64, 64)
+        If Pic_preview.Width > 84 Or Pic_preview.Height > 84 Then
             Pic_preview.SizeMode = PictureBoxSizeMode.Zoom
+            Pic_preview.Size = New Size(84, 84)
         End If
     End Sub
 
@@ -1452,4 +1474,64 @@ Public Class Form_main
         Pic_canvas.Refresh()
     End Sub
 
+    Private Sub Num_decimals_ValueChanged(sender As Object, e As EventArgs) Handles Num_decimals.ValueChanged
+        decimalPlaces = Num_decimals.Value
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub But_figMoveUp_Click(sender As Object, e As EventArgs) Handles But_figMoveUp.Click
+        Dim selIndxes As List(Of Integer) = Lb_figures.SelectedIndices.ToList
+        For Each indx As Integer In selIndxes
+            If indx - 1 < 0 Then Continue For
+            SVG.SelectedPath.MoveFigure(indx, indx - 1)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx - 1 < 0 Then Continue For
+            Lb_figures.SelectedIndex = indx - 1
+        Next
+    End Sub
+
+    Private Sub But_figMoveDown_Click(sender As Object, e As EventArgs) Handles But_figMoveDown.Click
+        Dim selIndxes As List(Of Integer) = Lb_figures.SelectedIndices.ToList
+        selIndxes.Reverse()
+        For Each indx As Integer In selIndxes
+            If indx + 1 > Lb_figures.Items.Count - 1 Then Continue For
+            SVG.SelectedPath.MoveFigure(indx, indx + 1)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx + 1 > Lb_figures.Items.Count - 1 Then Continue For
+            Lb_figures.SelectedIndex = indx + 1
+        Next
+    End Sub
+
+    Private Sub But_figMoveTop_Click(sender As Object, e As EventArgs) Handles But_figMoveTop.Click
+        Dim selIndxes As List(Of Integer) = Lb_figures.SelectedIndices.ToList
+        Dim indxShift As Integer = selIndxes(0)
+        For Each indx As Integer In selIndxes
+            If indx - indxShift < 0 Then Continue For
+            SVG.SelectedPath.MoveFigure(indx, indx - indxShift)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx - indxShift < 0 Then Continue For
+            Lb_figures.SelectedIndex = indx - indxShift
+        Next
+    End Sub
+
+    Private Sub But_figMoveBottom_Click(sender As Object, e As EventArgs) Handles But_figMoveBottom.Click
+        Dim selIndxes As List(Of Integer) = Lb_figures.SelectedIndices.ToList
+        Dim indxShift As Integer = (Lb_figures.Items.Count - 1) - selIndxes.Last
+        selIndxes.Reverse()
+        For Each indx As Integer In selIndxes
+            If indx + indxShift < 0 Then Continue For
+            SVG.SelectedPath.MoveFigure(indx, indx + indxShift)
+        Next
+        For Each indx As Integer In selIndxes
+            If indx + indxShift > Lb_figures.Items.Count - 1 Then Continue For
+            Lb_figures.SelectedIndex = indx + indxShift
+        Next
+    End Sub
+
+    Private Sub But_removeFigure_Click(sender As Object, e As EventArgs) Handles But_removeFigure.Click
+
+    End Sub
 End Class

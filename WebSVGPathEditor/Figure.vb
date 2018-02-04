@@ -454,13 +454,14 @@
             pp = New PathPoint(ptype, ppos, Me)
         End If
 
-        Me.Insert(index, pp, False)
-
         'Add reference to last moveto in the path, if necessary
-        If points.Count <= 1 AndAlso Not ptype = PointType.moveto Then
+        If points.Count <= 0 AndAlso Not ptype = PointType.moveto Then
             Dim mp As PathPoint = Me.parent.GetLastMoveto(pp)
-            Me.Insert(index, mp, True)
+            Me.Insert(0, mp, True)
             pp.prevPPoint = mp
+            Me.Insert(index + 1, pp, False)
+        Else
+            Me.Insert(index, pp, False)
         End If
 
         Return pp

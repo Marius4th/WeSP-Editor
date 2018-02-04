@@ -226,6 +226,12 @@
     <None Include="Resources\points2.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\remove.png" />
+    <None Include="Resources\add.png" />
+    <None Include="Resources\moveBottom.png" />
+    <None Include="Resources\moveDown.png" />
+    <None Include="Resources\moveTop.png" />
+    <None Include="Resources\moveUp.png" />
     <Content Include="weSP.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
