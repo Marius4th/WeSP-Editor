@@ -17,9 +17,10 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
   - [ ] See if I add 'H' and 'V' or leave them as linetos, because you can use SHIFT for right angles is you need them.
 - [x] Implement simple undo and redo.
 - [ ] Implement better undo and redo.
-- [ ] Improve mirroring points.
-- [ ] Add path string optimizations to compress/shorten it as much as possible.
+- [x] Improve mirroring points.
+- [ ] Improve mirroring points even more ^^.
+- [x] Add path string optimizations to compress/shorten it as much as possible.
 - [ ] Improve the interface.
-- [ ] Implement paths and figures (subpaths) reordering.
+- [x] Implement paths and figures (subpaths) reordering.
 - [ ] Points locking so you can't modify them accidentally.
 - [ ] Background template images.
