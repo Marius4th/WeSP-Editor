@@ -118,14 +118,14 @@
         RaiseEvent OnPPointAdded(Me, item)
     End Sub
 
-    Public Sub Move(destIndex As Integer, ByRef srcItem As PathPoint)
+    Public Sub ChangePPointIndex(ByRef srcItem As PathPoint, destIndex As Integer)
         Dim indx = srcItem.GetIndex
         Dim isref As Boolean = refs(indx)
 
         Me.Remove(srcItem)
         Me.Insert(destIndex, srcItem, isref)
 
-        If srcItem.mirroredPP IsNot Nothing Then numMirrored -= 1
+        'If srcItem.mirroredPP IsNot Nothing Then numMirrored -= 1
         srcItem.mirroredPP.mirroredPP = Nothing
     End Sub
 

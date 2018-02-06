@@ -1,40 +1,59 @@
 ﻿Public Class SVGPath
+    Private Shared _idCount As Integer = 1
+
     Private figures As New List(Of Figure)
     Public selectedPoints As New ListWithEvents(Of PathPoint)
     Public selectedFigures As New ListWithEvents(Of Figure)
-    Private _strokeWidth As Integer = 1
-    Private _strokeColor As Color = Color.LightGray
-    Private _strokePen As New Pen(StrokeColor, _strokeWidth)
-    Private _fillColor As Color = Color.WhiteSmoke
-    Private _fillBrush As New SolidBrush(_fillColor)
+    Private _attributes As New Dictionary(Of String, String)
+    Private _strokePen As Pen
+    Private _fillBrush As SolidBrush
+
+    Public Property Attributes() As Dictionary(Of String, String)
+        Get
+            Return _attributes
+        End Get
+        Set(ByVal value As Dictionary(Of String, String))
+            _attributes = value
+        End Set
+    End Property
 
     Public Property StrokeColor() As Color
         Get
-            Return _strokeColor
+            Return HTMLParser.HTMLStringToColor(_attributes("stroke"))
         End Get
         Set(ByVal value As Color)
-            _strokeColor = value
+            _attributes("stroke") = HTMLParser.ColorToHexString(value)
             _strokePen.Color = value
         End Set
     End Property
 
     Public Property StrokeWidth() As Integer
         Get
-            Return _strokeWidth
+            Return CInt(_attributes("stroke-width"))
         End Get
         Set(ByVal value As Integer)
-            _strokeWidth = value
+            _attributes("stroke-width") = value
             _strokePen.Width = value
         End Set
     End Property
 
     Public Property FillColor() As Color
         Get
-            Return _fillColor
+            Return HTMLParser.HTMLStringToColor(_attributes("fill"))
         End Get
         Set(ByVal value As Color)
-            _fillColor = value
+            _attributes("fill") = HTMLParser.ColorToHexString(value)
             _fillBrush.Color = value
+        End Set
+    End Property
+
+    Public Property Id() As String
+        Get
+            Return _attributes("id")
+        End Get
+        Set(ByVal value As String)
+            _attributes("id") = value
+            RaiseEvent OnIdChanged(Me, value)
         End Set
     End Property
 
@@ -73,10 +92,21 @@
     Public Shared Event OnFigureRemoving(ByRef sender As SVGPath, ByRef fig As Figure)
     Public Shared Event OnFiguresClear(ByRef sender As SVGPath)
     Public Shared Event OnStrokeWidthChanged(ByRef sender As SVGPath)
+    Public Shared Event OnIdChanged(ByRef sender As SVGPath, id As String)
     Public Shared Event OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
     Public Shared Event OnChangeFigureIndex(ByRef sender As SVGPath, oldIndx As Integer, newIndx As Integer)
 
+
     Public Sub New()
+        _attributes.Add("id", "Path_" & _idCount)
+        _idCount += 1
+        _attributes.Add("stroke", "lightgray")
+        _attributes.Add("fill", "white")
+        _attributes.Add("stroke-width", "1")
+        _attributes.Add("d", "")
+
+        _fillBrush = New SolidBrush(FillColor)
+        _strokePen = New Pen(StrokeColor, StrokeWidth)
         _strokePen.LineJoin = Drawing2D.LineJoin.Miter
 
         SVG.SelectedPath = Me
@@ -239,7 +269,7 @@
         graphs.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
         graphs.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
-        _strokePen.Width = _strokeWidth * SVG.CanvasZoom
+        _strokePen.Width = StrokeWidth * SVG.CanvasZoom
 
         'Draw the Path of every Figure
         For Each fig As Figure In figures
@@ -303,10 +333,15 @@
     End Function
 
     Public Function GetHtml(optimize As Boolean) As String
-        Dim str As String = "<path stroke=""#" & ColorToHexString(StrokeColor) & """ stroke-width=""" & _strokeWidth & """ fill=""#" & ColorToHexString(FillColor) & """ d=""" _
-            & GetString(optimize) & """/>"
+        Dim str As String = "<path "
 
-        Return str
+        _attributes("d") = GetString(optimize)
+
+        For Each item In _attributes
+            str &= item.Key & "=""" & item.Value & """ "
+        Next
+
+        Return str & "/>"
     End Function
 
     Public Sub Scale(scale As Double, Optional centered As Boolean = True)
@@ -452,5 +487,32 @@
 
         Return prevpp
     End Function
+
+    Public Shared Sub ResetIdCount()
+        _idCount = 1
+    End Sub
+
+    Public Sub AppedAttributes(ByRef attrs As Dictionary(Of String, String), fireEvents As Boolean)
+        For Each item In attrs
+            If fireEvents Then
+                Select Case item.Key
+                    Case "id"
+                        Id = item.Value
+                        Continue For
+                    Case "stroke-width"
+                        StrokeWidth = item.Value
+                        Continue For
+                    Case "stroke"
+                        StrokeColor = HTMLParser.HTMLStringToColor(item.Value)
+                        Continue For
+                    Case "fill"
+                        FillColor = HTMLParser.HTMLStringToColor(item.Value)
+                        Continue For
+                End Select
+            End If
+
+            _attributes(item.Key) = item.Value
+        Next
+    End Sub
 
 End Class

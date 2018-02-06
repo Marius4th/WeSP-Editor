@@ -45,6 +45,7 @@ Public Class Form_main
         AddHandler SVGPath.OnFigureRemoving, AddressOf SVGPath_OnFigureRemoving
         AddHandler SVGPath.OnFiguresClear, AddressOf SVGPath_OnFiguresClear
         AddHandler SVGPath.OnStrokeWidthChanged, AddressOf SVGPath_OnStrokeWidthChanged
+        AddHandler SVGPath.OnIdChanged, AddressOf SVGPath_OnIdChanged
         AddHandler SVGPath.OnSelectFigure, AddressOf SVGPath_OnSelectFigure
         AddHandler SVGPath.OnChangeFigureIndex, AddressOf SVGPath_OnChangeFigureIndex
 
@@ -84,7 +85,7 @@ Public Class Form_main
     End Sub
 
     Public Sub SVG_OnPathAdded(ByRef path As SVGPath)
-        Lb_paths.Items.Add("Path " & path.GetIndex() + 1)
+        Lb_paths.Items.Add(path.Id)
         Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
@@ -111,8 +112,9 @@ Public Class Form_main
 
         Lb_figures.Items.Clear()
         For Each fig In path.GetFigures
-            Lb_figures.Items.Add("Figure " & fig.GetIndex() + 1)
+            Lb_figures.Items.Add("Figure_" & fig.GetIndex() + 1)
         Next
+
         'Change selected figure
         Lb_figures.SelectionMode = SelectionMode.None
         Lb_figures.SelectionMode = SelectionMode.MultiExtended
@@ -149,7 +151,7 @@ Public Class Form_main
 
     Public Sub SVGPath_OnFigureAdded(ByRef sender As SVGPath, ByRef fig As Figure)
         If SVG.SelectedPath IsNot sender Then Return
-        Lb_figures.Items.Add("Figure " & fig.GetIndex() + 1)
+        Lb_figures.Items.Add("Figure_" & fig.GetIndex() + 1)
         'Lb_figures.SelectedIndices.Clear()
         'Lb_figures.SelectedIndex = fig.GetIndex
 
@@ -176,6 +178,10 @@ Public Class Form_main
         If sender Is SVG.SelectedPath Then
             Num_strokeWidth.Value = sender.StrokeWidth
         End If
+    End Sub
+
+    Public Sub SVGPath_OnIdChanged(ByRef sender As SVGPath, id As String)
+        Lb_paths.Items.Item(sender.GetIndex()) = id
     End Sub
 
     Public Sub SVGPath_OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
@@ -1532,13 +1538,14 @@ Public Class Form_main
     End Sub
 
     Private Sub Lb_paths_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_paths.SelectedIndexChanged
-        'Select the last path if nothing is selected
-        If Lb_paths.SelectedIndices.Count <= 0 Then
-            Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
-        End If
-
         If Lb_paths.SelectedIndex >= 0 AndAlso Lb_paths.SelectedIndex <> SVG.SelectedPath.GetIndex Then
             SVG.SelectedPath = SVG.paths(Lb_paths.SelectedIndex)
+            Return
+        End If
+
+        'Select the last path if nothing is selected
+        If Lb_paths.SelectedIndex < 0 AndAlso Lb_paths.Items.Count > 0 Then
+            SVG.SelectedPath = SVG.paths(Lb_paths.Items.Count - 1)
         End If
     End Sub
 
@@ -1594,4 +1601,23 @@ Public Class Form_main
         Next
     End Sub
 
+    Private Sub But_pathRename_Click(sender As Object, e As EventArgs) Handles But_pathRename.Click
+        If SVG.SelectedPath Is Nothing Then Return
+        Dim newId = InputBox("Insert new path Id", "New Id", SVG.SelectedPath.Id)
+        If newId.Length > 0 Then SVG.SelectedPath.Id = newId
+    End Sub
+
+    Private Sub Timer_autoBackup_Tick(sender As Object, e As EventArgs) Handles Timer_autoBackup.Tick
+        If modsSinceLastBkp > 0 Then
+            IO.File.WriteAllText("backup.wsvg", SVG.GetHtml(optimizePath))
+            Lab_lastBkp.Text = "Last Bkp: " & Now.ToShortTimeString
+            modsSinceLastBkp = 0
+        End If
+    End Sub
+
+    Private Sub LoadBackupToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadBackupToolStripMenuItem.Click
+        If IO.File.Exists("backup.wsvg") Then
+            SVG.ParseString(IO.File.ReadAllText("backup.wsvg"))
+        End If
+    End Sub
 End Class

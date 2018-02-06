@@ -82,24 +82,9 @@ Partial Class Form_main
         Me.TESTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddLotsOPointsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Pan_tools = New System.Windows.Forms.Panel()
-        Me.But_movement = New System.Windows.Forms.Button()
-        Me.But_closePath = New System.Windows.Forms.Button()
-        Me.But_elliArc = New System.Windows.Forms.Button()
         Me.But_smoothBezier = New System.Windows.Forms.Button()
-        Me.But_bezier = New System.Windows.Forms.Button()
         Me.But_smoothCurveto = New System.Windows.Forms.Button()
-        Me.But_curveto = New System.Windows.Forms.Button()
-        Me.But_vertLineto = New System.Windows.Forms.Button()
-        Me.But_horLineto = New System.Windows.Forms.Button()
-        Me.But_lineto = New System.Windows.Forms.Button()
-        Me.But_moveto = New System.Windows.Forms.Button()
-        Me.But_selection = New System.Windows.Forms.Button()
         Me.Pan_toggles = New System.Windows.Forms.Panel()
-        Me.But_mirror = New System.Windows.Forms.Button()
-        Me.But_mirrorVert = New System.Windows.Forms.Button()
-        Me.But_mirrorHor = New System.Windows.Forms.Button()
-        Me.But_showPoints = New System.Windows.Forms.Button()
-        Me.But_placeBetClosest = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -109,8 +94,6 @@ Partial Class Form_main
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.Col_fill = New System.Windows.Forms.PictureBox()
-        Me.Col_stroke = New System.Windows.Forms.PictureBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Num_decimals = New System.Windows.Forms.NumericUpDown()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -125,45 +108,54 @@ Partial Class Form_main
         Me.Num_canvasHeight = New System.Windows.Forms.NumericUpDown()
         Me.Num_canvasWidth = New System.Windows.Forms.NumericUpDown()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.Num6_2 = New System.Windows.Forms.NumericUpDown()
-        Me.Num4_2 = New System.Windows.Forms.NumericUpDown()
-        Me.Num2_2 = New System.Windows.Forms.NumericUpDown()
-        Me.Num6_1 = New System.Windows.Forms.NumericUpDown()
-        Me.Num5_2 = New System.Windows.Forms.NumericUpDown()
-        Me.Num5_1 = New System.Windows.Forms.NumericUpDown()
-        Me.Num4_1 = New System.Windows.Forms.NumericUpDown()
-        Me.Num3_2 = New System.Windows.Forms.NumericUpDown()
-        Me.Num3_1 = New System.Windows.Forms.NumericUpDown()
-        Me.Num2_1 = New System.Windows.Forms.NumericUpDown()
-        Me.Num1_2 = New System.Windows.Forms.NumericUpDown()
-        Me.Num1_1 = New System.Windows.Forms.NumericUpDown()
         Me.Tb_html = New System.Windows.Forms.TextBox()
         Me.Box_html = New System.Windows.Forms.GroupBox()
         Me.Cb_optimize = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Pic_preview = New System.Windows.Forms.PictureBox()
         Me.Pan_canvas = New System.Windows.Forms.Panel()
-        Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Lb_figures = New System.Windows.Forms.ListBox()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.But_figMoveUp = New System.Windows.Forms.Button()
-        Me.But_figMoveDown = New System.Windows.Forms.Button()
-        Me.But_figMoveTop = New System.Windows.Forms.Button()
-        Me.But_figMoveBottom = New System.Windows.Forms.Button()
-        Me.But_addFigure = New System.Windows.Forms.Button()
-        Me.But_removeFigure = New System.Windows.Forms.Button()
         Me.Lb_paths = New System.Windows.Forms.ListBox()
+        Me.But_pathRename = New System.Windows.Forms.Button()
         Me.But_pathMoveUp = New System.Windows.Forms.Button()
         Me.But_pathMoveDown = New System.Windows.Forms.Button()
         Me.But_pathMoveTop = New System.Windows.Forms.Button()
         Me.But_pathMoveBottom = New System.Windows.Forms.Button()
         Me.But_addPath = New System.Windows.Forms.Button()
         Me.But_removePath = New System.Windows.Forms.Button()
+        Me.But_figMoveUp = New System.Windows.Forms.Button()
+        Me.But_figMoveDown = New System.Windows.Forms.Button()
+        Me.But_figMoveTop = New System.Windows.Forms.Button()
+        Me.But_figMoveBottom = New System.Windows.Forms.Button()
+        Me.But_addFigure = New System.Windows.Forms.Button()
+        Me.But_removeFigure = New System.Windows.Forms.Button()
+        Me.Pic_canvas = New System.Windows.Forms.PictureBox()
+        Me.Pic_preview = New System.Windows.Forms.PictureBox()
+        Me.Col_fill = New System.Windows.Forms.PictureBox()
+        Me.Col_stroke = New System.Windows.Forms.PictureBox()
+        Me.But_mirror = New System.Windows.Forms.Button()
+        Me.But_mirrorVert = New System.Windows.Forms.Button()
+        Me.But_mirrorHor = New System.Windows.Forms.Button()
+        Me.But_showPoints = New System.Windows.Forms.Button()
+        Me.But_placeBetClosest = New System.Windows.Forms.Button()
+        Me.But_movement = New System.Windows.Forms.Button()
+        Me.But_closePath = New System.Windows.Forms.Button()
+        Me.But_elliArc = New System.Windows.Forms.Button()
+        Me.But_bezier = New System.Windows.Forms.Button()
+        Me.But_curveto = New System.Windows.Forms.Button()
+        Me.But_vertLineto = New System.Windows.Forms.Button()
+        Me.But_horLineto = New System.Windows.Forms.Button()
+        Me.But_lineto = New System.Windows.Forms.Button()
+        Me.But_moveto = New System.Windows.Forms.Button()
+        Me.But_selection = New System.Windows.Forms.Button()
+        Me.Timer_autoBackup = New System.Windows.Forms.Timer(Me.components)
+        Me.LoadBackupToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator12 = New System.Windows.Forms.ToolStripSeparator()
+        Me.Lab_lastBkp = New System.Windows.Forms.Label()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -173,8 +165,6 @@ Partial Class Form_main
         Me.TabPage1.SuspendLayout()
         Me.TabPage4.SuspendLayout()
         CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
         CType(Me.Num_decimals, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_stickyGHeight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -184,23 +174,12 @@ Partial Class Form_main
         CType(Me.Num_zoom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_canvasHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_canvasWidth, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabPage3.SuspendLayout()
-        CType(Me.Num6_2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num4_2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num2_2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num6_1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num5_2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num5_1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num4_1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num3_2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num3_1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num2_1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num1_2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num1_1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Box_html.SuspendLayout()
-        CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pan_canvas.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Group_info
@@ -270,7 +249,7 @@ Partial Class Form_main
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.LoadToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.LoadToolStripMenuItem, Me.ToolStripSeparator12, Me.LoadBackupToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         resources.ApplyResources(Me.FileToolStripMenuItem, "FileToolStripMenuItem")
         '
@@ -524,35 +503,6 @@ Partial Class Form_main
         Me.Pan_tools.Controls.Add(Me.But_selection)
         Me.Pan_tools.Name = "Pan_tools"
         '
-        'But_movement
-        '
-        Me.But_movement.BackColor = System.Drawing.Color.Snow
-        Me.But_movement.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.move
-        resources.ApplyResources(Me.But_movement, "But_movement")
-        Me.But_movement.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_movement.Name = "But_movement"
-        Me.But_movement.UseVisualStyleBackColor = False
-        '
-        'But_closePath
-        '
-        Me.But_closePath.BackColor = System.Drawing.Color.Snow
-        Me.But_closePath.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.closePath
-        resources.ApplyResources(Me.But_closePath, "But_closePath")
-        Me.But_closePath.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_closePath.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_closePath.Name = "But_closePath"
-        Me.But_closePath.UseVisualStyleBackColor = False
-        '
-        'But_elliArc
-        '
-        Me.But_elliArc.BackColor = System.Drawing.Color.Snow
-        Me.But_elliArc.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.ellipticalArc
-        resources.ApplyResources(Me.But_elliArc, "But_elliArc")
-        Me.But_elliArc.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_elliArc.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_elliArc.Name = "But_elliArc"
-        Me.But_elliArc.UseVisualStyleBackColor = False
-        '
         'But_smoothBezier
         '
         Me.But_smoothBezier.BackColor = System.Drawing.Color.Snow
@@ -562,16 +512,6 @@ Partial Class Form_main
         Me.But_smoothBezier.Name = "But_smoothBezier"
         Me.But_smoothBezier.UseVisualStyleBackColor = False
         '
-        'But_bezier
-        '
-        Me.But_bezier.BackColor = System.Drawing.Color.Snow
-        Me.But_bezier.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.bezier
-        resources.ApplyResources(Me.But_bezier, "But_bezier")
-        Me.But_bezier.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_bezier.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_bezier.Name = "But_bezier"
-        Me.But_bezier.UseVisualStyleBackColor = False
-        '
         'But_smoothCurveto
         '
         Me.But_smoothCurveto.BackColor = System.Drawing.Color.Snow
@@ -580,65 +520,6 @@ Partial Class Form_main
         Me.But_smoothCurveto.ForeColor = System.Drawing.Color.DarkOrange
         Me.But_smoothCurveto.Name = "But_smoothCurveto"
         Me.But_smoothCurveto.UseVisualStyleBackColor = False
-        '
-        'But_curveto
-        '
-        Me.But_curveto.BackColor = System.Drawing.Color.Snow
-        Me.But_curveto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.curveto
-        resources.ApplyResources(Me.But_curveto, "But_curveto")
-        Me.But_curveto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_curveto.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_curveto.Name = "But_curveto"
-        Me.But_curveto.UseVisualStyleBackColor = False
-        '
-        'But_vertLineto
-        '
-        Me.But_vertLineto.BackColor = System.Drawing.Color.Snow
-        Me.But_vertLineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.vertLineto
-        resources.ApplyResources(Me.But_vertLineto, "But_vertLineto")
-        Me.But_vertLineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_vertLineto.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_vertLineto.Name = "But_vertLineto"
-        Me.But_vertLineto.UseVisualStyleBackColor = False
-        '
-        'But_horLineto
-        '
-        Me.But_horLineto.BackColor = System.Drawing.Color.Snow
-        Me.But_horLineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.horLineto
-        resources.ApplyResources(Me.But_horLineto, "But_horLineto")
-        Me.But_horLineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_horLineto.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_horLineto.Name = "But_horLineto"
-        Me.But_horLineto.UseVisualStyleBackColor = False
-        '
-        'But_lineto
-        '
-        Me.But_lineto.BackColor = System.Drawing.Color.Snow
-        Me.But_lineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.lineto
-        resources.ApplyResources(Me.But_lineto, "But_lineto")
-        Me.But_lineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_lineto.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_lineto.Name = "But_lineto"
-        Me.But_lineto.UseVisualStyleBackColor = False
-        '
-        'But_moveto
-        '
-        Me.But_moveto.BackColor = System.Drawing.Color.Snow
-        Me.But_moveto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveto
-        resources.ApplyResources(Me.But_moveto, "But_moveto")
-        Me.But_moveto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_moveto.ForeColor = System.Drawing.Color.DarkOrange
-        Me.But_moveto.Name = "But_moveto"
-        Me.But_moveto.UseVisualStyleBackColor = False
-        '
-        'But_selection
-        '
-        Me.But_selection.BackColor = System.Drawing.Color.Snow
-        Me.But_selection.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.selection
-        resources.ApplyResources(Me.But_selection, "But_selection")
-        Me.But_selection.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_selection.Name = "But_selection"
-        Me.But_selection.UseVisualStyleBackColor = False
         '
         'Pan_toggles
         '
@@ -651,51 +532,6 @@ Partial Class Form_main
         Me.Pan_toggles.Controls.Add(Me.But_placeBetClosest)
         Me.Pan_toggles.Name = "Pan_toggles"
         '
-        'But_mirror
-        '
-        Me.But_mirror.BackColor = System.Drawing.Color.Snow
-        Me.But_mirror.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.noMirror
-        resources.ApplyResources(Me.But_mirror, "But_mirror")
-        Me.But_mirror.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_mirror.Name = "But_mirror"
-        Me.But_mirror.UseVisualStyleBackColor = False
-        '
-        'But_mirrorVert
-        '
-        Me.But_mirrorVert.BackColor = System.Drawing.Color.Snow
-        Me.But_mirrorVert.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.mirrorVert
-        resources.ApplyResources(Me.But_mirrorVert, "But_mirrorVert")
-        Me.But_mirrorVert.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_mirrorVert.Name = "But_mirrorVert"
-        Me.But_mirrorVert.UseVisualStyleBackColor = False
-        '
-        'But_mirrorHor
-        '
-        Me.But_mirrorHor.BackColor = System.Drawing.Color.Snow
-        Me.But_mirrorHor.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.mirrorHor
-        resources.ApplyResources(Me.But_mirrorHor, "But_mirrorHor")
-        Me.But_mirrorHor.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_mirrorHor.Name = "But_mirrorHor"
-        Me.But_mirrorHor.UseVisualStyleBackColor = False
-        '
-        'But_showPoints
-        '
-        Me.But_showPoints.BackColor = System.Drawing.Color.Snow
-        Me.But_showPoints.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.points2
-        resources.ApplyResources(Me.But_showPoints, "But_showPoints")
-        Me.But_showPoints.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_showPoints.Name = "But_showPoints"
-        Me.But_showPoints.UseVisualStyleBackColor = False
-        '
-        'But_placeBetClosest
-        '
-        Me.But_placeBetClosest.BackColor = System.Drawing.Color.Snow
-        Me.But_placeBetClosest.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.placeBetween1
-        resources.ApplyResources(Me.But_placeBetClosest, "But_placeBetClosest")
-        Me.But_placeBetClosest.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_placeBetClosest.Name = "But_placeBetClosest"
-        Me.But_placeBetClosest.UseVisualStyleBackColor = False
-        '
         'Label3
         '
         resources.ApplyResources(Me.Label3, "Label3")
@@ -707,12 +543,13 @@ Partial Class Form_main
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         '
         'TabPage1
         '
+        Me.TabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TabPage1.Controls.Add(Me.Lab_lastBkp)
         Me.TabPage1.Controls.Add(Me.Lab_zoom)
         Me.TabPage1.Controls.Add(Me.Group_info)
         resources.ApplyResources(Me.TabPage1, "TabPage1")
@@ -726,6 +563,7 @@ Partial Class Form_main
         '
         'TabPage4
         '
+        Me.TabPage4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TabPage4.Controls.Add(Me.Num_strokeWidth)
         Me.TabPage4.Controls.Add(Me.Label9)
         Me.TabPage4.Controls.Add(Me.Label8)
@@ -742,7 +580,7 @@ Partial Class Form_main
         resources.ApplyResources(Me.Num_strokeWidth, "Num_strokeWidth")
         Me.Num_strokeWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.Num_strokeWidth.Name = "Num_strokeWidth"
-        Me.Num_strokeWidth.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.Num_strokeWidth.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label9
         '
@@ -759,24 +597,9 @@ Partial Class Form_main
         resources.ApplyResources(Me.Label7, "Label7")
         Me.Label7.Name = "Label7"
         '
-        'Col_fill
-        '
-        Me.Col_fill.BackColor = System.Drawing.Color.White
-        Me.Col_fill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        resources.ApplyResources(Me.Col_fill, "Col_fill")
-        Me.Col_fill.Name = "Col_fill"
-        Me.Col_fill.TabStop = False
-        '
-        'Col_stroke
-        '
-        Me.Col_stroke.BackColor = System.Drawing.Color.Gray
-        Me.Col_stroke.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        resources.ApplyResources(Me.Col_stroke, "Col_stroke")
-        Me.Col_stroke.Name = "Col_stroke"
-        Me.Col_stroke.TabStop = False
-        '
         'TabPage2
         '
+        Me.TabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TabPage2.Controls.Add(Me.Num_decimals)
         Me.TabPage2.Controls.Add(Me.Label11)
         Me.TabPage2.Controls.Add(Me.Num_stickyGHeight)
@@ -889,120 +712,6 @@ Partial Class Form_main
         resources.ApplyResources(Me.Label5, "Label5")
         Me.Label5.Name = "Label5"
         '
-        'TabPage3
-        '
-        Me.TabPage3.Controls.Add(Me.Num6_2)
-        Me.TabPage3.Controls.Add(Me.Num4_2)
-        Me.TabPage3.Controls.Add(Me.Num2_2)
-        Me.TabPage3.Controls.Add(Me.Num6_1)
-        Me.TabPage3.Controls.Add(Me.Num5_2)
-        Me.TabPage3.Controls.Add(Me.Num5_1)
-        Me.TabPage3.Controls.Add(Me.Num4_1)
-        Me.TabPage3.Controls.Add(Me.Num3_2)
-        Me.TabPage3.Controls.Add(Me.Num3_1)
-        Me.TabPage3.Controls.Add(Me.Num2_1)
-        Me.TabPage3.Controls.Add(Me.Num1_2)
-        Me.TabPage3.Controls.Add(Me.Num1_1)
-        resources.ApplyResources(Me.TabPage3, "TabPage3")
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'Num6_2
-        '
-        resources.ApplyResources(Me.Num6_2, "Num6_2")
-        Me.Num6_2.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num6_2.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num6_2.Name = "Num6_2"
-        Me.Num6_2.Value = New Decimal(New Integer() {300, 0, 0, 0})
-        '
-        'Num4_2
-        '
-        resources.ApplyResources(Me.Num4_2, "Num4_2")
-        Me.Num4_2.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num4_2.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num4_2.Name = "Num4_2"
-        Me.Num4_2.Value = New Decimal(New Integer() {270, 0, 0, -2147483648})
-        '
-        'Num2_2
-        '
-        resources.ApplyResources(Me.Num2_2, "Num2_2")
-        Me.Num2_2.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num2_2.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num2_2.Name = "Num2_2"
-        Me.Num2_2.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'Num6_1
-        '
-        resources.ApplyResources(Me.Num6_1, "Num6_1")
-        Me.Num6_1.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num6_1.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num6_1.Name = "Num6_1"
-        Me.Num6_1.Value = New Decimal(New Integer() {300, 0, 0, 0})
-        '
-        'Num5_2
-        '
-        resources.ApplyResources(Me.Num5_2, "Num5_2")
-        Me.Num5_2.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num5_2.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num5_2.Name = "Num5_2"
-        Me.Num5_2.Value = New Decimal(New Integer() {270, 0, 0, -2147483648})
-        '
-        'Num5_1
-        '
-        resources.ApplyResources(Me.Num5_1, "Num5_1")
-        Me.Num5_1.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num5_1.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num5_1.Name = "Num5_1"
-        Me.Num5_1.Value = New Decimal(New Integer() {180, 0, 0, 0})
-        '
-        'Num4_1
-        '
-        resources.ApplyResources(Me.Num4_1, "Num4_1")
-        Me.Num4_1.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num4_1.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num4_1.Name = "Num4_1"
-        Me.Num4_1.Value = New Decimal(New Integer() {180, 0, 0, 0})
-        '
-        'Num3_2
-        '
-        resources.ApplyResources(Me.Num3_2, "Num3_2")
-        Me.Num3_2.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num3_2.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num3_2.Name = "Num3_2"
-        Me.Num3_2.Value = New Decimal(New Integer() {300, 0, 0, 0})
-        '
-        'Num3_1
-        '
-        resources.ApplyResources(Me.Num3_1, "Num3_1")
-        Me.Num3_1.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num3_1.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num3_1.Name = "Num3_1"
-        Me.Num3_1.Value = New Decimal(New Integer() {300, 0, 0, 0})
-        '
-        'Num2_1
-        '
-        resources.ApplyResources(Me.Num2_1, "Num2_1")
-        Me.Num2_1.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num2_1.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num2_1.Name = "Num2_1"
-        Me.Num2_1.Value = New Decimal(New Integer() {300, 0, 0, 0})
-        '
-        'Num1_2
-        '
-        resources.ApplyResources(Me.Num1_2, "Num1_2")
-        Me.Num1_2.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num1_2.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num1_2.Name = "Num1_2"
-        Me.Num1_2.Value = New Decimal(New Integer() {200, 0, 0, 0})
-        '
-        'Num1_1
-        '
-        resources.ApplyResources(Me.Num1_1, "Num1_1")
-        Me.Num1_1.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num1_1.Minimum = New Decimal(New Integer() {10000, 0, 0, -2147483648})
-        Me.Num1_1.Name = "Num1_1"
-        Me.Num1_1.Value = New Decimal(New Integer() {150, 0, 0, 0})
-        '
         'Tb_html
         '
         resources.ApplyResources(Me.Tb_html, "Tb_html")
@@ -1032,26 +741,12 @@ Partial Class Form_main
         Me.Button1.Name = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'Pic_preview
-        '
-        Me.Pic_preview.BackColor = System.Drawing.Color.Black
-        resources.ApplyResources(Me.Pic_preview, "Pic_preview")
-        Me.Pic_preview.Name = "Pic_preview"
-        Me.Pic_preview.TabStop = False
-        '
         'Pan_canvas
         '
         resources.ApplyResources(Me.Pan_canvas, "Pan_canvas")
         Me.Pan_canvas.BackColor = System.Drawing.SystemColors.ControlDark
         Me.Pan_canvas.Controls.Add(Me.Pic_canvas)
         Me.Pan_canvas.Name = "Pan_canvas"
-        '
-        'Pic_canvas
-        '
-        Me.Pic_canvas.BackColor = System.Drawing.Color.Black
-        resources.ApplyResources(Me.Pic_canvas, "Pic_canvas")
-        Me.Pic_canvas.Name = "Pic_canvas"
-        Me.Pic_canvas.TabStop = False
         '
         'Label1
         '
@@ -1079,65 +774,20 @@ Partial Class Form_main
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'But_figMoveUp
-        '
-        Me.But_figMoveUp.BackColor = System.Drawing.Color.Snow
-        Me.But_figMoveUp.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveUp
-        resources.ApplyResources(Me.But_figMoveUp, "But_figMoveUp")
-        Me.But_figMoveUp.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_figMoveUp.Name = "But_figMoveUp"
-        Me.But_figMoveUp.UseVisualStyleBackColor = False
-        '
-        'But_figMoveDown
-        '
-        Me.But_figMoveDown.BackColor = System.Drawing.Color.Snow
-        Me.But_figMoveDown.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveDown
-        resources.ApplyResources(Me.But_figMoveDown, "But_figMoveDown")
-        Me.But_figMoveDown.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_figMoveDown.Name = "But_figMoveDown"
-        Me.But_figMoveDown.UseVisualStyleBackColor = False
-        '
-        'But_figMoveTop
-        '
-        Me.But_figMoveTop.BackColor = System.Drawing.Color.Snow
-        Me.But_figMoveTop.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveTop
-        resources.ApplyResources(Me.But_figMoveTop, "But_figMoveTop")
-        Me.But_figMoveTop.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_figMoveTop.Name = "But_figMoveTop"
-        Me.But_figMoveTop.UseVisualStyleBackColor = False
-        '
-        'But_figMoveBottom
-        '
-        Me.But_figMoveBottom.BackColor = System.Drawing.Color.Snow
-        Me.But_figMoveBottom.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveBottom
-        resources.ApplyResources(Me.But_figMoveBottom, "But_figMoveBottom")
-        Me.But_figMoveBottom.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_figMoveBottom.Name = "But_figMoveBottom"
-        Me.But_figMoveBottom.UseVisualStyleBackColor = False
-        '
-        'But_addFigure
-        '
-        Me.But_addFigure.BackColor = System.Drawing.Color.Snow
-        Me.But_addFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.add
-        resources.ApplyResources(Me.But_addFigure, "But_addFigure")
-        Me.But_addFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_addFigure.Name = "But_addFigure"
-        Me.But_addFigure.UseVisualStyleBackColor = False
-        '
-        'But_removeFigure
-        '
-        Me.But_removeFigure.BackColor = System.Drawing.Color.Snow
-        Me.But_removeFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
-        resources.ApplyResources(Me.But_removeFigure, "But_removeFigure")
-        Me.But_removeFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_removeFigure.Name = "But_removeFigure"
-        Me.But_removeFigure.UseVisualStyleBackColor = False
-        '
         'Lb_paths
         '
         resources.ApplyResources(Me.Lb_paths, "Lb_paths")
         Me.Lb_paths.FormattingEnabled = True
         Me.Lb_paths.Name = "Lb_paths"
+        '
+        'But_pathRename
+        '
+        Me.But_pathRename.BackColor = System.Drawing.Color.Snow
+        Me.But_pathRename.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.rename
+        resources.ApplyResources(Me.But_pathRename, "But_pathRename")
+        Me.But_pathRename.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_pathRename.Name = "But_pathRename"
+        Me.But_pathRename.UseVisualStyleBackColor = False
         '
         'But_pathMoveUp
         '
@@ -1193,11 +843,260 @@ Partial Class Form_main
         Me.But_removePath.Name = "But_removePath"
         Me.But_removePath.UseVisualStyleBackColor = False
         '
+        'But_figMoveUp
+        '
+        Me.But_figMoveUp.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveUp.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveUp
+        resources.ApplyResources(Me.But_figMoveUp, "But_figMoveUp")
+        Me.But_figMoveUp.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveUp.Name = "But_figMoveUp"
+        Me.But_figMoveUp.UseVisualStyleBackColor = False
+        '
+        'But_figMoveDown
+        '
+        Me.But_figMoveDown.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveDown.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveDown
+        resources.ApplyResources(Me.But_figMoveDown, "But_figMoveDown")
+        Me.But_figMoveDown.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveDown.Name = "But_figMoveDown"
+        Me.But_figMoveDown.UseVisualStyleBackColor = False
+        '
+        'But_figMoveTop
+        '
+        Me.But_figMoveTop.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveTop.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveTop
+        resources.ApplyResources(Me.But_figMoveTop, "But_figMoveTop")
+        Me.But_figMoveTop.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveTop.Name = "But_figMoveTop"
+        Me.But_figMoveTop.UseVisualStyleBackColor = False
+        '
+        'But_figMoveBottom
+        '
+        Me.But_figMoveBottom.BackColor = System.Drawing.Color.Snow
+        Me.But_figMoveBottom.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveBottom
+        resources.ApplyResources(Me.But_figMoveBottom, "But_figMoveBottom")
+        Me.But_figMoveBottom.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figMoveBottom.Name = "But_figMoveBottom"
+        Me.But_figMoveBottom.UseVisualStyleBackColor = False
+        '
+        'But_addFigure
+        '
+        Me.But_addFigure.BackColor = System.Drawing.Color.Snow
+        Me.But_addFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.add
+        resources.ApplyResources(Me.But_addFigure, "But_addFigure")
+        Me.But_addFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_addFigure.Name = "But_addFigure"
+        Me.But_addFigure.UseVisualStyleBackColor = False
+        '
+        'But_removeFigure
+        '
+        Me.But_removeFigure.BackColor = System.Drawing.Color.Snow
+        Me.But_removeFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
+        resources.ApplyResources(Me.But_removeFigure, "But_removeFigure")
+        Me.But_removeFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_removeFigure.Name = "But_removeFigure"
+        Me.But_removeFigure.UseVisualStyleBackColor = False
+        '
+        'Pic_canvas
+        '
+        Me.Pic_canvas.BackColor = System.Drawing.Color.Black
+        resources.ApplyResources(Me.Pic_canvas, "Pic_canvas")
+        Me.Pic_canvas.Name = "Pic_canvas"
+        Me.Pic_canvas.TabStop = False
+        '
+        'Pic_preview
+        '
+        Me.Pic_preview.BackColor = System.Drawing.Color.Black
+        resources.ApplyResources(Me.Pic_preview, "Pic_preview")
+        Me.Pic_preview.Name = "Pic_preview"
+        Me.Pic_preview.TabStop = False
+        '
+        'Col_fill
+        '
+        Me.Col_fill.BackColor = System.Drawing.Color.White
+        Me.Col_fill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        resources.ApplyResources(Me.Col_fill, "Col_fill")
+        Me.Col_fill.Name = "Col_fill"
+        Me.Col_fill.TabStop = False
+        '
+        'Col_stroke
+        '
+        Me.Col_stroke.BackColor = System.Drawing.Color.Gray
+        Me.Col_stroke.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        resources.ApplyResources(Me.Col_stroke, "Col_stroke")
+        Me.Col_stroke.Name = "Col_stroke"
+        Me.Col_stroke.TabStop = False
+        '
+        'But_mirror
+        '
+        Me.But_mirror.BackColor = System.Drawing.Color.Snow
+        Me.But_mirror.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.noMirror
+        resources.ApplyResources(Me.But_mirror, "But_mirror")
+        Me.But_mirror.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_mirror.Name = "But_mirror"
+        Me.But_mirror.UseVisualStyleBackColor = False
+        '
+        'But_mirrorVert
+        '
+        Me.But_mirrorVert.BackColor = System.Drawing.Color.Snow
+        Me.But_mirrorVert.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.mirrorVert
+        resources.ApplyResources(Me.But_mirrorVert, "But_mirrorVert")
+        Me.But_mirrorVert.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_mirrorVert.Name = "But_mirrorVert"
+        Me.But_mirrorVert.UseVisualStyleBackColor = False
+        '
+        'But_mirrorHor
+        '
+        Me.But_mirrorHor.BackColor = System.Drawing.Color.Snow
+        Me.But_mirrorHor.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.mirrorHor
+        resources.ApplyResources(Me.But_mirrorHor, "But_mirrorHor")
+        Me.But_mirrorHor.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_mirrorHor.Name = "But_mirrorHor"
+        Me.But_mirrorHor.UseVisualStyleBackColor = False
+        '
+        'But_showPoints
+        '
+        Me.But_showPoints.BackColor = System.Drawing.Color.Snow
+        Me.But_showPoints.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.points2
+        resources.ApplyResources(Me.But_showPoints, "But_showPoints")
+        Me.But_showPoints.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_showPoints.Name = "But_showPoints"
+        Me.But_showPoints.UseVisualStyleBackColor = False
+        '
+        'But_placeBetClosest
+        '
+        Me.But_placeBetClosest.BackColor = System.Drawing.Color.Snow
+        Me.But_placeBetClosest.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.placeBetween1
+        resources.ApplyResources(Me.But_placeBetClosest, "But_placeBetClosest")
+        Me.But_placeBetClosest.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_placeBetClosest.Name = "But_placeBetClosest"
+        Me.But_placeBetClosest.UseVisualStyleBackColor = False
+        '
+        'But_movement
+        '
+        Me.But_movement.BackColor = System.Drawing.Color.Snow
+        Me.But_movement.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.move
+        resources.ApplyResources(Me.But_movement, "But_movement")
+        Me.But_movement.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_movement.Name = "But_movement"
+        Me.But_movement.UseVisualStyleBackColor = False
+        '
+        'But_closePath
+        '
+        Me.But_closePath.BackColor = System.Drawing.Color.Snow
+        Me.But_closePath.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.closePath
+        resources.ApplyResources(Me.But_closePath, "But_closePath")
+        Me.But_closePath.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_closePath.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_closePath.Name = "But_closePath"
+        Me.But_closePath.UseVisualStyleBackColor = False
+        '
+        'But_elliArc
+        '
+        Me.But_elliArc.BackColor = System.Drawing.Color.Snow
+        Me.But_elliArc.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.ellipticalArc
+        resources.ApplyResources(Me.But_elliArc, "But_elliArc")
+        Me.But_elliArc.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_elliArc.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_elliArc.Name = "But_elliArc"
+        Me.But_elliArc.UseVisualStyleBackColor = False
+        '
+        'But_bezier
+        '
+        Me.But_bezier.BackColor = System.Drawing.Color.Snow
+        Me.But_bezier.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.bezier
+        resources.ApplyResources(Me.But_bezier, "But_bezier")
+        Me.But_bezier.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_bezier.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_bezier.Name = "But_bezier"
+        Me.But_bezier.UseVisualStyleBackColor = False
+        '
+        'But_curveto
+        '
+        Me.But_curveto.BackColor = System.Drawing.Color.Snow
+        Me.But_curveto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.curveto
+        resources.ApplyResources(Me.But_curveto, "But_curveto")
+        Me.But_curveto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_curveto.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_curveto.Name = "But_curveto"
+        Me.But_curveto.UseVisualStyleBackColor = False
+        '
+        'But_vertLineto
+        '
+        Me.But_vertLineto.BackColor = System.Drawing.Color.Snow
+        Me.But_vertLineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.vertLineto
+        resources.ApplyResources(Me.But_vertLineto, "But_vertLineto")
+        Me.But_vertLineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_vertLineto.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_vertLineto.Name = "But_vertLineto"
+        Me.But_vertLineto.UseVisualStyleBackColor = False
+        '
+        'But_horLineto
+        '
+        Me.But_horLineto.BackColor = System.Drawing.Color.Snow
+        Me.But_horLineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.horLineto
+        resources.ApplyResources(Me.But_horLineto, "But_horLineto")
+        Me.But_horLineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_horLineto.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_horLineto.Name = "But_horLineto"
+        Me.But_horLineto.UseVisualStyleBackColor = False
+        '
+        'But_lineto
+        '
+        Me.But_lineto.BackColor = System.Drawing.Color.Snow
+        Me.But_lineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.lineto
+        resources.ApplyResources(Me.But_lineto, "But_lineto")
+        Me.But_lineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_lineto.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_lineto.Name = "But_lineto"
+        Me.But_lineto.UseVisualStyleBackColor = False
+        '
+        'But_moveto
+        '
+        Me.But_moveto.BackColor = System.Drawing.Color.Snow
+        Me.But_moveto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveto
+        resources.ApplyResources(Me.But_moveto, "But_moveto")
+        Me.But_moveto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_moveto.ForeColor = System.Drawing.Color.DarkOrange
+        Me.But_moveto.Name = "But_moveto"
+        Me.But_moveto.UseVisualStyleBackColor = False
+        '
+        'But_selection
+        '
+        Me.But_selection.BackColor = System.Drawing.Color.Snow
+        Me.But_selection.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.selection
+        resources.ApplyResources(Me.But_selection, "But_selection")
+        Me.But_selection.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_selection.Name = "But_selection"
+        Me.But_selection.UseVisualStyleBackColor = False
+        '
+        'Timer_autoBackup
+        '
+        Me.Timer_autoBackup.Enabled = True
+        Me.Timer_autoBackup.Interval = 60000
+        '
+        'LoadBackupToolStripMenuItem
+        '
+        Me.LoadBackupToolStripMenuItem.Name = "LoadBackupToolStripMenuItem"
+        resources.ApplyResources(Me.LoadBackupToolStripMenuItem, "LoadBackupToolStripMenuItem")
+        '
+        'ToolStripSeparator12
+        '
+        Me.ToolStripSeparator12.Name = "ToolStripSeparator12"
+        resources.ApplyResources(Me.ToolStripSeparator12, "ToolStripSeparator12")
+        '
+        'Lab_lastBkp
+        '
+        resources.ApplyResources(Me.Lab_lastBkp, "Lab_lastBkp")
+        Me.Lab_lastBkp.ForeColor = System.Drawing.SystemColors.AppWorkspace
+        Me.Lab_lastBkp.Name = "Lab_lastBkp"
+        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
+        Me.Controls.Add(Me.But_pathRename)
         Me.Controls.Add(Me.But_pathMoveUp)
         Me.Controls.Add(Me.But_pathMoveDown)
         Me.Controls.Add(Me.But_pathMoveTop)
@@ -1239,8 +1138,6 @@ Partial Class Form_main
         Me.TabPage4.ResumeLayout(False)
         Me.TabPage4.PerformLayout()
         CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         CType(Me.Num_decimals, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1251,24 +1148,13 @@ Partial Class Form_main
         CType(Me.Num_zoom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_canvasHeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_canvasWidth, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabPage3.ResumeLayout(False)
-        CType(Me.Num6_2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num4_2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num2_2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num6_1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num5_2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num5_1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num4_1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num3_2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num3_1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num2_1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num1_2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num1_1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Box_html.ResumeLayout(False)
         Me.Box_html.PerformLayout()
-        CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Pan_canvas.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1342,19 +1228,6 @@ Partial Class Form_main
     Friend WithEvents Num_canvasHeight As NumericUpDown
     Friend WithEvents Num_canvasWidth As NumericUpDown
     Friend WithEvents Label5 As Label
-    Friend WithEvents TabPage3 As TabPage
-    Friend WithEvents Num6_2 As NumericUpDown
-    Friend WithEvents Num4_2 As NumericUpDown
-    Friend WithEvents Num2_2 As NumericUpDown
-    Friend WithEvents Num6_1 As NumericUpDown
-    Friend WithEvents Num5_2 As NumericUpDown
-    Friend WithEvents Num5_1 As NumericUpDown
-    Friend WithEvents Num4_1 As NumericUpDown
-    Friend WithEvents Num3_2 As NumericUpDown
-    Friend WithEvents Num3_1 As NumericUpDown
-    Friend WithEvents Num2_1 As NumericUpDown
-    Friend WithEvents Num1_2 As NumericUpDown
-    Friend WithEvents Num1_1 As NumericUpDown
     Friend WithEvents ColorDialog1 As ColorDialog
     Friend WithEvents SVGToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MoveTo00ToolStripMenuItem1 As ToolStripMenuItem
@@ -1414,4 +1287,9 @@ Partial Class Form_main
     Friend WithEvents But_pathMoveBottom As Button
     Friend WithEvents But_addPath As Button
     Friend WithEvents But_removePath As Button
+    Friend WithEvents But_pathRename As Button
+    Friend WithEvents Timer_autoBackup As Timer
+    Friend WithEvents ToolStripSeparator12 As ToolStripSeparator
+    Friend WithEvents LoadBackupToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Lab_lastBkp As Label
 End Class

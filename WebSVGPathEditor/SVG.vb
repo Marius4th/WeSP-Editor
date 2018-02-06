@@ -9,6 +9,7 @@ Public NotInheritable Class SVG
     Private Shared _canvasSizeZoomed As New Size(640, 640)
     Private Shared _canvasZoom As Single = 10.0
     Private Shared _stickyGrid As New SizeF(1.0, 1.0)
+    Private Shared _attributes As New Dictionary(Of String, String)
 
     Public Shared Event OnCanvasSizeChanged()
     Public Shared Event OnCanvasZoomChanged()
@@ -32,6 +33,9 @@ Public NotInheritable Class SVG
             _canvasSize = value
             _canvasSizeZoomed = New Size(_canvasSize.Width * _canvasZoom, _canvasSize.Height * _canvasZoom)
             CanvasZoom = _canvasZoom
+            _attributes("viewbox") = "0 0 " & value.Width & " " & value.Height
+            _attributes("width") = value.Width & "px"
+            _attributes("height") = value.Height & "px"
             RaiseEvent OnCanvasSizeChanged()
         End Set
     End Property
@@ -115,6 +119,8 @@ Public NotInheritable Class SVG
     End Property
 
     Public Shared Sub Init()
+        AttributesSetDefaults()
+
         AddPath()
         RaiseEvent OnCanvasSizeChanged()
         RaiseEvent OnCanvasZoomChanged()
@@ -171,7 +177,13 @@ Public NotInheritable Class SVG
     End Function
 
     Public Shared Function GetHtml(optimize As Boolean) As String
-        Dim str As String = "<svg viewbox=""0 0 " & Ceil(_canvasSize.Width, 1) & " " & Ceil(_canvasSize.Height, 1) & """ width=""" & Ceil(_canvasSize.Width, 1) & "px"" height=""" & Ceil(_canvasSize.Height, 1) & "px"">" & vbCrLf
+        Dim str As String = "<svg "
+
+        For Each item In _attributes
+            str &= item.Key & "=""" & item.Value & """ "
+        Next
+
+        str &= ">" & vbCrLf
 
         For Each path As SVGPath In paths
             str &= vbTab & path.GetHtml(optimize) & vbCrLf
@@ -205,7 +217,7 @@ Public NotInheritable Class SVG
         Return str
     End Function
 
-    Public Shared Sub AddPath()
+    Public Shared Function AddPath() As SVGPath
         Dim newPath As SVGPath = New SVGPath
         paths.Add(newPath)
         SelectPath(paths.Count - 1)
@@ -214,7 +226,9 @@ Public NotInheritable Class SVG
 
         newPath.FillColor = SelectedPath.FillColor
         newPath.StrokeColor = SelectedPath.StrokeColor
-    End Sub
+
+        Return newPath
+    End Function
 
     Public Shared Sub RemovePath(ByRef path As SVGPath)
         RaiseEvent OnPathRemoving(paths.Last)
@@ -295,6 +309,7 @@ Public NotInheritable Class SVG
         paths.Clear()
         RaiseEvent OnPathClear()
 
+        SVGPath.ResetIdCount()
         AddPath()
     End Sub
 
@@ -332,6 +347,13 @@ Public NotInheritable Class SVG
         End If
     End Sub
 
+    Public Shared Sub AttributesSetDefaults()
+        _attributes.Clear()
+        _attributes("viewbox") = "0 0 64 64"
+        _attributes("width") = "64px"
+        _attributes("height") = "64px"
+    End Sub
+
     Public Shared Sub ParseString(str As String)
         Dim d As String = "", substr As String = ""
         Dim figData As String()
@@ -339,40 +361,44 @@ Public NotInheritable Class SVG
         Dim lastPP As PathPoint = Nothing
         Dim relative As Boolean = False
 
+        historyLock = True
         SVG.Clear()
 
+        AttributesSetDefaults()
+        AppedAttributes(HTMLParser.GetAttributes(str), True)
+        '_attributes = HTMLParser.GetAttributes(str)
+
         'Parse SVG's Size
-        If str.ToLower.Contains("width=""") Then
-            SVG.CanvasSize = New SizeF(Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "width").GetNumbers), SVG.CanvasSize.Height)
-        End If
-        If str.ToLower.Contains("height=""") Then
-            SVG.CanvasSize = New SizeF(SVG.CanvasSize.Width, Convert.ToSingle(GetHTMLAttributeValue(str.ToLower, "height").GetNumbers))
-        End If
+        'SVG.CanvasSize = New SizeF(CSng(_attributes("width").GetNumbers), CSng(_attributes("height").GetNumbers))
 
         For Each path As String In Split(str, "<path")
-            path = path.Replace("'", """")
+            'path = path.Replace("'", """")
             If Not path.Contains("d=""") Then Continue For
 
             If Not SVG.SelectedPath.IsEmpty Then SVG.AddPath()
 
+            Dim pathAttribs = HTMLParser.GetAttributes(path)
+            'SVG.SelectedPath.Attributes = pathAttribs
 
-            'Parse path's colors
-            If path.ToLower.Contains("stroke=""") Then
-                substr = GetHTMLAttributeValue(path.ToLower, " stroke")
-                If IsStringHexColor(substr) Then SVG.SelectedPath.StrokeColor = HexStringToColor(substr)
-            End If
-            If path.ToLower.Contains("fill=""") Then
-                substr = GetHTMLAttributeValue(path.ToLower, " fill")
-                If IsStringHexColor(substr) Then SVG.SelectedPath.FillColor = HexStringToColor(substr)
-            End If
+            SVG.SelectedPath.AppedAttributes(pathAttribs, True)
 
-            If path.ToLower.Contains("stroke-width=""") Then
-                substr = GetHTMLAttributeValue(path.ToLower, " stroke-width").GetNumbers
-                If substr.Length > 0 Then SVG.SelectedPath.StrokeWidth = CInt(substr)
-            End If
+            'If pathAttribs.ContainsKey("id") Then
+            '    SVG.SelectedPath.Id = pathAttribs("id")
+            'End If
+            ''Parse path's colors
+            'If pathAttribs.ContainsKey("stroke") Then
+            '    SVG.SelectedPath.StrokeColor = HTMLParser.HTMLStringToColor(pathAttribs("stroke"))
+            'End If
+            'If pathAttribs.ContainsKey("fill") Then
+            '    SVG.SelectedPath.FillColor = HTMLParser.HTMLStringToColor(pathAttribs("fill"))
+            'End If
+            'If pathAttribs.ContainsKey("stroke-width") Then
+            '    substr = pathAttribs("stroke-width").GetNumbers
+            '    If substr.Length > 0 Then SVG.SelectedPath.StrokeWidth = CInt(substr)
+            'End If
 
             'Parse path's commands
-            d = GetHTMLAttributeValue(path, " d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
+            d = pathAttribs("d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
 
             For Each fig As String In Split(d, "Z")
                 If fig.Length <= 1 Then Continue For
@@ -464,13 +490,16 @@ Public NotInheritable Class SVG
             If SelectedFigure.IsEmpty Then SelectedPath.Remove(SelectedFigure)
         Next
 
+        'Make sure UI gets updated with the new data (by firing the path selection event)
+        SVG.SelectedPath = SVG.SelectedPath
+
         'Parse WeSP's extra data ---------------------------------------------------
         If Not str.Contains("<wesp") Then Return
         Dim wesp As String = Split(Split(str, "<wesp")(1), "</wesp>")(0)
 
         'Zoom
         If wesp.ToLower.Contains("zoom=""") Then
-            CanvasZoom = Convert.ToSingle(GetHTMLAttributeValue(wesp.ToLower, " zoom"))
+            CanvasZoom = Convert.ToSingle(HTMLParser.GetAttributeValue(wesp.ToLower, " zoom"))
         End If
 
         'Mirrored PPoints
@@ -481,7 +510,7 @@ Public NotInheritable Class SVG
         Dim orient As Orientation
         For Each item As String In mirrors
             If Not item.Contains("posi") Then Continue For
-            substr = GetHTMLAttributeValue(item, " id")
+            substr = HTMLParser.GetAttributeValue(item, " id")
             ppData = Split(substr, ",")
             If ppData.Length = 3 Then
                 pathi = Convert.ToInt32(ppData(0))
@@ -490,9 +519,9 @@ Public NotInheritable Class SVG
             End If
 
             pp = SVG.paths(pathi).Figure(figi)(ppi)
-            mirPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " ppi")))
-            mirPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLAttributeValue(item, " posi")))
-            orient = Convert.ToInt32(GetHTMLAttributeValue(item, " orient"))
+            mirPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(HTMLParser.GetAttributeValue(item, " ppi")))
+            mirPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(HTMLParser.GetAttributeValue(item, " posi")))
+            orient = Convert.ToInt32(HTMLParser.GetAttributeValue(item, " orient"))
 
             pp.SetMirrorPPoint(mirPP, orient)
             Form_main.Pic_canvas.Refresh()
@@ -502,12 +531,14 @@ Public NotInheritable Class SVG
             With pp
                 '.mirroredPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "posi")))
                 '.mirroredPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "ppi")))
-                .isMirrorOrigin = CBool(GetHTMLAttributeValue(item, " orig"))
-                .nonInteractve = CBool(GetHTMLAttributeValue(item, " noninteract"))
+                .isMirrorOrigin = CBool(HTMLParser.GetAttributeValue(item, " orig"))
+                .nonInteractve = CBool(HTMLParser.GetAttributeValue(item, " noninteract"))
                 '.mirrorOrient = Convert.ToInt32(GetHTMLPropertyValue(item, "orient"))
             End With
         Next
 
+        historyLock = False
+        AddToHistory()
     End Sub
 
     Public Shared Function GetSelectedPPLastInPath() As PathPoint
@@ -531,6 +562,24 @@ Public NotInheritable Class SVG
         'selectedPoints = oredered
         selectedPoints.Clear()
         oredered.CopyTo(selectedPoints)
+    End Sub
+
+
+    Public Shared Sub AppedAttributes(ByRef attrs As Dictionary(Of String, String), fireEvents As Boolean)
+        For Each item In attrs
+            If fireEvents Then
+                Select Case item.Key
+                    Case "width"
+                        CanvasSize = New SizeF(item.Value.GetNumbers, CanvasSize.Height)
+                        Continue For
+                    Case "height"
+                        CanvasSize = New SizeF(CanvasSize.Width, item.Value.GetNumbers)
+                        Continue For
+                End Select
+            End If
+
+            _attributes(item.Key) = item.Value
+        Next
     End Sub
 
 End Class

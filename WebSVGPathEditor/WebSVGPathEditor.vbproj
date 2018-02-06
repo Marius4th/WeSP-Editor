@@ -99,6 +99,7 @@
     <Compile Include="Form_scale.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HTMLParser.vb" />
     <Compile Include="SVG.vb" />
     <Compile Include="SomeClasses.vb" />
     <Compile Include="Commands.vb" />
@@ -232,6 +233,7 @@
     <None Include="Resources\moveDown.png" />
     <None Include="Resources\moveTop.png" />
     <None Include="Resources\moveUp.png" />
+    <None Include="Resources\rename.png" />
     <Content Include="weSP.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

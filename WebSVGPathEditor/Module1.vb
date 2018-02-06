@@ -49,6 +49,7 @@ Public Module Module1
     Public history As New List(Of String)
     Public historySelected As Integer = 0
     Public historyLock As Boolean = False
+    Public modsSinceLastBkp As Integer = -1
 
     Public Sub AddToHistory()
         If historyLock Then Return
@@ -61,6 +62,7 @@ Public Module Module1
         If history.Count <= 0 OrElse history.Last <> latest Then
             history.Add(latest)
             historySelected = history.Count - 1
+            modsSinceLastBkp += 1
         End If
     End Sub
 
@@ -435,25 +437,7 @@ Public Module Module1
 
     End Structure
 
-    Public Function ColorToHexString(ByRef col As Color) As String
-        Return Conversion.Hex(col.R).PadLeft(2, "0") & Conversion.Hex(col.G).PadLeft(2, "0") & Conversion.Hex(col.B).PadLeft(2, "0") & Conversion.Hex(col.A).PadLeft(2, "0")
-    End Function
 
-    Public Function IsStringHexColor(ByVal hex As String) As Boolean
-        If hex.StartsWith("#") AndAlso (hex.Length = 9 OrElse hex.Length = 7) Then Return True
-        Return False
-    End Function
-
-    Public Function HexStringToColor(ByVal hex As String) As Color
-        Dim col As New Color
-        hex = hex.Replace("#", "")
-        If hex.Length >= 8 Then 'RGBA
-            Return Color.FromArgb(Convert.ToInt32(hex.Substring(6, 2), 16), Convert.ToInt32(hex.Substring(0, 2), 16), Convert.ToInt32(hex.Substring(2, 2), 16), Convert.ToInt32(hex.Substring(4, 2), 16))
-        ElseIf hex.Length >= 6 Then 'RGB
-            Return Color.FromArgb(Convert.ToInt32(hex.Substring(0, 2), 16), Convert.ToInt32(hex.Substring(2, 2), 16), Convert.ToInt32(hex.Substring(4, 2), 16))
-        End If
-        Return col
-    End Function
 
     Public Function ColorInverseSimple(col As Color) As Color
         Return Color.FromArgb(col.A, 255 - col.R, 255 - col.G, 255 - col.B)
@@ -544,21 +528,6 @@ Public Module Module1
 
         Next
         Return New RectangleF(minx, miny, maxx - minx, maxy - miny)
-    End Function
-
-    Public Function GetHTMLAttributeValue(html As String, propName As String, Optional isNameAlone As Boolean = True) As String
-        'html = html.Replace("'", """")
-        'propName = propName.Replace("'", """")
-        If isNameAlone Then propName &= "="""
-
-        Dim subStart As Integer = html.IndexOf(propName)
-        If subStart < 0 Then Return "0"
-
-        subStart += propName.Length
-        Dim subEnd As Integer = html.IndexOf("""", subStart)
-        Dim substr As String = html.Substring(subStart, subEnd - subStart)
-
-        Return substr
     End Function
 
     Public Function Ceil(a As Double, digits As Integer) As Double
