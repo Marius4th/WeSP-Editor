@@ -437,6 +437,9 @@ Public Class Form_main
 
         'Dim asy As New CAsync
         'asy.AddTask(AddressOf Test, {"test", "yep"})
+
+        historyLock = False
+        AddToHistory()
     End Sub
 
     'Initializations
@@ -1350,6 +1353,7 @@ Public Class Form_main
         End If
 
         IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
+        modsSinceLastSave = 0
     End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsToolStripMenuItem.Click
@@ -1358,6 +1362,7 @@ Public Class Form_main
             filePath = SaveFileDialog1.FileName
             Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
             IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
+            modsSinceLastSave = 0
         End If
     End Sub
 
@@ -1627,4 +1632,27 @@ Public Class Form_main
         End If
     End Sub
 
+    Private Sub Form_main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        'If e.CloseReason = CloseReason.WindowsShutDown Then Return
+
+        If e.CloseReason = CloseReason.UserClosing AndAlso modsSinceLastSave > 0 Then
+            Dim answer As MsgBoxResult = MsgBox("Save changes before exiting?", MsgBoxStyle.YesNoCancel)
+            If answer = MsgBoxResult.Yes Then
+                SaveFileDialog1.Filter = "WeSP SVG|*.wsvg"
+                If filePath = defFilePath Then
+                    SaveFileDialog1.FileName = IO.Path.GetFileName(filePath)
+                    If SaveFileDialog1.ShowDialog = DialogResult.OK Then
+                        filePath = SaveFileDialog1.FileName
+                        Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
+                    Else
+                        Return
+                    End If
+                End If
+
+                IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
+            ElseIf answer = MsgBoxResult.Cancel Then
+                e.Cancel = True
+            End If
+        End If
+    End Sub
 End Class

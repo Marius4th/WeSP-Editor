@@ -48,8 +48,9 @@ Public Module Module1
 
     Public history As New List(Of String)
     Public historySelected As Integer = 0
-    Public historyLock As Boolean = False
-    Public modsSinceLastBkp As Integer = -1
+    Public historyLock As Boolean = True
+    Public modsSinceLastBkp As Integer = -2
+    Public modsSinceLastSave As Integer = -2
 
     Public Sub AddToHistory()
         If historyLock Then Return
@@ -63,6 +64,7 @@ Public Module Module1
             history.Add(latest)
             historySelected = history.Count - 1
             modsSinceLastBkp += 1
+            modsSinceLastSave += 1
         End If
     End Sub
 
@@ -72,6 +74,7 @@ Public Module Module1
         historySelected = Math.Max(historySelected - 1, 0)
         SVG.ParseString(history(historySelected))
         historyLock = False
+        modsSinceLastSave += 1
     End Sub
 
     Public Sub Redo()
@@ -80,6 +83,7 @@ Public Module Module1
         historySelected = Math.Min(historySelected + 1, history.Count - 1)
         SVG.ParseString(history(historySelected))
         historyLock = False
+        modsSinceLastSave += 1
     End Sub
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
