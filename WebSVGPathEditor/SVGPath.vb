@@ -1,4 +1,6 @@
-﻿Public Class SVGPath
+﻿Imports System.Text.RegularExpressions
+
+Public Class SVGPath
     Private Shared _idCount As Integer = 1
 
     Private figures As New List(Of Figure)
@@ -52,6 +54,11 @@
             Return _attributes("id")
         End Get
         Set(ByVal value As String)
+            value = Regex.Replace(value, "\s+$", "").Replace(" ", "-")
+            If value.Length <= 0 Then
+                value = "Path_" & _idCount
+                _idCount += 1
+            End If
             _attributes("id") = value
             RaiseEvent OnIdChanged(Me, value)
         End Set

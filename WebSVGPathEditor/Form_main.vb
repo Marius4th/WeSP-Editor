@@ -1088,7 +1088,11 @@ Public Class Form_main
     Private Sub Form1_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         pressedKey = Keys.None
         pressedMod = Keys.None
-        RefreshClosestPointToMouse()
+        Dim mpos As Point = Pic_canvas.PointToClient(Cursor.Position)
+        'If mouse over canvas
+        If Pic_canvas.ClientRectangle.Contains(mpos) Then
+            RefreshClosestPointToMouse()
+        End If
     End Sub
 
     Private Sub MoveTo00ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoveTo00ToolStripMenuItem.Click
@@ -1319,6 +1323,8 @@ Public Class Form_main
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         SVG.ParseString(Tb_html.Text.ToString)
+        Focus()
+        Tb_html.Focus()
     End Sub
 
     Private Sub Pan_canvas_Paint(sender As Object, e As PaintEventArgs) Handles Pan_canvas.Paint
@@ -1620,4 +1626,5 @@ Public Class Form_main
             SVG.ParseString(IO.File.ReadAllText("backup.wsvg"))
         End If
     End Sub
+
 End Class
