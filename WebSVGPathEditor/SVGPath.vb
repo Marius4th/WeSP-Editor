@@ -328,7 +328,9 @@ Public Class SVGPath
         Dim str As String = ""
 
         For Each fig As Figure In figures
-            For Each pp As PathPoint In fig
+            For i As Integer = 0 To fig.Count - 1
+                Dim pp As PathPoint = fig(i)
+                If fig.IsPointRef(i) AndAlso pp.pointType = PointType.moveto Then Continue For
                 str &= pp.GetString(optimize) & " "
             Next
             str &= "Z"

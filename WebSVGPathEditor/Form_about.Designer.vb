@@ -77,6 +77,7 @@ Partial Class Form_about
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Form_about"
         Me.Text = "About - WeSP"
+        Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

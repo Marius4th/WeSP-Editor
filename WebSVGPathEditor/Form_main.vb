@@ -204,7 +204,11 @@ Public Class Form_main
     '----------------------------------------------------------------------------------------------------------------------------
 
     Public Sub Figure_OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
-        If sender.HaveMoveto Then But_moveto.Enabled = False
+        If sender.HaveMoveto Then EnableButton(But_moveto, False)
+        If pp.pointType = PointType.moveto Then
+            SetSelectedCommand(PointType.lineto)
+        End If
+
         Pic_canvas.Invalidate()
 
         AddToHistory()
@@ -218,7 +222,10 @@ Public Class Form_main
     End Sub
 
     Public Sub Figure_OnPPointsClear(ByRef sender As Figure)
-        If SVG.SelectedFigure Is sender Then SVG.selectedPoints.Clear()
+        If SVG.SelectedFigure Is sender Then
+            SVG.selectedPoints.Clear()
+            EnableButton(But_moveto, True)
+        End If
         Pic_canvas.Invalidate()
 
         AddToHistory()
@@ -270,11 +277,11 @@ Public Class Form_main
             Next
 
             If prevMirrored Then
-                But_mirrorHor.Enabled = True
-                But_mirrorVert.Enabled = True
+                EnableButton(But_mirrorHor, True)
+                EnableButton(But_mirrorVert, True)
             Else
-                But_mirrorHor.Enabled = False
-                But_mirrorVert.Enabled = False
+                EnableButton(But_mirrorHor, False)
+                EnableButton(But_mirrorVert, False)
             End If
 
             If anyMirrored Then
@@ -287,8 +294,8 @@ Public Class Form_main
         Else
             HighlightButton(But_mirrorHor, False)
             HighlightButton(But_mirrorVert, False)
-            But_mirrorHor.Enabled = True
-            But_mirrorVert.Enabled = True
+            EnableButton(But_mirrorHor, True)
+            EnableButton(But_mirrorVert, True)
         End If
     End Sub
     Public Sub SVGSelectedPoints_OnRemovingRange(sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer)
@@ -312,11 +319,11 @@ Public Class Form_main
 
     Public Sub HighlightButton(ByRef but As Button, highlight As Boolean)
         If highlight Then
-            but.BackColor = Color.Gold
+            If but.Enabled = True Then but.BackColor = Color.Gold
             but.FlatAppearance.BorderSize = 1
             but.FlatAppearance.BorderColor = Color.DarkOrange
         Else
-            but.BackColor = Color.Snow
+            If but.Enabled = True Then but.BackColor = Color.Snow
             but.FlatAppearance.BorderSize = 1
             but.FlatAppearance.BorderColor = Color.DimGray
         End If
@@ -328,6 +335,15 @@ Public Class Form_main
         For Each but As Button In Pan_tools.Controls.OfType(Of Button)
             HighlightButton(but, False)
         Next
+    End Sub
+
+    Public Sub EnableButton(btn As Button, enable As Boolean)
+        btn.Enabled = enable
+        If enable = True Then
+            btn.BackColor = Color.Snow
+        Else
+            btn.BackColor = btn.Parent.BackColor
+        End If
     End Sub
 
     Public Sub SetSelectedTool(tool As Tool)
@@ -438,6 +454,13 @@ Public Class Form_main
         'Dim asy As New CAsync
         'asy.AddTask(AddressOf Test, {"test", "yep"})
 
+        Dim m1 As New Matrix({{0, 4, -2}, {-4, -3, 0}})
+        Dim m2 As New Matrix({{0, 1}, {1, -1}, {2, 3}})
+
+        Dim m3 As Matrix = m1.Multiply(m2)
+
+        Dim m4 As Matrix = m3.Multiply(3)
+
         historyLock = False
         AddToHistory()
     End Sub
@@ -537,7 +560,7 @@ Public Class Form_main
 
                         'If closestFig(Math.Max(0, index - 1)) IsNot Nothing AndAlso closestFig(Math.Max(0, index - 1)).pointType = PointType.closepath Then index = Math.Max(0, index - 1)
 
-                        Dim pp As PathPoint = closestFig.InsertPPoint(selectedType, mpos, index)
+                        Dim pp As PathPoint = closestFig.InsertNewPPoint(selectedType, mpos, index)
 
                         SVG.SelectedPoint = pp
 
@@ -669,12 +692,13 @@ Public Class Form_main
                         pp.Offset(mpos - mouseLastPos)
                     Else
                         If My.Computer.Keyboard.ShiftKeyDown Then
-                            pp.StickToAngleToPoint(mpos)
+                            pp.OffsetSelPoint(mpos, mpos - mouseLastPos, MoveMods.StickTo45Degs)
+                            'pp.StickSelToAngles(45)
                         ElseIf My.Computer.Keyboard.AltKeyDown Then
-                            pp.OffsetSelPoint(mpos - mouseLastPos)
-                            pp.StickToGrid()
+                            pp.OffsetSelPoint(mpos, mpos - mouseLastPos, MoveMods.StickToGrid)
+                            'pp.StickSelToGrid()
                         Else
-                            pp.OffsetSelPoint(mpos - mouseLastPos)
+                            pp.OffsetSelPoint(mpos, mpos - mouseLastPos, 0)
                         End If
                     End If
 
@@ -837,7 +861,7 @@ Public Class Form_main
         'Draw moving point's axis ---------------------------------------------------------------------------------------------
         penAxis.DashPattern = {16, 16}
 
-        If movingPoints = True AndAlso SVG.selectedPoints.Count = 1 Then
+        If movingPoints = True AndAlso SVG.selectedPoints.Count = 1 AndAlso SVG.SelectedPoint.selPoint IsNot Nothing Then
             e.Graphics.DrawLine(penAxis, New PointF(SVG.ApplyZoom(SVG.SelectedPoint.selPoint).X, 0), New PointF(SVG.ApplyZoom(SVG.SelectedPoint.selPoint).X, SVG.CanvasSizeZoomed.Height))
             e.Graphics.DrawLine(penAxis, New PointF(0, SVG.ApplyZoom(SVG.SelectedPoint.selPoint).Y), New PointF(SVG.CanvasSizeZoomed.Width, SVG.ApplyZoom(SVG.SelectedPoint.selPoint).Y))
         End If
@@ -902,7 +926,7 @@ Public Class Form_main
         If SVG.selectedPoints.Count > 0 Then
             Dim ph As PathPoint = Nothing
             If SVG.SelectedFigure.numMirrored <= 0 Then
-                ph = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos) '.SetMirrorPos(lastPP, Orientation.Horizontal)
+                ph = SVG.SelectedFigure.AddNewPPoint(PointType.lineto, lastPP.Pos) '.SetMirrorPos(lastPP, Orientation.Horizontal)
 
                 For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
                     pp.Mirror(Orientation.Horizontal)
@@ -933,7 +957,7 @@ Public Class Form_main
         If SVG.selectedPoints.Count > 0 Then
             Dim ph As PathPoint = Nothing
             If SVG.SelectedFigure.numMirrored <= 0 Then
-                ph = SVG.SelectedFigure.AddPPoint(PointType.lineto, lastPP.pos)
+                ph = SVG.SelectedFigure.AddNewPPoint(PointType.lineto, lastPP.Pos)
 
                 For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
                     pp.Mirror(Orientation.Vertical)
@@ -1035,7 +1059,7 @@ Public Class Form_main
         HighlightButton(But_moveto, True)
 
         SVG.SelectedPath.AddNewFigure()
-        But_moveto.Enabled = True
+        EnableButton(But_moveto, True)
 
         Pic_canvas.Invalidate()
     End Sub
@@ -1171,7 +1195,7 @@ Public Class Form_main
         Dim num As Integer = 0
         For ix As Integer = 0 To SVG.CanvasSizeZoomed.Width - 1 Step 50
             For iy As Integer = 0 To SVG.CanvasSizeZoomed.Height - 1 Step 50
-                SVG.SelectedFigure.InsertPPoint(PointType.lineto, SVG.UnZoom(New PointF(ix, iy)), -1)
+                SVG.SelectedFigure.InsertNewPPoint(PointType.lineto, SVG.UnZoom(New PointF(ix, iy)), -1)
                 num += 1
                 If num > 100 Then Return
             Next

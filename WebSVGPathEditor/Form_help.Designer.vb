@@ -42,7 +42,7 @@ Partial Class Form_help
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.GroupBox1.Size = New System.Drawing.Size(751, 102)
+        Me.GroupBox1.Size = New System.Drawing.Size(751, 115)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Drawing Tools"
@@ -57,7 +57,7 @@ Partial Class Form_help
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
-        Me.TextBox2.Size = New System.Drawing.Size(722, 75)
+        Me.TextBox2.Size = New System.Drawing.Size(722, 88)
         Me.TextBox2.TabIndex = 2
         Me.TextBox2.Text = resources.GetString("TextBox2.Text")
         '
@@ -65,7 +65,7 @@ Partial Class Form_help
         '
         Me.GroupBox2.Controls.Add(Me.TextBox1)
         Me.GroupBox2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(13, 120)
+        Me.GroupBox2.Location = New System.Drawing.Point(13, 133)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -94,14 +94,14 @@ Partial Class Form_help
         '
         Me.GroupBox3.Controls.Add(Me.TextBox3)
         Me.GroupBox3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(13, 201)
+        Me.GroupBox3.Location = New System.Drawing.Point(13, 214)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox3.Size = New System.Drawing.Size(751, 75)
         Me.GroupBox3.TabIndex = 3
         Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Selection Tool"
+        Me.GroupBox3.Text = "Any Tool"
         '
         'TextBox3
         '
@@ -122,7 +122,7 @@ Partial Class Form_help
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(777, 285)
+        Me.ClientSize = New System.Drawing.Size(777, 301)
         Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -131,6 +131,7 @@ Partial Class Form_help
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "Form_help"
         Me.Text = "Help - WeSP"
+        Me.TopMost = True
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)

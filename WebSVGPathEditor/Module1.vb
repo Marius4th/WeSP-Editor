@@ -301,6 +301,11 @@ Public Module Module1
         Return ret * DEGS_PER_RAD
     End Function
 
+    Public Function AngleToPointf(rads As Single, len As Single) As PointF
+        Return New PointF(Math.Cos(rads) * len,
+                         -Math.Sin(rads) * len)
+    End Function
+
     Public Function Midpoint(p1 As PointF, p2 As PointF) As PointF
         Return New PointF((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2)
     End Function
@@ -632,6 +637,155 @@ Public Module Module1
 
     Public Function CutDecimals(sz As SizeF) As SizeF
         Return New SizeF(Math.Round(sz.Width, decimalPlaces), Math.Round(sz.Height, decimalPlaces))
+    End Function
+
+    Public Function Clamp(val As Double, min As Double, max As Double)
+        Return Math.Min(Math.Max(val, min), max)
+    End Function
+
+    Public Function Sign2(val As Double, Optional zeroRet As Integer = 1) As Integer
+        If val < 0 Then
+            Return -1
+        ElseIf val > 0 Then
+            Return 1
+        Else
+            Return zeroRet
+        End If
+    End Function
+
+    '--------------------------------------------------------------------------------------------------------------------------
+
+    Public Const ZERO_TOLERANCE As Single = 0.00001F
+
+    Public Sub EllipticArcToBezierCurves(center As PointF, radius As PointF, xAngle As Single, startAngle As Single,
+             deltaAngle As Single, moveToStart As Boolean, ByRef path As Drawing2D.GraphicsPath)
+
+        Dim endAngle As Double = startAngle + deltaAngle
+        Dim sign As Single = Sign2(endAngle - startAngle)
+        Dim remain = Math.Abs(endAngle - startAngle)
+
+        Dim prev As PointF = EllipticArcPoint(center, radius, xAngle, startAngle)
+
+        While (remain > ZERO_TOLERANCE)
+
+            Dim stepp As Double = Math.Min(remain, Math.PI / 4)
+            Dim signStep As Double = stepp * sign
+
+            Dim curr As PointF = EllipticArcPoint(center, radius, xAngle, startAngle + signStep)
+
+            Dim alphaT As Double = Math.Tan(signStep / 2)
+            Dim alpha = Math.Sin(signStep) * (Math.Sqrt(4 + 3 * alphaT * alphaT) - 1) / 3
+            Dim q1 = prev + CType(EllipticArcDerivative(center, radius, xAngle, startAngle), CPointF) * alpha
+            Dim q2 = curr - CType(EllipticArcDerivative(center, radius, xAngle, startAngle + signStep), CPointF) * alpha
+
+            path.AddBezier(prev, q1, q2, curr)
+
+            startAngle += signStep
+            remain -= stepp
+            prev = curr
+        End While
+    End Sub
+
+    'r may be enlarged
+    Public Sub EndpointToCenterArcParams(p1 As PointF, p2 As PointF, ByRef r As CPointF, xAngle As Single,
+                                         flagA As Boolean, flagS As Boolean, ByRef c As CPointF, ByRef angles As CPointF)
+        'Make radii positive
+        r.X = Math.Abs(r.X)
+        r.Y = Math.Abs(r.Y)
+
+        '(F.6.5.1)
+        Dim mat1 As New Matrix({{Math.Cos(xAngle), Math.Sin(xAngle)},
+                               {-Math.Sin(xAngle), Math.Cos(xAngle)}})
+
+        Dim mat2 As New Matrix({{(p1.X - p2.X) / 2},
+                                {(p1.Y - p2.Y) / 2}})
+
+        Dim pPrime As PointF = mat1.Multiply(mat2).ToPointf
+
+        'Adjust radii (make sure thei are large enough)
+        Dim a As Double = (Math.Pow(pPrime.X, 2) / Math.Pow(r.X, 2)) + (Math.Pow(pPrime.Y, 2) / Math.Pow(r.Y, 2))
+        If a > 1 Then
+            r.X = Math.Sqrt(a) * r.X
+            r.Y = Math.Sqrt(a) * r.Y
+        End If
+
+        '(F.6.5.2)
+        Dim scalarRxRy As Double = (Math.Pow(r.X, 2) * Math.Pow(r.Y, 2))
+        Dim scalarRxNy As Double = (Math.Pow(r.X, 2) * Math.Pow(pPrime.Y, 2))
+        Dim scalarRyNx As Double = (Math.Pow(r.Y, 2) * Math.Pow(pPrime.X, 2))
+        Dim scalarDend As Double = scalarRxRy - scalarRxNy - scalarRyNx
+        Dim scalarDsor As Double = scalarRxNy + scalarRyNx
+        Dim scalar As Double = Math.Sqrt(Math.Abs(scalarDend / scalarDsor))
+        If flagA = flagS Then
+            scalar = -scalar
+        Else
+            scalar = Math.Abs(scalar)
+        End If
+        Dim mat3 As New Matrix({{(r.X * pPrime.Y) / r.Y},
+                              {-((r.Y * pPrime.X) / r.X)}})
+
+        Dim cPrime As Matrix = mat3.Multiply(scalar)
+
+        '(F.6.5.3)
+        mat1 = New Matrix({{Math.Cos(xAngle), -Math.Sin(xAngle)},
+                           {Math.Sin(xAngle), Math.Cos(xAngle)}})
+
+        mat2 = New Matrix({{(p1.X + p2.X) / 2},
+                           {(p1.Y + p2.Y) / 2}})
+
+        Dim center As PointF = mat1.Multiply(cPrime).Add(mat2).ToPointf
+
+        '(F.6.5.4)
+        Dim vec1 As New System.Windows.Vector((pPrime.X - cPrime.ToPointf.X) / r.X, (pPrime.Y - cPrime.ToPointf.Y) / r.Y)
+        Dim vec2 As New System.Windows.Vector((-pPrime.X - cPrime.ToPointf.X) / r.X, (-pPrime.Y - cPrime.ToPointf.Y) / r.Y)
+        Dim theta As Double = VectorAngle(New System.Windows.Vector(1, 0), vec1)
+
+        Dim delta As Double = RadsToDegs(VectorAngle(vec1, vec2)) Mod 360
+
+        If flagS = False AndAlso delta > 0 Then
+            delta -= 360
+        ElseIf flagS = True AndAlso delta < 0 Then
+            delta += 360
+        End If
+
+        delta = DegsToRads(delta)
+
+        'Return Values
+        'r = New PointF(rX, rY)
+        c = center
+        angles = New PointF(theta, delta)
+    End Sub
+
+    Public Function VectorAngle(u As System.Windows.Vector, v As System.Windows.Vector) As Double
+        Dim ret As Double = Math.Acos(System.Windows.Vector.Multiply(u, v) / (u.Length * v.Length))
+        Dim sign As Integer = Math.Sign((u.X * v.Y) - (u.Y * v.X))
+        If sign < 0 Then
+            If ret > 0 Then Return -ret
+            Return ret
+        End If
+
+        Return Math.Abs(ret)
+    End Function
+
+    Public Function EllipticArcPoint(c As PointF, r As PointF, xAngle As Single, t As Single) As PointF
+        Return New PointF(c.X + r.X * Math.Cos(xAngle) * Math.Cos(t) - r.Y * Math.Sin(xAngle) * Math.Sin(t),
+                           c.Y + r.X * Math.Sin(xAngle) * Math.Cos(t) + r.Y * Math.Cos(xAngle) * Math.Sin(t))
+    End Function
+
+    Public Function EllipticArcDerivative(c As PointF, r As PointF, xAngle As Single, t As Single) As PointF
+        Return New PointF(-r.X * Math.Cos(xAngle) * Math.Sin(t) - r.Y * Math.Sin(xAngle) * Math.Cos(t),
+                           -r.X * Math.Sin(xAngle) * Math.Sin(t) + r.Y * Math.Cos(xAngle) * Math.Cos(t))
+    End Function
+
+    'Sticks a point to equal portions of specific angle degrees
+    Public Function StickPointToAngles(pt As PointF, origin As PointF, portionDegs As Single) As PointF
+        Dim angleRads As Double = DegsToRads(Math.Round(LineAngle(origin, pt) / portionDegs) * portionDegs)
+        Dim dist As Single = LineLength(pt, origin)
+        Dim newPos As New PointF
+        'Calculate the new pos based on the angle and distance of the point (pt)
+        newPos.X = origin.X + Math.Cos(angleRads) * dist
+        newPos.Y = origin.Y - Math.Sin(angleRads) * dist
+        Return newPos
     End Function
 
 End Module

@@ -98,21 +98,42 @@
     End Function
 
     Public Sub Add(ByRef item As PathPoint, isref As Boolean)
-        points.Add(item)
-        refs.Add(isref)
+        'Add reference to last moveto in the path, if necessary
+        If points.Count <= 0 AndAlso Not item.pointType = PointType.moveto Then
+            Dim mp As PathPoint = Me.parent.GetLastMoveto(item)
+            If mp IsNot Nothing Then
+                Me.Insert(0, mp, True)
+                'item.SetPrevPPoint(mp)
+                Me.Insert(1, item, False)
+            End If
+        Else
+            points.Add(item)
+            refs.Add(isref)
+        End If
 
-        item.RefreshPrevPPoint()
+        item.RefreshSeccondaryData()
 
         RaiseEvent OnPPointAdded(Me, item)
     End Sub
 
     Public Sub Insert(index As Integer, ByRef item As PathPoint, isref As Boolean)
-        points.Insert(index, item)
-        refs.Insert(index, isref)
 
-        item.RefreshPrevPPoint()
+        'Add reference to last moveto in the path, if necessary
+        If index = 0 AndAlso Not item.pointType = PointType.moveto Then
+            Dim mp As PathPoint = Me.parent.GetLastMoveto(item)
+            If mp IsNot Nothing Then
+                Me.Insert(0, mp, True)
+                'item.SetPrevPPoint(mp)
+                Me.Insert(1, item, False)
+            End If
+        Else
+            points.Insert(index, item)
+            refs.Insert(index, isref)
+        End If
+
+        item.RefreshSeccondaryData()
         If index + 1 < points.Count Then
-            points(index + 1).prevPPoint = item
+            points(index + 1).RefreshSeccondaryData()
         End If
 
         RaiseEvent OnPPointAdded(Me, item)
@@ -137,7 +158,7 @@
         points.RemoveAt(index)
         refs.RemoveAt(index)
         If index < points.Count Then
-            points(index).RefreshPrevPPoint()
+            points(index).RefreshSeccondaryData()
         End If
     End Sub
 
@@ -154,7 +175,7 @@
         points.RemoveRange(start, count)
         refs.RemoveRange(start, count)
         If start < points.Count Then
-            points(start).RefreshPrevPPoint()
+            points(start).RefreshSeccondaryData()
         End If
     End Sub
 
@@ -404,25 +425,24 @@
         Return Nothing
     End Function
 
-    Public Function AddPPoint(ptype As PointType, ppos As CPointF) As PathPoint
-        Return Me.InsertPPoint(ptype, ppos, Me.Count)
+    Public Function AddNewPPoint(ptype As PointType, ppos As CPointF) As PathPoint
+        Return Me.InsertNewPPoint(ptype, ppos, Me.Count)
     End Function
 
-    Public Function InsertPPointAtPos(ptype As PointType, ppos As CPointF, refPos As Point) As PathPoint
+    Public Function InsertNewPPointAtPos(ptype As PointType, ppos As CPointF, refPos As Point) As PathPoint
         Static index As Integer
 
         Dim closest() As PathPoint = Me.GetClosestPointsLineDist(refPos, False)
         index = Me.IndexOf(closest(1))
         If index = 0 Then index = Me.Count
 
-        Return Me.InsertPPoint(ptype, ppos, index)
+        Return Me.InsertNewPPoint(ptype, ppos, index)
     End Function
 
-    Public Function InsertPPoint(ptype As PointType, ppos As PointF, index As Integer) As PathPoint
+    Public Function InsertNewPPoint(ptype As PointType, ppos As PointF, index As Integer) As PathPoint
         Static gIndex As Integer
 
         If ptype = PointType.moveto AndAlso (Me.HaveMoveto OrElse index > 0) Then
-            Form_main.SetSelectedCommand(PointType.lineto)
             ptype = PointType.lineto
         End If
 
@@ -443,10 +463,10 @@
                 pp = New PPCurveto(ppos, New PointF(ppos.X, ppos.Y), New PointF(ppos.X + 2, ppos.Y + 2), Me)
             Case PointType.smoothCurveto
             Case PointType.quadraticBezierCurve
-                pp = New PPBezier(ppos, New PointF(ppos.X - 1, ppos.Y - 1), Me)
+                pp = New PPQuadraticBezier(ppos, New PointF(ppos.X - 1, ppos.Y - 1), Me)
             Case PointType.smoothQuadraticBezierCurveto
             Case PointType.ellipticalArc
-                pp = New PPEllipticalArc(ppos, 1, Me)
+                pp = New PPEllipticalArc(ppos, New PointF(1, 1), 0, False, False, Me)
             Case Else
         End Select
 
@@ -454,15 +474,7 @@
             pp = New PathPoint(ptype, ppos, Me)
         End If
 
-        'Add reference to last moveto in the path, if necessary
-        If points.Count <= 0 AndAlso Not ptype = PointType.moveto Then
-            Dim mp As PathPoint = Me.parent.GetLastMoveto(pp)
-            Me.Insert(0, mp, True)
-            pp.prevPPoint = mp
-            Me.Insert(index + 1, pp, False)
-        Else
-            Me.Insert(index, pp, False)
-        End If
+        Me.Insert(index, pp, False)
 
         Return pp
     End Function

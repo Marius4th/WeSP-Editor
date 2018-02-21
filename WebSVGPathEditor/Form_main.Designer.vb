@@ -544,7 +544,7 @@ Partial Class Form_main
         '
         'But_smoothBezier
         '
-        Me.But_smoothBezier.BackColor = System.Drawing.Color.Snow
+        Me.But_smoothBezier.BackColor = System.Drawing.Color.DarkOliveGreen
         resources.ApplyResources(Me.But_smoothBezier, "But_smoothBezier")
         Me.But_smoothBezier.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_smoothBezier.ForeColor = System.Drawing.Color.DarkOrange
@@ -563,7 +563,7 @@ Partial Class Form_main
         '
         'But_smoothCurveto
         '
-        Me.But_smoothCurveto.BackColor = System.Drawing.Color.Snow
+        Me.But_smoothCurveto.BackColor = System.Drawing.Color.DarkOliveGreen
         resources.ApplyResources(Me.But_smoothCurveto, "But_smoothCurveto")
         Me.But_smoothCurveto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_smoothCurveto.ForeColor = System.Drawing.Color.DarkOrange
@@ -582,7 +582,7 @@ Partial Class Form_main
         '
         'But_vertLineto
         '
-        Me.But_vertLineto.BackColor = System.Drawing.Color.Snow
+        Me.But_vertLineto.BackColor = System.Drawing.Color.DarkOliveGreen
         Me.But_vertLineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.vertLineto
         resources.ApplyResources(Me.But_vertLineto, "But_vertLineto")
         Me.But_vertLineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
@@ -592,7 +592,7 @@ Partial Class Form_main
         '
         'But_horLineto
         '
-        Me.But_horLineto.BackColor = System.Drawing.Color.Snow
+        Me.But_horLineto.BackColor = System.Drawing.Color.DarkOliveGreen
         Me.But_horLineto.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.horLineto
         resources.ApplyResources(Me.But_horLineto, "But_horLineto")
         Me.But_horLineto.FlatAppearance.BorderColor = System.Drawing.Color.DimGray

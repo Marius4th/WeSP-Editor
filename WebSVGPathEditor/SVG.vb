@@ -313,6 +313,9 @@ Public NotInheritable Class SVG
         AddPath()
     End Sub
 
+    Public Shared Function UnZoom(val As Double) As Double
+        Return val / _canvasZoom
+    End Function
     Public Shared Function UnZoom(pt As PointF) As PointF
         Return New PointF(pt.X / _canvasZoom, pt.Y / _canvasZoom)
     End Function
@@ -320,10 +323,12 @@ Public NotInheritable Class SVG
         Return New RectangleF(rc.X / _canvasZoom, rc.Y / _canvasZoom, rc.Width / _canvasZoom, rc.Height / _canvasZoom)
     End Function
 
+    Public Shared Function ApplyZoom(val As Double) As Double
+        Return val * _canvasZoom
+    End Function
     Public Shared Function ApplyZoom(pt As PointF) As PointF
         Return New PointF(pt.X * _canvasZoom, pt.Y * _canvasZoom)
     End Function
-
     Public Shared Function ApplyZoom(rc As RectangleF) As RectangleF
         Return New RectangleF(rc.X * _canvasZoom, rc.Y * _canvasZoom, rc.Width * _canvasZoom, rc.Height * _canvasZoom)
     End Function
@@ -436,49 +441,69 @@ Public NotInheritable Class SVG
                             Next
 
                             Select Case ppType
-                                Case PointType.moveto, PointType.lineto
+                                Case PointType.moveto
                                     For i As Integer = 1 To coords.Count - 1 Step 2
-                                        lastPP = SelectedFigure.AddPPoint(ppType, New CPointF(coords(i - 1), coords(i)))
+                                        lastPP = New PPMoveto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
+                                        If relative Then lastPP.RelativeToAbsolute()
+                                    Next
+                                Case PointType.lineto
+                                    For i As Integer = 1 To coords.Count - 1 Step 2
+                                        lastPP = New PPLineto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
                                         If relative Then lastPP.RelativeToAbsolute()
                                     Next
                                 Case PointType.horizontalLineto
                                     For i As Integer = 0 To coords.Count - 1 Step 1
-                                        lastPP = SelectedFigure.AddPPoint(PointType.lineto, New CPointF(coords(i), 0))
+                                        lastPP = New PPLineto(New CPointF(coords(i), 0), SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
                                         If relative Then lastPP.RelativeToAbsolute()
+
                                         If lastPP.prevPPoint IsNot Nothing Then
-                                            lastPP.pos.Y = lastPP.prevPPoint.pos.Y
+                                            lastPP.Pos.Y = lastPP.PrevPPoint.Pos.Y
+                                            lastPP.SetPosition(New PointF(lastPP.Pos.X, lastPP.PrevPPoint.Pos.Y))
                                         End If
                                     Next
                                 Case PointType.verticalLineto
                                     For i As Integer = 0 To coords.Count - 1 Step 1
-                                        lastPP = SelectedFigure.AddPPoint(PointType.lineto, New CPointF(0, coords(i)))
+                                        lastPP = New PPLineto(New CPointF(0, coords(i)), SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
                                         If relative Then lastPP.RelativeToAbsolute()
-                                        If lastPP.prevPPoint IsNot Nothing Then
-                                            lastPP.pos.X = lastPP.prevPPoint.pos.X
+
+                                        If lastPP.PrevPPoint IsNot Nothing Then
+                                            lastPP.SetPosition(New PointF(lastPP.PrevPPoint.Pos.X, lastPP.Pos.Y))
                                         End If
                                     Next
                                 Case PointType.curveto
                                     For i As Integer = 5 To coords.Count - 1 Step 6
-                                        lastPP = SelectedFigure.AddPPoint(ppType, New CPointF(coords(i - 1), coords(i)))
-                                        CType(lastPP, PPCurveto).refPoint2 = New CPointF(coords(i - 3), coords(i - 2))
-                                        CType(lastPP, PPCurveto).refPoint1 = New CPointF(coords(i - 5), coords(i - 4))
+                                        lastPP = New PPCurveto(New CPointF(coords(i - 1), coords(i)),
+                                                               New CPointF(coords(i - 5), coords(i - 4)),
+                                                               New PointF(coords(i - 3), coords(i - 2)),
+                                                               SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
                                         If relative Then lastPP.RelativeToAbsolute()
                                     Next
                                 Case PointType.smoothCurveto
-
+                                    'TODO
                                 Case PointType.quadraticBezierCurve
                                     For i As Integer = 3 To coords.Count - 1 Step 4
-                                        lastPP = SelectedFigure.AddPPoint(ppType, New CPointF(coords(i - 1), coords(i)))
-                                        CType(lastPP, PPBezier).refPoint = New CPointF(coords(i - 3), coords(i - 2))
+                                        lastPP = New PPQuadraticBezier(New CPointF(coords(i - 1), coords(i)),
+                                                                       New PointF(coords(i - 3), coords(i - 2)),
+                                                                       SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
                                         If relative Then lastPP.RelativeToAbsolute()
                                     Next
                                 Case PointType.smoothQuadraticBezierCurveto
-
+                                    'TODO
                                 Case PointType.ellipticalArc
                                     For i As Integer = 6 To coords.Count - 1 Step 7
-                                        lastPP = SelectedFigure.AddPPoint(ppType, New CPointF(coords(i - 1), coords(i)))
-                                        CType(lastPP, PPEllipticalArc).sweep = coords(i - 2)
-                                        CType(lastPP, PPEllipticalArc).size = New SizeF(coords(i - 6), coords(i - 5))
+                                        lastPP = New PPEllipticalArc(New CPointF(coords(i - 1), coords(i)),
+                                                                         New PointF(coords(i - 6), coords(i - 5)),
+                                                                         coords(i - 4),
+                                                                         coords(i - 3),
+                                                                         coords(i - 2),
+                                                                         SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
                                         If relative Then lastPP.RelativeToAbsolute()
                                     Next
                                 Case Else

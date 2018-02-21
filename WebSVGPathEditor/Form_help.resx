@@ -121,6 +121,7 @@
     <value>-Hold "CTRL" to modify the selected points by dragging them with the mouse or checking/uncheking flags.
 -While modifying points:
 	-Hold "SHIFT" to stick points to angles of 45º.
+		-Elliptical Arcs: When modifying secondary points, "SHIFT" will convert it into a circle instead.
 	-Hold "ALT" to stick points to the 1x1 grid.
 -Use the "MIDDLE MOUSE BUTTON" to navigate the canvas.</value>
   </data>

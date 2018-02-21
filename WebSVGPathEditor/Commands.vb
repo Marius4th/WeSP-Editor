@@ -26,13 +26,18 @@ Public Module Commands
         None
     End Enum
 
+    Public Enum MoveMods As Long
+        StickToGrid = 1     '10000000
+        StickTo45Degs = 2   '01000000
+    End Enum
+
     'Public MustInherit Class PathPoint
     Public Class PathPoint
         Implements IDisposable
 
         Public pointType As PointType
-        Public pos As CPointF
-        Public prevPPoint As PathPoint
+        Private _pos As CPointF
+        Private _prevPPoint As PathPoint
         Public selPoint As CPointF
         Public mirroredPP As PathPoint      'Only mirror the position
         Public mirroredPos As PathPoint    'Mirror the econdary info
@@ -45,12 +50,25 @@ Public Module Commands
 
         Public parent As Figure
 
+
+        Public ReadOnly Property Pos() As CPointF
+            Get
+                Return _pos
+            End Get
+        End Property
+
+        Public ReadOnly Property PrevPPoint() As PathPoint
+            Get
+                Return _prevPPoint
+            End Get
+        End Property
+
         Public Shared Event OnModified(ByRef sender As PathPoint)
 
         Public Sub New()
             pointType = PointType.moveto
-            pos = Nothing
-            prevPPoint = Nothing
+            _pos = Nothing
+            _prevPPoint = Nothing
             parent = Nothing
             mirroredPP = Nothing
             mirroredPos = Nothing
@@ -59,20 +77,14 @@ Public Module Commands
 
         Public Sub New(ptype As PointType, ByRef position As CPointF, ByRef paFig As Figure)
             pointType = ptype
-            pos = CType(position, PointF)
-            selPoint = pos
-            prevPPoint = Nothing
+            _pos = CType(position, PointF)
+            selPoint = Pos
+            _prevPPoint = Nothing
             parent = paFig
             mirroredPP = Nothing
             mirroredPos = Nothing
             isMirrorOrigin = False
         End Sub
-
-
-
-
-
-
 
         Dim disposed As Boolean = False
 
@@ -109,6 +121,10 @@ Public Module Commands
             mirroredPos = Nothing
 
             disposed = True
+        End Sub
+
+        Public Overridable Sub SetPrevPPoint(ByRef prev As PathPoint)
+            _prevPPoint = prev
         End Sub
 
         Public Overridable Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
@@ -227,6 +243,7 @@ Public Module Commands
         End Sub
 
         Public Overridable Sub RefreshSeccondaryData()
+            RefreshPrevPPoint()
             RaiseEvent OnModified(Me)
         End Sub
 
@@ -270,10 +287,24 @@ Public Module Commands
         End Sub
 
         'Offsets the internaly selected point (it can be the pos or any other ref point)
-        Public Overridable Sub OffsetSelPoint(ByRef ammount As PointF, Optional refMirror As Boolean = True)
-            If selPoint Is Nothing Then selPoint = pos
-            selPoint.X += ammount.X
-            selPoint.Y += ammount.Y
+        Public Overridable Sub OffsetSelPoint(newPos As PointF, delta As PointF, mods As Long, Optional refMirror As Boolean = True)
+            'If selPoint Is Nothing Then selPoint = pos
+            If selPoint Is Nothing Then Return
+            selPoint.X += delta.X
+            selPoint.Y += delta.Y
+
+            If (mods And MoveMods.StickToGrid) > 0 Then
+                Dim off As PointF = SVG.StickPointToCanvasGrid(selPoint) - selPoint
+                selPoint.X += off.X
+                selPoint.Y += off.Y
+            End If
+
+            If (mods And MoveMods.StickTo45Degs) > 0 AndAlso PrevPPoint IsNot Nothing Then
+                Dim off As PointF = StickPointToAngles(newPos, PrevPPoint.Pos, 45) - selPoint
+                selPoint.X += off.X
+                selPoint.Y += off.Y
+            End If
+
             'asyc.AddTaskReseter(AddressOf OnPPointModifiedAsync, {Me}, Me)
             'enqueued = True
             If refMirror Then RefreshMirror()
@@ -292,12 +323,12 @@ Public Module Commands
             Return parent.parent.FigureIndexToPath(Me)
         End Function
 
-        Public Sub RefreshPrevPPoint()
+        Public Overridable Sub RefreshPrevPPoint()
             Dim myIndex As Integer = Me.GetIndex()
             If myIndex > 0 Then
-                prevPPoint = parent(myIndex - 1)
+                SetPrevPPoint(parent(myIndex - 1))
             Else
-                prevPPoint = Nothing
+                SetPrevPPoint(Nothing)
             End If
         End Sub
 
@@ -356,11 +387,12 @@ Public Module Commands
             pathLB.Items.Item(parent.parent.FigureIndexToPath(Me)) = Me.GetString(False)
         End Sub
 
-        Public Sub StickToGrid()
-            'Dim off As CPointF = SVG.StickPointToCanvasGrid(pos) - pos
-            'Me.Offset(off)
-            SetPosition(SVG.StickPointToCanvasGrid(pos))
-        End Sub
+        'Public Sub StickSelToGrid()
+        '    If selPoint Is Nothing Then Return
+        '    Dim np As PointF = SVG.StickPointToCanvasGrid(selPoint)
+        '    Me.OffsetSelPoint(np, np - selPoint, MoveMods.StickToGrid)
+        '    'SetPosition(SVG.StickPointToCanvasGrid(Pos))
+        'End Sub
 
         Public Sub RoundPosition()
             SetPosition(New SizeF(Math.Round(pos.X), Math.Round(pos.Y)))
@@ -392,17 +424,17 @@ Public Module Commands
         '    MyBase.Finalize()
         'End Sub
 
-        Public Sub StickToAngleToPoint(ByRef pt As PointF)
-            If prevPPoint Is Nothing Then Return
+        'Public Sub StickPosTo45Degs(pt As PointF)
+        '    If PrevPPoint Is Nothing Then Return
 
-            Dim angleRads As Double = DegsToRads(Math.Round(LineAngle(prevPPoint.pos, pt) / 45) * 45)
-            Dim dist As Single = LineLength(pt, prevPPoint.pos)
-            Dim newPos As New CPointF
-            'Calculate the new pos based on the angle and distance of the point (pt)
-            newPos.X = prevPPoint.pos.X + Math.Cos(angleRads) * dist
-            newPos.Y = prevPPoint.pos.Y - Math.Sin(angleRads) * dist
-            Me.SetPosition(newPos)
-        End Sub
+        '    Dim angleRads As Double = DegsToRads(Math.Round(LineAngle(PrevPPoint.Pos, pt) / 45) * 45)
+        '    Dim dist As Single = LineLength(pt, PrevPPoint.Pos)
+        '    Dim newPos As New CPointF
+        '    'Calculate the new pos based on the angle and distance of the point (pt)
+        '    newPos.X = PrevPPoint.Pos.X + Math.Cos(angleRads) * dist
+        '    newPos.Y = PrevPPoint.Pos.Y - Math.Sin(angleRads) * dist
+        '    Me.SetPosition(newPos)
+        'End Sub
 
         Public Overridable Function HasSecondaryPoints() As Boolean
             Return False
@@ -434,8 +466,7 @@ Public Module Commands
             'In case there is no previous ppoint for some reason (mostly for movetos)
             Dim prevpp As PathPoint = SVGPath.GetPreviousPPoint(Me)
             If prevpp Is Nothing Then Return
-            pos.X = prevpp.pos.X + pos.X
-            pos.Y = prevpp.pos.Y + pos.Y
+            SetPosition(prevpp.Pos + Pos, False)
         End Sub
 
         Public Function GetNextPPoint() As PathPoint
@@ -469,9 +500,9 @@ Public Module Commands
         End Sub
 
         'Offsets the internaly selected point (it can be the pos or any other ref point)
-        Public Overrides Sub OffsetSelPoint(ByRef ammount As PointF, Optional refMirror As Boolean = True)
-            If selPoint Is Nothing Then selPoint = pos
-            MyBase.OffsetSelPoint(ammount, refMirror)
+        Public Overrides Sub OffsetSelPoint(newPos As PointF, delta As PointF, mods As Long, Optional refMirror As Boolean = True)
+            If selPoint Is Nothing Then selPoint = Pos
+            MyBase.OffsetSelPoint(newPos, delta, mods, refMirror)
 
             For Each pp As PathPoint In parent
                 pp.RefreshMirror()
@@ -529,31 +560,109 @@ Public Module Commands
     'End Class
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    'Just partially implemented. Will be fully implemented in the future.
+
     Public Class PPEllipticalArc
         Inherits PathPoint
-        Public sweep As Boolean
-        Public size As SizeF
+        Public flarge As Boolean
+        Public fsweep As Boolean
+        Public radii As PointF
+        Public xangle As Single
 
-        Public Sub New(position As CPointF, sweep As Boolean, ByRef paFig As Figure)
+        Private _secCenter As CPointF
+        Private _secAngleRad As New CPointF
+        Private _secHeight As New CPointF
+
+        Public Sub New(position As CPointF, ByRef paFig As Figure)
             MyBase.New(PointType.ellipticalArc, position, paFig)
-            'pointType = ptye
-            'pos = position
-            Me.sweep = sweep
+            Me.radii = New PointF(1, 1)
+            Me.xangle = 0
+            Me.flarge = False
+            Me.fsweep = False
+
+            _secCenter = New PointF(1, 1)
+            _secAngleRad = Pos + AngleToPointf(xangle, radii.X)
+            _secHeight = _secCenter + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
+        End Sub
+
+        Public Sub New(position As CPointF, radii As PointF, xangle As Single, flarge As Boolean, fsweep As Boolean, ByRef paFig As Figure)
+            MyBase.New(PointType.ellipticalArc, position, paFig)
+            Me.radii = radii
+            Me.xangle = xangle
+            Me.flarge = flarge
+            Me.fsweep = fsweep
+
+            _secCenter = New PointF(1, 1)
+            _secAngleRad = Pos + AngleToPointf(360 - xangle, radii.X)
+            _secHeight = _secCenter + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
+        End Sub
+
+        Public Overrides Sub SetPrevPPoint(ByRef prev As PathPoint)
+            MyBase.SetPrevPPoint(prev)
+
+            _secCenter = Midpoint(PrevPPoint.Pos, Pos)
+            _secAngleRad = _secCenter + AngleToPointf(DegsToRads(360 - xangle), radii.X)
+            _secHeight = _secCenter + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
         End Sub
 
         Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
-            Dim dup As New PPEllipticalArc(CType(Me.pos, PointF), Me.sweep, pa)
-            dup.size = Me.size
+            Dim dup As New PPEllipticalArc(CType(pos, PointF), radii, xangle, flarge, fsweep, pa)
             pa.Insert(destIndex, dup, False)
             dup.RefreshPrevPPoint()
             Return dup
         End Function
 
+        Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
+            MyBase.Offset(ammount, refMirror)
+
+            _secCenter = Midpoint(PrevPPoint.Pos, Pos)
+            _secAngleRad = CType(_secCenter, CPointF) + AngleToPointf(DegsToRads(360 - xangle), radii.X)
+            _secHeight = CType(_secCenter, CPointF) + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
+        End Sub
+
+        'Offsets the internaly selected point (it can be the pos or any other ref point)
+        Public Overrides Sub OffsetSelPoint(newPos As PointF, delta As PointF, mods As Long, Optional refMirror As Boolean = True)
+            If selPoint Is Nothing Then Return
+
+            If selPoint Is Pos Then
+                MyBase.OffsetSelPoint(newPos, delta, mods, refMirror)
+            Else
+                MyBase.OffsetSelPoint(newPos, delta, Math.Max(0, mods - MoveMods.StickTo45Degs), refMirror)
+            End If
+
+            'Dim pivot As PointF = PrevPPoint.Pos
+            'If selPoint IsNot Pos Then pivot = _secCenter
+            'If (mods And MoveMods.StickTo45Degs) > 0 Then
+            '    Dim off As PointF = StickPointToAngles(newPos, pivot, 45) - selPoint
+            '    selPoint.X += off.X
+            '    selPoint.Y += off.Y
+            'End If
+
+            If selPoint Is _secAngleRad Then
+                xangle = 360 - LineAngle(_secCenter, _secAngleRad)
+                'radii.Y = Math.Max(0.0001, LineLength(PrevPPoint.Pos, Pos) / 2)
+                radii.X = Math.Max(0.0001, LineLength(_secAngleRad, _secCenter))
+                If (mods And MoveMods.StickTo45Degs) > 0 Then radii.Y = radii.X
+            ElseIf selPoint Is _secHeight Then
+                radii.Y = LineLength(_secCenter, _secHeight)
+                If (mods And MoveMods.StickTo45Degs) > 0 Then radii.X = radii.Y
+            Else
+                _secCenter = Midpoint(PrevPPoint.Pos, Pos)
+                _secAngleRad = CType(_secCenter, CPointF) + AngleToPointf(DegsToRads(360 - xangle), radii.X)
+                _secHeight = CType(_secCenter, CPointF) + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
+            End If
+
+            Dim tp As PointF = _secCenter + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
+            _secHeight.X = tp.X
+            _secHeight.Y = tp.Y
+            tp = _secCenter + AngleToPointf(DegsToRads(360 - xangle), radii.X)
+            _secAngleRad.X = tp.X
+            _secAngleRad.Y = tp.Y
+        End Sub
+
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
             Dim cutPos As PointF = CutDecimals(pos)
-            Dim cutSize As SizeF = CutDecimals(size)
+            Dim cutRadii As PointF = CutDecimals(radii)
 
             Dim relative As Boolean = False
             Dim relPos As PointF
@@ -565,32 +674,49 @@ Public Module Commands
             End If
 
             If relative Then
-                Return Chr(pointType).ToString.ToLower & cutSize.Width / 2 & "," & cutSize.Height / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & relPos.X & "," & relPos.Y
+                Return Chr(pointType).ToString.ToLower & cutRadii.X & "," & cutRadii.Y & " " & CutDecimals(xangle) & " " & Math.Abs(CInt(flarge)) & "," & Math.Abs(CInt(fsweep)) & " " & relPos.X & "," & relPos.Y
             End If
 
-            Return Chr(pointType) & cutSize.Width / 2 & "," & cutSize.Height / 2 & " 0 0," & Math.Abs(CInt(sweep)) & " " & cutPos.X & "," & cutPos.Y
+            Return Chr(pointType) & cutRadii.X & "," & cutRadii.Y & " " & CutDecimals(xangle) & " " & Math.Abs(CInt(flarge)) & "," & Math.Abs(CInt(fsweep)) & " " & cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
-            Dim maxSz As Integer = Math.Max(1, LineLength(prevPPoint.pos, pos))
-            Dim rect As RectangleF = LineToCircle(SVG.ApplyZoom(prevPPoint.pos), SVG.ApplyZoom(pos))
-            'rect.Size = New SizeF(maxSz, maxSz)
-            'Dim sz As New SizeF(maxSz, maxSz)
-            Dim t As Integer = sweep
-            Dim angle As Double = (360 - LineAngle(prevPPoint.pos, pos)) + 180 '+ p2.p1.Y
-            Dim apperture As Single = 180
+            '_secCenter = Midpoint(PrevPPoint.Pos, Pos)
+            'xangle = 360 - LineAngle(_secCenter, _secAngleRad)
+            'radii.Y = Math.Max(0.0001, LineLength(prevPPoint.pos, pos) / 2)
+            'radii.X = Math.Max(0.0001, LineLength(_secAngleRad, _secCenter))
 
-            size = New SizeF(maxSz, maxSz)
-            If sweep = False Then apperture *= -1
+            'Dim posAngle As Single = (xangle + LineAngle(PrevPPoint.Pos, Pos)) Mod 360
 
-            path.AddArc(rect, angle, apperture)
+            'If posAngle > 0 AndAlso posAngle < 180 Then
+            '    fsweep = False
+            'Else
+            '    fsweep = True
+            'End If
+
+            Dim rads As Single = DegsToRads(xangle)
+            Dim r As CPointF = radii
+            Dim c As New CPointF
+            Dim angles As New CPointF
+
+            EndpointToCenterArcParams(prevPPoint.pos, pos, r, rads, flarge, fsweep, c, angles)
+            EllipticArcToBezierCurves(SVG.ApplyZoom(c), SVG.ApplyZoom(r), rads, angles.X, angles.Y, False, path)
         End Sub
 
         Public Overrides Sub RefreshSeccondaryData()
             If mirroredPP IsNot Nothing Then
-                sweep = CType(mirroredPP, PPEllipticalArc).sweep
+                radii = CType(mirroredPP, PPEllipticalArc).radii
+                xangle = CType(mirroredPP, PPEllipticalArc).xangle
+                fsweep = CType(mirroredPP, PPEllipticalArc).fsweep
+                flarge = CType(mirroredPP, PPEllipticalArc).flarge
             End If
             MyBase.RefreshSeccondaryData()
+
+            If PrevPPoint IsNot Nothing Then
+                _secCenter = Midpoint(PrevPPoint.Pos, Pos)
+                _secAngleRad = _secCenter + AngleToPointf(DegsToRads(360 - xangle), radii.X)
+                _secHeight = _secCenter + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
+            End If
         End Sub
 
         Public Overrides Sub OnMoveStart(ByRef mpos As PointF)
@@ -602,26 +728,70 @@ Public Module Commands
             'Else
             '    selPoint = refPoint
             'End If
-            selPoint = GetClosestPoint(mpos)
+
             Dim rc As New RectangleF(pos.X + 1, pos.Y + 1, 1, 1)
             If rc.Contains(mpos.X, mpos.Y) Then
-                sweep = Not sweep
+                flarge = Not flarge
+                selPoint = Nothing
+                Return
             End If
+            rc = New RectangleF(pos.X + 3, pos.Y + 1, 1, 1)
+            If rc.Contains(mpos.X, mpos.Y) Then
+                fsweep = Not fsweep
+                selPoint = Nothing
+                Return
+            End If
+
+            selPoint = GetClosestPoint(mpos)
         End Sub
 
+        Public Overrides Function GetClosestPoint(ByRef mpos As CPointF) As CPointF
+            Return ClosestPointToPos(mpos, {Pos, _secAngleRad, _secHeight}).Value
+        End Function
+
         Public Overrides Sub DrawSecPoints(ByRef graphs As Graphics)
-            'Sweep Flag
-            Dim rc As New Rectangle(SVG.ApplyZoom(pos).X + 10, SVG.ApplyZoom(pos).Y + 10, 10, 10)
-            Static penIn As New Pen(Color.Pink, 1)
+            Static penIn As New Pen(Color.Salmon, 1)
             Static penOut As New Pen(Color.FromArgb(255, 40, 40, 40), 3)
+            Static penHIn As New Pen(Color.Cyan, 1)
+            Static penHOut As New Pen(Color.FromArgb(255, 40, 40, 40), 3)
+            Static drawFont As New Font("Arial", 11, FontStyle.Bold)
+            Static brushText As New SolidBrush(Color.Salmon)
+            Static formatText As New StringFormat
+            formatText.Alignment = StringAlignment.Center
 
-            graphs.DrawEllipse(penOut, rc)
-            graphs.DrawEllipse(penIn, rc)
+            'Large flag
+            Dim rc As New Rectangle(SVG.ApplyZoom(Pos.X + 1), SVG.ApplyZoom(Pos.Y + 1), 10, 10)
+            graphs.DrawRectangle(penOut, rc)
+            graphs.DrawRectangle(penIn, rc)
+            graphs.DrawString("L", drawFont, brushText, New Point(rc.Left + 5, rc.Top + 10), formatText)
 
-            If sweep Then
+            If flarge Then
                 graphs.DrawX(penOut, rc)
                 graphs.DrawX(penIn, rc)
             End If
+
+            'Sweep Flag
+            rc = New Rectangle(SVG.ApplyZoom(Pos.X + 3), SVG.ApplyZoom(Pos.Y + 1), 10, 10)
+            graphs.DrawRectangle(penOut, rc)
+            graphs.DrawRectangle(penIn, rc)
+            graphs.DrawString("S", drawFont, brushText, New Point(rc.Left + 5, rc.Top + 10), formatText)
+
+            If fsweep Then
+                graphs.DrawX(penOut, rc)
+                graphs.DrawX(penIn, rc)
+            End If
+
+            'Width and Angle modifier
+            rc = New Rectangle(SVG.ApplyZoom(_secAngleRad).X - 4, SVG.ApplyZoom(_secAngleRad).Y - 4, 8, 8)
+            graphs.DrawEllipse(penOut, rc)
+            graphs.DrawEllipse(penIn, rc)
+            graphs.DrawLine(penIn, SVG.ApplyZoom(_secCenter), SVG.ApplyZoom(_secAngleRad))
+
+            'Height Modifier
+            rc = New Rectangle(SVG.ApplyZoom(_secHeight).X - 4, SVG.ApplyZoom(_secHeight).Y - 4, 8, 8)
+            graphs.DrawEllipse(penHOut, rc)
+            graphs.DrawEllipse(penHIn, rc)
+            graphs.DrawLine(penHIn, SVG.ApplyZoom(_secCenter), SVG.ApplyZoom(_secHeight))
         End Sub
 
         Public Overrides Function HasSecondaryPoints() As Boolean
@@ -629,13 +799,13 @@ Public Module Commands
         End Function
 
         Public Overrides Function GetBounds() As RectangleF
-            Return LineToSemiCircle(prevPPoint.pos, pos, sweep)
+            Return LineToSemiCircle(prevPPoint.pos, pos, fsweep)
         End Function
 
     End Class
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    Public Class PPBezier
+    Public Class PPQuadraticBezier
         Inherits PathPoint
         Public refPoint As CPointF
 
@@ -646,7 +816,7 @@ Public Module Commands
 
         Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
-            Dim dup As New PPBezier(CType(Me.pos, PointF), CType(Me.refPoint, PointF), pa)
+            Dim dup As New PPQuadraticBezier(CType(Me.Pos, PointF), CType(Me.refPoint, PointF), pa)
             pa.Insert(destIndex, dup, False)
             dup.RefreshPrevPPoint()
             Return dup
@@ -660,20 +830,20 @@ Public Module Commands
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
-            Dim cutPos As PointF = CutDecimals(pos)
+            Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutRef As PointF = CutDecimals(refPoint)
 
             Dim relative As Boolean = False
             Dim relPos As PointF
-            If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = CutDecimals(pos - prevPPoint.pos)
-                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
+            If optimize AndAlso PrevPPoint IsNot Nothing Then
+                relPos = CutDecimals(Pos - PrevPPoint.Pos)
+                If PrevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
                     relative = True
                 End If
             End If
 
             If relative Then
-                Dim relRefP As PointF = CutDecimals(refPoint - prevPPoint.pos)
+                Dim relRefP As PointF = CutDecimals(refPoint - PrevPPoint.Pos)
                 Return Chr(pointType).ToString.ToLower & relRefP.X & "," & relRefP.Y & " " & relPos.X & "," & relPos.Y
             End If
 
@@ -681,7 +851,7 @@ Public Module Commands
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
-            path.AddBezier(SVG.ApplyZoom(prevPPoint.pos), SVG.ApplyZoom(refPoint), SVG.ApplyZoom(pos), SVG.ApplyZoom(pos))
+            path.AddBezier(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(refPoint), SVG.ApplyZoom(Pos), SVG.ApplyZoom(Pos))
             'path.AddBezier(prevPoint.pos, prevPoint.pos, refPoint, pos)
         End Sub
 
@@ -692,8 +862,8 @@ Public Module Commands
 
             graphs.DrawEllipse(penOut, rc)
             graphs.DrawEllipse(penIn, rc)
-            graphs.DrawLine(penIn, SVG.ApplyZoom(pos), SVG.ApplyZoom(refPoint))
-            graphs.DrawLine(penIn, SVG.ApplyZoom(prevPPoint.pos), SVG.ApplyZoom(refPoint))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(Pos), SVG.ApplyZoom(refPoint))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(refPoint))
         End Sub
 
         Public Overrides Sub OnMoveStart(ByRef mpos As PointF)
@@ -713,12 +883,12 @@ Public Module Commands
         'End Sub
 
         Public Overrides Function GetClosestPoint(ByRef mpos As CPointF) As CPointF
-            Return ClosestPointToPos(mpos, {pos, refPoint}).Value
+            Return ClosestPointToPos(mpos, {Pos, refPoint}).Value
         End Function
 
         Public Overrides Sub RefreshSeccondaryData()
             If mirroredPP IsNot Nothing Then
-                refPoint = ReflectPoint(parent.GetMoveto().pos, CType(mirroredPP, PPBezier).refPoint, mirrorOrient)
+                refPoint = ReflectPoint(parent.GetMoveto().Pos, CType(mirroredPP, PPQuadraticBezier).refPoint, mirrorOrient)
             End If
             MyBase.RefreshSeccondaryData()
         End Sub
@@ -728,16 +898,16 @@ Public Module Commands
         End Function
 
         Public Overrides Function GetBounds() As RectangleF
-            Return GetCurveBounds(pos.X, pos.Y, pos.X, pos.Y, refPoint.X, refPoint.Y, prevPPoint.pos.X, prevPPoint.pos.Y)
+            Return GetCurveBounds(Pos.X, Pos.Y, Pos.X, Pos.Y, refPoint.X, refPoint.Y, PrevPPoint.Pos.X, PrevPPoint.Pos.Y)
         End Function
 
         Public Overrides Sub RelativeToAbsolute()
             Dim prevpp As PathPoint = SVGPath.GetPreviousPPoint(Me)
             If prevpp Is Nothing Then Return
-            pos.X = prevpp.pos.X + pos.X
-            pos.Y = prevpp.pos.Y + pos.Y
-            refPoint.X = prevpp.pos.X + refPoint.X
-            refPoint.Y = prevpp.pos.Y + refPoint.Y
+            Pos.X = prevpp.Pos.X + Pos.X
+            Pos.Y = prevpp.Pos.Y + Pos.Y
+            refPoint.X = prevpp.Pos.X + refPoint.X
+            refPoint.Y = prevpp.Pos.Y + refPoint.Y
         End Sub
 
     End Class

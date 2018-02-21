@@ -90,35 +90,28 @@ Public Module SomeClasses
             Return CType(cp1, Point) = CType(cp2, Point)
         End Operator
         Public Shared Operator <>(ByVal cp1 As CPoint, ByVal cp2 As CPoint) As Boolean
-            'If CType(cp2, Object) = Nothing AndAlso Not CType(cp1, Object) = Nothing Then Return True
             Return CType(cp1, Point) <> CType(cp2, Point)
         End Operator
 
         Public Shared Operator -(ByVal cp1 As CPoint, ByVal cp2 As CPoint) As CPoint
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPoint(cp1.X - cp2.X, cp1.Y - cp2.Y)
         End Operator
 
         Public Shared Operator -(ByVal cp1 As CPoint, ByVal cp2 As Point) As CPoint
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPoint(cp1.X - cp2.X, cp1.Y - cp2.Y)
         End Operator
 
         Public Shared Operator *(ByVal cp1 As CPoint, ByVal val As Integer) As CPoint
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPoint(cp1.X * val, cp1.Y * val)
         End Operator
         Public Shared Operator *(ByVal cp1 As CPoint, ByVal val As Double) As CPoint
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPoint(cp1.X * val, cp1.Y * val)
         End Operator
 
         Public Shared Operator /(ByVal cp1 As CPoint, ByVal val As Integer) As CPoint
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPoint(cp1.X / val, cp1.Y / val)
         End Operator
         Public Shared Operator /(ByVal cp1 As CPoint, ByVal val As Double) As CPoint
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPoint(cp1.X / val, cp1.Y / val)
         End Operator
 
@@ -174,40 +167,48 @@ Public Module SomeClasses
         End Operator
 
         Public Shared Operator =(ByVal cp1 As CPointF, ByVal cp2 As CPointF) As Boolean
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return CType(cp1, PointF) = CType(cp2, PointF)
         End Operator
 
         Public Shared Operator <>(ByVal cp1 As CPointF, ByVal cp2 As CPointF) As Boolean
-            'If CType(cp2, Object) = Nothing AndAlso Not CType(cp1, Object) = Nothing Then Return True
             Return CType(cp1, PointF) <> CType(cp2, PointF)
         End Operator
 
         Public Shared Operator -(ByVal cp1 As CPointF, ByVal cp2 As CPointF) As CPointF
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPointF(cp1.X - cp2.X, cp1.Y - cp2.Y)
         End Operator
 
         Public Shared Operator -(ByVal cp1 As CPointF, ByVal cp2 As PointF) As CPointF
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPointF(cp1.X - cp2.X, cp1.Y - cp2.Y)
         End Operator
 
+        Public Shared Operator -(ByVal cp1 As CPointF, ByVal val As Double) As CPointF
+            Return New CPointF(cp1.X - val, cp1.Y - val)
+        End Operator
+
+        Public Shared Operator -(ByVal cp1 As CPointF) As CPointF
+            Return New CPointF(-cp1.X, -cp1.Y)
+        End Operator
+
+        Public Shared Operator +(ByVal cp1 As CPointF, ByVal cp2 As PointF) As CPointF
+            Return New CPointF(cp1.X + cp2.X, cp1.Y + cp2.Y)
+        End Operator
+
+        Public Shared Operator +(ByVal cp1 As CPointF, ByVal val As Double) As CPointF
+            Return New CPointF(cp1.X + val, cp1.Y + val)
+        End Operator
+
         Public Shared Operator *(ByVal cp1 As CPointF, ByVal val As Integer) As CPointF
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPointF(cp1.X * val, cp1.Y * val)
         End Operator
         Public Shared Operator *(ByVal cp1 As CPointF, ByVal val As Double) As CPointF
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPointF(cp1.X * val, cp1.Y * val)
         End Operator
 
         Public Shared Operator /(ByVal cp1 As CPointF, ByVal val As Integer) As CPointF
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPointF(cp1.X / val, cp1.Y / val)
         End Operator
         Public Shared Operator /(ByVal cp1 As CPointF, ByVal val As Double) As CPointF
-            'If CType(cp2, Object) = Nothing OrElse CType(cp1, Object) = Nothing Then Return False
             Return New CPointF(cp1.X / val, cp1.Y / val)
         End Operator
 
@@ -312,6 +313,88 @@ Public Module SomeClasses
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    Public Class Matrix
+        Private _elements As Double(,)
+
+        Public Sub New(columns As Integer, rows As Integer)
+            _elements = New Double(rows, columns) {}
+        End Sub
+        Public Sub New(values As Double(,))
+            _elements = values
+        End Sub
+
+        Public ReadOnly Property Columns() As Integer
+            Get
+                Return _elements.GetLength(1)
+            End Get
+        End Property
+
+        Public ReadOnly Property Rows() As Integer
+            Get
+                Return _elements.GetLength(0)
+            End Get
+        End Property
+
+        Public Property Element(ByVal c As Integer, ByVal r As Integer) As Double
+            Get
+                Return _elements(r, c)
+            End Get
+            Set(ByVal value As Double)
+                _elements(r, c) = value
+            End Set
+        End Property
+
+        Public Function Multiply(mtrx As Matrix) As Matrix
+            If Me.Columns <> mtrx.Rows Then Return Nothing
+
+            Dim ret As New Matrix(mtrx.Columns - 1, Me.Rows - 1)
+            Dim sum As Double = 0
+            For fri As Integer = 0 To Me.Rows - 1
+                For fci As Integer = 0 To mtrx.Columns - 1
+                    sum = 0
+                    For ri As Integer = 0 To mtrx.Rows - 1
+                        sum += Me.Element(ri, fri) * mtrx.Element(fci, ri)
+                    Next
+                    ret.Element(fci, fri) = sum
+                Next
+            Next
+
+            Return ret
+        End Function
+
+        Public Function Multiply(scalar As Double) As Matrix
+            Dim ret As New Matrix(Me.Columns - 1, Me.Rows - 1)
+            For fri As Integer = 0 To Me.Rows - 1
+                For fci As Integer = 0 To Me.Columns - 1
+                    ret.Element(fci, fri) = Me.Element(fci, fri) * scalar
+                Next
+            Next
+
+            Return ret
+        End Function
+
+        Public Function Add(mtrx As Matrix) As Matrix
+            If Me.Columns <> mtrx.Columns Or Me.Rows <> mtrx.Rows Then Return Nothing
+
+            Dim ret As New Matrix(Me.Columns - 1, Me.Rows - 1)
+            For fri As Integer = 0 To Me.Rows - 1
+                For fci As Integer = 0 To Me.Columns - 1
+                    ret.Element(fci, fri) = Me.Element(fci, fri) + mtrx.Element(fci, fri)
+                Next
+            Next
+
+            Return ret
+        End Function
+
+        Public Function ToPointf() As PointF
+            If Me.Rows >= 2 AndAlso Me.Columns > 0 Then
+                Return New PointF(Element(0, 0), Element(0, 1))
+            ElseIf Me.Columns >= 2 AndAlso Me.Rows > 0 Then
+                Return New PointF(Element(0, 0), Element(1, 0))
+            End If
+        End Function
+
+    End Class
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
