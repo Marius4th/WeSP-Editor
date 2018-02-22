@@ -542,6 +542,48 @@ Public Module Module1
         Return New RectangleF(minx, miny, maxx - minx, maxy - miny)
     End Function
 
+    Public Function GetEllipticalArcBounds(startp As PointF, endp As PointF, radii As PointF, xAngle As Single, flarge As Boolean, fsweep As Boolean) As RectangleF
+        Dim rads As Single = DegsToRads(xAngle)
+        Dim r As CPointF = radii
+        Dim c As New CPointF
+        Dim angles As New CPointF
+
+        EndpointToCenterArcParams(startp, endp, r, rads, flarge, fsweep, c, angles)
+
+        Dim minx, miny, maxx, maxy As Single
+
+        minx = Single.PositiveInfinity
+        miny = Single.PositiveInfinity
+        maxx = Single.NegativeInfinity
+        maxy = Single.NegativeInfinity
+
+        Dim startAngle As Double = angles.X
+        Dim endAngle As Double = startAngle + angles.Y
+        Dim sign As Single = Sign2(endAngle - startAngle)
+        Dim stepp As Double = Math.PI / 10
+        Dim signStep As Double = stepp * sign
+        startAngle -= signStep
+        Dim remain = Math.Abs(endAngle - startAngle)
+
+        While (remain > ZERO_TOLERANCE)
+            Dim pt As PointF = EllipticArcPoint(c, r, rads, startAngle + signStep)
+
+            If pt.X < minx Then minx = pt.X
+            If pt.X > maxx Then maxx = pt.X
+
+            If pt.Y < miny Then miny = pt.Y
+            If pt.Y > maxy Then maxy = pt.Y
+
+            startAngle += signStep
+            remain -= stepp
+
+            stepp = Math.Min(remain, Math.PI / 10)
+            signStep = stepp * sign
+        End While
+
+        Return New RectangleF(minx, miny, Math.Abs(maxx - minx), Math.Abs(maxy - miny))
+    End Function
+
     Public Function Ceil(a As Double, digits As Integer) As Double
         digits = Math.Pow(10, digits)
         Return Math.Ceiling(a * digits) / digits
@@ -661,7 +703,7 @@ Public Module Module1
     Public Const ZERO_TOLERANCE As Single = 0.00001F
 
     Public Sub EllipticArcToBezierCurves(center As PointF, radius As PointF, xAngle As Single, startAngle As Single,
-             deltaAngle As Single, moveToStart As Boolean, ByRef path As Drawing2D.GraphicsPath)
+                                         deltaAngle As Single, ByRef path As Drawing2D.GraphicsPath)
 
         Dim endAngle As Double = startAngle + deltaAngle
         Dim sign As Single = Sign2(endAngle - startAngle)
@@ -772,12 +814,12 @@ Public Module Module1
 
     Public Function EllipticArcPoint(c As PointF, r As PointF, xAngle As Single, t As Single) As PointF
         Return New PointF(c.X + r.X * Math.Cos(xAngle) * Math.Cos(t) - r.Y * Math.Sin(xAngle) * Math.Sin(t),
-                           c.Y + r.X * Math.Sin(xAngle) * Math.Cos(t) + r.Y * Math.Cos(xAngle) * Math.Sin(t))
+                          c.Y + r.X * Math.Sin(xAngle) * Math.Cos(t) + r.Y * Math.Cos(xAngle) * Math.Sin(t))
     End Function
 
     Public Function EllipticArcDerivative(c As PointF, r As PointF, xAngle As Single, t As Single) As PointF
         Return New PointF(-r.X * Math.Cos(xAngle) * Math.Sin(t) - r.Y * Math.Sin(xAngle) * Math.Cos(t),
-                           -r.X * Math.Sin(xAngle) * Math.Sin(t) + r.Y * Math.Cos(xAngle) * Math.Cos(t))
+                          -r.X * Math.Sin(xAngle) * Math.Sin(t) + r.Y * Math.Cos(xAngle) * Math.Cos(t))
     End Function
 
     'Sticks a point to equal portions of specific angle degrees

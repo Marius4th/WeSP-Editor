@@ -270,16 +270,11 @@ Public NotInheritable Class SVG
         Dim rc As New RectangleF
 
         For Each path As SVGPath In paths
-            For Each fig As Figure In path.GetFigures
-                For Each pp As PathPoint In fig
-                    If pp.pos Is Nothing Then Continue For
-                    rc = pp.GetBounds()
-                    If rc.Left < minx Then minx = rc.Left
-                    If rc.Right > maxx Then maxx = rc.Right
-                    If rc.Top < miny Then miny = rc.Top
-                    If rc.Bottom > maxy Then maxy = rc.Bottom
-                Next
-            Next
+            rc = path.GetBounds()
+            If rc.Left < minx Then minx = rc.Left
+            If rc.Right > maxx Then maxx = rc.Right
+            If rc.Top < miny Then miny = rc.Top
+            If rc.Bottom > maxy Then maxy = rc.Bottom
         Next
 
         If minx = Single.PositiveInfinity Then Return New RectangleF(New PointF(0, 0), _canvasSizeZoomed)

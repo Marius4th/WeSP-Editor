@@ -700,7 +700,7 @@ Public Module Commands
             Dim angles As New CPointF
 
             EndpointToCenterArcParams(prevPPoint.pos, pos, r, rads, flarge, fsweep, c, angles)
-            EllipticArcToBezierCurves(SVG.ApplyZoom(c), SVG.ApplyZoom(r), rads, angles.X, angles.Y, False, path)
+            EllipticArcToBezierCurves(SVG.ApplyZoom(c), SVG.ApplyZoom(r), rads, angles.X, angles.Y, path)
         End Sub
 
         Public Overrides Sub RefreshSeccondaryData()
@@ -792,6 +792,9 @@ Public Module Commands
             graphs.DrawEllipse(penHOut, rc)
             graphs.DrawEllipse(penHIn, rc)
             graphs.DrawLine(penHIn, SVG.ApplyZoom(_secCenter), SVG.ApplyZoom(_secHeight))
+
+            Dim bnd As RectangleF = GetBounds()
+            graphs.DrawRectangle(penIn, SVG.ApplyZoom(bnd).ToRectangle)
         End Sub
 
         Public Overrides Function HasSecondaryPoints() As Boolean
@@ -799,7 +802,9 @@ Public Module Commands
         End Function
 
         Public Overrides Function GetBounds() As RectangleF
-            Return LineToSemiCircle(prevPPoint.pos, pos, fsweep)
+            If PrevPPoint Is Nothing Then Return New RectangleF(0, 0, 1, 1)
+            Return GetEllipticalArcBounds(PrevPPoint.Pos, Pos, radii, xangle, flarge, fsweep)
+            'Return LineToSemiCircle(PrevPPoint.Pos, Pos, fsweep)
         End Function
 
     End Class

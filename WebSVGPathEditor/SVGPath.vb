@@ -524,4 +524,35 @@ Public Class SVGPath
         Next
     End Sub
 
+    Public Function GetBounds() As RectangleF
+        Dim minx As Single = Single.PositiveInfinity
+        Dim miny As Single = Single.PositiveInfinity
+        Dim maxx As Single = Single.NegativeInfinity
+        Dim maxy As Single = Single.NegativeInfinity
+        Dim rc As New RectangleF
+
+        For Each fig As Figure In figures
+            For Each pp As PathPoint In fig
+                If pp.Pos Is Nothing Then Continue For
+                rc = pp.GetBounds()
+                If rc.Left < minx Then minx = rc.Left
+                If rc.Right > maxx Then maxx = rc.Right
+                If rc.Top < miny Then miny = rc.Top
+                If rc.Bottom > maxy Then maxy = rc.Bottom
+            Next
+        Next
+
+        If minx = Single.PositiveInfinity Then Return New RectangleF(New PointF(0, 0), SVG.CanvasSizeZoomed)
+
+        Dim halfSW As Single = StrokeWidth / 2.0F
+
+        minx -= halfSW
+        miny -= halfSW
+
+        maxx += halfSW
+        maxy += halfSW
+
+        Return New RectangleF(minx, miny, maxx - minx, maxy - miny)
+    End Function
+
 End Class
