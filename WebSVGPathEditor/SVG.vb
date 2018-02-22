@@ -445,19 +445,19 @@ Public NotInheritable Class SVG
                                     For i As Integer = 1 To coords.Count - 1 Step 2
                                         lastPP = New PPMoveto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
                                     Next
                                 Case PointType.lineto
                                     For i As Integer = 1 To coords.Count - 1 Step 2
                                         lastPP = New PPLineto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
                                     Next
                                 Case PointType.horizontalLineto
                                     For i As Integer = 0 To coords.Count - 1 Step 1
                                         lastPP = New PPLineto(New CPointF(coords(i), 0), SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
 
                                         If lastPP.prevPPoint IsNot Nothing Then
                                             lastPP.Pos.Y = lastPP.PrevPPoint.Pos.Y
@@ -468,7 +468,7 @@ Public NotInheritable Class SVG
                                     For i As Integer = 0 To coords.Count - 1 Step 1
                                         lastPP = New PPLineto(New CPointF(0, coords(i)), SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
 
                                         If lastPP.PrevPPoint IsNot Nothing Then
                                             lastPP.SetPosition(New PointF(lastPP.PrevPPoint.Pos.X, lastPP.Pos.Y))
@@ -481,20 +481,35 @@ Public NotInheritable Class SVG
                                                                New PointF(coords(i - 3), coords(i - 2)),
                                                                SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
                                     Next
                                 Case PointType.smoothCurveto
-                                    'TODO
+                                    For i As Integer = 3 To coords.Count - 1 Step 4
+                                        lastPP = New PPCurveto(New CPointF(coords(i - 1), coords(i)),
+                                                               New PointF(coords(i - 3), coords(i - 2)),
+                                                               New PointF(coords(i - 3), coords(i - 2)),
+                                                               SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
+                                        CType(lastPP, PPCurveto).ReflectPrevPP()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
+                                    Next
                                 Case PointType.quadraticBezierCurve
                                     For i As Integer = 3 To coords.Count - 1 Step 4
                                         lastPP = New PPQuadraticBezier(New CPointF(coords(i - 1), coords(i)),
                                                                        New PointF(coords(i - 3), coords(i - 2)),
                                                                        SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
                                     Next
                                 Case PointType.smoothQuadraticBezierCurveto
-                                    'TODO
+                                    For i As Integer = 1 To coords.Count - 1 Step 2
+                                        lastPP = New PPQuadraticBezier(New CPointF(coords(i - 1), coords(i)),
+                                                                       New CPointF(coords(i - 1), coords(i)),
+                                                                       SelectedFigure)
+                                        SelectedFigure.Add(lastPP, False)
+                                        CType(lastPP, PPQuadraticBezier).ReflectPrevPP()
+                                        If relative Then lastPP.RelativeToAbsolute(True)
+                                    Next
                                 Case PointType.ellipticalArc
                                     For i As Integer = 6 To coords.Count - 1 Step 7
                                         lastPP = New PPEllipticalArc(New CPointF(coords(i - 1), coords(i)),
@@ -504,7 +519,7 @@ Public NotInheritable Class SVG
                                                                          coords(i - 2),
                                                                          SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute()
+                                        If relative Then lastPP.RelativeToAbsolute(False)
                                     Next
                                 Case Else
                             End Select

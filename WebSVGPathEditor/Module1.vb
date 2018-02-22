@@ -288,6 +288,7 @@ Public Module Module1
         Return rc
     End Function
 
+    'Returns angle in degs
     Public Function LineAngle(p1 As PointF, p2 As PointF) As Double
         Dim vec As New PointF(p2.X - p1.X, (p2.Y - p1.Y) * -1)
         Dim ret As Double = 0

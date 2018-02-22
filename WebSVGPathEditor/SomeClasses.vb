@@ -7,6 +7,9 @@ Public Module SomeClasses
         Public val2 As T2
         Public val3 As T3
 
+        Public Sub New()
+        End Sub
+
         Public Sub New(v1 As T1, v2 As T2, v3 As T3)
             val1 = v1
             val2 = v2
@@ -19,6 +22,9 @@ Public Module SomeClasses
     Public Class BiValue(Of T1, T2)
         Public val1 As T1
         Public val2 As T2
+
+        Public Sub New()
+        End Sub
 
         Public Sub New(v1 As T1, v2 As T2)
             val1 = v1

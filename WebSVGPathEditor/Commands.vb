@@ -462,7 +462,7 @@ Public Module Commands
         End Function
 
         'Converts from relative coords to absolute
-        Public Overridable Sub RelativeToAbsolute()
+        Public Overridable Sub RelativeToAbsolute(onlyPos As Boolean)
             'In case there is no previous ppoint for some reason (mostly for movetos)
             Dim prevpp As PathPoint = SVGPath.GetPreviousPPoint(Me)
             If prevpp Is Nothing Then Return
@@ -807,31 +807,31 @@ Public Module Commands
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     Public Class PPQuadraticBezier
         Inherits PathPoint
-        Public refPoint As CPointF
+        Public ctrlPoint As CPointF
 
-        Public Sub New(ByRef position As CPointF, ByRef refp As CPointF, ByRef paFig As Figure)
+        Public Sub New(ByRef position As CPointF, ByRef ctrlPt As CPointF, ByRef paFig As Figure)
             MyBase.New(PointType.quadraticBezierCurve, position, paFig)
-            Me.refPoint = refp
+            Me.ctrlPoint = ctrlPt
         End Sub
 
         Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
-            Dim dup As New PPQuadraticBezier(CType(Me.Pos, PointF), CType(Me.refPoint, PointF), pa)
+            Dim dup As New PPQuadraticBezier(CType(Me.Pos, PointF), CType(Me.ctrlPoint, PointF), pa)
             pa.Insert(destIndex, dup, False)
             dup.RefreshPrevPPoint()
             Return dup
         End Function
 
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
-            refPoint.X += ammount.X
-            refPoint.Y += ammount.Y
+            ctrlPoint.X += ammount.X
+            ctrlPoint.Y += ammount.Y
 
             MyBase.Offset(ammount, refMirror)
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
             Dim cutPos As PointF = CutDecimals(Pos)
-            Dim cutRef As PointF = CutDecimals(refPoint)
+            Dim cutRef As PointF = CutDecimals(ctrlPoint)
 
             Dim relative As Boolean = False
             Dim relPos As PointF
@@ -843,27 +843,27 @@ Public Module Commands
             End If
 
             If relative Then
-                Dim relRefP As PointF = CutDecimals(refPoint - PrevPPoint.Pos)
-                Return Chr(pointType).ToString.ToLower & relRefP.X & "," & relRefP.Y & " " & relPos.X & "," & relPos.Y
+                Dim relCtrlP As PointF = CutDecimals(ctrlPoint - PrevPPoint.Pos)
+                Return Chr(pointType).ToString.ToLower & relCtrlP.X & "," & relCtrlP.Y & " " & relPos.X & "," & relPos.Y
             End If
 
             Return Chr(pointType) & cutRef.X & "," & cutRef.Y & " " & cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
-            path.AddBezier(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(refPoint), SVG.ApplyZoom(Pos), SVG.ApplyZoom(Pos))
+            path.AddBezier(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint), SVG.ApplyZoom(Pos), SVG.ApplyZoom(Pos))
             'path.AddBezier(prevPoint.pos, prevPoint.pos, refPoint, pos)
         End Sub
 
         Public Overrides Sub DrawSecPoints(ByRef graphs As Graphics)
-            Dim rc As New Rectangle(SVG.ApplyZoom(refPoint).X - 4, SVG.ApplyZoom(refPoint).Y - 4, 8, 8)
+            Dim rc As New Rectangle(SVG.ApplyZoom(ctrlPoint).X - 4, SVG.ApplyZoom(ctrlPoint).Y - 4, 8, 8)
             Static penIn As New Pen(Color.Pink, 1)
             Static penOut As New Pen(Color.FromArgb(255, 40, 40, 40), 3)
 
             graphs.DrawEllipse(penOut, rc)
             graphs.DrawEllipse(penIn, rc)
-            graphs.DrawLine(penIn, SVG.ApplyZoom(Pos), SVG.ApplyZoom(refPoint))
-            graphs.DrawLine(penIn, SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(refPoint))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(Pos), SVG.ApplyZoom(ctrlPoint))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint))
         End Sub
 
         Public Overrides Sub OnMoveStart(ByRef mpos As PointF)
@@ -883,12 +883,12 @@ Public Module Commands
         'End Sub
 
         Public Overrides Function GetClosestPoint(ByRef mpos As CPointF) As CPointF
-            Return ClosestPointToPos(mpos, {Pos, refPoint}).Value
+            Return ClosestPointToPos(mpos, {Pos, ctrlPoint}).Value
         End Function
 
         Public Overrides Sub RefreshSeccondaryData()
             If mirroredPP IsNot Nothing Then
-                refPoint = ReflectPoint(parent.GetMoveto().Pos, CType(mirroredPP, PPQuadraticBezier).refPoint, mirrorOrient)
+                ctrlPoint = ReflectPoint(parent.GetMoveto().Pos, CType(mirroredPP, PPQuadraticBezier).ctrlPoint, mirrorOrient)
             End If
             MyBase.RefreshSeccondaryData()
         End Sub
@@ -898,16 +898,37 @@ Public Module Commands
         End Function
 
         Public Overrides Function GetBounds() As RectangleF
-            Return GetCurveBounds(Pos.X, Pos.Y, Pos.X, Pos.Y, refPoint.X, refPoint.Y, PrevPPoint.Pos.X, PrevPPoint.Pos.Y)
+            Return GetCurveBounds(Pos.X, Pos.Y, Pos.X, Pos.Y, ctrlPoint.X, ctrlPoint.Y, PrevPPoint.Pos.X, PrevPPoint.Pos.Y)
         End Function
 
-        Public Overrides Sub RelativeToAbsolute()
+        Public Overrides Sub RelativeToAbsolute(onlyPos As Boolean)
             Dim prevpp As PathPoint = SVGPath.GetPreviousPPoint(Me)
             If prevpp Is Nothing Then Return
             Pos.X = prevpp.Pos.X + Pos.X
             Pos.Y = prevpp.Pos.Y + Pos.Y
-            refPoint.X = prevpp.Pos.X + refPoint.X
-            refPoint.Y = prevpp.Pos.Y + refPoint.Y
+            If onlyPos = False Then
+                ctrlPoint.X = prevpp.Pos.X + ctrlPoint.X
+                ctrlPoint.Y = prevpp.Pos.Y + ctrlPoint.Y
+            End If
+        End Sub
+
+        Public Function GetCtrlPtReflexion() As PointF
+            Dim reflexion As PointF
+            Dim angle As Double = DegsToRads(LineAngle(Pos, ctrlPoint) + 180)
+            Dim len As Double = LineLength(Pos, ctrlPoint)
+            reflexion.X = Pos.X + Math.Cos(angle) * len
+            reflexion.Y = Pos.Y - Math.Sin(angle) * len
+            Return reflexion
+        End Function
+
+        Public Sub ReflectPrevPP()
+            If PrevPPoint Is Nothing Then Return
+            If PrevPPoint.pointType = PointType.quadraticBezierCurve Then
+                ctrlPoint = CType(PrevPPoint, PPQuadraticBezier).GetCtrlPtReflexion()
+            Else
+                ctrlPoint = PrevPPoint.Pos
+            End If
+            RefreshSeccondaryData()
         End Sub
 
     End Class
@@ -915,36 +936,36 @@ Public Module Commands
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     Public Class PPCurveto
         Inherits PathPoint
-        Public refPoint1 As CPointF
-        Public refPoint2 As CPointF
+        Public ctrlPoint1 As CPointF
+        Public ctrlPoint2 As CPointF
 
-        Public Sub New(ByRef position As CPointF, ByRef refp1 As CPointF, ByRef refp2 As CPointF, ByRef paFig As Figure)
+        Public Sub New(ByRef position As CPointF, ByRef ctrlPt1 As CPointF, ByRef ctrlPt2 As CPointF, ByRef paFig As Figure)
             MyBase.New(PointType.curveto, position, paFig)
-            Me.refPoint1 = refp1
-            Me.refPoint2 = refp2
+            Me.ctrlPoint1 = ctrlPt1
+            Me.ctrlPoint2 = ctrlPt2
         End Sub
 
         Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
-            Dim dup As New PPCurveto(CType(Me.pos, PointF), CType(Me.refPoint1, PointF), CType(Me.refPoint2, PointF), pa)
+            Dim dup As New PPCurveto(CType(Me.Pos, PointF), CType(Me.ctrlPoint1, PointF), CType(Me.ctrlPoint2, PointF), pa)
             pa.Insert(destIndex, dup, False)
             dup.RefreshPrevPPoint()
             Return dup
         End Function
 
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
-            refPoint1.X += ammount.X
-            refPoint1.Y += ammount.Y
-            refPoint2.X += ammount.X
-            refPoint2.Y += ammount.Y
+            ctrlPoint1.X += ammount.X
+            ctrlPoint1.Y += ammount.Y
+            ctrlPoint2.X += ammount.X
+            ctrlPoint2.Y += ammount.Y
 
             MyBase.Offset(ammount, refMirror)
         End Sub
 
         Public Overrides Function GetString(Optional optimize As Boolean = True) As String
             Dim cutPos As PointF = CutDecimals(pos)
-            Dim cutRef1 As PointF = CutDecimals(refPoint1)
-            Dim cutRef2 As PointF = CutDecimals(refPoint2)
+            Dim cutCtrlPt1 As PointF = CutDecimals(ctrlPoint1)
+            Dim cutCtrlPt2 As PointF = CutDecimals(ctrlPoint2)
 
             Dim relative As Boolean = False
             Dim relPos As PointF
@@ -956,38 +977,38 @@ Public Module Commands
             End If
 
             If relative Then
-                Dim relRefP1 As PointF = CutDecimals(refPoint1 - prevPPoint.pos)
-                Dim relRefP2 As PointF = CutDecimals(refPoint2 - prevPPoint.pos)
-                Return Chr(pointType).ToString.ToLower & relRefP1.X & "," & relRefP1.Y & " " &
-                        relRefP2.X & "," & relRefP2.Y & " " &
+                Dim relCtrlPt1 As PointF = CutDecimals(ctrlPoint1 - PrevPPoint.Pos)
+                Dim relCtrlPt2 As PointF = CutDecimals(ctrlPoint2 - PrevPPoint.Pos)
+                Return Chr(pointType).ToString.ToLower & relCtrlPt1.X & "," & relCtrlPt1.Y & " " &
+                        relCtrlPt2.X & "," & relCtrlPt2.Y & " " &
                         relPos.X & "," & relPos.Y
             End If
 
-            Return Chr(pointType) & cutRef1.X & "," & cutRef1.Y & " " &
-                    cutRef2.X & "," & cutRef2.Y & " " &
+            Return Chr(pointType) & cutCtrlPt1.X & "," & cutCtrlPt1.Y & " " &
+                    cutCtrlPt2.X & "," & cutCtrlPt2.Y & " " &
                     cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
-            path.AddBezier(SVG.ApplyZoom(prevPPoint.pos), SVG.ApplyZoom(refPoint1), SVG.ApplyZoom(refPoint2), SVG.ApplyZoom(pos))
+            path.AddBezier(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint1), SVG.ApplyZoom(ctrlPoint2), SVG.ApplyZoom(Pos))
             'path.AddBezier(prevPoint.pos, prevPoint.pos, refPoint, pos)
         End Sub
 
         Public Overrides Sub DrawSecPoints(ByRef graphs As Graphics)
-            Dim rc1 As New Rectangle(SVG.ApplyZoom(refPoint1).X - 4, SVG.ApplyZoom(refPoint1).Y - 4, 8, 8)
-            Dim rc2 As New Rectangle(SVG.ApplyZoom(refPoint2).X - 4, SVG.ApplyZoom(refPoint2).Y - 4, 8, 8)
+            Dim rc1 As New Rectangle(SVG.ApplyZoom(ctrlPoint1).X - 4, SVG.ApplyZoom(ctrlPoint1).Y - 4, 8, 8)
+            Dim rc2 As New Rectangle(SVG.ApplyZoom(ctrlPoint2).X - 4, SVG.ApplyZoom(ctrlPoint2).Y - 4, 8, 8)
             Static penIn As New Pen(Color.Pink, 1)
             Static penOut As New Pen(Color.FromArgb(255, 40, 40, 40), 3)
 
             graphs.DrawEllipse(penOut, rc1)
             graphs.DrawEllipse(penIn, rc1)
-            graphs.DrawLine(penIn, SVG.ApplyZoom(pos), SVG.ApplyZoom(refPoint1))
-            graphs.DrawLine(penIn, SVG.ApplyZoom(prevPPoint.pos), SVG.ApplyZoom(refPoint1))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(Pos), SVG.ApplyZoom(ctrlPoint1))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint1))
 
             graphs.DrawEllipse(penOut, rc2)
             graphs.DrawEllipse(penIn, rc2)
-            graphs.DrawLine(penIn, SVG.ApplyZoom(pos), SVG.ApplyZoom(refPoint2))
-            graphs.DrawLine(penIn, SVG.ApplyZoom(prevPPoint.pos), SVG.ApplyZoom(refPoint2))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(Pos), SVG.ApplyZoom(ctrlPoint2))
+            graphs.DrawLine(penIn, SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint2))
         End Sub
 
         Public Overrides Sub OnMoveStart(ByRef mpos As PointF)
@@ -1007,13 +1028,13 @@ Public Module Commands
         'End Sub
 
         Public Overrides Function GetClosestPoint(ByRef mpos As CPointF) As CPointF
-            Return ClosestPointToPos(mpos, {pos, refPoint1, refPoint2}).Value
+            Return ClosestPointToPos(mpos, {Pos, ctrlPoint1, ctrlPoint2}).Value
         End Function
 
         Public Overrides Sub RefreshSeccondaryData()
             If mirroredPP IsNot Nothing Then
-                refPoint1 = ReflectPoint(parent.GetMoveto().pos, CType(mirroredPP, PPCurveto).refPoint2, mirrorOrient)
-                refPoint2 = ReflectPoint(parent.GetMoveto().pos, CType(mirroredPP, PPCurveto).refPoint1, mirrorOrient)
+                ctrlPoint1 = ReflectPoint(parent.GetMoveto().Pos, CType(mirroredPP, PPCurveto).ctrlPoint2, mirrorOrient)
+                ctrlPoint2 = ReflectPoint(parent.GetMoveto().Pos, CType(mirroredPP, PPCurveto).ctrlPoint1, mirrorOrient)
             End If
             MyBase.RefreshSeccondaryData()
         End Sub
@@ -1023,18 +1044,40 @@ Public Module Commands
         End Function
 
         Public Overrides Function GetBounds() As RectangleF
-            Return GetCurveBounds(pos.X, pos.Y, refPoint2.X, refPoint2.Y, refPoint1.X, refPoint1.Y, prevPPoint.pos.X, prevPPoint.pos.Y)
+            Return GetCurveBounds(Pos.X, Pos.Y, ctrlPoint2.X, ctrlPoint2.Y, ctrlPoint1.X, ctrlPoint1.Y, PrevPPoint.Pos.X, PrevPPoint.Pos.Y)
         End Function
 
-        Public Overrides Sub RelativeToAbsolute()
+        Public Overrides Sub RelativeToAbsolute(onlyPos As Boolean)
             Dim prevpp As PathPoint = SVGPath.GetPreviousPPoint(Me)
             If prevpp Is Nothing Then Return
-            pos.X = prevpp.pos.X + pos.X
-            pos.Y = prevpp.pos.Y + pos.Y
-            refPoint1.X = prevpp.pos.X + refPoint1.X
-            refPoint1.Y = prevpp.pos.Y + refPoint1.Y
-            refPoint2.X = prevpp.pos.X + refPoint2.X
-            refPoint2.Y = prevpp.pos.Y + refPoint2.Y
+            Pos.X = prevpp.Pos.X + Pos.X
+            Pos.Y = prevpp.Pos.Y + Pos.Y
+            If onlyPos = False Then
+                ctrlPoint1.X = prevpp.Pos.X + ctrlPoint1.X
+                ctrlPoint1.Y = prevpp.Pos.Y + ctrlPoint1.Y
+                ctrlPoint2.X = prevpp.Pos.X + ctrlPoint2.X
+                ctrlPoint2.Y = prevpp.Pos.Y + ctrlPoint2.Y
+            End If
+        End Sub
+
+        Public Function GetCtrlPt2Reflexion() As PointF
+            Dim reflexion As PointF
+            'Point 1
+            Dim angle As Double = DegsToRads(LineAngle(Pos, ctrlPoint2) + 180)
+            Dim len As Double = LineLength(Pos, ctrlPoint2)
+            reflexion.X = Pos.X + Math.Cos(angle) * len
+            reflexion.Y = Pos.Y - Math.Sin(angle) * len
+            Return reflexion
+        End Function
+
+        Public Sub ReflectPrevPP()
+            If PrevPPoint Is Nothing Then Return
+            If PrevPPoint.pointType = PointType.curveto Then
+                ctrlPoint1 = CType(PrevPPoint, PPCurveto).GetCtrlPt2Reflexion()
+            Else
+                ctrlPoint1 = PrevPPoint.Pos
+            End If
+            RefreshSeccondaryData()
         End Sub
 
     End Class
