@@ -141,9 +141,11 @@ Public Module Module1
     End Function
 
     <Extension()>
-    Public Function GetNumbers(str As String) As String
+    Public Function GetNumbers(str As String, Optional defValue As String = "0") As String
         Static rx As New Regex("[^\d,.]")
-        Return rx.Replace(str, "")
+        Dim retnum As String = rx.Replace(str, "")
+        If retnum.Length <= 0 Then Return defValue
+        Return retnum
     End Function
 
     <Extension()>

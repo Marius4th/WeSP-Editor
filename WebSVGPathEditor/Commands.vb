@@ -1052,11 +1052,12 @@ Public Module Commands
             If prevpp Is Nothing Then Return
             Pos.X = prevpp.Pos.X + Pos.X
             Pos.Y = prevpp.Pos.Y + Pos.Y
+            ctrlPoint2.X = prevpp.Pos.X + ctrlPoint2.X
+            ctrlPoint2.Y = prevpp.Pos.Y + ctrlPoint2.Y
+
             If onlyPos = False Then
                 ctrlPoint1.X = prevpp.Pos.X + ctrlPoint1.X
                 ctrlPoint1.Y = prevpp.Pos.Y + ctrlPoint1.Y
-                ctrlPoint2.X = prevpp.Pos.X + ctrlPoint2.X
-                ctrlPoint2.Y = prevpp.Pos.Y + ctrlPoint2.Y
             End If
         End Sub
 

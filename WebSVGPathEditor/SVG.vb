@@ -491,7 +491,7 @@ Public NotInheritable Class SVG
                                                                SelectedFigure)
                                         SelectedFigure.Add(lastPP, False)
                                         CType(lastPP, PPCurveto).ReflectPrevPP()
-                                        If relative Then lastPP.RelativeToAbsolute(False)
+                                        If relative Then lastPP.RelativeToAbsolute(True)
                                     Next
                                 Case PointType.quadraticBezierCurve
                                     For i As Integer = 3 To coords.Count - 1 Step 4
@@ -610,10 +610,10 @@ Public NotInheritable Class SVG
             If fireEvents Then
                 Select Case item.Key
                     Case "width"
-                        CanvasSize = New SizeF(item.Value.GetNumbers, CanvasSize.Height)
+                        CanvasSize = New SizeF(item.Value.GetNumbers("1"), CanvasSize.Height)
                         Continue For
                     Case "height"
-                        CanvasSize = New SizeF(CanvasSize.Width, item.Value.GetNumbers)
+                        CanvasSize = New SizeF(CanvasSize.Width, item.Value.GetNumbers("1"))
                         Continue For
                 End Select
             End If

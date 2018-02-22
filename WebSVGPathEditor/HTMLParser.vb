@@ -102,9 +102,12 @@ Public Class HTMLParser
         For Each item As String In Split(html, """")
             If item.EndsWith("=") Then
                 lastAttr = item.Substring(0, item.Length - 1).Replace(" ", "").ToLower
-                attrs.Add(lastAttr, "")
-            ElseIf attrs(lastAttr).Length <= 0 Then
+                If Not attrs.ContainsKey(lastAttr) Then
+                    attrs.Add(lastAttr, "")
+                End If
+            ElseIf attrs.ContainsKey(lastAttr) AndAlso attrs(lastAttr).Length <= 0 Then 'In case of duplicates, use the first one as Firefox and Chrome does
                 attrs(lastAttr) = item
+                lastAttr = ""
             End If
         Next
 
