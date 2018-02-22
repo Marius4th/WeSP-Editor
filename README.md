@@ -11,10 +11,16 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
 
 ### Some things on my To Do list:
 
-- [ ] Commands:
-  - [ ] Fully implement 'A' (Elliptical Arc).
-  - [ ] See if I should add the 'S' and 'T' commands as they are the reflexion of 'C' and 'Q'.
-  - [ ] See if I add 'H' and 'V' or leave them as linetos, because you can use SHIFT for right angles is you need them.
+- [ ] Implement all Commands:
+  - [x] Movetos.
+  - [x] Linetos.
+     - See if I add 'H' and 'V' or leave them as linetos, because you can use SHIFT for right angles is you need them.
+  - [x] Quadratic Bezier.
+  - [x] Curvetos (Cubic Beziers).
+  - [x] Implement loading of smooth versions of QBezier and Curveto.
+     - Implement smooth versions of QBezier and Curveto as Drawing Tools?
+  - [x] Fully implement Elliptical Arcs.
+
 - [x] Implement simple undo and redo.
 - [ ] Implement better undo and redo.
 - [x] Improve mirroring points.
@@ -24,3 +30,4 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
 - [x] Implement paths and figures (subpaths) reordering.
 - [ ] Points locking so you can't modify them accidentally.
 - [ ] Background template images.
+- [ ] Custom crusors for when pressing mod keys like CTRL, SHILT or ALT to easily see what tool/action you have selected.
