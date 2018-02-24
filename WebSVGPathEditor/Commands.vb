@@ -337,33 +337,47 @@ Public Module Commands
         End Function
 
         Public Overridable Function GetString(Optional optimize As Boolean = True) As String
-            Dim cutPos As PointF = CutDecimals(pos)
+            If optimize = False Then
+                Return GetStringAbsolute()
+            Else
+                Dim abs As String = OptimizePathD(GetStringAbsolute())
+                Dim rel As String = OptimizePathD(GetStringRelative())
 
-            Dim relative As Boolean = False
-            Dim relPos As PointF
-            If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = CutDecimals(pos - prevPPoint.pos)
-                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
-                    relative = True
-                End If
+                If abs.Length > rel.Length Then Return rel
+                Return abs
             End If
+        End Function
+
+        Public Overridable Function GetStringAbsolute() As String
+            Dim cutPos As PointF = CutDecimals(Pos)
 
             If pointType = PointType.lineto Then
                 'Treat it as a Horizontal/Vertical Lineto
-                If prevPPoint.pos.Y = pos.Y Then
-                    If relative Then Return "h" & relPos.X
+                If PrevPPoint.Pos.Y = Pos.Y Then
                     Return "H" & cutPos.X
-                ElseIf prevPPoint.pos.X = pos.X Then
-                    If relative Then Return "v" & relPos.Y
+                ElseIf PrevPPoint.Pos.X = Pos.X Then
                     Return "V" & cutPos.Y
                 End If
             End If
 
-            If relative Then
-                Return Chr(pointType).ToString.ToLower & relPos.X & "," & relPos.Y
+            Return Chr(pointType) & cutPos.X & "," & cutPos.Y
+        End Function
+
+        Public Overridable Function GetStringRelative() As String
+            Dim relPos As PointF = CutDecimals(Pos)
+
+            If PrevPPoint IsNot Nothing Then relPos = CutDecimals(Pos - PrevPPoint.Pos)
+
+            If pointType = PointType.lineto Then
+                'Treat it as a Horizontal/Vertical Lineto
+                If PrevPPoint.Pos.Y = Pos.Y Then
+                    Return "h" & relPos.X
+                ElseIf PrevPPoint.Pos.X = Pos.X Then
+                    Return "v" & relPos.Y
+                End If
             End If
 
-            Return Chr(pointType) & cutPos.X & "," & cutPos.Y
+            Return Chr(pointType).ToString.ToLower & relPos.X & "," & relPos.Y
         End Function
 
         Public Overridable Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
@@ -660,24 +674,20 @@ Public Module Commands
             _secAngleRad.Y = tp.Y
         End Sub
 
-        Public Overrides Function GetString(Optional optimize As Boolean = True) As String
-            Dim cutPos As PointF = CutDecimals(pos)
+        Public Overrides Function GetStringAbsolute() As String
+            Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutRadii As PointF = CutDecimals(radii)
 
-            Dim relative As Boolean = False
-            Dim relPos As PointF
-            If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = CutDecimals(pos - prevPPoint.pos)
-                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
-                    relative = True
-                End If
-            End If
-
-            If relative Then
-                Return Chr(pointType).ToString.ToLower & cutRadii.X & "," & cutRadii.Y & " " & CutDecimals(xangle) & " " & Math.Abs(CInt(flarge)) & "," & Math.Abs(CInt(fsweep)) & " " & relPos.X & "," & relPos.Y
-            End If
-
             Return Chr(pointType) & cutRadii.X & "," & cutRadii.Y & " " & CutDecimals(xangle) & " " & Math.Abs(CInt(flarge)) & "," & Math.Abs(CInt(fsweep)) & " " & cutPos.X & "," & cutPos.Y
+        End Function
+
+        Public Overrides Function GetStringRelative() As String
+            Dim cutRadii As PointF = CutDecimals(radii)
+
+            Dim relPos As PointF = CutDecimals(Pos)
+            If PrevPPoint IsNot Nothing Then relPos = CutDecimals(Pos - PrevPPoint.Pos)
+
+            Return Chr(pointType).ToString.ToLower & cutRadii.X & "," & cutRadii.Y & " " & CutDecimals(xangle) & " " & Math.Abs(CInt(flarge)) & "," & Math.Abs(CInt(fsweep)) & " " & relPos.X & "," & relPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
@@ -793,8 +803,8 @@ Public Module Commands
             graphs.DrawEllipse(penHIn, rc)
             graphs.DrawLine(penHIn, SVG.ApplyZoom(_secCenter), SVG.ApplyZoom(_secHeight))
 
-            Dim bnd As RectangleF = GetBounds()
-            graphs.DrawRectangle(penIn, SVG.ApplyZoom(bnd).ToRectangle)
+            'Dim bnd As RectangleF = GetBounds()
+            'graphs.DrawRectangle(penIn, SVG.ApplyZoom(bnd).ToRectangle)
         End Sub
 
         Public Overrides Function HasSecondaryPoints() As Boolean
@@ -834,30 +844,23 @@ Public Module Commands
             MyBase.Offset(ammount, refMirror)
         End Sub
 
-        Public Overrides Function GetString(Optional optimize As Boolean = True) As String
+        Public Overrides Function GetStringAbsolute() As String
             Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutRef As PointF = CutDecimals(ctrlPoint)
-
-            Dim relative As Boolean = False
-            Dim relPos As PointF
-            If optimize AndAlso PrevPPoint IsNot Nothing Then
-                relPos = CutDecimals(Pos - PrevPPoint.Pos)
-                If PrevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
-                    relative = True
-                End If
-            End If
-
-            If relative Then
-                Dim relCtrlP As PointF = CutDecimals(ctrlPoint - PrevPPoint.Pos)
-                Return Chr(pointType).ToString.ToLower & relCtrlP.X & "," & relCtrlP.Y & " " & relPos.X & "," & relPos.Y
-            End If
 
             Return Chr(pointType) & cutRef.X & "," & cutRef.Y & " " & cutPos.X & "," & cutPos.Y
         End Function
 
+        Public Overrides Function GetStringRelative() As String
+            Dim relPos As PointF = CutDecimals(Pos)
+            If PrevPPoint IsNot Nothing Then relPos = CutDecimals(Pos - PrevPPoint.Pos)
+            Dim relCtrlP As PointF = CutDecimals(ctrlPoint - PrevPPoint.Pos)
+
+            Return Chr(pointType).ToString.ToLower & relCtrlP.X & "," & relCtrlP.Y & " " & relPos.X & "," & relPos.Y
+        End Function
+
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
             path.AddBezier(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint), SVG.ApplyZoom(Pos), SVG.ApplyZoom(Pos))
-            'path.AddBezier(prevPoint.pos, prevPoint.pos, refPoint, pos)
         End Sub
 
         Public Overrides Sub DrawSecPoints(ByRef graphs As Graphics)
@@ -967,31 +970,26 @@ Public Module Commands
             MyBase.Offset(ammount, refMirror)
         End Sub
 
-        Public Overrides Function GetString(Optional optimize As Boolean = True) As String
-            Dim cutPos As PointF = CutDecimals(pos)
+        Public Overrides Function GetStringAbsolute() As String
+            Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutCtrlPt1 As PointF = CutDecimals(ctrlPoint1)
             Dim cutCtrlPt2 As PointF = CutDecimals(ctrlPoint2)
-
-            Dim relative As Boolean = False
-            Dim relPos As PointF
-            If optimize AndAlso prevPPoint IsNot Nothing Then
-                relPos = CutDecimals(pos - prevPPoint.pos)
-                If prevPPoint IsNot Nothing AndAlso (relPos.X & relPos.Y).Length < (cutPos.X & cutPos.Y).Length Then
-                    relative = True
-                End If
-            End If
-
-            If relative Then
-                Dim relCtrlPt1 As PointF = CutDecimals(ctrlPoint1 - PrevPPoint.Pos)
-                Dim relCtrlPt2 As PointF = CutDecimals(ctrlPoint2 - PrevPPoint.Pos)
-                Return Chr(pointType).ToString.ToLower & relCtrlPt1.X & "," & relCtrlPt1.Y & " " &
-                        relCtrlPt2.X & "," & relCtrlPt2.Y & " " &
-                        relPos.X & "," & relPos.Y
-            End If
 
             Return Chr(pointType) & cutCtrlPt1.X & "," & cutCtrlPt1.Y & " " &
                     cutCtrlPt2.X & "," & cutCtrlPt2.Y & " " &
                     cutPos.X & "," & cutPos.Y
+        End Function
+
+        Public Overrides Function GetStringRelative() As String
+            Dim relPos As PointF = CutDecimals(Pos)
+            If PrevPPoint IsNot Nothing Then relPos = CutDecimals(Pos - PrevPPoint.Pos)
+
+            Dim relCtrlPt1 As PointF = CutDecimals(ctrlPoint1 - PrevPPoint.Pos)
+            Dim relCtrlPt2 As PointF = CutDecimals(ctrlPoint2 - PrevPPoint.Pos)
+
+            Return Chr(pointType).ToString.ToLower & relCtrlPt1.X & "," & relCtrlPt1.Y & " " &
+                        relCtrlPt2.X & "," & relCtrlPt2.Y & " " &
+                        relPos.X & "," & relPos.Y
         End Function
 
         Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)

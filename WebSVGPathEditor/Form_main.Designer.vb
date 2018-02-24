@@ -156,6 +156,7 @@ Partial Class Form_main
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
         Me.Timer_autoBackup = New System.Windows.Forms.Timer(Me.components)
+        Me.Cb_htmlWrap = New System.Windows.Forms.CheckBox()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -895,6 +896,7 @@ Partial Class Form_main
         'Box_html
         '
         resources.ApplyResources(Me.Box_html, "Box_html")
+        Me.Box_html.Controls.Add(Me.Cb_htmlWrap)
         Me.Box_html.Controls.Add(Me.Cb_optimize)
         Me.Box_html.Controls.Add(Me.Button1)
         Me.Box_html.Controls.Add(Me.Pic_preview)
@@ -1090,6 +1092,14 @@ Partial Class Form_main
         '
         Me.Timer_autoBackup.Enabled = True
         Me.Timer_autoBackup.Interval = 60000
+        '
+        'Cb_htmlWrap
+        '
+        resources.ApplyResources(Me.Cb_htmlWrap, "Cb_htmlWrap")
+        Me.Cb_htmlWrap.Checked = True
+        Me.Cb_htmlWrap.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Cb_htmlWrap.Name = "Cb_htmlWrap"
+        Me.Cb_htmlWrap.UseVisualStyleBackColor = True
         '
         'Form_main
         '
@@ -1292,4 +1302,5 @@ Partial Class Form_main
     Friend WithEvents ToolStripSeparator12 As ToolStripSeparator
     Friend WithEvents LoadBackupToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Lab_lastBkp As Label
+    Friend WithEvents Cb_htmlWrap As CheckBox
 End Class

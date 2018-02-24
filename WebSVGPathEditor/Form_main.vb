@@ -402,7 +402,7 @@ Public Class Form_main
 
     'Redraw the canva's back grid
     Public Sub RefreshBackGrid()
-        Dim bm As New Bitmap(CInt(SVG.CanvasZoom * SVG.StikyGrid.Width), CInt(SVG.CanvasZoom * SVG.StikyGrid.Height))
+        Dim bm As New Bitmap(Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Width), 0), Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Height), 0))
         Dim grx As Graphics = Graphics.FromImage(bm)
         Dim br As New SolidBrush(Color.Black)
         Dim pen As New Pen(Color.FromArgb(255, 30, 30, 30), 1)
@@ -892,7 +892,13 @@ Public Class Form_main
         ' ---------------------------------------------------------------------------------------------------------------------
 
         UpdateStats()
+
+        Dim ht As New HiResTimer
+        ht.Start()
+
         If Not Tb_html.Focused Then Tb_html.Text = SVG.GetHtml(optimizePath)
+
+        Me.Text = ht.ElapsedTime
 
         'Clean
         grxCanvas.Dispose()
@@ -1678,5 +1684,9 @@ Public Class Form_main
                 e.Cancel = True
             End If
         End If
+    End Sub
+
+    Private Sub Cb_htmlWrap_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_htmlWrap.CheckedChanged
+        Tb_html.WordWrap = Cb_htmlWrap.Checked
     End Sub
 End Class

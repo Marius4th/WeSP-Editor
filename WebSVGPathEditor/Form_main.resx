@@ -2478,11 +2478,14 @@
   <data name="Tb_html.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 15</value>
   </data>
+  <data name="Tb_html.MaxLength" type="System.Int32, mscorlib">
+    <value>3276700</value>
+  </data>
   <data name="Tb_html.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="Tb_html.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
+    <value>Both</value>
   </data>
   <data name="Tb_html.Size" type="System.Drawing.Size, System.Drawing">
     <value>851, 85</value>
@@ -2500,70 +2503,40 @@
     <value>Box_html</value>
   </data>
   <data name="&gt;&gt;Tb_html.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Box_html.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
-  <data name="&gt;&gt;Cb_optimize.Name" xml:space="preserve">
-    <value>Cb_optimize</value>
+  <data name="Cb_htmlWrap.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;Cb_optimize.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Cb_htmlWrap.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;Cb_optimize.Parent" xml:space="preserve">
-    <value>Box_html</value>
+  <data name="Cb_htmlWrap.Location" type="System.Drawing.Point, System.Drawing">
+    <value>860, 63</value>
   </data>
-  <data name="&gt;&gt;Cb_optimize.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="Cb_htmlWrap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 18</value>
   </data>
-  <data name="&gt;&gt;Button1.Name" xml:space="preserve">
-    <value>Button1</value>
-  </data>
-  <data name="&gt;&gt;Button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button1.Parent" xml:space="preserve">
-    <value>Box_html</value>
-  </data>
-  <data name="&gt;&gt;Button1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.Name" xml:space="preserve">
-    <value>Pic_preview</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.Parent" xml:space="preserve">
-    <value>Box_html</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Box_html.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 730</value>
-  </data>
-  <data name="Box_html.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1031, 106</value>
-  </data>
-  <data name="Box_html.TabIndex" type="System.Int32, mscorlib">
+  <data name="Cb_htmlWrap.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
-  <data name="Box_html.Text" xml:space="preserve">
-    <value>Html Code:</value>
+  <data name="Cb_htmlWrap.Text" xml:space="preserve">
+    <value>Wrap</value>
   </data>
-  <data name="&gt;&gt;Box_html.Name" xml:space="preserve">
+  <data name="&gt;&gt;Cb_htmlWrap.Name" xml:space="preserve">
+    <value>Cb_htmlWrap</value>
+  </data>
+  <data name="&gt;&gt;Cb_htmlWrap.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Cb_htmlWrap.Parent" xml:space="preserve">
     <value>Box_html</value>
   </data>
-  <data name="&gt;&gt;Box_html.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Box_html.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Box_html.ZOrder" xml:space="preserve">
-    <value>19</value>
+  <data name="&gt;&gt;Cb_htmlWrap.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="Cb_optimize.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2593,7 +2566,7 @@
     <value>Box_html</value>
   </data>
   <data name="&gt;&gt;Cb_optimize.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2620,7 +2593,7 @@
     <value>Box_html</value>
   </data>
   <data name="&gt;&gt;Button1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="Pic_preview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2647,7 +2620,31 @@
     <value>Box_html</value>
   </data>
   <data name="&gt;&gt;Pic_preview.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
+  </data>
+  <data name="Box_html.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 730</value>
+  </data>
+  <data name="Box_html.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1031, 106</value>
+  </data>
+  <data name="Box_html.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="Box_html.Text" xml:space="preserve">
+    <value>Html Code:</value>
+  </data>
+  <data name="&gt;&gt;Box_html.Name" xml:space="preserve">
+    <value>Box_html</value>
+  </data>
+  <data name="&gt;&gt;Box_html.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Box_html.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Box_html.ZOrder" xml:space="preserve">
+    <value>19</value>
   </data>
   <data name="Pan_canvas.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
