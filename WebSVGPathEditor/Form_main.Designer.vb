@@ -130,6 +130,7 @@ Partial Class Form_main
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Tb_html = New System.Windows.Forms.TextBox()
         Me.Box_html = New System.Windows.Forms.GroupBox()
+        Me.Cb_htmlWrap = New System.Windows.Forms.CheckBox()
         Me.Cb_optimize = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Pic_preview = New System.Windows.Forms.PictureBox()
@@ -156,7 +157,7 @@ Partial Class Form_main
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
         Me.Timer_autoBackup = New System.Windows.Forms.Timer(Me.components)
-        Me.Cb_htmlWrap = New System.Windows.Forms.CheckBox()
+        Me.But_removeSelPts = New System.Windows.Forms.Button()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -904,6 +905,14 @@ Partial Class Form_main
         Me.Box_html.Name = "Box_html"
         Me.Box_html.TabStop = False
         '
+        'Cb_htmlWrap
+        '
+        resources.ApplyResources(Me.Cb_htmlWrap, "Cb_htmlWrap")
+        Me.Cb_htmlWrap.Checked = True
+        Me.Cb_htmlWrap.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Cb_htmlWrap.Name = "Cb_htmlWrap"
+        Me.Cb_htmlWrap.UseVisualStyleBackColor = True
+        '
         'Cb_optimize
         '
         resources.ApplyResources(Me.Cb_optimize, "Cb_optimize")
@@ -1093,19 +1102,21 @@ Partial Class Form_main
         Me.Timer_autoBackup.Enabled = True
         Me.Timer_autoBackup.Interval = 60000
         '
-        'Cb_htmlWrap
+        'But_removeSelPts
         '
-        resources.ApplyResources(Me.Cb_htmlWrap, "Cb_htmlWrap")
-        Me.Cb_htmlWrap.Checked = True
-        Me.Cb_htmlWrap.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Cb_htmlWrap.Name = "Cb_htmlWrap"
-        Me.Cb_htmlWrap.UseVisualStyleBackColor = True
+        Me.But_removeSelPts.BackColor = System.Drawing.Color.Snow
+        Me.But_removeSelPts.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
+        resources.ApplyResources(Me.But_removeSelPts, "But_removeSelPts")
+        Me.But_removeSelPts.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_removeSelPts.Name = "But_removeSelPts"
+        Me.But_removeSelPts.UseVisualStyleBackColor = False
         '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
+        Me.Controls.Add(Me.But_removeSelPts)
         Me.Controls.Add(Me.But_pathRename)
         Me.Controls.Add(Me.But_pathMoveUp)
         Me.Controls.Add(Me.But_pathMoveDown)
@@ -1303,4 +1314,5 @@ Partial Class Form_main
     Friend WithEvents LoadBackupToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Lab_lastBkp As Label
     Friend WithEvents Cb_htmlWrap As CheckBox
+    Friend WithEvents But_removeSelPts As Button
 End Class

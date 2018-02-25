@@ -436,15 +436,14 @@ Public NotInheritable Class SVG
                             Next
 
                             Select Case ppType
-                                Case PointType.moveto
+                                Case PointType.moveto, PointType.lineto
                                     For i As Integer = 1 To coords.Count - 1 Step 2
-                                        lastPP = New PPMoveto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
-                                        SelectedFigure.Add(lastPP, False)
-                                        If relative Then lastPP.RelativeToAbsolute(False)
-                                    Next
-                                Case PointType.lineto
-                                    For i As Integer = 1 To coords.Count - 1 Step 2
-                                        lastPP = New PPLineto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
+                                        If SelectedFigure.HasMoveto() Then
+                                            lastPP = New PPLineto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
+                                        Else
+                                            lastPP = New PPMoveto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
+                                        End If
+
                                         SelectedFigure.Add(lastPP, False)
                                         If relative Then lastPP.RelativeToAbsolute(False)
                                     Next

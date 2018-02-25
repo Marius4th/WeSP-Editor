@@ -100,6 +100,7 @@
     <Compile Include="Form_scale.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HiResTimer.vb" />
     <Compile Include="HTMLParser.vb" />
     <Compile Include="SVG.vb" />
     <Compile Include="SomeClasses.vb" />

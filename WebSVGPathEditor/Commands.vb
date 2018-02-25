@@ -89,8 +89,7 @@ Public Module Commands
         Dim disposed As Boolean = False
 
         ' Public implementation of Dispose pattern callable by consumers.
-        Public Sub Dispose() _
-              Implements IDisposable.Dispose
+        Public Sub Dispose() Implements IDisposable.Dispose
             Dispose(True)
             GC.SuppressFinalize(Me)
         End Sub
@@ -208,7 +207,7 @@ Public Module Commands
 
                 If Me.prevPPoint.pointType = PointType.moveto Then
                     clon.nonInteractve = True
-                    Me.prevPPoint.mirroredPos = clon
+                    Me.PrevPPoint.mirroredPos = clon
                 End If
 
                 clon.RefreshPosition()
@@ -280,8 +279,6 @@ Public Module Commands
             If pos Is Nothing Then Return
             pos.X += ammount.X
             pos.Y += ammount.Y
-            'asyc.AddTaskReseter(AddressOf OnPPointModifiedAsync, {Me}, Me)
-            'enqueued = True
             If refMirror Then RefreshMirror()
             RaiseEvent OnModified(Me)
         End Sub
@@ -395,11 +392,6 @@ Public Module Commands
         Public Overridable Function GetClosestPoint(ByRef mpos As CPointF) As CPointF
             Return pos
         End Function
-
-        Public Sub RefreshLBsValue(ByRef figLB As ListBox, ByRef pathLB As ListBox)
-            figLB.Items.Item(parent.IndexOf(Me)) = Me.GetString(False)
-            pathLB.Items.Item(parent.parent.FigureIndexToPath(Me)) = Me.GetString(False)
-        End Sub
 
         'Public Sub StickSelToGrid()
         '    If selPoint Is Nothing Then Return
@@ -672,6 +664,8 @@ Public Module Commands
             tp = _secCenter + AngleToPointf(DegsToRads(360 - xangle), radii.X)
             _secAngleRad.X = tp.X
             _secAngleRad.Y = tp.Y
+
+            'If refMirror = True Then RefreshMirror()
         End Sub
 
         Public Overrides Function GetStringAbsolute() As String
@@ -716,17 +710,21 @@ Public Module Commands
         Public Overrides Sub RefreshSeccondaryData()
             If mirroredPP IsNot Nothing Then
                 radii = CType(mirroredPP, PPEllipticalArc).radii
-                xangle = CType(mirroredPP, PPEllipticalArc).xangle
+                'xangle = CType(mirroredPP, PPEllipticalArc).xangle
                 fsweep = CType(mirroredPP, PPEllipticalArc).fsweep
                 flarge = CType(mirroredPP, PPEllipticalArc).flarge
-            End If
-            MyBase.RefreshSeccondaryData()
 
-            If PrevPPoint IsNot Nothing Then
+                _secCenter = ReflectPoint(parent.GetMoveto().Pos, CType(mirroredPP, PPEllipticalArc)._secCenter, mirrorOrient)
+                selPoint = _secAngleRad
+                Dim refl As PointF = ReflectPoint(parent.GetMoveto().Pos, CType(mirroredPP, PPEllipticalArc)._secAngleRad, mirrorOrient)
+                OffsetSelPoint(refl, refl - _secAngleRad, 0, False)
+            ElseIf PrevPPoint IsNot Nothing Then
                 _secCenter = Midpoint(PrevPPoint.Pos, Pos)
                 _secAngleRad = _secCenter + AngleToPointf(DegsToRads(360 - xangle), radii.X)
                 _secHeight = _secCenter + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
             End If
+
+            MyBase.RefreshSeccondaryData()
         End Sub
 
         Public Overrides Sub OnMoveStart(ByRef mpos As PointF)
@@ -743,12 +741,14 @@ Public Module Commands
             If rc.Contains(mpos.X, mpos.Y) Then
                 flarge = Not flarge
                 selPoint = Nothing
+                RefreshMirror()
                 Return
             End If
             rc = New RectangleF(pos.X + 3, pos.Y + 1, 1, 1)
             If rc.Contains(mpos.X, mpos.Y) Then
                 fsweep = Not fsweep
                 selPoint = Nothing
+                RefreshMirror()
                 Return
             End If
 
@@ -846,9 +846,9 @@ Public Module Commands
 
         Public Overrides Function GetStringAbsolute() As String
             Dim cutPos As PointF = CutDecimals(Pos)
-            Dim cutRef As PointF = CutDecimals(ctrlPoint)
+            Dim cutCtrlPt As PointF = CutDecimals(ctrlPoint)
 
-            Return Chr(pointType) & cutRef.X & "," & cutRef.Y & " " & cutPos.X & "," & cutPos.Y
+            Return Chr(pointType) & cutCtrlPt.X & "," & cutCtrlPt.Y & " " & cutPos.X & "," & cutPos.Y
         End Function
 
         Public Overrides Function GetStringRelative() As String

@@ -17,13 +17,13 @@
             Return _numMirrored
         End Get
         Set(ByVal value As Integer)
-            _numMirrored = value
-            If _numMirrored = 1 AndAlso Me.Last IsNot Nothing AndAlso Me.Last.nonInteractve Then
+            If value < _numMirrored AndAlso value = 1 AndAlso Me.Last IsNot Nothing AndAlso Me.Last.nonInteractve Then
                 Me.Remove(Me.Last)
             End If
-            If _numMirrored <= 0 Then
+            If value <= 0 Then
                 mirrorOrient = Orientation.None
             End If
+            _numMirrored = value
         End Set
     End Property
 
@@ -414,7 +414,7 @@
         SelectPPoints(0, points.Count - 1)
     End Sub
 
-    Public Function HaveMoveto() As Boolean
+    Public Function HasMoveto() As Boolean
         Return (points.Count > 0 AndAlso points(0).pointType = PointType.moveto)
     End Function
 
@@ -442,7 +442,7 @@
     Public Function InsertNewPPoint(ptype As PointType, ppos As PointF, index As Integer) As PathPoint
         Static gIndex As Integer
 
-        If ptype = PointType.moveto AndAlso (Me.HaveMoveto OrElse index > 0) Then
+        If ptype = PointType.moveto AndAlso (Me.HasMoveto OrElse index > 0) Then
             ptype = PointType.lineto
         End If
 

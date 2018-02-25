@@ -204,7 +204,7 @@ Public Class Form_main
     '----------------------------------------------------------------------------------------------------------------------------
 
     Public Sub Figure_OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
-        If sender.HaveMoveto Then EnableButton(But_moveto, False)
+        If sender.HasMoveto Then EnableButton(But_moveto, False)
         If pp.pointType = PointType.moveto Then
             SetSelectedCommand(PointType.lineto)
         End If
@@ -893,12 +893,12 @@ Public Class Form_main
 
         UpdateStats()
 
-        Dim ht As New HiResTimer
-        ht.Start()
+        'Dim ht As New HiResTimer
+        'ht.Start()
 
         If Not Tb_html.Focused Then Tb_html.Text = SVG.GetHtml(optimizePath)
 
-        Me.Text = ht.ElapsedTime
+        'Me.Text = ht.ElapsedTime
 
         'Clean
         grxCanvas.Dispose()
@@ -1688,5 +1688,14 @@ Public Class Form_main
 
     Private Sub Cb_htmlWrap_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_htmlWrap.CheckedChanged
         Tb_html.WordWrap = Cb_htmlWrap.Checked
+    End Sub
+
+    Private Sub But_removeSelPts_Click(sender As Object, e As EventArgs) Handles But_removeSelPts.Click
+        'Delete the selected points
+        For Each pp As PathPoint In SVG.selectedPoints.Reverse
+            If pp.pointType = PointType.moveto Then Continue For
+            pp.Delete()
+        Next
+        Pic_canvas.Invalidate()
     End Sub
 End Class
