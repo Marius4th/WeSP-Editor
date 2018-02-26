@@ -22,12 +22,15 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
   - [x] Fully implement Elliptical Arcs.
 
 - [x] Implement simple undo and redo.
-- [ ] Implement better undo and redo.
+- [ ] Implement better, more effecient, undo and redo.
 - [x] Improve mirroring points.
 - [ ] Improve mirroring points even more ^^.
 - [x] Add path string optimizations to compress/shorten it as much as possible.
 - [ ] Improve the interface.
 - [x] Implement paths and figures (subpaths) reordering.
-- [ ] Points locking so you can't modify them accidentally.
+- [ ] Points locking so you can't modify them accidentally?
 - [ ] Background template images.
 - [ ] Custom crusors for when pressing mod keys like CTRL, SHILT or ALT to easily see what tool/action you have selected.
+- [ ] Implement proper scaling (the actual solution has issues because of floating point errors).
+
+Feedback and Sugestions are welcome.
