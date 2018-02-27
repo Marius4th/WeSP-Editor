@@ -324,6 +324,9 @@ Public NotInheritable Class SVG
     Public Shared Function ApplyZoom(pt As PointF) As PointF
         Return New PointF(pt.X * _canvasZoom, pt.Y * _canvasZoom)
     End Function
+    Public Shared Function ApplyZoom(pt As SizeF) As SizeF
+        Return New SizeF(pt.Width * _canvasZoom, pt.Height * _canvasZoom)
+    End Function
     Public Shared Function ApplyZoom(rc As RectangleF) As RectangleF
         Return New RectangleF(rc.X * _canvasZoom, rc.Y * _canvasZoom, rc.Width * _canvasZoom, rc.Height * _canvasZoom)
     End Function

@@ -18,6 +18,30 @@ Imports System.Windows.Input
 
 Public Class Form_main
 
+    Private Class BkgTemplate
+        Public image As Bitmap
+        Public position As PointF
+        Public size As SizeF
+        Public keepAspect As Boolean
+
+        Public Sub New(img As Bitmap)
+            Me.image = img
+            Me.position = New PointF(0, 0)
+            Me.size = img.Size
+            Me.keepAspect = True
+        End Sub
+
+        Public Sub New(img As Bitmap, pos As PointF, sz As SizeF, kaspect As Boolean)
+            Me.image = img
+            Me.position = pos
+            Me.size = sz
+            Me.keepAspect = kaspect
+        End Sub
+    End Class
+
+    Private bkgTemplates As New List(Of BkgTemplate)
+    Private selectedBkgTemp As BkgTemplate = Nothing
+
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Custom Events
 
@@ -89,6 +113,8 @@ Public Class Form_main
         Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
+        Num_strokeAlpha.Value = path.StrokeColor.A
+        Num_fillAlpha.Value = path.StrokeColor.A
 
         AddToHistory()
     End Sub
@@ -108,6 +134,8 @@ Public Class Form_main
     Public Sub SVG_OnSelectPath(ByRef path As SVGPath)
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
+        Num_strokeAlpha.Value = path.StrokeColor.A
+        Num_fillAlpha.Value = path.StrokeColor.A
         Num_strokeWidth.Value = path.StrokeWidth
 
         Lb_figures.Items.Clear()
@@ -752,6 +780,15 @@ Public Class Form_main
         e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
         e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
+        'Draw the background templates --------------------------------------------------------------------------------------
+        For Each bkgtemp As BkgTemplate In bkgTemplates
+            'Dim cm As New Imaging.ColorMatrix
+            'Dim ia As New Imaging.ImageAttributes
+            'cm.Matrix33 = 25 'alpha
+            'ia.SetColorMatrix(cm)
+            e.Graphics.DrawImage(bkgtemp.image, New RectangleF(SVG.ApplyZoom(bkgtemp.position), SVG.ApplyZoom(bkgtemp.size)))
+        Next
+
         'Draw 32x32 cells reference Grid --------------------------------------------------------------------------------------
         penAxis.DashPattern = {5, 5}
         For ix As Integer = gridZoomed.Width To SVG.CanvasSizeZoomed.Width - 1 Step gridZoomed.Width
@@ -1228,6 +1265,20 @@ Public Class Form_main
         End If
     End Sub
 
+    Private Sub Num_strokeAlpha_ValueChanged(sender As Object, e As EventArgs) Handles Num_strokeAlpha.ValueChanged
+        If SVG.SelectedPath Is Nothing Then Return
+        Col_stroke.BackColor = Color.FromArgb(Num_strokeAlpha.Value, Col_stroke.BackColor)
+        SVG.SelectedPath.StrokeColor = Col_stroke.BackColor
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub Num_fillAlpha_ValueChanged(sender As Object, e As EventArgs) Handles Num_fillAlpha.ValueChanged
+        If SVG.SelectedPath Is Nothing Then Return
+        Col_fill.BackColor = Color.FromArgb(Num_fillAlpha.Value, Col_fill.BackColor)
+        SVG.SelectedPath.FillColor = Col_fill.BackColor
+        Pic_canvas.Invalidate()
+    End Sub
+
     Private Sub Pic_canvas_MouseLeave(sender As Object, e As EventArgs) Handles Pic_canvas.MouseLeave
         'Timer_canvasMMove.Enabled = False
     End Sub
@@ -1698,4 +1749,71 @@ Public Class Form_main
         Next
         Pic_canvas.Invalidate()
     End Sub
+
+    Private Sub But_addTemplate_Click(sender As Object, e As EventArgs) Handles But_addTemplate.Click
+        OpenFileDialog1.Filter = "ALL|*.*|BMP|*.bmp|JPG, JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tiff|ICON|*.ico"
+        If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
+            Dim newBTemp As New BkgTemplate(New Bitmap(OpenFileDialog1.FileName))
+            bkgTemplates.Add(newBTemp)
+            Combo_templates.Items.Add(IO.Path.GetFileNameWithoutExtension(OpenFileDialog1.FileName))
+            Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
+        End If
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub Combo_templates_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Combo_templates.SelectedIndexChanged
+        selectedBkgTemp = bkgTemplates(Combo_templates.SelectedIndex)
+        Num_templateX.Value = selectedBkgTemp.position.X
+        Num_templateY.Value = selectedBkgTemp.position.Y
+        Num_templateW.Value = selectedBkgTemp.size.Width
+        Num_templateH.Value = selectedBkgTemp.size.Height
+        Cb_templateKeepAspect.Checked = selectedBkgTemp.keepAspect
+    End Sub
+
+    Private Sub Num_templateX_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateX.ValueChanged
+        If selectedBkgTemp Is Nothing Then Return
+        selectedBkgTemp.position.X = Num_templateX.Value
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub Num_templateY_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateY.ValueChanged
+        If selectedBkgTemp Is Nothing Then Return
+        selectedBkgTemp.position.Y = Num_templateY.Value
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub Num_templateW_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateW.ValueChanged
+        If selectedBkgTemp Is Nothing OrElse selectedBkgTemp.size.Width = Num_templateW.Value Then Return
+        selectedBkgTemp.size.Width = Num_templateW.Value
+        If selectedBkgTemp.keepAspect Then
+            Dim ratio As Single = selectedBkgTemp.image.Width / selectedBkgTemp.image.Height
+            Num_templateH.Value = selectedBkgTemp.size.Width / ratio
+        End If
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub Num_templateH_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateH.ValueChanged
+        If selectedBkgTemp Is Nothing OrElse selectedBkgTemp.size.Height = Num_templateH.Value Then Return
+        selectedBkgTemp.size.Height = Num_templateH.Value
+        If selectedBkgTemp.keepAspect Then
+            Dim ratio As Single = selectedBkgTemp.image.Width / selectedBkgTemp.image.Height
+            Num_templateW.Value = selectedBkgTemp.size.Height * ratio
+        End If
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub Cb_templateKeepAspect_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_templateKeepAspect.CheckedChanged
+        If selectedBkgTemp Is Nothing Then Return
+        selectedBkgTemp.keepAspect = Cb_templateKeepAspect.Checked
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub But_removeTemplate_Click(sender As Object, e As EventArgs) Handles But_removeTemplate.Click
+        If Combo_templates.SelectedIndex < 0 Then Return
+        bkgTemplates.RemoveAt(Combo_templates.SelectedIndex)
+        selectedBkgTemp = Nothing
+        Combo_templates.Items.RemoveAt(Combo_templates.SelectedIndex)
+        Pic_canvas.Refresh()
+    End Sub
+
 End Class
