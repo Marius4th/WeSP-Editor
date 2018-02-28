@@ -133,6 +133,7 @@ Partial Class Form_main
         Me.Num_canvasWidth = New System.Windows.Forms.NumericUpDown()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Cb_templateVisible = New System.Windows.Forms.CheckBox()
         Me.Cb_templateKeepAspect = New System.Windows.Forms.CheckBox()
         Me.Num_templateH = New System.Windows.Forms.NumericUpDown()
         Me.Num_templateW = New System.Windows.Forms.NumericUpDown()
@@ -173,7 +174,6 @@ Partial Class Form_main
         Me.But_figMoveBottom = New System.Windows.Forms.Button()
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
-        Me.Cb_templateVisible = New System.Windows.Forms.CheckBox()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -959,6 +959,14 @@ Partial Class Form_main
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'Cb_templateVisible
+        '
+        resources.ApplyResources(Me.Cb_templateVisible, "Cb_templateVisible")
+        Me.Cb_templateVisible.Checked = True
+        Me.Cb_templateVisible.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Cb_templateVisible.Name = "Cb_templateVisible"
+        Me.Cb_templateVisible.UseVisualStyleBackColor = True
+        '
         'Cb_templateKeepAspect
         '
         resources.ApplyResources(Me.Cb_templateKeepAspect, "Cb_templateKeepAspect")
@@ -1072,8 +1080,8 @@ Partial Class Form_main
         '
         'Pic_preview
         '
-        Me.Pic_preview.BackColor = System.Drawing.Color.Black
         resources.ApplyResources(Me.Pic_preview, "Pic_preview")
+        Me.Pic_preview.BackColor = System.Drawing.Color.Black
         Me.Pic_preview.Name = "Pic_preview"
         Me.Pic_preview.TabStop = False
         '
@@ -1130,137 +1138,129 @@ Partial Class Form_main
         '
         'But_removeSelPts
         '
+        resources.ApplyResources(Me.But_removeSelPts, "But_removeSelPts")
         Me.But_removeSelPts.BackColor = System.Drawing.Color.Snow
         Me.But_removeSelPts.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
-        resources.ApplyResources(Me.But_removeSelPts, "But_removeSelPts")
         Me.But_removeSelPts.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_removeSelPts.Name = "But_removeSelPts"
         Me.But_removeSelPts.UseVisualStyleBackColor = False
         '
         'But_pathRename
         '
+        resources.ApplyResources(Me.But_pathRename, "But_pathRename")
         Me.But_pathRename.BackColor = System.Drawing.Color.Snow
         Me.But_pathRename.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.rename
-        resources.ApplyResources(Me.But_pathRename, "But_pathRename")
         Me.But_pathRename.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_pathRename.Name = "But_pathRename"
         Me.But_pathRename.UseVisualStyleBackColor = False
         '
         'But_pathMoveUp
         '
+        resources.ApplyResources(Me.But_pathMoveUp, "But_pathMoveUp")
         Me.But_pathMoveUp.BackColor = System.Drawing.Color.Snow
         Me.But_pathMoveUp.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveUp
-        resources.ApplyResources(Me.But_pathMoveUp, "But_pathMoveUp")
         Me.But_pathMoveUp.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_pathMoveUp.Name = "But_pathMoveUp"
         Me.But_pathMoveUp.UseVisualStyleBackColor = False
         '
         'But_pathMoveDown
         '
+        resources.ApplyResources(Me.But_pathMoveDown, "But_pathMoveDown")
         Me.But_pathMoveDown.BackColor = System.Drawing.Color.Snow
         Me.But_pathMoveDown.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveDown
-        resources.ApplyResources(Me.But_pathMoveDown, "But_pathMoveDown")
         Me.But_pathMoveDown.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_pathMoveDown.Name = "But_pathMoveDown"
         Me.But_pathMoveDown.UseVisualStyleBackColor = False
         '
         'But_pathMoveTop
         '
+        resources.ApplyResources(Me.But_pathMoveTop, "But_pathMoveTop")
         Me.But_pathMoveTop.BackColor = System.Drawing.Color.Snow
         Me.But_pathMoveTop.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveTop
-        resources.ApplyResources(Me.But_pathMoveTop, "But_pathMoveTop")
         Me.But_pathMoveTop.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_pathMoveTop.Name = "But_pathMoveTop"
         Me.But_pathMoveTop.UseVisualStyleBackColor = False
         '
         'But_pathMoveBottom
         '
+        resources.ApplyResources(Me.But_pathMoveBottom, "But_pathMoveBottom")
         Me.But_pathMoveBottom.BackColor = System.Drawing.Color.Snow
         Me.But_pathMoveBottom.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveBottom
-        resources.ApplyResources(Me.But_pathMoveBottom, "But_pathMoveBottom")
         Me.But_pathMoveBottom.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_pathMoveBottom.Name = "But_pathMoveBottom"
         Me.But_pathMoveBottom.UseVisualStyleBackColor = False
         '
         'But_addPath
         '
+        resources.ApplyResources(Me.But_addPath, "But_addPath")
         Me.But_addPath.BackColor = System.Drawing.Color.Snow
         Me.But_addPath.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.add
-        resources.ApplyResources(Me.But_addPath, "But_addPath")
         Me.But_addPath.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_addPath.Name = "But_addPath"
         Me.But_addPath.UseVisualStyleBackColor = False
         '
         'But_removePath
         '
+        resources.ApplyResources(Me.But_removePath, "But_removePath")
         Me.But_removePath.BackColor = System.Drawing.Color.Snow
         Me.But_removePath.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
-        resources.ApplyResources(Me.But_removePath, "But_removePath")
         Me.But_removePath.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_removePath.Name = "But_removePath"
         Me.But_removePath.UseVisualStyleBackColor = False
         '
         'But_figMoveUp
         '
+        resources.ApplyResources(Me.But_figMoveUp, "But_figMoveUp")
         Me.But_figMoveUp.BackColor = System.Drawing.Color.Snow
         Me.But_figMoveUp.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveUp
-        resources.ApplyResources(Me.But_figMoveUp, "But_figMoveUp")
         Me.But_figMoveUp.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_figMoveUp.Name = "But_figMoveUp"
         Me.But_figMoveUp.UseVisualStyleBackColor = False
         '
         'But_figMoveDown
         '
+        resources.ApplyResources(Me.But_figMoveDown, "But_figMoveDown")
         Me.But_figMoveDown.BackColor = System.Drawing.Color.Snow
         Me.But_figMoveDown.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveDown
-        resources.ApplyResources(Me.But_figMoveDown, "But_figMoveDown")
         Me.But_figMoveDown.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_figMoveDown.Name = "But_figMoveDown"
         Me.But_figMoveDown.UseVisualStyleBackColor = False
         '
         'But_figMoveTop
         '
+        resources.ApplyResources(Me.But_figMoveTop, "But_figMoveTop")
         Me.But_figMoveTop.BackColor = System.Drawing.Color.Snow
         Me.But_figMoveTop.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveTop
-        resources.ApplyResources(Me.But_figMoveTop, "But_figMoveTop")
         Me.But_figMoveTop.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_figMoveTop.Name = "But_figMoveTop"
         Me.But_figMoveTop.UseVisualStyleBackColor = False
         '
         'But_figMoveBottom
         '
+        resources.ApplyResources(Me.But_figMoveBottom, "But_figMoveBottom")
         Me.But_figMoveBottom.BackColor = System.Drawing.Color.Snow
         Me.But_figMoveBottom.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.moveBottom
-        resources.ApplyResources(Me.But_figMoveBottom, "But_figMoveBottom")
         Me.But_figMoveBottom.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_figMoveBottom.Name = "But_figMoveBottom"
         Me.But_figMoveBottom.UseVisualStyleBackColor = False
         '
         'But_addFigure
         '
+        resources.ApplyResources(Me.But_addFigure, "But_addFigure")
         Me.But_addFigure.BackColor = System.Drawing.Color.Snow
         Me.But_addFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.add
-        resources.ApplyResources(Me.But_addFigure, "But_addFigure")
         Me.But_addFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_addFigure.Name = "But_addFigure"
         Me.But_addFigure.UseVisualStyleBackColor = False
         '
         'But_removeFigure
         '
+        resources.ApplyResources(Me.But_removeFigure, "But_removeFigure")
         Me.But_removeFigure.BackColor = System.Drawing.Color.Snow
         Me.But_removeFigure.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.remove
-        resources.ApplyResources(Me.But_removeFigure, "But_removeFigure")
         Me.But_removeFigure.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_removeFigure.Name = "But_removeFigure"
         Me.But_removeFigure.UseVisualStyleBackColor = False
-        '
-        'Cb_templateVisible
-        '
-        resources.ApplyResources(Me.Cb_templateVisible, "Cb_templateVisible")
-        Me.Cb_templateVisible.Checked = True
-        Me.Cb_templateVisible.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Cb_templateVisible.Name = "Cb_templateVisible"
-        Me.Cb_templateVisible.UseVisualStyleBackColor = True
         '
         'Form_main
         '
