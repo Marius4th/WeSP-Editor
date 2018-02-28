@@ -18,28 +18,30 @@ Imports System.Windows.Input
 
 Public Class Form_main
 
-    Private Class BkgTemplate
+    Public Class BkgTemplate
         Public image As Bitmap
+        Public path As String
         Public position As PointF
         Public size As SizeF
         Public keepAspect As Boolean
+        Public visible As Boolean
 
         Public Sub New(img As Bitmap)
             Me.image = img
+            Me.path = ""
             Me.position = New PointF(0, 0)
             Me.size = img.Size
             Me.keepAspect = True
+            Me.visible = True
         End Sub
 
-        Public Sub New(img As Bitmap, pos As PointF, sz As SizeF, kaspect As Boolean)
-            Me.image = img
-            Me.position = pos
-            Me.size = sz
-            Me.keepAspect = kaspect
+        Public Sub New(imgPath As String)
+            Me.New(New Bitmap(imgPath))
+            Me.path = imgPath
         End Sub
     End Class
 
-    Private bkgTemplates As New List(Of BkgTemplate)
+    Public bkgTemplates As New List(Of BkgTemplate)
     Private selectedBkgTemp As BkgTemplate = Nothing
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -451,6 +453,13 @@ Public Class Form_main
         End If
     End Sub
 
+    Public Sub AddBkgTemplate(bkgt As BkgTemplate)
+        bkgTemplates.Add(bkgt)
+        Combo_templates.Items.Add(IO.Path.GetFileNameWithoutExtension(bkgt.path))
+        Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
+        Pic_canvas.Refresh()
+    End Sub
+
     'Subroutines and Functions
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Initializations (or something like that)
@@ -782,6 +791,7 @@ Public Class Form_main
 
         'Draw the background templates --------------------------------------------------------------------------------------
         For Each bkgtemp As BkgTemplate In bkgTemplates
+            If bkgtemp.visible = False Then Continue For
             'Dim cm As New Imaging.ColorMatrix
             'Dim ia As New Imaging.ImageAttributes
             'cm.Matrix33 = 25 'alpha
@@ -1751,14 +1761,11 @@ Public Class Form_main
     End Sub
 
     Private Sub But_addTemplate_Click(sender As Object, e As EventArgs) Handles But_addTemplate.Click
-        OpenFileDialog1.Filter = "ALL|*.*|BMP|*.bmp|JPG, JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tiff|ICON|*.ico"
+        OpenFileDialog1.Filter = "ALL|*.*|BMP|*.bmp|JPG, JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tiff"
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Dim newBTemp As New BkgTemplate(New Bitmap(OpenFileDialog1.FileName))
-            bkgTemplates.Add(newBTemp)
-            Combo_templates.Items.Add(IO.Path.GetFileNameWithoutExtension(OpenFileDialog1.FileName))
-            Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
+            Dim newBTemp As New BkgTemplate(OpenFileDialog1.FileName)
+            AddBkgTemplate(newBTemp)
         End If
-        Pic_canvas.Refresh()
     End Sub
 
     Private Sub Combo_templates_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Combo_templates.SelectedIndexChanged
@@ -1768,6 +1775,7 @@ Public Class Form_main
         Num_templateW.Value = selectedBkgTemp.size.Width
         Num_templateH.Value = selectedBkgTemp.size.Height
         Cb_templateKeepAspect.Checked = selectedBkgTemp.keepAspect
+        Cb_templateVisible.Checked = selectedBkgTemp.visible
     End Sub
 
     Private Sub Num_templateX_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateX.ValueChanged
@@ -1813,7 +1821,13 @@ Public Class Form_main
         bkgTemplates.RemoveAt(Combo_templates.SelectedIndex)
         selectedBkgTemp = Nothing
         Combo_templates.Items.RemoveAt(Combo_templates.SelectedIndex)
+        Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
         Pic_canvas.Refresh()
     End Sub
 
+    Private Sub Cb_templateVisible_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_templateVisible.CheckedChanged
+        If selectedBkgTemp Is Nothing Then Return
+        selectedBkgTemp.visible = Cb_templateVisible.Checked
+        Pic_canvas.Refresh()
+    End Sub
 End Class

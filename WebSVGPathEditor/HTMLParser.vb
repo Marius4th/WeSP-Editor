@@ -77,6 +77,7 @@ Public Class HTMLParser
     Public Shared Function GetAttributeValue(html As String, propName As String, Optional isNameAlone As Boolean = True) As String
         'html = html.Replace("'", """")
         'propName = propName.Replace("'", """")
+        'If it doesn't contain '='
         If isNameAlone Then propName &= "="""
 
         Dim subStart As Integer = html.IndexOf(propName)

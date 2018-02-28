@@ -205,14 +205,22 @@ Public NotInheritable Class SVG
                         str &= " orig=""" & pp.isMirrorOrigin & """"
                         str &= " orient=""" & pp.mirrorOrient & """"
                         str &= " noninteract=""" & pp.nonInteractve & """"
-                        str &= ">" & vbCrLf
+                        str &= "/>" & vbCrLf
                     End If
                 Next
             Next
         Next
 
-        str &= "</wesp>-->"
+        For Each bkgtemp As Form_main.BkgTemplate In Form_main.bkgTemplates
+            str &= "<bkgtemp path=""" & bkgtemp.path & """"
+            str &= " pos=""" & bkgtemp.position.ToStringForm(3) & """"
+            str &= " size=""" & bkgtemp.size.ToStringForm(3) & """"
+            str &= " kaspect=""" & bkgtemp.keepAspect & """"
+            str &= " visible=""" & bkgtemp.visible & """"
+            str &= "/>" & vbCrLf
+        Next
 
+        str &= "</wesp>-->"
 
         Return str
     End Function
@@ -534,10 +542,9 @@ Public NotInheritable Class SVG
         If Not str.Contains("<wesp") Then Return
         Dim wesp As String = Split(Split(str, "<wesp")(1), "</wesp>")(0)
 
+        Dim wesphAttribs = HTMLParser.GetAttributes(wesp)
         'Zoom
-        If wesp.ToLower.Contains("zoom=""") Then
-            CanvasZoom = Convert.ToSingle(HTMLParser.GetAttributeValue(wesp.ToLower, " zoom"))
-        End If
+        CanvasZoom = wesphAttribs.GetValue("zoom", "10").GetNumbers
 
         'Mirrored PPoints
         Dim mirrors As String() = Split(wesp, "<mirror", -1, StringSplitOptions.RemoveEmptyEntries)
@@ -546,8 +553,10 @@ Public NotInheritable Class SVG
         Dim pp, mirPP, mirPos As PathPoint
         Dim orient As Orientation
         For Each item As String In mirrors
-            If Not item.Contains("posi") Then Continue For
-            substr = HTMLParser.GetAttributeValue(item, " id")
+            Dim itemAttribs = HTMLParser.GetAttributes(item)
+            If Not itemAttribs.ContainsKey("posi") Then Continue For
+
+            substr = itemAttribs("id")
             ppData = Split(substr, ",")
             If ppData.Length = 3 Then
                 pathi = Convert.ToInt32(ppData(0))
@@ -556,9 +565,9 @@ Public NotInheritable Class SVG
             End If
 
             pp = SVG.paths(pathi).Figure(figi)(ppi)
-            mirPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(HTMLParser.GetAttributeValue(item, " ppi")))
-            mirPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(HTMLParser.GetAttributeValue(item, " posi")))
-            orient = Convert.ToInt32(HTMLParser.GetAttributeValue(item, " orient"))
+            mirPP = SVG.paths(pathi).Figure(figi)(itemAttribs.GetValue("ppi", "0").GetNumbers)
+            mirPos = SVG.paths(pathi).Figure(figi)(itemAttribs.GetValue("posi", "0").GetNumbers)
+            orient = itemAttribs.GetValue("orient", "0").GetNumbers
 
             pp.SetMirrorPPoint(mirPP, orient)
             Form_main.Pic_canvas.Refresh()
@@ -568,12 +577,23 @@ Public NotInheritable Class SVG
             With pp
                 '.mirroredPos = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "posi")))
                 '.mirroredPP = SVG.paths(pathi).Figure(figi)(Convert.ToInt32(GetHTMLPropertyValue(item, "ppi")))
-                .isMirrorOrigin = CBool(HTMLParser.GetAttributeValue(item, " orig"))
-                .nonInteractve = CBool(HTMLParser.GetAttributeValue(item, " noninteract"))
+                .isMirrorOrigin = CBool(itemAttribs("orig"))
+                .nonInteractve = CBool(itemAttribs("noninteract"))
                 '.mirrorOrient = Convert.ToInt32(GetHTMLPropertyValue(item, "orient"))
             End With
         Next
 
+        Dim bkgtemps As String() = Split(mirrors.Last, "<bkgtemp", -1, StringSplitOptions.RemoveEmptyEntries)
+        For Each item As String In bkgtemps
+            Dim itemAttribs = HTMLParser.GetAttributes(item)
+            If Not itemAttribs.ContainsKey("path") Then Continue For
+            Dim newBkgt As New Form_main.BkgTemplate(itemAttribs("path"))
+            newBkgt.position.Parse(itemAttribs("pos"))
+            newBkgt.size.Parse(itemAttribs("size"))
+            newBkgt.keepAspect = CBool(itemAttribs("kaspect"))
+            newBkgt.visible = CBool(itemAttribs("visible"))
+            Form_main.AddBkgTemplate(newBkgt)
+        Next
         historyLock = False
         AddToHistory()
     End Sub

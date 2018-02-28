@@ -157,6 +157,46 @@ Public Module Module1
         Return lst
     End Function
 
+    <Extension()>
+    Public Function ToStringForm(ByRef ptf As PointF, Optional decimals As Integer = 0) As String
+        Return Math.Round(ptf.X, decimals) & "," & Math.Round(ptf.Y, decimals)
+    End Function
+    <Extension()>
+    Public Function ToStringForm(ByRef pt As Point, Optional decimals As Integer = 0) As String
+        Return Math.Round(pt.X, decimals) & "," & Math.Round(pt.Y, decimals)
+    End Function
+
+    <Extension()>
+    Public Sub Parse(ByRef ptf As PointF, str As String)
+        Dim data As String() = Split(str, ",")
+        ptf.X = data(0).GetNumbers
+        ptf.Y = data(1).GetNumbers
+    End Sub
+    <Extension()>
+    Public Sub Parse(ByRef pt As Point, str As String)
+        Dim data As String() = Split(str, ",")
+        pt.X = data(0).GetNumbers
+        pt.Y = data(1).GetNumbers
+    End Sub
+
+    <Extension()>
+    Public Function ToStringForm(ByRef szf As SizeF, Optional decimals As Integer = 0) As String
+        Return Math.Round(szf.Width, decimals) & "," & Math.Round(szf.Height, decimals)
+    End Function
+
+    <Extension()>
+    Public Sub Parse(ByRef szf As SizeF, str As String)
+        Dim data As String() = Split(str, ",")
+        szf.Width = data(0).GetNumbers
+        szf.Height = data(1).GetNumbers
+    End Sub
+
+    <Extension()>
+    Public Function GetValue(ByRef dic As Dictionary(Of String, String), key As String, defVal As String) As String
+        If dic.ContainsKey(key) Then Return dic(key)
+        Return defVal
+    End Function
+
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     Public Function MakeDWord(ByVal low As Integer, ByVal high As Integer) As Integer
