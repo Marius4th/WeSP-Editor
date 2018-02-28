@@ -374,6 +374,7 @@ Public NotInheritable Class SVG
 
         historyLock = True
         SVG.Clear()
+        Form_main.bkgTemplates.Clear()
 
         AttributesSetDefaults()
         AppedAttributes(HTMLParser.GetAttributes(str), True)

@@ -116,7 +116,7 @@ Public Class Form_main
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
         Num_strokeAlpha.Value = path.StrokeColor.A
-        Num_fillAlpha.Value = path.StrokeColor.A
+        Num_fillAlpha.Value = path.FillColor.A
 
         AddToHistory()
     End Sub
@@ -137,7 +137,7 @@ Public Class Form_main
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
         Num_strokeAlpha.Value = path.StrokeColor.A
-        Num_fillAlpha.Value = path.StrokeColor.A
+        Num_fillAlpha.Value = path.FillColor.A
         Num_strokeWidth.Value = path.StrokeWidth
 
         Lb_figures.Items.Clear()
