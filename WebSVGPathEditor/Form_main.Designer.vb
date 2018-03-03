@@ -150,7 +150,6 @@ Partial Class Form_main
         Me.Cb_optimize = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Pic_preview = New System.Windows.Forms.PictureBox()
-        Me.Pan_canvas = New System.Windows.Forms.Panel()
         Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
@@ -203,7 +202,6 @@ Partial Class Form_main
         CType(Me.Num_templateX, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Box_html.SuspendLayout()
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Pan_canvas.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1085,17 +1083,10 @@ Partial Class Form_main
         Me.Pic_preview.Name = "Pic_preview"
         Me.Pic_preview.TabStop = False
         '
-        'Pan_canvas
-        '
-        resources.ApplyResources(Me.Pan_canvas, "Pan_canvas")
-        Me.Pan_canvas.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.Pan_canvas.Controls.Add(Me.Pic_canvas)
-        Me.Pan_canvas.Name = "Pan_canvas"
-        '
         'Pic_canvas
         '
-        Me.Pic_canvas.BackColor = System.Drawing.Color.Black
         resources.ApplyResources(Me.Pic_canvas, "Pic_canvas")
+        Me.Pic_canvas.BackColor = System.Drawing.Color.Black
         Me.Pic_canvas.Name = "Pic_canvas"
         Me.Pic_canvas.TabStop = False
         '
@@ -1267,6 +1258,7 @@ Partial Class Form_main
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
+        Me.Controls.Add(Me.Pic_canvas)
         Me.Controls.Add(Me.But_removeSelPts)
         Me.Controls.Add(Me.But_pathRename)
         Me.Controls.Add(Me.But_pathMoveUp)
@@ -1285,7 +1277,6 @@ Partial Class Form_main
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Lb_figures)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.Pan_canvas)
         Me.Controls.Add(Me.Box_html)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.Label3)
@@ -1333,7 +1324,6 @@ Partial Class Form_main
         Me.Box_html.ResumeLayout(False)
         Me.Box_html.PerformLayout()
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Pan_canvas.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1390,7 +1380,6 @@ Partial Class Form_main
     Friend WithEvents DeleteToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents But_mirror As Button
     Friend WithEvents Box_html As GroupBox
-    Friend WithEvents Pan_canvas As Panel
     Friend WithEvents TESTToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AddLotsOPointsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Label1 As Label

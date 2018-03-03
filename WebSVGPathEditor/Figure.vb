@@ -223,31 +223,19 @@
         Return path
     End Function
 
-    Public Sub DrawPath(graphs As Graphics, pen As Pen, brush As SolidBrush)
+    Public Sub DrawPath(graphs As Graphics, ByRef pen As Pen, ByRef brush As SolidBrush)
         'Static penMirror As New Pen(Color.Purple, 1)
 
         'penMirror.DashPattern = {3, 10}
         'penMirror.Color = ColorRotate(brush.Color)
 
-        Dim path As Drawing2D.GraphicsPath = Me.GetPath
+        Dim path As Drawing2D.GraphicsPath = Me.GetPath()
+        'Dim translateMatrix As New Drawing2D.Matrix
+        'translateMatrix.Translate(offset.X, offset.Y)
+        'path.Transform(translateMatrix)
+
         graphs.FillPath(brush, path)
         graphs.DrawPath(pen, path)
-
-        'For Each pp As PathPoint In points
-        '    If pp.pos Is Nothing Then Continue For
-        '    If pp.mirroredPos IsNot Nothing AndAlso pp.isMirrorOrigin Then
-        '        graphs.DrawLine(penMirror, SVG.ApplyZoom(pp.pos), SVG.ApplyZoom(pp.mirroredPos.pos))
-        '    End If
-        '    'BBox test
-        '    'If pp.prevPPoint IsNot Nothing Then
-        '    '    'graphs.DrawRectangle(penMirror, New Rectangle(pp.GetLeft, pp.prevPPoint.pos.Y, pp.GetRight - pp.GetLeft, Math.Abs(pp.prevPPoint.pos.Y - pp.pos.Y)))
-        '    '    'graphs.DrawLine(penMirror, pp.GetLeft, pp.prevPPoint.pos.Y, pp.GetLeft, pp.pos.Y)
-        '    '    'graphs.DrawLine(penMirror, pp.GetRight, pp.prevPPoint.pos.Y, pp.GetRight, pp.pos.Y)
-        '    '    Dim rc As RectangleF = pp.GetBounds()
-        '    '    rc = SVG.ApplyZoom(rc)
-        '    '    graphs.DrawRectangle(penMirror, rc.ToRectangle)
-        '    'End If
-        'Next
     End Sub
 
     Public Function IsPointRef(index As Integer) As Boolean

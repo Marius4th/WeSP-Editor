@@ -272,9 +272,9 @@ Public Class SVGPath
 
     Public Sub Draw(ByRef graphs As Graphics)
         'Set drawing to be smooth
-        graphs.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-        graphs.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-        graphs.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        'graphs.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+        'graphs.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+        'graphs.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
         _strokePen.Width = StrokeWidth * SVG.CanvasZoom
 

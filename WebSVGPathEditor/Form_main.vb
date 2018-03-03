@@ -18,31 +18,8 @@ Imports System.Windows.Input
 
 Public Class Form_main
 
-    Public Class BkgTemplate
-        Public image As Bitmap
-        Public path As String
-        Public position As PointF
-        Public size As SizeF
-        Public keepAspect As Boolean
-        Public visible As Boolean
-
-        Public Sub New(img As Bitmap)
-            Me.image = img
-            Me.path = ""
-            Me.position = New PointF(0, 0)
-            Me.size = img.Size
-            Me.keepAspect = True
-            Me.visible = True
-        End Sub
-
-        Public Sub New(imgPath As String)
-            Me.New(New Bitmap(imgPath))
-            Me.path = imgPath
-        End Sub
-    End Class
-
-    Public bkgTemplates As New List(Of BkgTemplate)
-    Private selectedBkgTemp As BkgTemplate = Nothing
+    Private canvasImg As Bitmap
+    Private canvasBack As Bitmap
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Custom Events
@@ -57,6 +34,10 @@ Public Class Form_main
         AddHandler SVG.OnSelectPoint, AddressOf SVG_OnSelectPoint
         AddHandler SVG.OnStickyGridChanged, AddressOf SVG_OnStickyGridChanged
         AddHandler SVG.OnChangePathIndex, AddressOf SVG_OnChangePathIndex
+        AddHandler SVG.OnBkgTemplateAdd, AddressOf SVG_OnBkgTemplateAdd
+        AddHandler SVG.OnBkgTemplateRemoving, AddressOf SVG_OnBkgTemplateRemoving
+        AddHandler SVG.OnBkgTemplatesClear, AddressOf SVG_OnBkgTemplatesClear
+        AddHandler SVG.OnCanvasOffsetChanged, AddressOf SVG_OnCanvasOffsetChanged
 
         AddHandler SVG.selectedPoints.OnAdd, AddressOf SVGSelectedPoints_OnAdd
         AddHandler SVG.selectedPoints.OnRemoving, AddressOf SVGSelectedPoints_OnRemoving
@@ -79,8 +60,7 @@ Public Class Form_main
     End Sub
 
     Public Sub SVG_OnCanvasSizeChanged()
-        Pic_canvas.Size = New Size(Math.Ceiling(SVG.CanvasSizeZoomed.Width), Math.Ceiling(SVG.CanvasSizeZoomed.Height))
-        Pic_canvas.Refresh()
+        'Pic_canvas.Size = New Size(Math.Ceiling(SVG.CanvasSizeZoomed.Width), Math.Ceiling(SVG.CanvasSizeZoomed.Height))
         If Num_canvasWidth.Value <> SVG.CanvasSize.Width Then
             Num_canvasWidth.Value = SVG.CanvasSize.Width
         End If
@@ -93,11 +73,12 @@ Public Class Form_main
             Form_result.Pic_realSize.Size = SVG.CanvasSize.ToSize
         End If
 
+        Pic_canvas.Refresh()
         AddToHistory()
     End Sub
 
     Public Sub SVG_OnCanvasZoomChanged()
-        Pic_canvas.Size = SVG.CanvasSizeZoomed
+        'Pic_canvas.Size = SVG.CanvasSizeZoomed
         Pic_canvas.Refresh()
         If Num_zoom.Value <> SVG.CanvasZoom Then
             Num_zoom.Value = SVG.CanvasZoom
@@ -175,6 +156,26 @@ Public Class Form_main
         Dim oldItem = Lb_paths.Items(oldIndx)
         Lb_paths.Items.RemoveAt(oldIndx)
         Lb_paths.Items.Insert(newIndx, oldItem)
+    End Sub
+
+    Public Sub SVG_OnBkgTemplateAdd(ByRef bkgTemp As BkgTemplate)
+        Combo_templates.Items.Add(IO.Path.GetFileNameWithoutExtension(bkgTemp.path))
+        Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
+        Pic_canvas.Refresh()
+    End Sub
+
+    Public Sub SVG_OnBkgTemplateRemoving(ByRef bkgTemp As BkgTemplate, index As Integer)
+        Combo_templates.Items.RemoveAt(index)
+        Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
+        Pic_canvas.Refresh()
+    End Sub
+
+    Public Sub SVG_OnBkgTemplatesClear()
+        Combo_templates.Items.Clear()
+    End Sub
+
+    Public Sub SVG_OnCanvasOffsetChanged(ByVal newVal As Point)
+        Pic_canvas.Invalidate()
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
@@ -289,7 +290,7 @@ Public Class Form_main
         Lb_selPoints.Items.Add(d.GetString(False))
         Pic_canvas.Invalidate()
 
-        If SVG.SelectedPath IsNot Nothing AndAlso SVG.SelectedFigure.numMirrored > 0 Then
+        If SVG.SelectedPath IsNot Nothing AndAlso SVG.SelectedFigure.NumMirrored > 0 Then
             Dim anyMirrored As Boolean = False
             Dim prevMirrored As Boolean = False
 
@@ -299,8 +300,8 @@ Public Class Form_main
                     If prevMirrored Then Exit For
                 End If
 
-                If pp.prevPPoint Is Nothing Then Continue For
-                If pp.prevPPoint.mirroredPos IsNot Nothing Then
+                If pp.PrevPPoint Is Nothing Then Continue For
+                If pp.PrevPPoint.mirroredPos IsNot Nothing Then
                     prevMirrored = True
                     If anyMirrored Then Exit For
                 End If
@@ -430,34 +431,32 @@ Public Class Form_main
         Group_info.Invalidate()
     End Sub
 
+    Private Function GetVisibleCanvasRect() As Rectangle
+        Dim rc As Rectangle = Pic_canvas.ClientRectangle
+        rc.Intersect(New Rectangle(SVG.CanvasOffset.X, SVG.CanvasOffset.Y, SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height))
+        Return rc
+    End Function
+
     'Redraw the canva's back grid
     Public Sub RefreshBackGrid()
-        Dim bm As New Bitmap(Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Width), 0), Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Height), 0))
-        Dim grx As Graphics = Graphics.FromImage(bm)
+        canvasBack = New Bitmap(Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Width), 1), Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Height), 1))
+        Dim grx As Graphics = Graphics.FromImage(canvasBack)
         Dim br As New SolidBrush(Color.Black)
         Dim pen As New Pen(Color.FromArgb(255, 30, 30, 30), 1)
 
-        grx.FillRectangle(br, New Rectangle(0, 0, bm.Width, bm.Height))
-        grx.DrawRectangle(pen, New Rectangle(0, 0, bm.Width, bm.Height))
-
-        Pic_canvas.BackgroundImage = bm
-        'The background is in tile mode
+        grx.FillRectangle(br, New Rectangle(0, 0, canvasBack.Width, canvasBack.Height))
+        grx.DrawRectangle(pen, New Rectangle(0, 0, canvasBack.Width, canvasBack.Height))
+        Pic_canvas.Invalidate()
     End Sub
 
     Public Sub RefreshClosestPointToMouse()
         Dim mpos As PointF = GetMousePlacePos(Pic_canvas)
+        Lab_lastBkp.Text = mpos.X
         'Select closest point
         If SVG.selectedPoints.Count <= 1 Then
             SVG.SelectedPoint = SVG.SelectedPath.GetClosestPoint(mpos, False)
             Pic_canvas.Invalidate()
         End If
-    End Sub
-
-    Public Sub AddBkgTemplate(bkgt As BkgTemplate)
-        bkgTemplates.Add(bkgt)
-        Combo_templates.Items.Add(IO.Path.GetFileNameWithoutExtension(bkgt.path))
-        Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
-        Pic_canvas.Refresh()
     End Sub
 
     'Subroutines and Functions
@@ -485,18 +484,6 @@ Public Class Form_main
 
         'Add first figure
         SVG.Init()
-        'Combo_figure.Items.Add("Figure 1")
-        'Combo_figure.SelectedIndex = 0
-
-        'Dim asy As New CAsync
-        'asy.AddTask(AddressOf Test, {"test", "yep"})
-
-        Dim m1 As New Matrix({{0, 4, -2}, {-4, -3, 0}})
-        Dim m2 As New Matrix({{0, 1}, {1, -1}, {2, 3}})
-
-        Dim m3 As Matrix = m1.Multiply(m2)
-
-        Dim m4 As Matrix = m3.Multiply(3)
 
         historyLock = False
         AddToHistory()
@@ -506,16 +493,7 @@ Public Class Form_main
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Canvas Stuff
 
-    Private Sub Pan_canvas_MouseDown(sender As Object, e As MouseEventArgs) Handles Pan_canvas.MouseDown
-        If e.Button = MouseButtons.Middle Then
-            'Move the canvas
-            mouseLastPos = Cursor.Position
-            movingCanvas = True
-            Pan_canvas.Cursor = Cursors.SizeAll
-        End If
-    End Sub
-
-    Private Sub Pan_canvas_MouseWheel(sender As Object, e As MouseEventArgs) Handles Pan_canvas.MouseWheel
+    Private Sub Pic_canvas_MouseWheel(sender As Object, e As MouseEventArgs) Handles Pic_canvas.MouseWheel
         If My.Computer.Keyboard.CtrlKeyDown Then
             'Zoom in and out with mouse wheel
             If SVG.CanvasZoom >= 2 Then
@@ -526,27 +504,9 @@ Public Class Form_main
         End If
     End Sub
 
-    Private Sub Pan_canvas_MouseUp(sender As Object, e As MouseEventArgs) Handles Pan_canvas.MouseUp
-        'Reset cursor
-        Pan_canvas.Cursor = Cursors.Default
-    End Sub
-
-    Private Sub Pan_canvas_MouseMove(sender As Object, e As MouseEventArgs) Handles Pan_canvas.MouseMove
-        If e.Button = MouseButtons.Middle AndAlso movingCanvas = True Then
-            'Move the canvas
-            Pic_canvas.Left -= mouseLastPos.X - Cursor.Position.X
-            Pic_canvas.Top -= mouseLastPos.Y - Cursor.Position.Y
-            mouseLastPos = Cursor.Position
-        End If
-
-        Pan_canvas.Refresh()
-        'PictureBox1.Location = Cursor.Position
-        'PictureBox1_Move(PictureBox1, New EventArgs)
-    End Sub
-
     Private Sub Pic_canvas_Click(sender As Object, e As EventArgs) Handles Pic_canvas.Click
         'Dim mpos As Point = GetMousePlacePos(Pic_canvas)
-        Pan_canvas.Focus()
+        Pic_canvas.Focus()
         Pic_canvas.Invalidate()
     End Sub
 
@@ -629,13 +589,12 @@ Public Class Form_main
 
             End Select
         ElseIf e.Button = MouseButtons.Middle Then
-            ''Move the canvas
-            'mouseLastPos = Cursor.Position
-            'movingCanvas = True
-            'Box_canvas.Cursor = Cursors.SizeAll
+            'Move the canvas
+            mouseLastPos = Cursor.Position
+            movingCanvas = True
+            Pic_canvas.Cursor = Cursors.SizeAll
         End If
 
-        Pan_canvas_MouseDown(sender, e)
         Pic_canvas.Invalidate()
     End Sub
 
@@ -669,9 +628,8 @@ Public Class Form_main
         movingObject = False
         snapToGrid = False
 
-        Pan_canvas.Cursor = Cursors.Default
+        Pic_canvas.Cursor = Cursors.Default
 
-        Pan_canvas_MouseUp(sender, e)
         Pic_canvas.Invalidate()
         'Timer_canvasMMove.Enabled = False
 
@@ -768,36 +726,56 @@ Public Class Form_main
             End If
 
         ElseIf pressedMButton = MouseButtons.Middle Then
-            'If movingCanvas = True Then
-            '    'Move the canvas
-            '    Pic_canvas.Left -= mouseLastPos.X - Cursor.Position.X
-            '    Pic_canvas.Top -= mouseLastPos.Y - Cursor.Position.Y
-            '    mouseLastPos = Cursor.Position
-            'End If
+            If movingCanvas = True Then
+                'Move the canvas
+                SVG.OffsetCanvas(Cursor.Position.X - mouseLastPos.X, Cursor.Position.Y - mouseLastPos.Y)
+                mouseLastPos = Cursor.Position
+            End If
+
         End If
 
         Pic_canvas.Refresh()
-        Pan_canvas_MouseMove(sender, e)
     End Sub
 
     Private Sub Pic_canvas_Paint(sender As Object, e As PaintEventArgs) Handles Pic_canvas.Paint
         Static penAxis As New Pen(Color.FromArgb(150, Color.Chocolate), 1)
         Static penCentralAxis As New Pen(Color.FromArgb(100, Color.White), 1)
 
-        'Set drawing to be smooth
-        e.Graphics.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
-        e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
-        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        Dim ht As New HiResTimer
+        ht.Start()
+
+        'Draw the back grid (stiky grid)
+        Dim visibleRect As Rectangle = GetVisibleCanvasRect()
+        Dim tb As New TextureBrush(canvasBack)
+        tb.TranslateTransform(SVG.CanvasOffset.X, SVG.CanvasOffset.Y)
+        e.Graphics.FillRectangle(tb, visibleRect)
+
+        'Offset the position of everything
+        e.Graphics.TranslateTransform(SVG.CanvasOffset.X, SVG.CanvasOffset.Y)
+
+        'Set drawing quality to fast
+        e.Graphics.CompositingMode = Drawing2D.CompositingMode.SourceCopy
+        e.Graphics.CompositingQuality = Drawing2D.CompositingQuality.AssumeLinear
+        e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.Bilinear
+        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
 
         'Draw the background templates --------------------------------------------------------------------------------------
-        For Each bkgtemp As BkgTemplate In bkgTemplates
+        For Each bkgtemp As BkgTemplate In SVG.BkgTemplates
             If bkgtemp.visible = False Then Continue For
             'Dim cm As New Imaging.ColorMatrix
             'Dim ia As New Imaging.ImageAttributes
             'cm.Matrix33 = 25 'alpha
             'ia.SetColorMatrix(cm)
-            e.Graphics.DrawImage(bkgtemp.image, New RectangleF(SVG.ApplyZoom(bkgtemp.position), SVG.ApplyZoom(bkgtemp.size)))
+            Dim rc As New RectangleF(SVG.ApplyZoom(bkgtemp.position), SVG.ApplyZoom(bkgtemp.size))
+            e.Graphics.DrawImage(bkgtemp.image, rc)
         Next
+
+        'Set drawing to be smooth
+        e.Graphics.CompositingMode = Drawing2D.CompositingMode.SourceOver
+        e.Graphics.CompositingQuality = Drawing2D.CompositingQuality.HighSpeed
+        e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.Bilinear
+        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        e.Graphics.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
 
         'Draw 32x32 cells reference Grid --------------------------------------------------------------------------------------
         penAxis.DashPattern = {5, 5}
@@ -813,22 +791,22 @@ Public Class Form_main
         e.Graphics.DrawLine(penCentralAxis, SVG.CanvasSizeZoomed.Width / 2.0F, 0, SVG.CanvasSizeZoomed.Width / 2.0F, SVG.CanvasSizeZoomed.Height)
 
         'Draw SVG -------------------------------------------------------------------------------------------------------------
-        SVG.CanvasImg = New Bitmap(SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height)
-        Dim grxCanvas As Graphics = Graphics.FromImage(SVG.CanvasImg)
+        'SVG.CanvasImg = New Bitmap(SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height)
+        'Dim grxCanvas As Graphics = Graphics.FromImage(SVG.CanvasImg)
 
         For Each path As SVGPath In SVG.paths
-            path.Draw(grxCanvas)
+            path.Draw(e.Graphics)
         Next
 
-        e.Graphics.DrawImage(SVG.CanvasImg, New Point(0, 0))
+        'e.Graphics.DrawImage(SVG.CanvasImg, New Point(0, 0))
 
-        If Pic_preview.Image IsNot Nothing Then Pic_preview.Image.Dispose()
-        Pic_preview.Image = SVG.CanvasImg
+        'If Pic_preview.Image IsNot Nothing Then Pic_preview.Image.Dispose()
+        'Pic_preview.Image = SVG.CanvasImg
 
-        If Form_result.Visible Then
-            If Form_result.Pic_realSize.Image IsNot Nothing Then Form_result.Pic_realSize.Image.Dispose()
-            Form_result.Pic_realSize.Image = SVG.CanvasImg
-        End If
+        'If Form_result.Visible Then
+        '    If Form_result.Pic_realSize.Image IsNot Nothing Then Form_result.Pic_realSize.Image.Dispose()
+        '    Form_result.Pic_realSize.Image = SVG.CanvasImg
+        'End If
 
         'DRAW POINTS IN HERE >>>>>>>>>
 
@@ -864,17 +842,17 @@ Public Class Form_main
                 penMirror.DashPattern = {3, 10}
 
                 For Each pp As PathPoint In fig
-                    If pp.pos Is Nothing OrElse pp.nonInteractve = True Then Continue For
+                    If pp.Pos Is Nothing OrElse pp.nonInteractve = True Then Continue For
 
                     penMirror.Color = ColorRotate(fig.parent.FillColor)
                     If pp.mirroredPos IsNot Nothing AndAlso pp.isMirrorOrigin Then
-                        e.Graphics.DrawLine(penMirror, SVG.ApplyZoom(pp.pos), SVG.ApplyZoom(pp.mirroredPos.pos))
+                        e.Graphics.DrawLine(penMirror, SVG.ApplyZoom(pp.Pos), SVG.ApplyZoom(pp.mirroredPos.Pos))
                         If pp.mirroredPP IsNot Nothing AndAlso pp.mirroredPos IsNot pp.mirroredPP Then
-                            e.Graphics.DrawLine(penMirror, SVG.ApplyZoom(pp.pos), SVG.ApplyZoom(pp.mirroredPP.pos))
+                            e.Graphics.DrawLine(penMirror, SVG.ApplyZoom(pp.Pos), SVG.ApplyZoom(pp.mirroredPP.Pos))
                         End If
                     End If
 
-                    Dim rc As New RectangleF(New PointF(pp.pos.X * SVG.CanvasZoom - 6, pp.pos.Y * SVG.CanvasZoom - 6), New SizeF(12, 12))
+                    Dim rc As New RectangleF(New PointF(pp.Pos.X * SVG.CanvasZoom - 6, pp.Pos.Y * SVG.CanvasZoom - 6), New SizeF(12, 12))
 
                     'Refs for placing next ppoint
                     If pp.Equals(SVG.placementRefPPoints(0)) OrElse pp.Equals(SVG.placementRefPPoints(1)) Then
@@ -920,23 +898,6 @@ Public Class Form_main
         End If
 
         ' ---------------------------------------------------------------------------------------------------------------------
-        'TESTS
-
-
-        '' Create a GraphicsPath object.
-        'Dim myPath As New Drawing2D.GraphicsPath
-
-        '' Set up and call AddArc, and close the figure.
-        'Dim rect As New Rectangle(Num1_1.Value, Num1_2.Value, Num3_1.Value, Num3_2.Value)
-        'myPath.StartFigure()
-        'myPath.AddLine(New PointF(300, 200), New PointF(150, 200))
-        'myPath.AddArc(rect, Num4_1.Value, Num4_2.Value)
-        'myPath.CloseFigure()
-
-        '' Draw the path to screen.
-        'e.Graphics.DrawPath(New Pen(Color.Red, 3), myPath)
-
-        ' ---------------------------------------------------------------------------------------------------------------------
 
         UpdateStats()
 
@@ -948,7 +909,9 @@ Public Class Form_main
         'Me.Text = ht.ElapsedTime
 
         'Clean
-        grxCanvas.Dispose()
+        'grxCanvas.Dispose()
+
+        Me.Text = ht.ElapsedTime / ht.Frequency
     End Sub
 
     'Canvas Stuff
@@ -978,7 +941,7 @@ Public Class Form_main
 
         If SVG.selectedPoints.Count > 0 Then
             Dim ph As PathPoint = Nothing
-            If SVG.SelectedFigure.numMirrored <= 0 Then
+            If SVG.SelectedFigure.NumMirrored <= 0 Then
                 ph = SVG.SelectedFigure.AddNewPPoint(PointType.lineto, lastPP.Pos) '.SetMirrorPos(lastPP, Orientation.Horizontal)
 
                 For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
@@ -1009,7 +972,7 @@ Public Class Form_main
 
         If SVG.selectedPoints.Count > 0 Then
             Dim ph As PathPoint = Nothing
-            If SVG.SelectedFigure.numMirrored <= 0 Then
+            If SVG.SelectedFigure.NumMirrored <= 0 Then
                 ph = SVG.SelectedFigure.AddNewPPoint(PointType.lineto, lastPP.Pos)
 
                 For Each pp As PathPoint In SVG.selectedPoints.AsEnumerable.Reverse
@@ -1378,7 +1341,7 @@ Public Class Form_main
         SaveFileDialog1.Filter = "PNG|*.png|JPG|*.jpg|BMP|*.bmp|TIFF|*.tiff|ICON|*.ico"
         If SaveFileDialog1.ShowDialog = DialogResult.OK Then
             Dim oldZoom As Single = SVG.CanvasZoom
-            SVG.CanvasZoom = 1
+            'SVG.CanvasZoom = 1
             Select Case IO.Path.GetExtension(SaveFileDialog1.FileName).ToLower
                 Case ".jpg"
                     SVG.CanvasImg.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Jpeg)
@@ -1419,15 +1382,6 @@ Public Class Form_main
         SVG.ParseString(Tb_html.Text.ToString)
         Focus()
         Tb_html.Focus()
-    End Sub
-
-    Private Sub Pan_canvas_Paint(sender As Object, e As PaintEventArgs) Handles Pan_canvas.Paint
-
-        'Draw sub cursor
-        'Dim mpos As PointF = Cursor.Position
-        'mpos = Pan_canvas.PointToClient(mpos.ToPoint)
-        'e.Graphics.DrawImage(subCursor, mpos.X + 12, mpos.Y + 12, 12, 12)
-
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
@@ -1764,70 +1718,67 @@ Public Class Form_main
         OpenFileDialog1.Filter = "ALL|*.*|BMP|*.bmp|JPG, JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tiff"
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
             Dim newBTemp As New BkgTemplate(OpenFileDialog1.FileName)
-            AddBkgTemplate(newBTemp)
+            SVG.AddBkgTemplate(newBTemp)
         End If
     End Sub
 
     Private Sub Combo_templates_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Combo_templates.SelectedIndexChanged
-        selectedBkgTemp = bkgTemplates(Combo_templates.SelectedIndex)
-        Num_templateX.Value = selectedBkgTemp.position.X
-        Num_templateY.Value = selectedBkgTemp.position.Y
-        Num_templateW.Value = selectedBkgTemp.size.Width
-        Num_templateH.Value = selectedBkgTemp.size.Height
-        Cb_templateKeepAspect.Checked = selectedBkgTemp.keepAspect
-        Cb_templateVisible.Checked = selectedBkgTemp.visible
+        SVG.selectedBkgTemp = SVG.BkgTemplates(Combo_templates.SelectedIndex)
+        Num_templateX.Value = SVG.selectedBkgTemp.position.X
+        Num_templateY.Value = SVG.selectedBkgTemp.position.Y
+        Num_templateW.Value = SVG.selectedBkgTemp.size.Width
+        Num_templateH.Value = SVG.selectedBkgTemp.size.Height
+        Cb_templateKeepAspect.Checked = SVG.selectedBkgTemp.keepAspect
+        Cb_templateVisible.Checked = SVG.selectedBkgTemp.visible
     End Sub
 
     Private Sub Num_templateX_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateX.ValueChanged
-        If selectedBkgTemp Is Nothing Then Return
-        selectedBkgTemp.position.X = Num_templateX.Value
+        If SVG.selectedBkgTemp Is Nothing Then Return
+        SVG.selectedBkgTemp.position.X = Num_templateX.Value
         Pic_canvas.Refresh()
     End Sub
 
     Private Sub Num_templateY_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateY.ValueChanged
-        If selectedBkgTemp Is Nothing Then Return
-        selectedBkgTemp.position.Y = Num_templateY.Value
+        If SVG.selectedBkgTemp Is Nothing Then Return
+        SVG.selectedBkgTemp.position.Y = Num_templateY.Value
         Pic_canvas.Refresh()
     End Sub
 
     Private Sub Num_templateW_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateW.ValueChanged
-        If selectedBkgTemp Is Nothing OrElse selectedBkgTemp.size.Width = Num_templateW.Value Then Return
-        selectedBkgTemp.size.Width = Num_templateW.Value
-        If selectedBkgTemp.keepAspect Then
-            Dim ratio As Single = selectedBkgTemp.image.Width / selectedBkgTemp.image.Height
-            Num_templateH.Value = selectedBkgTemp.size.Width / ratio
+        If SVG.selectedBkgTemp Is Nothing OrElse SVG.selectedBkgTemp.size.Width = Num_templateW.Value Then Return
+        SVG.selectedBkgTemp.size.Width = Num_templateW.Value
+        If SVG.selectedBkgTemp.keepAspect Then
+            Dim ratio As Single = SVG.selectedBkgTemp.image.Width / SVG.selectedBkgTemp.image.Height
+            Num_templateH.Value = SVG.selectedBkgTemp.size.Width / ratio
         End If
         Pic_canvas.Refresh()
     End Sub
 
     Private Sub Num_templateH_ValueChanged(sender As Object, e As EventArgs) Handles Num_templateH.ValueChanged
-        If selectedBkgTemp Is Nothing OrElse selectedBkgTemp.size.Height = Num_templateH.Value Then Return
-        selectedBkgTemp.size.Height = Num_templateH.Value
-        If selectedBkgTemp.keepAspect Then
-            Dim ratio As Single = selectedBkgTemp.image.Width / selectedBkgTemp.image.Height
-            Num_templateW.Value = selectedBkgTemp.size.Height * ratio
+        If SVG.selectedBkgTemp Is Nothing OrElse SVG.selectedBkgTemp.size.Height = Num_templateH.Value Then Return
+        SVG.selectedBkgTemp.size.Height = Num_templateH.Value
+        If SVG.selectedBkgTemp.keepAspect Then
+            Dim ratio As Single = SVG.selectedBkgTemp.image.Width / SVG.selectedBkgTemp.image.Height
+            Num_templateW.Value = SVG.selectedBkgTemp.size.Height * ratio
         End If
         Pic_canvas.Refresh()
     End Sub
 
     Private Sub Cb_templateKeepAspect_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_templateKeepAspect.CheckedChanged
-        If selectedBkgTemp Is Nothing Then Return
-        selectedBkgTemp.keepAspect = Cb_templateKeepAspect.Checked
+        If SVG.selectedBkgTemp Is Nothing Then Return
+        SVG.selectedBkgTemp.keepAspect = Cb_templateKeepAspect.Checked
         Pic_canvas.Refresh()
     End Sub
 
     Private Sub But_removeTemplate_Click(sender As Object, e As EventArgs) Handles But_removeTemplate.Click
         If Combo_templates.SelectedIndex < 0 Then Return
-        bkgTemplates.RemoveAt(Combo_templates.SelectedIndex)
-        selectedBkgTemp = Nothing
-        Combo_templates.Items.RemoveAt(Combo_templates.SelectedIndex)
-        Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
-        Pic_canvas.Refresh()
+        SVG.RemoveBkgTemplateAt(Combo_templates.SelectedIndex)
     End Sub
 
     Private Sub Cb_templateVisible_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_templateVisible.CheckedChanged
-        If selectedBkgTemp Is Nothing Then Return
-        selectedBkgTemp.visible = Cb_templateVisible.Checked
+        If SVG.selectedBkgTemp Is Nothing Then Return
+        SVG.selectedBkgTemp.visible = Cb_templateVisible.Checked
         Pic_canvas.Refresh()
     End Sub
+
 End Class

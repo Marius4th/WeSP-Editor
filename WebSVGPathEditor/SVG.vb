@@ -1,15 +1,46 @@
 ﻿Imports System.Text.RegularExpressions
 
+Public Class BkgTemplate
+    Public image As Bitmap
+    Public path As String
+    Public position As PointF
+    Public size As SizeF
+    Public keepAspect As Boolean
+    Public visible As Boolean
+
+    Public Sub New(img As Bitmap)
+        Me.image = img
+        Me.path = ""
+        Me.position = New PointF(0, 0)
+        Me.size = img.Size
+        Me.keepAspect = True
+        Me.visible = True
+    End Sub
+
+    Public Sub New(imgPath As String)
+        Me.New(New Bitmap(imgPath))
+        Me.path = imgPath
+    End Sub
+End Class
+
 Public NotInheritable Class SVG
     Public Shared paths As New ListWithEvents(Of SVGPath)
     Public Shared selectedPaths As New List(Of SVGPath)
 
     Public Shared CanvasImg As New Bitmap(640, 640)
-    Private Shared _canvasSize As New SizeF(64, 64)
+    Private Shared _canvasSize As New SizeF(64.0F, 64.0F)
     Private Shared _canvasSizeZoomed As New Size(640, 640)
-    Private Shared _canvasZoom As Single = 10.0
-    Private Shared _stickyGrid As New SizeF(1.0, 1.0)
+    Private Shared _canvasZoom As Single = 10.0F
+    Private Shared _canvasOffset As New Point(0, 0)
+    Private Shared _stickyGrid As New SizeF(1.0F, 1.0F)
     Private Shared _attributes As New Dictionary(Of String, String)
+
+    Private Shared _bkgTemplates As New List(Of BkgTemplate)
+    Public Shared selectedBkgTemp As BkgTemplate = Nothing
+
+    Public Shared selectedPoints As New ListWithEvents(Of PathPoint)
+
+    Public Shared placementRefPPoints(1) As PathPoint
 
     Public Shared Event OnCanvasSizeChanged()
     Public Shared Event OnCanvasZoomChanged()
@@ -20,10 +51,16 @@ Public NotInheritable Class SVG
     Public Shared Event OnSelectPoint(ByRef pp As PathPoint)
     Public Shared Event OnStickyGridChanged()
     Public Shared Event OnChangePathIndex(oldIndx As Integer, newIndx As Integer)
+    Public Shared Event OnBkgTemplateAdd(ByRef bkgTemp As BkgTemplate)
+    Public Shared Event OnBkgTemplateRemoving(ByRef bkgTemp As BkgTemplate, index As Integer)
+    Public Shared Event OnBkgTemplatesClear()
+    Public Shared Event OnCanvasOffsetChanged(ByVal newVal As Point)
 
-    Public Shared selectedPoints As New ListWithEvents(Of PathPoint)
-
-    Public Shared placementRefPPoints(1) As PathPoint
+    Public Shared ReadOnly Property BkgTemplates() As List(Of BkgTemplate)
+        Get
+            Return _bkgTemplates
+        End Get
+    End Property
 
     Public Shared Property CanvasSize() As SizeF
         Get
@@ -60,6 +97,16 @@ Public NotInheritable Class SVG
             _canvasZoom = Math.Min(maxZoom, Math.Max(0.1F, value))
             _canvasSizeZoomed = New Size(_canvasSize.Width * _canvasZoom, _canvasSize.Height * _canvasZoom)
             RaiseEvent OnCanvasZoomChanged()
+        End Set
+    End Property
+
+    Public Shared Property CanvasOffset() As Point
+        Get
+            Return _canvasOffset
+        End Get
+        Set(ByVal value As Point)
+            _canvasOffset = value
+            RaiseEvent OnCanvasOffsetChanged(value)
         End Set
     End Property
 
@@ -211,7 +258,7 @@ Public NotInheritable Class SVG
             Next
         Next
 
-        For Each bkgtemp As Form_main.BkgTemplate In Form_main.bkgTemplates
+        For Each bkgtemp As BkgTemplate In _bkgTemplates
             str &= "<bkgtemp path=""" & bkgtemp.path & """"
             str &= " pos=""" & bkgtemp.position.ToStringForm(3) & """"
             str &= " size=""" & bkgtemp.size.ToStringForm(3) & """"
@@ -340,7 +387,7 @@ Public NotInheritable Class SVG
     End Function
 
     Public Shared Function StickPointToCanvasGrid(pt As CPointF) As CPointF
-        Return New CPointF(Math.Round(pt.X / SVG.StikyGrid.Width) * SVG.StikyGrid.Width, Math.Round(pt.Y / SVG.StikyGrid.Height) * SVG.StikyGrid.Height)
+        Return New CPointF(Math.Round(pt.X / _stickyGrid.Width) * _stickyGrid.Width, Math.Round(pt.Y / _stickyGrid.Height) * _stickyGrid.Height)
     End Function
 
     Public Shared Sub RefreshPlacementRefs(mpos As PointF)
@@ -374,7 +421,7 @@ Public NotInheritable Class SVG
 
         historyLock = True
         SVG.Clear()
-        Form_main.bkgTemplates.Clear()
+        ClearBkgTemplates()
 
         AttributesSetDefaults()
         AppedAttributes(HTMLParser.GetAttributes(str), True)
@@ -588,12 +635,12 @@ Public NotInheritable Class SVG
         For Each item As String In bkgtemps
             Dim itemAttribs = HTMLParser.GetAttributes(item)
             If Not itemAttribs.ContainsKey("path") Then Continue For
-            Dim newBkgt As New Form_main.BkgTemplate(itemAttribs("path"))
+            Dim newBkgt As New BkgTemplate(itemAttribs("path"))
             newBkgt.position.Parse(itemAttribs("pos"))
             newBkgt.size.Parse(itemAttribs("size"))
             newBkgt.keepAspect = CBool(itemAttribs("kaspect"))
             newBkgt.visible = CBool(itemAttribs("visible"))
-            Form_main.AddBkgTemplate(newBkgt)
+            AddBkgTemplate(newBkgt)
         Next
         historyLock = False
         AddToHistory()
@@ -638,6 +685,50 @@ Public NotInheritable Class SVG
 
             _attributes(item.Key) = item.Value
         Next
+    End Sub
+
+    Public Shared Sub AddBkgTemplate(ByRef bkgTemp As BkgTemplate)
+        _bkgTemplates.Add(bkgTemp)
+        RaiseEvent OnBkgTemplateAdd(bkgTemp)
+    End Sub
+
+    Public Shared Sub RemoveBkgTemplate(ByRef bkgTemp As BkgTemplate)
+        RaiseEvent OnBkgTemplateRemoving(bkgTemp, _bkgTemplates.IndexOf(bkgTemp))
+        If selectedBkgTemp Is bkgTemp Then selectedBkgTemp = Nothing
+        _bkgTemplates.Remove(bkgTemp)
+    End Sub
+
+    Public Shared Sub RemoveBkgTemplateAt(index As Integer)
+        RaiseEvent OnBkgTemplateRemoving(_bkgTemplates(index), index)
+        If selectedBkgTemp Is _bkgTemplates(index) Then selectedBkgTemp = Nothing
+        _bkgTemplates.RemoveAt(index)
+    End Sub
+
+    Public Shared Sub ClearBkgTemplates()
+        RaiseEvent OnBkgTemplatesClear()
+        _bkgTemplates.Clear()
+        selectedBkgTemp = Nothing
+    End Sub
+
+    Public Shared Function GetBitmap() As Bitmap
+        Dim bmp As New Bitmap(SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height)
+        Dim grxCanvas As Graphics = Graphics.FromImage(bmp)
+
+        grxCanvas.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+        grxCanvas.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+        grxCanvas.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+
+        For Each path As SVGPath In SVG.paths
+            path.Draw(grxCanvas)
+        Next
+
+        Return bmp
+    End Function
+
+    Public Shared Sub OffsetCanvas(offx As Integer, offy As Integer)
+        _canvasOffset.X += offx
+        _canvasOffset.Y += offy
+        RaiseEvent OnCanvasOffsetChanged(_canvasOffset)
     End Sub
 
 End Class
