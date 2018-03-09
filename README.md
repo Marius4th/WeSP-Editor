@@ -14,7 +14,7 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
 - [ ] Implement all Commands:
   - [x] Movetos.
   - [x] Linetos.
-     - See if I add 'H' and 'V' or leave them as linetos, because you can use SHIFT for right angles is you need them.
+     - You can use SHIFT for right angles, which will convert linetos into their horizontal/vertical equivalent in html code.
   - [x] Quadratic Bezier.
   - [x] Curvetos (Cubic Beziers).
   - [x] Implement loading of smooth versions of QBezier and Curveto.
@@ -31,6 +31,7 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
 - [ ] Points locking so you can't modify them accidentally?
 - [ ] Background template images.
 - [ ] Custom crusors for when pressing mod keys like CTRL, SHILT or ALT to easily see what tool/action you have selected.
-- [ ] Implement proper scaling (the actual solution has issues because of floating point errors).
+- [x] Implement proper scaling (the actual solution has issues because of floating point errors).
+  -Fixed by using DrwingPath's Transform matrix for the preview and then modifying the point's position for real when hitting the 'Apply' button.
 
 Feedback and Sugestions are welcome.
