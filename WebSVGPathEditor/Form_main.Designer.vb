@@ -73,6 +73,7 @@ Partial Class Form_main
         Me.ToolStripSeparator10 = New System.Windows.Forms.ToolStripSeparator()
         Me.FlipHorizontallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FlipVerticallyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ScaleToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ClearToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -172,7 +173,7 @@ Partial Class Form_main
         Me.But_figMoveBottom = New System.Windows.Forms.Button()
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
-        Me.ScaleToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Timer_refresh = New System.Windows.Forms.Timer(Me.components)
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -465,6 +466,11 @@ Partial Class Form_main
         '
         Me.FlipVerticallyToolStripMenuItem.Name = "FlipVerticallyToolStripMenuItem"
         resources.ApplyResources(Me.FlipVerticallyToolStripMenuItem, "FlipVerticallyToolStripMenuItem")
+        '
+        'ScaleToolStripMenuItem1
+        '
+        Me.ScaleToolStripMenuItem1.Name = "ScaleToolStripMenuItem1"
+        resources.ApplyResources(Me.ScaleToolStripMenuItem1, "ScaleToolStripMenuItem1")
         '
         'ToolStripSeparator3
         '
@@ -1249,10 +1255,10 @@ Partial Class Form_main
         Me.But_removeFigure.Name = "But_removeFigure"
         Me.But_removeFigure.UseVisualStyleBackColor = False
         '
-        'ScaleToolStripMenuItem1
+        'Timer_refresh
         '
-        Me.ScaleToolStripMenuItem1.Name = "ScaleToolStripMenuItem1"
-        resources.ApplyResources(Me.ScaleToolStripMenuItem1, "ScaleToolStripMenuItem1")
+        Me.Timer_refresh.Enabled = True
+        Me.Timer_refresh.Interval = 1000
         '
         'Form_main
         '
@@ -1480,4 +1486,5 @@ Partial Class Form_main
     Friend WithEvents Label14 As Label
     Friend WithEvents Cb_templateVisible As CheckBox
     Friend WithEvents ScaleToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents Timer_refresh As Timer
 End Class

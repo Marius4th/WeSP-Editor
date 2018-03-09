@@ -331,10 +331,10 @@ Public Module SomeClasses
         End Operator
 
         '----------------------------------------------------------------------------------------------------------------------
-        Public Event OnAdd(sender As ListWithEvents(Of T), d As T)
-        Public Event OnRemoving(sender As ListWithEvents(Of T), d As T)
-        Public Event OnRemovingRange(sender As ListWithEvents(Of T), start As Integer, count As Integer)
-        Public Event OnClear(sender As ListWithEvents(Of T))
+        Public Event OnAdd(ByRef sender As ListWithEvents(Of T), ByRef d As T)
+        Public Event OnRemoving(ByRef sender As ListWithEvents(Of T), ByRef d As T)
+        Public Event OnRemovingRange(ByRef sender As ListWithEvents(Of T), start As Integer, count As Integer)
+        Public Event OnClear(ByRef sender As ListWithEvents(Of T))
     End Class
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

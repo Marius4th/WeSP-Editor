@@ -132,6 +132,7 @@ Partial Class Form_scale
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "Form_scale"
         Me.Text = "Scale Path - WeSP"
+        Me.TopMost = True
         CType(Me.Track_scale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Num_scale, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

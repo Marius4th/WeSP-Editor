@@ -20,6 +20,7 @@ Public Class Form_main
 
     Private canvasImg As Bitmap
     Private canvasBack As Bitmap
+    Private refreshHtml As Boolean = True
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Custom Events
@@ -185,7 +186,7 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
-    'Public Sub SVGSelectedPaths_OnAdd(sender As ListWithEvents(Of SVGPath), d As SVGPath)
+    'Public Sub SVGSelectedPaths_OnAdd(ByRef sender As ListWithEvents(Of SVGPath), ByRef d As SVGPath)
     '    If Lb_paths.Items.Count <= 0 Then Return
     '    If sender.Count = 1 Then
     '        If Not Lb_paths.SelectedIndex = d.GetIndex OrElse Lb_paths.SelectedIndices.Count > 1 Then
@@ -196,19 +197,34 @@ Public Class Form_main
     '    ElseIf Not Lb_paths.SelectedIndices.Contains(sender.IndexOf(d)) Then
     '        Lb_paths.SelectedIndices.Add(d.GetIndex)
     '    End If
+
+    '    'If d IsNot Nothing Then
+    '    '    Lb_figures.Items.Clear()
+    '    '    For Each fig In d.GetFigures
+    '    '        Lb_figures.Items.Add("Figure_" & fig.GetIndex() + 1)
+    '    '    Next
+
+    '    '    'Change selected figure
+    '    '    Lb_figures.SelectionMode = SelectionMode.None
+    '    '    Lb_figures.SelectionMode = SelectionMode.MultiExtended
+
+    '    '    For Each fig As Figure In d.selectedFigures.Reverse
+    '    '        Lb_figures.SelectedIndices.Add(fig.GetIndex())
+    '    '    Next
+    '    'End If
     'End Sub
 
-    'Public Sub SVGSelectedPaths_OnRemoving(sender As ListWithEvents(Of SVGPath), d As SVGPath)
+    'Public Sub SVGSelectedPaths_OnRemoving(ByRef sender As ListWithEvents(Of SVGPath), ByRef d As SVGPath)
     '    Lb_paths.SelectedIndices.Remove(d.GetIndex)
     'End Sub
 
-    'Public Sub SVGSelectedPaths_OnRemovingRange(sender As ListWithEvents(Of SVGPath), start As Integer, count As Integer)
+    'Public Sub SVGSelectedPaths_OnRemovingRange(ByRef sender As ListWithEvents(Of SVGPath), start As Integer, count As Integer)
     '    For i As Integer = start To start + count - 1
     '        Lb_paths.SelectedIndices.Remove(sender(i).GetIndex)
     '    Next
     'End Sub
 
-    'Public Sub SVGSelectedPaths_OnClear(sender As ListWithEvents(Of SVGPath))
+    'Public Sub SVGSelectedPaths_OnClear(ByRef sender As ListWithEvents(Of SVGPath))
     '    Lb_paths.SelectedIndices.Clear()
     'End Sub
 
@@ -320,7 +336,7 @@ Public Class Form_main
 
     End Sub
 
-    Public Sub SVGSelectedPoints_OnAdd(sender As ListWithEvents(Of PathPoint), d As PathPoint)
+    Public Sub SVGSelectedPoints_OnAdd(ByRef sender As ListWithEvents(Of PathPoint), ByRef d As PathPoint)
         Lb_selPoints.Items.Add(d.GetString(False))
         Pic_canvas.Invalidate()
 
@@ -363,17 +379,17 @@ Public Class Form_main
             EnableButton(But_mirrorVert, True)
         End If
     End Sub
-    Public Sub SVGSelectedPoints_OnRemovingRange(sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer)
+    Public Sub SVGSelectedPoints_OnRemovingRange(ByRef sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer)
         For i As Integer = start To start + count - 1
             Lb_selPoints.Items.RemoveAt(i)
         Next
         Pic_canvas.Invalidate()
     End Sub
-    Public Sub SVGSelectedPoints_OnRemoving(sender As ListWithEvents(Of PathPoint), d As PathPoint)
+    Public Sub SVGSelectedPoints_OnRemoving(ByRef sender As ListWithEvents(Of PathPoint), ByRef d As PathPoint)
         Lb_selPoints.Items.RemoveAt(sender.IndexOf(d))
         Pic_canvas.Invalidate()
     End Sub
-    Public Sub SVGSelectedPoints_OnClear(sender As ListWithEvents(Of PathPoint))
+    Public Sub SVGSelectedPoints_OnClear(ByRef sender As ListWithEvents(Of PathPoint))
         Lb_selPoints.Items.Clear()
         Pic_canvas.Invalidate()
     End Sub
@@ -517,6 +533,8 @@ Public Class Form_main
 
         'Add first figure
         SVG.Init()
+
+        Tb_html.Text = SVG.GetHtml(optimizePath)
 
         historyLock = False
         AddToHistory()
@@ -827,22 +845,12 @@ Public Class Form_main
         e.Graphics.DrawLine(penCentralAxis, SVG.CanvasSizeZoomed.Width / 2.0F, 0, SVG.CanvasSizeZoomed.Width / 2.0F, SVG.CanvasSizeZoomed.Height)
 
         'Draw SVG -------------------------------------------------------------------------------------------------------------
-        'SVG.CanvasImg = New Bitmap(SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height)
-        'Dim grxCanvas As Graphics = Graphics.FromImage(SVG.CanvasImg)
+        'Dim grxCanvas As Graphics = Graphics.FromImage(canvasImg)
+        'grxCanvas.Clear(Color.FromArgb(0, 0, 0, 0))
 
-        For Each path As SVGPath In SVG.paths
+        For Each path As SVGPath In SVG.Paths
             path.Draw(e.Graphics)
         Next
-
-        'e.Graphics.DrawImage(SVG.CanvasImg, New Point(0, 0))
-
-        'If Pic_preview.Image IsNot Nothing Then Pic_preview.Image.Dispose()
-        'Pic_preview.Image = SVG.CanvasImg
-
-        'If Form_result.Visible Then
-        '    If Form_result.Pic_realSize.Image IsNot Nothing Then Form_result.Pic_realSize.Image.Dispose()
-        '    Form_result.Pic_realSize.Image = SVG.CanvasImg
-        'End If
 
         'DRAW POINTS IN HERE >>>>>>>>>
 
@@ -854,11 +862,6 @@ Public Class Form_main
         Static penPointsOut As New Pen(Color.FromArgb(255, 40, 40, 40), 3)
         Static brushRefIn As New SolidBrush(Color.Orange)
         Static brushRefOut As New SolidBrush(Color.FromArgb(255, 40, 40, 40))
-
-        'Reference points for placing next point-------------------------------------------------------------------------------
-        'Dim mpos As CPointF = GetMousePlacePos(Pic_canvas)
-
-        'Dim closestToMouseI As Integer = GetPointGlobalIndex(selectedFigures(0), GetClosestPoint(selectedFigures(0), mpos))
 
         'Draw the Points ------------------------------------------------------------------------------------------------------
 
@@ -940,14 +943,15 @@ Public Class Form_main
         'Dim ht As New HiResTimer
         'ht.Start()
 
-        If Not Tb_html.Focused Then Tb_html.Text = SVG.GetHtml(optimizePath)
+        'If Not Tb_html.Focused Then Tb_html.Text = SVG.GetHtml(optimizePath)
 
         'Me.Text = ht.ElapsedTime
 
         'Clean
         'grxCanvas.Dispose()
-
-        Me.Text = ht.ElapsedTime / ht.Frequency
+        'e.Graphics.DrawImage(canvasImg, 0, 0)
+        Me.Text = ht.ElapsedTime / ht.Frequency & " (" & Math.Round(1 / (ht.ElapsedTime / ht.Frequency)) & " fps)"
+        refreshHtml = True
     End Sub
 
     'Canvas Stuff
@@ -1372,24 +1376,24 @@ Public Class Form_main
         'Save the bitmap in the specified format
         SaveFileDialog1.Filter = "PNG|*.png|JPG|*.jpg|BMP|*.bmp|TIFF|*.tiff|ICON|*.ico"
         If SaveFileDialog1.ShowDialog = DialogResult.OK Then
-            Dim oldZoom As Single = SVG.CanvasZoom
+            'Dim oldZoom As Single = SVG.CanvasZoom
             'SVG.CanvasZoom = 1
             Select Case IO.Path.GetExtension(SaveFileDialog1.FileName).ToLower
                 Case ".jpg"
-                    SVG.CanvasImg.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Jpeg)
+                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Jpeg)
                 Case ".bmp"
-                    SVG.CanvasImg.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Bmp)
+                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Bmp)
                 Case ".tiff"
-                    SVG.CanvasImg.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Tiff)
+                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Tiff)
                 Case ".ico"
-                    Dim ico As Drawing.Icon = Drawing.Icon.FromHandle(SVG.CanvasImg.GetHicon)
+                    Dim ico As Drawing.Icon = Drawing.Icon.FromHandle(SVG.GetBitmap().GetHicon)
                     Dim oFileStream As New IO.FileStream(SaveFileDialog1.FileName, IO.FileMode.CreateNew)
                     ico.Save(oFileStream)
                     oFileStream.Close()
                 Case Else
-                    SVG.CanvasImg.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Png)
+                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Png)
             End Select
-            SVG.CanvasZoom = oldZoom
+            'SVG.CanvasZoom = oldZoom
         End If
     End Sub
 
@@ -1632,9 +1636,13 @@ Public Class Form_main
         End If
 
         For Each i As Integer In Lb_paths.SelectedIndices
-            Dim path As SVGPath = SVG.paths(i)
-            If Not SVG.selectedPaths.Contains(path) Then
-                SVG.selectedPaths.Add(path)
+            Dim path As SVGPath = SVG.Paths(i)
+            If i = Lb_paths.SelectedIndices(0) Then
+                SVG.SelectedPath = path
+            Else
+                If Not SVG.selectedPaths.Contains(path) Then
+                    SVG.selectedPaths.Add(path)
+                End If
             End If
         Next
 
@@ -1826,5 +1834,30 @@ Public Class Form_main
     Private Sub ScaleToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem1.Click
         Me.Enabled = False
         Form_scale.Show()
+    End Sub
+
+    Private Sub Tb_html_Enter(sender As Object, e As EventArgs) Handles Tb_html.Enter
+        Tb_html.Text = SVG.GetHtml(optimizePath)
+    End Sub
+
+    Private Sub Timer_refresh_Tick(sender As Object, e As EventArgs) Handles Timer_refresh.Tick
+        If Not Tb_html.Focused And refreshHtml Then
+            Tb_html.Text = SVG.GetHtml(optimizePath)
+        End If
+        If refreshHtml Then
+            'Dim oldZoom As Single = SVG.CanvasZoom
+            'SVG.CanvasZoom = 1
+            Pic_preview.Image = SVG.GetBitmap()
+            If Form_result.Visible Then
+                If Form_result.Pic_realSize.Image IsNot Nothing Then Form_result.Pic_realSize.Image.Dispose()
+                Form_result.Pic_realSize.Image = Pic_preview.Image
+            End If
+            'SVG.CanvasZoom = oldZoom
+        End If
+        refreshHtml = False
+    End Sub
+
+    Private Sub Pic_canvas_Resize(sender As Object, e As EventArgs) Handles Pic_canvas.Resize
+        canvasImg = New Bitmap(Pic_canvas.Width, Pic_canvas.Height)
     End Sub
 End Class

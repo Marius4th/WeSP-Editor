@@ -2,12 +2,12 @@
     Implements IEnumerable(Of PathPoint)
 
     '----------------------------------------------------------------------------------------------------------------------
-    Private points As New List(Of PathPoint)
-    Private refs As New List(Of Boolean) 'Keeps track of which ppoints are references to ppoints in other figures
+    Private _points As New List(Of PathPoint)
+    Private _refs As New List(Of Boolean) 'Keeps track of which ppoints are references to ppoints in other figures
     Public parent As SVGPath
     Public mirrorOrient As Orientation = Orientation.None
     Private _numMirrored As Integer = 0
-    Public transform As New Drawing2D.Matrix
+    Private _transform As New Drawing2D.Matrix
 
     Public Shared Event OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
     Public Shared Event OnPPointRemoving(ByRef sender As Figure, ByRef pp As PathPoint)
@@ -38,9 +38,9 @@
         Dim dup As New Figure(pa)
         Dim pp As PathPoint
 
-        For i As Integer = 0 To points.Count - 1
-            pp = points(i)
-            dup.Add(pp.Clone(dup), refs(i))
+        For i As Integer = 0 To _points.Count - 1
+            pp = _points(i)
+            dup.Add(pp.Clone(dup), _refs(i))
         Next
 
         Return dup
@@ -49,24 +49,24 @@
     Public Sub FlipHorizontally()
         Dim moveto As PathPoint = GetMoveto()
 
-        For Each pp As PathPoint In points
+        For Each pp As PathPoint In _points
             If pp.pointType = PointType.moveto Then Continue For
-            pp.Offset(New PointF((moveto.pos.X - pp.pos.X) * 2.0, 0))
+            pp.Offset(New PointF((moveto.Pos.X - pp.Pos.X) * 2.0, 0))
         Next
     End Sub
 
     Public Sub FlipVertically()
         Dim moveto As PathPoint = GetMoveto()
 
-        For Each pp As PathPoint In points
+        For Each pp As PathPoint In _points
             If pp.pointType = PointType.moveto Then Continue For
-            pp.Offset(New PointF(0, (moveto.pos.Y - pp.pos.Y) * 2.0))
+            pp.Offset(New PointF(0, (moveto.Pos.Y - pp.Pos.Y) * 2.0))
         Next
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------
     Public Iterator Function GetEnumerator() As IEnumerator(Of PathPoint) Implements IEnumerable(Of PathPoint).GetEnumerator
-        For Each pp As PathPoint In points
+        For Each pp As PathPoint In _points
             Yield pp
         Next
     End Function
@@ -77,21 +77,21 @@
     End Function
 
     Public Function Point(index As Integer)
-        Return points(index)
+        Return _points(index)
     End Function
 
     Public Function FirstPPoint() As PathPoint
-        If points.Count <= 0 Then Return Nothing
-        Return points(0)
+        If _points.Count <= 0 Then Return Nothing
+        Return _points(0)
     End Function
 
     Public Function LastPPoint() As PathPoint
-        If points.Count <= 0 Then Return Nothing
-        Return points(points.Count - 1)
+        If _points.Count <= 0 Then Return Nothing
+        Return _points(_points.Count - 1)
     End Function
 
     Public Function IndexOf(ByRef pp As PathPoint) As Integer
-        Return points.IndexOf(pp)
+        Return _points.IndexOf(pp)
     End Function
 
     Public Function GetIndex() As Integer
@@ -100,7 +100,7 @@
 
     Public Sub Add(ByRef item As PathPoint, isref As Boolean)
         'Add reference to last moveto in the path, if necessary
-        If points.Count <= 0 AndAlso Not item.pointType = PointType.moveto Then
+        If _points.Count <= 0 AndAlso Not item.pointType = PointType.moveto Then
             Dim mp As PathPoint = Me.parent.GetLastMoveto(item)
             If mp IsNot Nothing Then
                 Me.Insert(0, mp, True)
@@ -108,8 +108,8 @@
                 Me.Insert(1, item, False)
             End If
         Else
-            points.Add(item)
-            refs.Add(isref)
+            _points.Add(item)
+            _refs.Add(isref)
         End If
 
         item.RefreshSeccondaryData()
@@ -128,13 +128,13 @@
                 Me.Insert(1, item, False)
             End If
         Else
-            points.Insert(index, item)
-            refs.Insert(index, isref)
+            _points.Insert(index, item)
+            _refs.Insert(index, isref)
         End If
 
         item.RefreshSeccondaryData()
-        If index + 1 < points.Count Then
-            points(index + 1).RefreshSeccondaryData()
+        If index + 1 < _points.Count Then
+            _points(index + 1).RefreshSeccondaryData()
         End If
 
         RaiseEvent OnPPointAdded(Me, item)
@@ -142,7 +142,7 @@
 
     Public Sub ChangePPointIndex(ByRef srcItem As PathPoint, destIndex As Integer)
         Dim indx = srcItem.GetIndex
-        Dim isref As Boolean = refs(indx)
+        Dim isref As Boolean = _refs(indx)
 
         Me.Remove(srcItem)
         Me.Insert(destIndex, srcItem, isref)
@@ -152,14 +152,14 @@
     End Sub
 
     Public Sub RemoveAt(index As Integer)
-        RaiseEvent OnPPointRemoving(Me, points(index))
+        RaiseEvent OnPPointRemoving(Me, _points(index))
 
-        points(index).Dispose()
+        _points(index).Dispose()
 
-        points.RemoveAt(index)
-        refs.RemoveAt(index)
-        If index < points.Count Then
-            points(index).RefreshSeccondaryData()
+        _points.RemoveAt(index)
+        _refs.RemoveAt(index)
+        If index < _points.Count Then
+            _points(index).RefreshSeccondaryData()
         End If
     End Sub
 
@@ -169,19 +169,19 @@
     End Sub
 
     Public Sub RemoveRange(start As Integer, count As Integer)
-        For i As Integer = start To Math.Min(start + count, points.Count - 1)
-            RaiseEvent OnPPointRemoving(Me, points(i))
-            points(i).Dispose()
+        For i As Integer = start To Math.Min(start + count, _points.Count - 1)
+            RaiseEvent OnPPointRemoving(Me, _points(i))
+            _points(i).Dispose()
         Next
-        points.RemoveRange(start, count)
-        refs.RemoveRange(start, count)
-        If start < points.Count Then
-            points(start).RefreshSeccondaryData()
+        _points.RemoveRange(start, count)
+        _refs.RemoveRange(start, count)
+        If start < _points.Count Then
+            _points(start).RefreshSeccondaryData()
         End If
     End Sub
 
     Public Function Count() As Integer
-        Return points.Count
+        Return _points.Count
     End Function
 
     Public Sub Clear()
@@ -189,8 +189,8 @@
         '    RaiseEvent OnPPointRemoving(Me, pp)
         'Next
         RaiseEvent OnPPointsClear(Me)
-        points.Clear()
-        refs.Clear()
+        _points.Clear()
+        _refs.Clear()
     End Sub
 
 
@@ -198,56 +198,41 @@
 
 
     Public Function GetPath() As Drawing2D.GraphicsPath
-        Dim borrowedMoveto As Boolean = False
         Dim path As New Drawing2D.GraphicsPath
 
-        If points.Count <= 0 Then Return path
+        If _points.Count <= 0 Then Return path
 
-        'If Not Me(0).pointType = PointType.moveto Then
-        '    Me.Insert(0, GetLastMoveto(GetPointGlobalIndex(Me, Me.Count - 1)), False)
-        '    borrowedMoveto = True
-        'End If
-
-        For i As Integer = 1 To points.Count - 1
-            Dim p1 As PathPoint = points(i - 1)
-            Dim p2 As PathPoint = points(i)
+        For i As Integer = 1 To _points.Count - 1
+            Dim p1 As PathPoint = _points(i - 1)
+            Dim p2 As PathPoint = _points(i)
 
             p2.AddToPath(path)
         Next
 
         path.CloseFigure()
 
-        'If borrowedMoveto = True Then
-        '    Me.RemoveAt(0)
-        'End If
-
         Return path
     End Function
 
     Public Sub DrawPath(graphs As Graphics, ByRef pen As Pen, ByRef brush As SolidBrush)
-        'Static penMirror As New Pen(Color.Purple, 1)
-
-        'penMirror.DashPattern = {3, 10}
-        'penMirror.Color = ColorRotate(brush.Color)
-
         Dim path As Drawing2D.GraphicsPath = Me.GetPath()
-        path.Transform(transform)
+        path.Transform(_transform)
+
         'Dim translateMatrix As New Drawing2D.Matrix
         'translateMatrix.Translate(offset.X, offset.Y)
         'path.Transform(translateMatrix)
 
         graphs.FillPath(brush, path)
-        graphs.DrawPath(pen, path)
+        If pen.Width > 0 Then graphs.DrawPath(pen, path)
     End Sub
 
     Public Function IsPointRef(index As Integer) As Boolean
-        Return refs(index)
+        Return _refs(index)
     End Function
 
     Public Function IsPointRef(ByRef pp As PathPoint) As Boolean
-        Return refs(points.IndexOf(pp))
+        Return _refs(_points.IndexOf(pp))
     End Function
-
 
     Public Function GetClosestPoint(pos As PointF, incSecPoints As Boolean) As PathPoint
         Dim closestDist As Single = Single.PositiveInfinity
@@ -256,9 +241,9 @@
 
         If incSecPoints = False Then
             'No secondary points
-            For Each pp As PathPoint In points
-                If pp.pos Is Nothing OrElse pp.nonInteractve = True Then Continue For
-                dist = LineLength(pp.pos, pos)
+            For Each pp As PathPoint In _points
+                If pp.Pos Is Nothing OrElse pp.nonInteractve = True Then Continue For
+                dist = LineLength(pp.Pos, pos)
                 If dist < closestDist Then
                     closestDist = dist
                     closestPP = pp
@@ -266,8 +251,8 @@
             Next
         Else
             'With secondary points (ref points)
-            For Each pp As PathPoint In points
-                If pp.pos Is Nothing OrElse pp.nonInteractve = True Then Continue For
+            For Each pp As PathPoint In _points
+                If pp.Pos Is Nothing OrElse pp.nonInteractve = True Then Continue For
                 dist = LineLength(pp.GetClosestPoint(pos), pos)
                 If dist < closestDist Then
                     closestDist = dist
@@ -285,7 +270,7 @@
         Dim firstIndex As Integer = 0
         Dim secondIndex As Integer = 0
 
-        If points.Count <= 0 Then Return {Nothing, Nothing}
+        If _points.Count <= 0 Then Return {Nothing, Nothing}
 
         'If points.Count > 1 Then
         '    firstIndex = points.Count - 1
@@ -307,27 +292,27 @@
 
         Dim p1, p2 As PathPoint
         Dim dist As Single
-        For i As Integer = 0 To points.Count - 1
+        For i As Integer = 0 To _points.Count - 1
             If i > 0 Then
-                p1 = points(i - 1)
+                p1 = _points(i - 1)
             Else
-                p1 = points.Last
+                p1 = _points.Last
             End If
-            p2 = points(i)
+            p2 = _points(i)
 
             If p1.nonInteractve Then Continue For
 
-            dist = LineLength(Midpoint(p1.pos, p2.pos), pos)
+            dist = LineLength(Midpoint(p1.Pos, p2.Pos), pos)
 
             If dist < closestDist Then
                 closestDist = dist
                 firstIndex = i - 1
-                If firstIndex < 0 Then firstIndex = points.Count - 1
+                If firstIndex < 0 Then firstIndex = _points.Count - 1
                 secondIndex = i
             End If
         Next
 
-        Return {points(firstIndex), points(secondIndex)}
+        Return {_points(firstIndex), _points(secondIndex)}
     End Function
 
     'Returns the 2 points closest to 'pos', taking as reference a midpoint between those points because works better
@@ -336,33 +321,33 @@
         Dim firstIndex As Integer = 0
         Dim secondIndex As Integer = 0
 
-        If points.Count <= 0 Then Return {Nothing, Nothing}
+        If _points.Count <= 0 Then Return {Nothing, Nothing}
 
-        If points.Count > 1 Then
-            firstIndex = points.Count - 1
+        If _points.Count > 1 Then
+            firstIndex = _points.Count - 1
             'If points(firstIndex).pointType = PointType.closepath AndAlso Me.Count > 2 Then firstIndex = Me.Count - 2
             secondIndex = 0
 
-            If Not points(0).pointType = PointType.moveto Then
+            If Not _points(0).pointType = PointType.moveto Then
                 Dim buf As Integer = firstIndex
                 firstIndex = secondIndex
                 secondIndex = buf
             End If
 
             If incSecPoints = False Then
-                closestDist = DistanceToLine(pos, points(firstIndex).pos, points(secondIndex).pos)
+                closestDist = DistanceToLine(pos, _points(firstIndex).Pos, _points(secondIndex).Pos)
             Else
-                closestDist = DistanceToLine(pos, points(firstIndex).GetClosestPoint(pos), points(secondIndex).GetClosestPoint(pos))
+                closestDist = DistanceToLine(pos, _points(firstIndex).GetClosestPoint(pos), _points(secondIndex).GetClosestPoint(pos))
             End If
         End If
 
         Dim p1, p2 As PathPoint
         Dim dist As Single
-        For i As Integer = 1 To points.Count - 1
-            p1 = points(i - 1)
-            p2 = points(i)
+        For i As Integer = 1 To _points.Count - 1
+            p1 = _points(i - 1)
+            p2 = _points(i)
 
-            dist = DistanceToLine(pos, p1.pos, p2.pos)
+            dist = DistanceToLine(pos, p1.Pos, p2.Pos)
 
             If dist < closestDist Then
                 closestDist = dist
@@ -371,15 +356,15 @@
             End If
         Next
 
-        Return {points(firstIndex), points(secondIndex)}
+        Return {_points(firstIndex), _points(secondIndex)}
     End Function
 
     Public Function GetClosestPointsList(pos As PointF) As IEnumerable(Of KeyValuePair(Of PathPoint, Integer))
         Dim distances As New SortedList(Of PathPoint, Integer)
 
-        For i As Integer = 0 To points.Count - 1
-            Dim pp As PathPoint = points(i)
-            Dim dist As Integer = LineLength(pos, pp.pos)
+        For i As Integer = 0 To _points.Count - 1
+            Dim pp As PathPoint = _points(i)
+            Dim dist As Integer = LineLength(pos, pp.Pos)
 
             distances.Add(pp, dist)
         Next
@@ -394,23 +379,23 @@
     Public Sub SelectPPoints(start As Integer, count As Integer, Optional clear As Boolean = True)
         If clear Then SVG.selectedPoints.Clear()
         start = Math.Max(0, start)
-        For i As Integer = Math.Max(0, start) To Math.Min(points.Count - 1, start + count)
-            If points(i).nonInteractve Then Continue For
-            SVG.selectedPoints.Add(points(i))
+        For i As Integer = Math.Max(0, start) To Math.Min(_points.Count - 1, start + count)
+            If _points(i).nonInteractve Then Continue For
+            SVG.selectedPoints.Add(_points(i))
         Next
     End Sub
 
     Public Sub SelectAllPPoints(Optional clear As Boolean = True)
-        SelectPPoints(0, points.Count - 1)
+        SelectPPoints(0, _points.Count - 1)
     End Sub
 
     Public Function HasMoveto() As Boolean
-        Return (points.Count > 0 AndAlso points(0).pointType = PointType.moveto)
+        Return (_points.Count > 0 AndAlso _points(0).pointType = PointType.moveto)
     End Function
 
     Public Function GetMoveto() As PathPoint
-        If points.Count > 0 AndAlso points(0).pointType = PointType.moveto Then
-            Return points(0)
+        If _points.Count > 0 AndAlso _points(0).pointType = PointType.moveto Then
+            Return _points(0)
         End If
         Return Nothing
     End Function
@@ -437,7 +422,7 @@
         End If
 
         If SVG.SelectedPath.IsEmpty() Then ptype = PointType.moveto
-        If index < 0 Then index = points.Count
+        If index < 0 Then index = _points.Count
         gIndex = SVG.SelectedPath.FigureIndexToPath(Me, index)
 
         Dim pp As PathPoint = Nothing
@@ -488,19 +473,19 @@
     'End Function
 
     Public Function IsEmpty() As Boolean
-        Return points.Count <= 0
+        Return _points.Count <= 0
     End Function
 
     Public Function GetCenterPoint() As PointF
         Dim centralPoint As New PointF(0, 0)
-        For Each pp As PathPoint In points
+        For Each pp As PathPoint In _points
             If pp.Pos Is Nothing Then Continue For
             centralPoint.X += pp.Pos.X
             centralPoint.Y += pp.Pos.Y
         Next
 
-        centralPoint.X /= points.Count
-        centralPoint.Y /= points.Count
+        centralPoint.X /= _points.Count
+        centralPoint.Y /= _points.Count
 
         Return centralPoint
     End Function
@@ -523,7 +508,7 @@
         posDiff.X = (1 - sx) * pivotPt.X
         posDiff.Y = (1 - sy) * pivotPt.Y
 
-        For Each pp As PathPoint In points
+        For Each pp As PathPoint In _points
             If pp.Pos Is Nothing Then Continue For
             pp.Pos.Multiply(sx, sy)
             pp.Pos.Offset(posDiff.X, posDiff.Y)
@@ -550,9 +535,9 @@
         posDiff.X = (1 - sx) * pivotPt.X
         posDiff.Y = (1 - sy) * pivotPt.Y
 
-        transform.Reset()
-        transform.Translate(posDiff.X, posDiff.Y)
-        transform.Scale(sx, sy)
+        _transform.Reset()
+        _transform.Translate(posDiff.X, posDiff.Y)
+        _transform.Scale(sx, sy)
     End Sub
 
 End Class
