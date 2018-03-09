@@ -116,7 +116,6 @@ Public Class SVGPath
         _strokePen = New Pen(StrokeColor, StrokeWidth)
         _strokePen.LineJoin = Drawing2D.LineJoin.Miter
 
-        SVG.SelectedPath = Me
         AddNewFigure()
     End Sub
 
@@ -554,5 +553,26 @@ Public Class SVGPath
 
         Return New RectangleF(minx, miny, maxx - minx, maxy - miny)
     End Function
+
+    Public Sub TransformScale(sx As Single, sy As Single, Optional centered As Boolean = True, Optional pivotPt As CPointF = Nothing)
+        'Dim posDiff As New PointF(0, 0)
+
+        'If pivotPt Is Nothing Then
+        '    If centered Then
+        '        pivotPt = SVG.ApplyZoom(GetCenterPoint())
+        '    Else
+        '        'Use the moveto as pivotal point
+        '        Dim moveto As PathPoint = Me.GetMoveto()
+        '        If moveto IsNot Nothing Then pivotPt = SVG.ApplyZoom(moveto.Pos)
+        '    End If
+        'End If
+
+        'posDiff.X = (1 - sx) * pivotPt.X
+        'posDiff.Y = (1 - sy) * pivotPt.Y
+
+        'transform.Reset()
+        'transform.Translate(posDiff.X, posDiff.Y)
+        'transform.Scale(sx, sy)
+    End Sub
 
 End Class

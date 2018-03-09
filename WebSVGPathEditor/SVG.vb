@@ -24,8 +24,8 @@ Public Class BkgTemplate
 End Class
 
 Public NotInheritable Class SVG
-    Public Shared paths As New ListWithEvents(Of SVGPath)
-    Public Shared selectedPaths As New List(Of SVGPath)
+    Public Shared _paths As New ListWithEvents(Of SVGPath)
+    Public Shared selectedPaths As New ListWithEvents(Of SVGPath)
 
     Public Shared CanvasImg As New Bitmap(640, 640)
     Private Shared _canvasSize As New SizeF(64.0F, 64.0F)
@@ -59,6 +59,12 @@ Public NotInheritable Class SVG
     Public Shared ReadOnly Property BkgTemplates() As List(Of BkgTemplate)
         Get
             Return _bkgTemplates
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property Paths() As ListWithEvents(Of SVGPath)
+        Get
+            Return _paths
         End Get
     End Property
 
@@ -206,7 +212,7 @@ Public NotInheritable Class SVG
     End Sub
 
     Public Shared Iterator Function GetAllPPoints() As IEnumerable(Of PathPoint)
-        For Each path As SVGPath In paths
+        For Each path As SVGPath In _paths
             For Each fig As Figure In path.GetFigures
                 For Each pp As PathPoint In fig
                     Yield pp
@@ -216,11 +222,11 @@ Public NotInheritable Class SVG
     End Function
 
     Public Shared Function IsEmpty() As Boolean
-        Return paths.Count <= 0 OrElse paths(0).IsEmpty()
+        Return _paths.Count <= 0 OrElse _paths(0).IsEmpty()
     End Function
 
     Public Shared Function IndexOf(ByRef path As SVGPath) As Integer
-        Return paths.IndexOf(path)
+        Return _paths.IndexOf(path)
     End Function
 
     Public Shared Function GetHtml(optimize As Boolean) As String
@@ -232,7 +238,7 @@ Public NotInheritable Class SVG
 
         str &= ">" & vbCrLf
 
-        For Each path As SVGPath In paths
+        For Each path As SVGPath In _paths
             str &= vbTab & path.GetHtml(optimize) & vbCrLf
         Next
 
@@ -242,7 +248,7 @@ Public NotInheritable Class SVG
         str &= "zoom=""" & CanvasZoom & """"
         str &= ">" & vbCrLf
 
-        For Each path As SVGPath In paths
+        For Each path As SVGPath In _paths
             For Each fig As Figure In path.GetFigures
                 For Each pp As PathPoint In fig
                     If pp.mirroredPos IsNot Nothing AndAlso pp.mirroredPP IsNot Nothing Then
@@ -274,10 +280,11 @@ Public NotInheritable Class SVG
 
     Public Shared Function AddPath() As SVGPath
         Dim newPath As SVGPath = New SVGPath
-        paths.Add(newPath)
-        SelectPath(paths.Count - 1)
+        _paths.Add(newPath)
 
-        RaiseEvent OnPathAdded(paths.Last)
+        RaiseEvent OnPathAdded(_paths.Last)
+
+        SelectPath(_paths.Count - 1)
 
         newPath.FillColor = SelectedPath.FillColor
         newPath.StrokeColor = SelectedPath.StrokeColor
@@ -286,33 +293,33 @@ Public NotInheritable Class SVG
     End Function
 
     Public Shared Sub RemovePath(ByRef path As SVGPath)
-        RaiseEvent OnPathRemoving(paths.Last)
+        RaiseEvent OnPathRemoving(_paths.Last)
 
         If selectedPaths.Contains(path) Then
             selectedPaths.Remove(path)
         End If
 
-        paths.Remove(path)
+        _paths.Remove(path)
 
-        If paths.Count <= 0 Then AddPath()
-        If SelectedPath Is Nothing Then SelectedPath = paths(paths.Count - 1)
+        If _paths.Count <= 0 Then AddPath()
+        If SelectedPath Is Nothing Then SelectedPath = _paths(_paths.Count - 1)
     End Sub
 
     Public Shared Sub SelectPath(index As Integer)
-        SelectedPath = paths(index)
+        SelectedPath = _paths(index)
 
-        RaiseEvent OnSelectPath(paths(index))
+        RaiseEvent OnSelectPath(_paths(index))
     End Sub
 
     Public Shared Sub ChangePathIndex(oldIndx As Integer, newIndx As Integer)
-        Dim path As SVGPath = paths(oldIndx)
+        Dim path As SVGPath = _paths(oldIndx)
         'If destIndex > index Then destIndex -= 1
 
         'RaiseEvent OnFigureRemoving(Me, fig)
         RaiseEvent OnChangePathIndex(oldIndx, newIndx)
 
-        paths.RemoveAt(oldIndx)
-        paths.Insert(newIndx, path)
+        _paths.RemoveAt(oldIndx)
+        _paths.Insert(newIndx, path)
         SelectedPath = path
         'Me.Insert(destIndex, fig)
     End Sub
@@ -324,7 +331,7 @@ Public NotInheritable Class SVG
         Dim maxy As Single = Single.NegativeInfinity
         Dim rc As New RectangleF
 
-        For Each path As SVGPath In paths
+        For Each path As SVGPath In _paths
             rc = path.GetBounds()
             If rc.Left < minx Then minx = rc.Left
             If rc.Right > maxx Then maxx = rc.Right
@@ -337,7 +344,7 @@ Public NotInheritable Class SVG
     End Function
 
     Public Shared Sub Offset(ammount As PointF)
-        For Each path As SVGPath In paths
+        For Each path As SVGPath In _paths
             For Each fig As Figure In path.GetFigures
                 For Each pp As PathPoint In fig
                     pp.Offset(ammount)
@@ -351,12 +358,12 @@ Public NotInheritable Class SVG
     End Sub
 
     Public Shared Sub Clear()
-        For Each path As SVGPath In paths
+        For Each path As SVGPath In _paths
             path.Clear()
         Next
         selectedPoints.Clear()
 
-        paths.Clear()
+        _paths.Clear()
         RaiseEvent OnPathClear()
 
         SVGPath.ResetIdCount()
@@ -612,9 +619,9 @@ Public NotInheritable Class SVG
                 ppi = Convert.ToInt32(ppData(2))
             End If
 
-            pp = SVG.paths(pathi).Figure(figi)(ppi)
-            mirPP = SVG.paths(pathi).Figure(figi)(itemAttribs.GetValue("ppi", "0").GetNumbers)
-            mirPos = SVG.paths(pathi).Figure(figi)(itemAttribs.GetValue("posi", "0").GetNumbers)
+            pp = _paths(pathi).Figure(figi)(ppi)
+            mirPP = _paths(pathi).Figure(figi)(itemAttribs.GetValue("ppi", "0").GetNumbers)
+            mirPos = _paths(pathi).Figure(figi)(itemAttribs.GetValue("posi", "0").GetNumbers)
             orient = itemAttribs.GetValue("orient", "0").GetNumbers
 
             pp.SetMirrorPPoint(mirPP, orient)
@@ -718,7 +725,7 @@ Public NotInheritable Class SVG
         grxCanvas.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
         grxCanvas.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
-        For Each path As SVGPath In SVG.paths
+        For Each path As SVGPath In _paths
             path.Draw(grxCanvas)
         Next
 

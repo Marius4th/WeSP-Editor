@@ -7,6 +7,7 @@
     Public parent As SVGPath
     Public mirrorOrient As Orientation = Orientation.None
     Private _numMirrored As Integer = 0
+    Public transform As New Drawing2D.Matrix
 
     Public Shared Event OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
     Public Shared Event OnPPointRemoving(ByRef sender As Figure, ByRef pp As PathPoint)
@@ -230,6 +231,7 @@
         'penMirror.Color = ColorRotate(brush.Color)
 
         Dim path As Drawing2D.GraphicsPath = Me.GetPath()
+        path.Transform(transform)
         'Dim translateMatrix As New Drawing2D.Matrix
         'translateMatrix.Translate(offset.X, offset.Y)
         'path.Transform(translateMatrix)
@@ -489,51 +491,68 @@
         Return points.Count <= 0
     End Function
 
-    Public Sub Scale(scale As Double, Optional centered As Boolean = True)
+    Public Function GetCenterPoint() As PointF
+        Dim centralPoint As New PointF(0, 0)
+        For Each pp As PathPoint In points
+            If pp.Pos Is Nothing Then Continue For
+            centralPoint.X += pp.Pos.X
+            centralPoint.Y += pp.Pos.Y
+        Next
 
-        If centered Then
-            'Uses the middle of the figure as pivotal point
-            Dim centralPoint As New PointF(0, 0)
-            Dim posDiff As New PointF(0, 0)
-            For Each pp As PathPoint In points
-                If pp.pos Is Nothing Then Continue For
-                centralPoint.X += pp.pos.X
-                centralPoint.Y += pp.pos.Y
-                pp.pos.X *= scale
-                pp.pos.Y *= scale
-            Next
+        centralPoint.X /= points.Count
+        centralPoint.Y /= points.Count
 
-            posDiff.X = ((centralPoint.X * scale) - centralPoint.X) / points.Count
-            posDiff.Y = ((centralPoint.Y * scale) - centralPoint.Y) / points.Count
+        Return centralPoint
+    End Function
 
-            For Each pp As PathPoint In points
-                If pp.pos Is Nothing Then Continue For
-                pp.pos.X -= posDiff.X
-                pp.pos.Y -= posDiff.Y
-            Next
+    'Scales the figure modifying it's points
+    Public Sub Scale(sx As Single, sy As Single, Optional centered As Boolean = True, Optional pivotPt As CPointF = Nothing)
+        Dim posDiff As New PointF(0, 0)
 
-        Else
-            'Uses the moveto as pivotal point
-            Dim moveto As PathPoint = Me.GetMoveto()
-            Dim refPointOld As New PointF(0, 0)
-            Dim refPointNew As New PointF(0, 0)
-            If moveto IsNot Nothing Then refPointOld = moveto.pos
-
-            For Each pp As PathPoint In points
-                If pp.pos Is Nothing Then Continue For
-                pp.pos.X *= scale
-                pp.pos.Y *= scale
-            Next
-
-            If moveto IsNot Nothing Then refPointNew = moveto.pos
-
-            For Each pp As PathPoint In points
-                If pp.pos Is Nothing Then Continue For
-                pp.pos.X -= refPointNew.X - refPointOld.X
-                pp.pos.Y -= refPointNew.Y - refPointOld.Y
-            Next
-
+        If pivotPt Is Nothing Then
+            If centered Then
+                'Uses the middle of the figure as pivotal point
+                pivotPt = GetCenterPoint()
+            Else
+                'Use the moveto as pivotal point
+                Dim moveto As PathPoint = Me.GetMoveto()
+                If moveto IsNot Nothing Then pivotPt = moveto.Pos
+            End If
         End If
+
+        posDiff.X = (1 - sx) * pivotPt.X
+        posDiff.Y = (1 - sy) * pivotPt.Y
+
+        For Each pp As PathPoint In points
+            If pp.Pos Is Nothing Then Continue For
+            pp.Pos.Multiply(sx, sy)
+            pp.Pos.Offset(posDiff.X, posDiff.Y)
+        Next
+    End Sub
+
+    'Applyies scaling to the path of the figure but doesn't change the values of it's points
+    Public Sub TransformScale(sx As Single, sy As Single, Optional centered As Boolean = True, Optional pivotPt As CPointF = Nothing)
+        Dim posDiff As New PointF(0, 0)
+
+        If pivotPt Is Nothing Then
+            If centered Then
+                'Uses the middle of the figure as pivotal point
+                pivotPt = SVG.ApplyZoom(GetCenterPoint())
+            Else
+                'Use the moveto as pivotal point
+                Dim moveto As PathPoint = Me.GetMoveto()
+                If moveto IsNot Nothing Then pivotPt = SVG.ApplyZoom(moveto.Pos)
+            End If
+        Else
+            pivotPt = SVG.ApplyZoom(pivotPt)
+        End If
+
+        posDiff.X = (1 - sx) * pivotPt.X
+        posDiff.Y = (1 - sy) * pivotPt.Y
+
+        transform.Reset()
+        transform.Translate(posDiff.X, posDiff.Y)
+        transform.Scale(sx, sy)
     End Sub
 
 End Class

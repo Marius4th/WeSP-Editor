@@ -64,7 +64,6 @@ Partial Class Form_main
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
         Me.MoveTo00ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RoundPositionsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ScaleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -173,6 +172,7 @@ Partial Class Form_main
         Me.But_figMoveBottom = New System.Windows.Forms.Button()
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
+        Me.ScaleToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -396,7 +396,7 @@ Partial Class Form_main
         '
         'PathToolStripMenuItem
         '
-        Me.PathToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator4, Me.MoveTo00ToolStripMenuItem, Me.RoundPositionsToolStripMenuItem, Me.ScaleToolStripMenuItem, Me.ToolStripSeparator2, Me.ClearToolStripMenuItem, Me.DeleteToolStripMenuItem})
+        Me.PathToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator4, Me.MoveTo00ToolStripMenuItem, Me.RoundPositionsToolStripMenuItem, Me.ToolStripSeparator2, Me.ClearToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.PathToolStripMenuItem.Name = "PathToolStripMenuItem"
         resources.ApplyResources(Me.PathToolStripMenuItem, "PathToolStripMenuItem")
         '
@@ -420,11 +420,6 @@ Partial Class Form_main
         Me.RoundPositionsToolStripMenuItem.Name = "RoundPositionsToolStripMenuItem"
         resources.ApplyResources(Me.RoundPositionsToolStripMenuItem, "RoundPositionsToolStripMenuItem")
         '
-        'ScaleToolStripMenuItem
-        '
-        Me.ScaleToolStripMenuItem.Name = "ScaleToolStripMenuItem"
-        resources.ApplyResources(Me.ScaleToolStripMenuItem, "ScaleToolStripMenuItem")
-        '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
@@ -442,7 +437,7 @@ Partial Class Form_main
         '
         'FigureToolStripMenuItem
         '
-        Me.FigureToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateFigureToolStripMenuItem, Me.DuplicateToolStripMenuItem, Me.ToolStripSeparator10, Me.FlipHorizontallyToolStripMenuItem, Me.FlipVerticallyToolStripMenuItem, Me.ToolStripSeparator3, Me.ClearToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
+        Me.FigureToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CreateFigureToolStripMenuItem, Me.DuplicateToolStripMenuItem, Me.ToolStripSeparator10, Me.FlipHorizontallyToolStripMenuItem, Me.FlipVerticallyToolStripMenuItem, Me.ScaleToolStripMenuItem1, Me.ToolStripSeparator3, Me.ClearToolStripMenuItem1, Me.DeleteToolStripMenuItem1})
         Me.FigureToolStripMenuItem.Name = "FigureToolStripMenuItem"
         resources.ApplyResources(Me.FigureToolStripMenuItem, "FigureToolStripMenuItem")
         '
@@ -1121,6 +1116,7 @@ Partial Class Form_main
         resources.ApplyResources(Me.Lb_paths, "Lb_paths")
         Me.Lb_paths.FormattingEnabled = True
         Me.Lb_paths.Name = "Lb_paths"
+        Me.Lb_paths.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         '
         'Timer_autoBackup
         '
@@ -1253,6 +1249,11 @@ Partial Class Form_main
         Me.But_removeFigure.Name = "But_removeFigure"
         Me.But_removeFigure.UseVisualStyleBackColor = False
         '
+        'ScaleToolStripMenuItem1
+        '
+        Me.ScaleToolStripMenuItem1.Name = "ScaleToolStripMenuItem1"
+        resources.ApplyResources(Me.ScaleToolStripMenuItem1, "ScaleToolStripMenuItem1")
+        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
@@ -1348,7 +1349,6 @@ Partial Class Form_main
     Friend WithEvents RedoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PathToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents MoveTo00ToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ScaleToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ClearToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Pan_tools As Panel
@@ -1479,4 +1479,5 @@ Partial Class Form_main
     Friend WithEvents Num_fillAlpha As NumericUpDown
     Friend WithEvents Label14 As Label
     Friend WithEvents Cb_templateVisible As CheckBox
+    Friend WithEvents ScaleToolStripMenuItem1 As ToolStripMenuItem
 End Class

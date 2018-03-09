@@ -29,9 +29,11 @@ Partial Class Form_help
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -118,16 +120,26 @@ Partial Class Form_help
         Me.TextBox3.Text = "-Use ""CTRL"" + ""MOUSE WHEEL"" to zoom in and out." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "-Use ""CTRL"" + ""A"" to select all " &
     "figure's points." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "-Use ""CTRL"" + ""D"" to deselect all selected points."
         '
+        'Panel1
+        '
+        Me.Panel1.AutoScroll = True
+        Me.Panel1.Controls.Add(Me.GroupBox1)
+        Me.Panel1.Controls.Add(Me.GroupBox3)
+        Me.Panel1.Controls.Add(Me.GroupBox2)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(779, 303)
+        Me.Panel1.TabIndex = 4
+        '
         'Form_help
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(777, 301)
-        Me.Controls.Add(Me.GroupBox3)
-        Me.Controls.Add(Me.GroupBox2)
-        Me.Controls.Add(Me.GroupBox1)
+        Me.ClientSize = New System.Drawing.Size(779, 303)
+        Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Verdana", 9.0!)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "Form_help"
         Me.Text = "Help - WeSP"
@@ -138,6 +150,7 @@ Partial Class Form_help
         Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -147,4 +160,5 @@ Partial Class Form_help
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents GroupBox3 As GroupBox
     Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents Panel1 As Panel
 End Class

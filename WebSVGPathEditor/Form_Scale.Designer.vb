@@ -27,6 +27,8 @@ Partial Class Form_scale
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Bu_apply = New System.Windows.Forms.Button()
         Me.Bu_cancel = New System.Windows.Forms.Button()
+        Me.Cb_center = New System.Windows.Forms.CheckBox()
+        Me.Cb_onePivot = New System.Windows.Forms.CheckBox()
         CType(Me.Track_scale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_scale, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -88,11 +90,37 @@ Partial Class Form_scale
         Me.Bu_cancel.Text = "Cancel"
         Me.Bu_cancel.UseVisualStyleBackColor = True
         '
+        'Cb_center
+        '
+        Me.Cb_center.AutoSize = True
+        Me.Cb_center.Checked = True
+        Me.Cb_center.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Cb_center.Location = New System.Drawing.Point(157, 43)
+        Me.Cb_center.Name = "Cb_center"
+        Me.Cb_center.Size = New System.Drawing.Size(69, 18)
+        Me.Cb_center.TabIndex = 5
+        Me.Cb_center.Text = "Center"
+        Me.Cb_center.UseVisualStyleBackColor = True
+        '
+        'Cb_onePivot
+        '
+        Me.Cb_onePivot.AutoSize = True
+        Me.Cb_onePivot.Checked = True
+        Me.Cb_onePivot.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.Cb_onePivot.Location = New System.Drawing.Point(232, 43)
+        Me.Cb_onePivot.Name = "Cb_onePivot"
+        Me.Cb_onePivot.Size = New System.Drawing.Size(87, 18)
+        Me.Cb_onePivot.TabIndex = 6
+        Me.Cb_onePivot.Text = "One pivot"
+        Me.Cb_onePivot.UseVisualStyleBackColor = True
+        '
         'Form_scale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(635, 66)
+        Me.Controls.Add(Me.Cb_onePivot)
+        Me.Controls.Add(Me.Cb_center)
         Me.Controls.Add(Me.Bu_cancel)
         Me.Controls.Add(Me.Bu_apply)
         Me.Controls.Add(Me.Label1)
@@ -116,4 +144,6 @@ Partial Class Form_scale
     Friend WithEvents Label1 As Label
     Friend WithEvents Bu_apply As Button
     Friend WithEvents Bu_cancel As Button
+    Friend WithEvents Cb_center As CheckBox
+    Friend WithEvents Cb_onePivot As CheckBox
 End Class

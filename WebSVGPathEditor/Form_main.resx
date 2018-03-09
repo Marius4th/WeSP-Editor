@@ -384,6 +384,93 @@
   <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>14, 8</value>
   </metadata>
+  <data name="FileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="FileToolStripMenuItem.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="EditToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 20</value>
+  </data>
+  <data name="EditToolStripMenuItem.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="ViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="SVGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 20</value>
+  </data>
+  <data name="SVGToolStripMenuItem.Text" xml:space="preserve">
+    <value>SVG</value>
+  </data>
+  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Create Path</value>
+  </data>
+  <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 6</value>
+  </data>
+  <data name="MoveTo00ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="MoveTo00ToolStripMenuItem.Text" xml:space="preserve">
+    <value>Move to (0,0)</value>
+  </data>
+  <data name="RoundPositionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="RoundPositionsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Round positions</value>
+  </data>
+  <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 6</value>
+  </data>
+  <data name="ClearToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ClearToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="DeleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="DeleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="PathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 20</value>
+  </data>
+  <data name="PathToolStripMenuItem.Text" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="FigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 20</value>
+  </data>
+  <data name="FigureToolStripMenuItem.Text" xml:space="preserve">
+    <value>Figure</value>
+  </data>
+  <data name="HelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="HelpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="TESTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="TESTToolStripMenuItem.Text" xml:space="preserve">
+    <value>TEST</value>
+  </data>
+  <data name="TESTToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -407,12 +494,6 @@
   </data>
   <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
     <value>26</value>
-  </data>
-  <data name="FileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="FileToolStripMenuItem.Text" xml:space="preserve">
-    <value>File</value>
   </data>
   <data name="SaveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 22</value>
@@ -459,12 +540,6 @@
   <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="EditToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
-  </data>
-  <data name="EditToolStripMenuItem.Text" xml:space="preserve">
-    <value>Edit</value>
-  </data>
   <data name="UndoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 22</value>
   </data>
@@ -495,23 +570,11 @@
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>Select All</value>
   </data>
-  <data name="ViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="ViewToolStripMenuItem.Text" xml:space="preserve">
-    <value>View</value>
-  </data>
   <data name="ShowRealSizePreviewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 22</value>
   </data>
   <data name="ShowRealSizePreviewToolStripMenuItem.Text" xml:space="preserve">
     <value>Show Real Size Preview</value>
-  </data>
-  <data name="SVGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
-  </data>
-  <data name="SVGToolStripMenuItem.Text" xml:space="preserve">
-    <value>SVG</value>
   </data>
   <data name="MoveTo00ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 22</value>
@@ -533,60 +596,6 @@
   </data>
   <data name="ClearToolStripMenuItem2.Text" xml:space="preserve">
     <value>Clear</value>
-  </data>
-  <data name="PathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 20</value>
-  </data>
-  <data name="PathToolStripMenuItem.Text" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="ToolStripMenuItem1.Text" xml:space="preserve">
-    <value>Create Path</value>
-  </data>
-  <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 6</value>
-  </data>
-  <data name="MoveTo00ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="MoveTo00ToolStripMenuItem.Text" xml:space="preserve">
-    <value>Move to (0,0)</value>
-  </data>
-  <data name="RoundPositionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="RoundPositionsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Round positions</value>
-  </data>
-  <data name="ScaleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="ScaleToolStripMenuItem.Text" xml:space="preserve">
-    <value>Scale</value>
-  </data>
-  <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 6</value>
-  </data>
-  <data name="ClearToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="ClearToolStripMenuItem.Text" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="DeleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 22</value>
-  </data>
-  <data name="DeleteToolStripMenuItem.Text" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="FigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
-  </data>
-  <data name="FigureToolStripMenuItem.Text" xml:space="preserve">
-    <value>Figure</value>
   </data>
   <data name="CreateFigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
@@ -630,12 +639,6 @@
   <data name="DeleteToolStripMenuItem1.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="HelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="HelpToolStripMenuItem.Text" xml:space="preserve">
-    <value>Help</value>
-  </data>
   <data name="ViewHelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 22</value>
   </data>
@@ -650,15 +653,6 @@
   </data>
   <data name="AboutToolStripMenuItem.Text" xml:space="preserve">
     <value>About</value>
-  </data>
-  <data name="TESTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 20</value>
-  </data>
-  <data name="TESTToolStripMenuItem.Text" xml:space="preserve">
-    <value>TEST</value>
-  </data>
-  <data name="TESTToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="AddLotsOPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>164, 22</value>
@@ -3355,7 +3349,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Pic_canvas.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -3999,6 +3993,12 @@
   <data name="&gt;&gt;But_removeFigure.ZOrder" xml:space="preserve">
     <value>16</value>
   </data>
+  <data name="ScaleToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 22</value>
+  </data>
+  <data name="ScaleToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Scale</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -4373,12 +4373,6 @@
   <data name="&gt;&gt;RoundPositionsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ScaleToolStripMenuItem.Name" xml:space="preserve">
-    <value>ScaleToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;ScaleToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;ToolStripSeparator2.Name" xml:space="preserve">
     <value>ToolStripSeparator2</value>
   </data>
@@ -4510,6 +4504,12 @@
   </data>
   <data name="&gt;&gt;Timer_autoBackup.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ScaleToolStripMenuItem1.Name" xml:space="preserve">
+    <value>ScaleToolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;ScaleToolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Form_main</value>

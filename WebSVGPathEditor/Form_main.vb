@@ -39,6 +39,11 @@ Public Class Form_main
         AddHandler SVG.OnBkgTemplatesClear, AddressOf SVG_OnBkgTemplatesClear
         AddHandler SVG.OnCanvasOffsetChanged, AddressOf SVG_OnCanvasOffsetChanged
 
+        'AddHandler SVG.selectedPaths.OnAdd, AddressOf SVGSelectedPaths_OnAdd
+        'AddHandler SVG.selectedPaths.OnRemoving, AddressOf SVGSelectedPaths_OnRemoving
+        'AddHandler SVG.selectedPaths.OnRemovingRange, AddressOf SVGSelectedPaths_OnRemovingRange
+        'AddHandler SVG.selectedPaths.OnClear, AddressOf SVGSelectedPaths_OnClear
+
         AddHandler SVG.selectedPoints.OnAdd, AddressOf SVGSelectedPoints_OnAdd
         AddHandler SVG.selectedPoints.OnRemoving, AddressOf SVGSelectedPoints_OnRemoving
         AddHandler SVG.selectedPoints.OnRemovingRange, AddressOf SVGSelectedPoints_OnRemovingRange
@@ -73,13 +78,11 @@ Public Class Form_main
             Form_result.Pic_realSize.Size = SVG.CanvasSize.ToSize
         End If
 
-        Pic_canvas.Refresh()
+        Pic_canvas.Invalidate()
         AddToHistory()
     End Sub
 
     Public Sub SVG_OnCanvasZoomChanged()
-        'Pic_canvas.Size = SVG.CanvasSizeZoomed
-        Pic_canvas.Refresh()
         If Num_zoom.Value <> SVG.CanvasZoom Then
             Num_zoom.Value = SVG.CanvasZoom
         End If
@@ -93,7 +96,11 @@ Public Class Form_main
 
     Public Sub SVG_OnPathAdded(ByRef path As SVGPath)
         Lb_paths.Items.Add(path.Id)
+
+        Lb_paths.SelectionMode = SelectionMode.One
         Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
+        Lb_paths.SelectionMode = SelectionMode.MultiExtended
+
         Col_stroke.BackColor = path.StrokeColor
         Col_fill.BackColor = path.FillColor
         Num_strokeAlpha.Value = path.StrokeColor.A
@@ -161,13 +168,13 @@ Public Class Form_main
     Public Sub SVG_OnBkgTemplateAdd(ByRef bkgTemp As BkgTemplate)
         Combo_templates.Items.Add(IO.Path.GetFileNameWithoutExtension(bkgTemp.path))
         Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
-        Pic_canvas.Refresh()
+        Pic_canvas.Invalidate()
     End Sub
 
     Public Sub SVG_OnBkgTemplateRemoving(ByRef bkgTemp As BkgTemplate, index As Integer)
         Combo_templates.Items.RemoveAt(index)
         Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
-        Pic_canvas.Refresh()
+        Pic_canvas.Invalidate()
     End Sub
 
     Public Sub SVG_OnBkgTemplatesClear()
@@ -177,6 +184,33 @@ Public Class Form_main
     Public Sub SVG_OnCanvasOffsetChanged(ByVal newVal As Point)
         Pic_canvas.Invalidate()
     End Sub
+
+    'Public Sub SVGSelectedPaths_OnAdd(sender As ListWithEvents(Of SVGPath), d As SVGPath)
+    '    If Lb_paths.Items.Count <= 0 Then Return
+    '    If sender.Count = 1 Then
+    '        If Not Lb_paths.SelectedIndex = d.GetIndex OrElse Lb_paths.SelectedIndices.Count > 1 Then
+    '            Lb_paths.SelectionMode = SelectionMode.One
+    '            Lb_paths.SelectedIndex = d.GetIndex
+    '            Lb_paths.SelectionMode = SelectionMode.MultiExtended
+    '        End If
+    '    ElseIf Not Lb_paths.SelectedIndices.Contains(sender.IndexOf(d)) Then
+    '        Lb_paths.SelectedIndices.Add(d.GetIndex)
+    '    End If
+    'End Sub
+
+    'Public Sub SVGSelectedPaths_OnRemoving(sender As ListWithEvents(Of SVGPath), d As SVGPath)
+    '    Lb_paths.SelectedIndices.Remove(d.GetIndex)
+    'End Sub
+
+    'Public Sub SVGSelectedPaths_OnRemovingRange(sender As ListWithEvents(Of SVGPath), start As Integer, count As Integer)
+    '    For i As Integer = start To start + count - 1
+    '        Lb_paths.SelectedIndices.Remove(sender(i).GetIndex)
+    '    Next
+    'End Sub
+
+    'Public Sub SVGSelectedPaths_OnClear(sender As ListWithEvents(Of SVGPath))
+    '    Lb_paths.SelectedIndices.Clear()
+    'End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
 
@@ -451,7 +485,6 @@ Public Class Form_main
 
     Public Sub RefreshClosestPointToMouse()
         Dim mpos As PointF = GetMousePlacePos(Pic_canvas)
-        Lab_lastBkp.Text = mpos.X
         'Select closest point
         If SVG.selectedPoints.Count <= 1 Then
             SVG.SelectedPoint = SVG.SelectedPath.GetClosestPoint(mpos, False)
@@ -671,10 +704,12 @@ Public Class Form_main
 
                         movingPoints = False
                     ElseIf My.Computer.Keyboard.ShiftKeyDown Then
-                        'Move the entire Path (all figures)
-                        SVG.SelectedPath.Offset(mpos - mouseLastPos)
-                        mouseLastPos = mpos
+                        'Move the entire Path (all figures in the selected paths)
+                        For Each path As SVGPath In SVG.selectedPaths
+                            path.Offset(mpos - mouseLastPos)
+                        Next
 
+                        mouseLastPos = mpos
                         movingPoints = False
                     End If
             End Select
@@ -758,6 +793,7 @@ Public Class Form_main
         e.Graphics.CompositingQuality = Drawing2D.CompositingQuality.AssumeLinear
         e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.Bilinear
         e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
+        e.Graphics.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighSpeed
 
         'Draw the background templates --------------------------------------------------------------------------------------
         For Each bkgtemp As BkgTemplate In SVG.BkgTemplates
@@ -954,7 +990,7 @@ Public Class Form_main
             End If
 
             If ph IsNot Nothing Then lastPP.SetMirrorPos(ph, Orientation.Horizontal)
-            Pic_canvas.Refresh()
+            Pic_canvas.Invalidate()
         End If
 
         historyLock = False
@@ -985,7 +1021,7 @@ Public Class Form_main
             End If
 
             If ph IsNot Nothing Then lastPP.SetMirrorPos(ph, Orientation.Vertical)
-            Pic_canvas.Refresh()
+            Pic_canvas.Invalidate()
         End If
 
         historyLock = False
@@ -1226,7 +1262,7 @@ Public Class Form_main
         If ColorDialog1.ShowDialog = DialogResult.OK Then
             Col_stroke.BackColor = ColorDialog1.Color
             SVG.SelectedPath.StrokeColor = ColorDialog1.Color
-            Pic_canvas.Refresh()
+            Pic_canvas.Invalidate()
         End If
     End Sub
 
@@ -1234,7 +1270,7 @@ Public Class Form_main
         If ColorDialog1.ShowDialog = DialogResult.OK Then
             Col_fill.BackColor = ColorDialog1.Color
             SVG.SelectedPath.FillColor = ColorDialog1.Color
-            Pic_canvas.Refresh()
+            Pic_canvas.Invalidate()
         End If
     End Sub
 
@@ -1272,19 +1308,15 @@ Public Class Form_main
         SVG.CanvasZoom = Num_zoom.Value
     End Sub
 
-    Private Sub ScaleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem.Click
-        Form_scale.Show()
-    End Sub
-
     Private Sub MoveTo00ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles MoveTo00ToolStripMenuItem1.Click
         Dim bounds As RectangleF = SVG.GetBounds()
         SVG.Offset(bounds.X * -1, bounds.Y * -1)
-        Pic_canvas.Refresh()
+        Pic_canvas.Invalidate()
     End Sub
 
     Private Sub ClearToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem2.Click
         SVG.Clear()
-        Pic_canvas.Refresh()
+        Pic_canvas.Invalidate()
     End Sub
 
     Private Sub CropToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CropToolStripMenuItem.Click
@@ -1296,7 +1328,7 @@ Public Class Form_main
         Dim bounds As RectangleF = SVG.GetBounds()
         SVG.Offset((bounds.X - margin) * -1, (bounds.Y - margin) * -1)
         SVG.CanvasSize = New SizeF(bounds.Width + margin * 2, bounds.Height + margin * 2)
-        Pic_canvas.Refresh()
+        Pic_canvas.Invalidate()
     End Sub
 
     Private Sub Lb_figures_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_figures.SelectedIndexChanged
@@ -1320,7 +1352,7 @@ Public Class Form_main
                 End If
             Next
 
-            Pic_canvas.Refresh()
+            Pic_canvas.Invalidate()
         End If
     End Sub
 
@@ -1533,7 +1565,7 @@ Public Class Form_main
 
     Private Sub Cb_optimize_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_optimize.CheckedChanged
         optimizePath = Cb_optimize.Checked
-        Pic_canvas.Refresh()
+        Pic_canvas.Invalidate()
     End Sub
 
     Private Sub Num_decimals_ValueChanged(sender As Object, e As EventArgs) Handles Num_decimals.ValueChanged
@@ -1594,15 +1626,25 @@ Public Class Form_main
     End Sub
 
     Private Sub Lb_paths_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_paths.SelectedIndexChanged
-        If Lb_paths.SelectedIndex >= 0 AndAlso Lb_paths.SelectedIndex <> SVG.SelectedPath.GetIndex Then
-            SVG.SelectedPath = SVG.paths(Lb_paths.SelectedIndex)
-            Return
+        'Select the last path if nothing is selected
+        If Lb_paths.SelectedIndices.Count <= 0 Then
+            Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
         End If
 
-        'Select the last path if nothing is selected
-        If Lb_paths.SelectedIndex < 0 AndAlso Lb_paths.Items.Count > 0 Then
-            SVG.SelectedPath = SVG.paths(Lb_paths.Items.Count - 1)
-        End If
+        For Each i As Integer In Lb_paths.SelectedIndices
+            Dim path As SVGPath = SVG.paths(i)
+            If Not SVG.selectedPaths.Contains(path) Then
+                SVG.selectedPaths.Add(path)
+            End If
+        Next
+
+        For Each path As SVGPath In SVG.selectedPaths.AsEnumerable.Reverse
+            If Not Lb_paths.SelectedIndices.Contains(path.GetIndex()) Then
+                SVG.selectedPaths.Remove(path)
+            End If
+        Next
+
+        Pic_canvas.Invalidate()
     End Sub
 
     Private Sub But_pathMoveUp_Click(sender As Object, e As EventArgs) Handles But_pathMoveUp.Click
@@ -1767,7 +1809,7 @@ Public Class Form_main
     Private Sub Cb_templateKeepAspect_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_templateKeepAspect.CheckedChanged
         If SVG.selectedBkgTemp Is Nothing Then Return
         SVG.selectedBkgTemp.keepAspect = Cb_templateKeepAspect.Checked
-        Pic_canvas.Refresh()
+        'Pic_canvas.Invalidate()
     End Sub
 
     Private Sub But_removeTemplate_Click(sender As Object, e As EventArgs) Handles But_removeTemplate.Click
@@ -1781,4 +1823,8 @@ Public Class Form_main
         Pic_canvas.Refresh()
     End Sub
 
+    Private Sub ScaleToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem1.Click
+        Me.Enabled = False
+        Form_scale.Show()
+    End Sub
 End Class

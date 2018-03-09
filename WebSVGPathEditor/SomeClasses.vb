@@ -74,6 +74,16 @@ Public Module SomeClasses
             _y = y
         End Sub
 
+        Public Sub Offset(ox As Integer, oy As Integer)
+            X += ox
+            Y += oy
+        End Sub
+
+        Public Sub Multiply(mx As Integer, my As Integer)
+            X *= mx
+            Y *= my
+        End Sub
+
         Public Function ToPointF() As PointF
             Return New PointF(X, Y)
         End Function
@@ -159,6 +169,16 @@ Public Module SomeClasses
         Public Sub New(ByVal p As PointF)
             _x = p.X
             _y = p.Y
+        End Sub
+
+        Public Sub Offset(ox As Single, oy As Single)
+            X += ox
+            Y += oy
+        End Sub
+
+        Public Sub Multiply(mx As Single, my As Single)
+            X *= mx
+            Y *= my
         End Sub
 
         Public Function ToPoint() As Point
