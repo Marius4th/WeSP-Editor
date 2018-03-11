@@ -183,6 +183,18 @@ Public Class Form_main
     End Sub
 
     Public Sub SVG_OnCanvasOffsetChanged(ByVal newVal As Point)
+        'GetVisibleCanvasRect
+        If HScroll_canvasX.Tag <> True Then
+            HScroll_canvasX.Minimum = Math.Min(0, -newVal.X)
+            HScroll_canvasX.Maximum = Math.Max(HScroll_canvasX.LargeChange, -newVal.X) 'Math.Max(HScroll_canvasX.Minimum, (HScroll_canvasX.Minimum + SVG.CanvasSizeZoomed.Width) - Pic_canvas.Width)
+            HScroll_canvasX.Value = -newVal.X
+        End If
+        If VScroll_canvasY.Tag <> True Then
+            VScroll_canvasY.Minimum = Math.Min(0, -newVal.Y)
+            VScroll_canvasY.Maximum = Math.Max(VScroll_canvasY.LargeChange, -newVal.Y) 'Math.Max(VScroll_canvasY.Minimum, (VScroll_canvasY.Minimum + SVG.CanvasSizeZoomed.Height) - Pic_canvas.Height)
+            VScroll_canvasY.Value = -newVal.Y
+        End If
+
         Pic_canvas.Invalidate()
     End Sub
 
@@ -950,7 +962,7 @@ Public Class Form_main
         'Clean
         'grxCanvas.Dispose()
         'e.Graphics.DrawImage(canvasImg, 0, 0)
-        Me.Text = ht.ElapsedTime / ht.Frequency & " (" & Math.Round(1 / (ht.ElapsedTime / ht.Frequency)) & " fps)"
+        'Me.Text = ht.ElapsedTime / ht.Frequency & " (" & Math.Round(1 / (ht.ElapsedTime / ht.Frequency)) & " fps)"
         refreshHtml = True
     End Sub
 
@@ -1264,16 +1276,16 @@ Public Class Form_main
 
     Private Sub Col_stroke_Click(sender As Object, e As EventArgs) Handles Col_stroke.Click
         If ColorDialog1.ShowDialog = DialogResult.OK Then
-            Col_stroke.BackColor = ColorDialog1.Color
-            SVG.SelectedPath.StrokeColor = ColorDialog1.Color
+            Col_stroke.BackColor = Color.FromArgb(Num_strokeAlpha.Value, ColorDialog1.Color)
+            SVG.SelectedPath.StrokeColor = Col_stroke.BackColor
             Pic_canvas.Invalidate()
         End If
     End Sub
 
     Private Sub Col_fill_Click(sender As Object, e As EventArgs) Handles Col_fill.Click
         If ColorDialog1.ShowDialog = DialogResult.OK Then
-            Col_fill.BackColor = ColorDialog1.Color
-            SVG.SelectedPath.FillColor = ColorDialog1.Color
+            Col_fill.BackColor = Color.FromArgb(Num_fillAlpha.Value, ColorDialog1.Color)
+            SVG.SelectedPath.FillColor = Col_fill.BackColor
             Pic_canvas.Invalidate()
         End If
     End Sub
@@ -1860,4 +1872,17 @@ Public Class Form_main
     Private Sub Pic_canvas_Resize(sender As Object, e As EventArgs) Handles Pic_canvas.Resize
         canvasImg = New Bitmap(Pic_canvas.Width, Pic_canvas.Height)
     End Sub
+
+    Private Sub HScroll_canvasX_Scroll(sender As Object, e As ScrollEventArgs) Handles HScroll_canvasX.Scroll
+        HScroll_canvasX.Tag = True
+        SVG.CanvasOffset = New Point(-Math.Min(HScroll_canvasX.Maximum, Math.Max(HScroll_canvasX.Minimum, HScroll_canvasX.Value)), SVG.CanvasOffset.Y)
+        HScroll_canvasX.Tag = False
+    End Sub
+
+    Private Sub VScroll_canvasY_Scroll(sender As Object, e As ScrollEventArgs) Handles VScroll_canvasY.Scroll
+        VScroll_canvasY.Tag = True
+        SVG.CanvasOffset = New Point(SVG.CanvasOffset.X, -Math.Min(VScroll_canvasY.Maximum, Math.Max(VScroll_canvasY.Minimum, VScroll_canvasY.Value)))
+        VScroll_canvasY.Tag = False
+    End Sub
+
 End Class

@@ -28,9 +28,9 @@ Public NotInheritable Class SVG
     Public Shared selectedPaths As New ListWithEvents(Of SVGPath)
 
     Public Shared CanvasImg As New Bitmap(640, 640)
+    Private Shared _canvasZoom As Single = 8.0F
     Private Shared _canvasSize As New SizeF(64.0F, 64.0F)
-    Private Shared _canvasSizeZoomed As New Size(640, 640)
-    Private Shared _canvasZoom As Single = 10.0F
+    Private Shared _canvasSizeZoomed As New Size(_canvasSize.Width * _canvasZoom, _canvasSize.Height * _canvasZoom)
     Private Shared _canvasOffset As New Point(0, 0)
     Private Shared _stickyGrid As New SizeF(1.0F, 1.0F)
     Private Shared _attributes As New Dictionary(Of String, String)

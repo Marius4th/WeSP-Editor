@@ -174,6 +174,8 @@ Partial Class Form_main
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
         Me.Timer_refresh = New System.Windows.Forms.Timer(Me.components)
+        Me.VScroll_canvasY = New System.Windows.Forms.VScrollBar()
+        Me.HScroll_canvasX = New System.Windows.Forms.HScrollBar()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -910,7 +912,7 @@ Partial Class Form_main
         Me.Num_zoom.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.Num_zoom.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.Num_zoom.Name = "Num_zoom"
-        Me.Num_zoom.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.Num_zoom.Value = New Decimal(New Integer() {8, 0, 0, 0})
         '
         'Label6
         '
@@ -1260,11 +1262,23 @@ Partial Class Form_main
         Me.Timer_refresh.Enabled = True
         Me.Timer_refresh.Interval = 1000
         '
+        'VScroll_canvasY
+        '
+        resources.ApplyResources(Me.VScroll_canvasY, "VScroll_canvasY")
+        Me.VScroll_canvasY.Name = "VScroll_canvasY"
+        '
+        'HScroll_canvasX
+        '
+        resources.ApplyResources(Me.HScroll_canvasX, "HScroll_canvasX")
+        Me.HScroll_canvasX.Name = "HScroll_canvasX"
+        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
+        Me.Controls.Add(Me.HScroll_canvasX)
+        Me.Controls.Add(Me.VScroll_canvasY)
         Me.Controls.Add(Me.Pic_canvas)
         Me.Controls.Add(Me.But_removeSelPts)
         Me.Controls.Add(Me.But_pathRename)
@@ -1487,4 +1501,6 @@ Partial Class Form_main
     Friend WithEvents Cb_templateVisible As CheckBox
     Friend WithEvents ScaleToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents Timer_refresh As Timer
+    Friend WithEvents VScroll_canvasY As VScrollBar
+    Friend WithEvents HScroll_canvasX As HScrollBar
 End Class
