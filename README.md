@@ -29,9 +29,10 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
 - [ ] Improve the interface.
 - [x] Implement paths and figures (subpaths) reordering.
 - [ ] Points locking so you can't modify them accidentally?
-- [ ] Background template images.
+- [x] Background template images.
 - [ ] Custom crusors for when pressing mod keys like CTRL, SHILT or ALT to easily see what tool/action you have selected.
 - [x] Implement proper scaling (the actual solution has issues because of floating point errors).
   -Fixed by using DrwingPath's Transform matrix for the preview and then modifying the point's position for real when hitting the 'Apply' button.
+- [ ] Add settings to set the drawing quality so you can lower it to improve performance.
 
 Feedback and Sugestions are welcome.
