@@ -510,8 +510,8 @@
 
         For Each pp As PathPoint In _points
             If pp.Pos Is Nothing Then Continue For
-            pp.Pos.Multiply(sx, sy)
-            pp.Pos.Offset(posDiff.X, posDiff.Y)
+            pp.Multiply(sx, sy)
+            pp.Offset(posDiff.X, posDiff.Y)
         Next
     End Sub
 

@@ -270,9 +270,21 @@ Public Module Commands
             Return newPt
         End Function
 
+        Public Sub Multiply(xscale As Single, yscale As Single, Optional refMirror As Boolean = True)
+            Multiply(New PointF(xscale, yscale), refMirror)
+        End Sub
+
+        Public Overridable Sub Multiply(ByRef ammount As PointF, Optional refMirror As Boolean = True)
+            If Pos Is Nothing Then Return
+            Pos.X *= ammount.X
+            Pos.Y *= ammount.Y
+            If refMirror Then RefreshMirror()
+            RaiseEvent OnModified(Me)
+        End Sub
+
         Public Sub Offset(xoff As Single, yoff As Single, Optional refMirror As Boolean = True)
             Offset(New PointF(xoff, yoff), refMirror)
-            RaiseEvent OnModified(Me)
+            'RaiseEvent OnModified(Me)
         End Sub
 
         Public Overridable Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
@@ -495,6 +507,16 @@ Public Module Commands
             'pos = position
         End Sub
 
+        Public Overrides Sub Multiply(ByRef ammount As PointF, Optional refMirror As Boolean = True)
+            If Pos Is Nothing Then Return
+            MyBase.Multiply(ammount, refMirror)
+
+            For Each pp As PathPoint In parent
+                If pp Is Me OrElse SVG.selectedPoints.Contains(pp) Then Continue For
+                pp.RefreshPosition()
+            Next
+        End Sub
+
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             If pos Is Nothing Then Return
             MyBase.Offset(ammount, refMirror)
@@ -617,6 +639,17 @@ Public Module Commands
             dup.RefreshPrevPPoint()
             Return dup
         End Function
+
+        Public Overrides Sub Multiply(ByRef ammount As PointF, Optional refMirror As Boolean = True)
+            MyBase.Multiply(ammount, refMirror)
+
+            radii.X *= ammount.X
+            radii.Y *= ammount.Y
+
+            _secCenter = Midpoint(PrevPPoint.Pos, Pos)
+            _secAngleRad = CType(_secCenter, CPointF) + AngleToPointf(DegsToRads(360 - xangle), radii.X)
+            _secHeight = CType(_secCenter, CPointF) + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
+        End Sub
 
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             MyBase.Offset(ammount, refMirror)
@@ -837,6 +870,13 @@ Public Module Commands
             Return dup
         End Function
 
+        Public Overrides Sub Multiply(ByRef ammount As PointF, Optional refMirror As Boolean = True)
+            ctrlPoint.X *= ammount.X
+            ctrlPoint.Y *= ammount.Y
+
+            MyBase.Multiply(ammount, refMirror)
+        End Sub
+
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             ctrlPoint.X += ammount.X
             ctrlPoint.Y += ammount.Y
@@ -960,6 +1000,15 @@ Public Module Commands
             dup.RefreshPrevPPoint()
             Return dup
         End Function
+
+        Public Overrides Sub Multiply(ByRef ammount As PointF, Optional refMirror As Boolean = True)
+            ctrlPoint1.X *= ammount.X
+            ctrlPoint1.Y *= ammount.Y
+            ctrlPoint2.X *= ammount.X
+            ctrlPoint2.Y *= ammount.Y
+
+            MyBase.Multiply(ammount, refMirror)
+        End Sub
 
         Public Overrides Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             ctrlPoint1.X += ammount.X

@@ -425,7 +425,7 @@ Public NotInheritable Class SVG
         Dim ppType As PointType = PointType.moveto
         Dim lastPP As PathPoint = Nothing
         Dim relative As Boolean = False
-
+        Dim lastLock As Boolean = historyLock
         historyLock = True
         SVG.Clear()
         ClearBkgTemplates()
@@ -649,7 +649,7 @@ Public NotInheritable Class SVG
             newBkgt.visible = CBool(itemAttribs("visible"))
             AddBkgTemplate(newBkgt)
         Next
-        historyLock = False
+        historyLock = lastLock
         AddToHistory()
     End Sub
 

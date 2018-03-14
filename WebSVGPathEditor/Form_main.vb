@@ -170,16 +170,22 @@ Public Class Form_main
         Combo_templates.Items.Add(IO.Path.GetFileNameWithoutExtension(bkgTemp.path))
         Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     Public Sub SVG_OnBkgTemplateRemoving(ByRef bkgTemp As BkgTemplate, index As Integer)
         Combo_templates.Items.RemoveAt(index)
         Combo_templates.SelectedIndex = Combo_templates.Items.Count - 1
         Pic_canvas.Invalidate()
+
+        AddToHistory()
     End Sub
 
     Public Sub SVG_OnBkgTemplatesClear()
         Combo_templates.Items.Clear()
+
+        AddToHistory()
     End Sub
 
     Public Sub SVG_OnCanvasOffsetChanged(ByVal newVal As Point)
@@ -806,8 +812,8 @@ Public Class Form_main
         Static penAxis As New Pen(Color.FromArgb(150, Color.Chocolate), 1)
         Static penCentralAxis As New Pen(Color.FromArgb(100, Color.White), 1)
 
-        Dim ht As New HiResTimer
-        ht.Start()
+        'Dim ht As New HiResTimer
+        'ht.Start()
 
         'Draw the back grid (stiky grid)
         Dim visibleRect As Rectangle = GetVisibleCanvasRect()
@@ -1280,6 +1286,7 @@ Public Class Form_main
             SVG.SelectedPath.StrokeColor = Col_stroke.BackColor
             Pic_canvas.Invalidate()
         End If
+        AddToHistory()
     End Sub
 
     Private Sub Col_fill_Click(sender As Object, e As EventArgs) Handles Col_fill.Click
@@ -1288,6 +1295,7 @@ Public Class Form_main
             SVG.SelectedPath.FillColor = Col_fill.BackColor
             Pic_canvas.Invalidate()
         End If
+        AddToHistory()
     End Sub
 
     Private Sub Num_strokeAlpha_ValueChanged(sender As Object, e As EventArgs) Handles Num_strokeAlpha.ValueChanged
@@ -1304,6 +1312,10 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
+    Private Sub Num_strokeAlpha_LostFocus(sender As Object, e As EventArgs) Handles Num_strokeAlpha.LostFocus, Num_fillAlpha.LostFocus
+        AddToHistory()
+    End Sub
+
     Private Sub Pic_canvas_MouseLeave(sender As Object, e As EventArgs) Handles Pic_canvas.MouseLeave
         'Timer_canvasMMove.Enabled = False
     End Sub
@@ -1318,6 +1330,10 @@ Public Class Form_main
 
     Private Sub Num_canvasHeight_ValueChanged(sender As Object, e As EventArgs) Handles Num_canvasHeight.ValueChanged
         SVG.CanvasSize = New SizeF(SVG.CanvasSize.Width, Num_canvasHeight.Value)
+    End Sub
+
+    Private Sub Num_canvasWidth_LostFocus(sender As Object, e As EventArgs) Handles Num_canvasWidth.LostFocus, Num_canvasHeight.LostFocus
+        AddToHistory()
     End Sub
 
     Private Sub Num_zoom_ValueChanged(sender As Object, e As EventArgs) Handles Num_zoom.ValueChanged
@@ -1430,6 +1446,7 @@ Public Class Form_main
         SVG.ParseString(Tb_html.Text.ToString)
         Focus()
         Tb_html.Focus()
+        AddToHistory()
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
@@ -1519,6 +1536,10 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
+    Private Sub Num_strokeWidth_LostFocus(sender As Object, e As EventArgs) Handles Num_strokeWidth.LostFocus
+        AddToHistory()
+    End Sub
+
     Private Sub Num_stikyGWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_stikyGWidth.ValueChanged
         SVG.StikyGrid = New SizeF(Num_stikyGWidth.Value, SVG.StikyGrid.Height)
     End Sub
@@ -1599,6 +1620,7 @@ Public Class Form_main
             If indx - 1 < 0 Then Continue For
             Lb_figures.SelectedIndex = indx - 1
         Next
+        AddToHistory()
     End Sub
 
     Private Sub But_figMoveDown_Click(sender As Object, e As EventArgs) Handles But_figMoveDown.Click
@@ -1612,6 +1634,7 @@ Public Class Form_main
             If indx + 1 > Lb_figures.Items.Count - 1 Then Continue For
             Lb_figures.SelectedIndex = indx + 1
         Next
+        AddToHistory()
     End Sub
 
     Private Sub But_figMoveTop_Click(sender As Object, e As EventArgs) Handles But_figMoveTop.Click
@@ -1625,6 +1648,7 @@ Public Class Form_main
             If indx - indxShift < 0 Then Continue For
             Lb_figures.SelectedIndex = indx - indxShift
         Next
+        AddToHistory()
     End Sub
 
     Private Sub But_figMoveBottom_Click(sender As Object, e As EventArgs) Handles But_figMoveBottom.Click
@@ -1639,6 +1663,7 @@ Public Class Form_main
             If indx + indxShift > Lb_figures.Items.Count - 1 Then Continue For
             Lb_figures.SelectedIndex = indx + indxShift
         Next
+        AddToHistory()
     End Sub
 
     Private Sub Lb_paths_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_paths.SelectedIndexChanged
@@ -1673,10 +1698,13 @@ Public Class Form_main
             If indx - 1 < 0 Then Continue For
             SVG.ChangePathIndex(indx, indx - 1)
         Next
+        Lb_paths.SelectionMode = SelectionMode.None
+        Lb_paths.SelectionMode = SelectionMode.MultiExtended
         For Each indx As Integer In selIndxes
             If indx - 1 < 0 Then Continue For
             Lb_paths.SelectedIndex = indx - 1
         Next
+        AddToHistory()
     End Sub
 
     Private Sub But_pathMoveDown_Click(sender As Object, e As EventArgs) Handles But_pathMoveDown.Click
@@ -1686,10 +1714,13 @@ Public Class Form_main
             If indx + 1 > Lb_paths.Items.Count - 1 Then Continue For
             SVG.ChangePathIndex(indx, indx + 1)
         Next
+        Lb_paths.SelectionMode = SelectionMode.None
+        Lb_paths.SelectionMode = SelectionMode.MultiExtended
         For Each indx As Integer In selIndxes
             If indx + 1 > Lb_paths.Items.Count - 1 Then Continue For
             Lb_paths.SelectedIndex = indx + 1
         Next
+        AddToHistory()
     End Sub
 
     Private Sub But_pathMoveTop_Click(sender As Object, e As EventArgs) Handles But_pathMoveTop.Click
@@ -1699,10 +1730,13 @@ Public Class Form_main
             If indx - indxShift < 0 Then Continue For
             SVG.ChangePathIndex(indx, indx - indxShift)
         Next
+        Lb_paths.SelectionMode = SelectionMode.None
+        Lb_paths.SelectionMode = SelectionMode.MultiExtended
         For Each indx As Integer In selIndxes
             If indx - indxShift < 0 Then Continue For
             Lb_paths.SelectedIndex = indx - indxShift
         Next
+        AddToHistory()
     End Sub
 
     Private Sub But_pathMoveBottom_Click(sender As Object, e As EventArgs) Handles But_pathMoveBottom.Click
@@ -1713,16 +1747,22 @@ Public Class Form_main
             If indx + indxShift < 0 Then Continue For
             SVG.ChangePathIndex(indx, indx + indxShift)
         Next
+        Lb_paths.SelectionMode = SelectionMode.None
+        Lb_paths.SelectionMode = SelectionMode.MultiExtended
         For Each indx As Integer In selIndxes
             If indx + indxShift > Lb_paths.Items.Count - 1 Then Continue For
             Lb_paths.SelectedIndex = indx + indxShift
         Next
+        AddToHistory()
     End Sub
 
     Private Sub But_pathRename_Click(sender As Object, e As EventArgs) Handles But_pathRename.Click
         If SVG.SelectedPath Is Nothing Then Return
         Dim newId = InputBox("Insert new path Id", "New Id", SVG.SelectedPath.Id)
-        If newId.Length > 0 Then SVG.SelectedPath.Id = newId
+        If newId.Length > 0 Then
+            SVG.SelectedPath.Id = newId
+            AddToHistory()
+        End If
     End Sub
 
     Private Sub Timer_autoBackup_Tick(sender As Object, e As EventArgs) Handles Timer_autoBackup.Tick
@@ -1826,9 +1866,15 @@ Public Class Form_main
         Pic_canvas.Refresh()
     End Sub
 
+    Private Sub Num_templateXYWH_LostFocus(sender As Object, e As EventArgs) Handles Num_templateX.LostFocus, Num_templateY.LostFocus, Num_templateW.LostFocus, Num_templateH.LostFocus
+        AddToHistory()
+    End Sub
+
     Private Sub Cb_templateKeepAspect_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_templateKeepAspect.CheckedChanged
         If SVG.selectedBkgTemp Is Nothing Then Return
         SVG.selectedBkgTemp.keepAspect = Cb_templateKeepAspect.Checked
+
+        AddToHistory()
         'Pic_canvas.Invalidate()
     End Sub
 
@@ -1841,11 +1887,14 @@ Public Class Form_main
         If SVG.selectedBkgTemp Is Nothing Then Return
         SVG.selectedBkgTemp.visible = Cb_templateVisible.Checked
         Pic_canvas.Refresh()
+
+        AddToHistory()
     End Sub
 
     Private Sub ScaleToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem1.Click
         Me.Enabled = False
         Form_scale.Show()
+        Form_scale.SetScalingObjective(Form_scale.ScalingObjective.Figures)
     End Sub
 
     Private Sub Tb_html_Enter(sender As Object, e As EventArgs) Handles Tb_html.Enter
@@ -1885,4 +1934,19 @@ Public Class Form_main
         VScroll_canvasY.Tag = False
     End Sub
 
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        SVG.Clear()
+    End Sub
+
+    Private Sub ScaleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem.Click
+        Me.Enabled = False
+        Form_scale.Show()
+        Form_scale.SetScalingObjective(Form_scale.ScalingObjective.Paths)
+    End Sub
+
+    Private Sub ScaleToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem2.Click
+        Me.Enabled = False
+        Form_scale.Show()
+        Form_scale.SetScalingObjective(Form_scale.ScalingObjective.SVG)
+    End Sub
 End Class

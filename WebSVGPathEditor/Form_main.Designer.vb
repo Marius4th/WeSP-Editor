@@ -176,6 +176,10 @@ Partial Class Form_main
         Me.Timer_refresh = New System.Windows.Forms.Timer(Me.components)
         Me.VScroll_canvasY = New System.Windows.Forms.VScrollBar()
         Me.HScroll_canvasX = New System.Windows.Forms.HScrollBar()
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ScaleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ScaleToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -275,7 +279,7 @@ Partial Class Form_main
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.LoadToolStripMenuItem, Me.ToolStripSeparator12, Me.LoadBackupToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripSeparator13, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.LoadToolStripMenuItem, Me.ToolStripSeparator12, Me.LoadBackupToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         resources.ApplyResources(Me.FileToolStripMenuItem, "FileToolStripMenuItem")
         '
@@ -373,7 +377,7 @@ Partial Class Form_main
         '
         'SVGToolStripMenuItem
         '
-        Me.SVGToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveTo00ToolStripMenuItem1, Me.CropToolStripMenuItem, Me.ToolStripSeparator5, Me.ClearToolStripMenuItem2})
+        Me.SVGToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MoveTo00ToolStripMenuItem1, Me.CropToolStripMenuItem, Me.ScaleToolStripMenuItem2, Me.ToolStripSeparator5, Me.ClearToolStripMenuItem2})
         Me.SVGToolStripMenuItem.Name = "SVGToolStripMenuItem"
         resources.ApplyResources(Me.SVGToolStripMenuItem, "SVGToolStripMenuItem")
         '
@@ -399,7 +403,7 @@ Partial Class Form_main
         '
         'PathToolStripMenuItem
         '
-        Me.PathToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator4, Me.MoveTo00ToolStripMenuItem, Me.RoundPositionsToolStripMenuItem, Me.ToolStripSeparator2, Me.ClearToolStripMenuItem, Me.DeleteToolStripMenuItem})
+        Me.PathToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem1, Me.ToolStripSeparator4, Me.MoveTo00ToolStripMenuItem, Me.RoundPositionsToolStripMenuItem, Me.ScaleToolStripMenuItem, Me.ToolStripSeparator2, Me.ClearToolStripMenuItem, Me.DeleteToolStripMenuItem})
         Me.PathToolStripMenuItem.Name = "PathToolStripMenuItem"
         resources.ApplyResources(Me.PathToolStripMenuItem, "PathToolStripMenuItem")
         '
@@ -1272,6 +1276,26 @@ Partial Class Form_main
         resources.ApplyResources(Me.HScroll_canvasX, "HScroll_canvasX")
         Me.HScroll_canvasX.Name = "HScroll_canvasX"
         '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        resources.ApplyResources(Me.NewToolStripMenuItem, "NewToolStripMenuItem")
+        '
+        'ToolStripSeparator13
+        '
+        Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
+        resources.ApplyResources(Me.ToolStripSeparator13, "ToolStripSeparator13")
+        '
+        'ScaleToolStripMenuItem
+        '
+        Me.ScaleToolStripMenuItem.Name = "ScaleToolStripMenuItem"
+        resources.ApplyResources(Me.ScaleToolStripMenuItem, "ScaleToolStripMenuItem")
+        '
+        'ScaleToolStripMenuItem2
+        '
+        Me.ScaleToolStripMenuItem2.Name = "ScaleToolStripMenuItem2"
+        resources.ApplyResources(Me.ScaleToolStripMenuItem2, "ScaleToolStripMenuItem2")
+        '
         'Form_main
         '
         resources.ApplyResources(Me, "$this")
@@ -1503,4 +1527,8 @@ Partial Class Form_main
     Friend WithEvents Timer_refresh As Timer
     Friend WithEvents VScroll_canvasY As VScrollBar
     Friend WithEvents HScroll_canvasX As HScrollBar
+    Friend WithEvents NewToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator13 As ToolStripSeparator
+    Friend WithEvents ScaleToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ScaleToolStripMenuItem2 As ToolStripMenuItem
 End Class
