@@ -1,5 +1,7 @@
 # WeSP-Editor
-A simple program for creating and editing SVG Paths for the web.
+A simple program for creating and editing SVG Paths for the web. It is a bit like a pixel art editor but for SVGs, you draw the individual points in the path and have total control over their properties.
+
+![WeSP](WeSP.jpg?raw=true "WeSP")
 
 I started this project for fun, to learn about SVGs and to make something easy to use for making/editing SVG paths for the web.
 
