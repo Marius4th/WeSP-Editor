@@ -47,7 +47,7 @@ Partial Class Form_help
         Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.GroupBox1.Size = New System.Drawing.Size(751, 115)
+        Me.GroupBox1.Size = New System.Drawing.Size(751, 101)
         Me.GroupBox1.TabIndex = 1
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Drawing Tools"
@@ -62,7 +62,7 @@ Partial Class Form_help
         Me.TextBox2.Multiline = True
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.ReadOnly = True
-        Me.TextBox2.Size = New System.Drawing.Size(722, 88)
+        Me.TextBox2.Size = New System.Drawing.Size(722, 76)
         Me.TextBox2.TabIndex = 2
         Me.TextBox2.Text = resources.GetString("TextBox2.Text")
         '
@@ -70,7 +70,7 @@ Partial Class Form_help
         '
         Me.GroupBox2.Controls.Add(Me.TextBox1)
         Me.GroupBox2.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(13, 133)
+        Me.GroupBox2.Location = New System.Drawing.Point(13, 119)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -99,11 +99,11 @@ Partial Class Form_help
         '
         Me.GroupBox3.Controls.Add(Me.TextBox3)
         Me.GroupBox3.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox3.Location = New System.Drawing.Point(13, 214)
+        Me.GroupBox3.Location = New System.Drawing.Point(13, 200)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
-        Me.GroupBox3.Size = New System.Drawing.Size(751, 75)
+        Me.GroupBox3.Size = New System.Drawing.Size(751, 85)
         Me.GroupBox3.TabIndex = 3
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Any Tool"
@@ -118,10 +118,9 @@ Partial Class Form_help
         Me.TextBox3.Multiline = True
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(722, 48)
+        Me.TextBox3.Size = New System.Drawing.Size(722, 61)
         Me.TextBox3.TabIndex = 1
-        Me.TextBox3.Text = "-Use ""CTRL"" + ""MOUSE WHEEL"" to zoom in and out." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "-Use ""CTRL"" + ""A"" to select all " &
-    "figure's points." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "-Use ""CTRL"" + ""D"" to deselect all selected points."
+        Me.TextBox3.Text = resources.GetString("TextBox3.Text")
         '
         'Panel1
         '
@@ -133,14 +132,14 @@ Partial Class Form_help
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(779, 384)
+        Me.Panel1.Size = New System.Drawing.Size(779, 375)
         Me.Panel1.TabIndex = 4
         '
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.TextBox4)
         Me.GroupBox4.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox4.Location = New System.Drawing.Point(13, 295)
+        Me.GroupBox4.Location = New System.Drawing.Point(13, 291)
         Me.GroupBox4.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.GroupBox4.Name = "GroupBox4"
         Me.GroupBox4.Padding = New System.Windows.Forms.Padding(4, 3, 4, 3)
@@ -169,7 +168,7 @@ Partial Class Form_help
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 14.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(779, 384)
+        Me.ClientSize = New System.Drawing.Size(779, 375)
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Verdana", 9.0!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow

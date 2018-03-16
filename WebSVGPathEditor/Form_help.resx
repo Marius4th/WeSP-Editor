@@ -122,7 +122,12 @@
 -While modifying points:
 	-Hold "SHIFT" to stick points to angles of 45º.
 		-Elliptical Arcs: When modifying secondary points, "SHIFT" will convert it into a circle instead.
-	-Hold "ALT" to stick points to the 1x1 grid.
--Use the "MIDDLE MOUSE BUTTON" to navigate the canvas.</value>
+	-Hold "ALT" to stick points to the 1x1 grid.</value>
+  </data>
+  <data name="TextBox3.Text" xml:space="preserve">
+    <value>-Use the "MIDDLE MOUSE BUTTON" to navigate the canvas.
+-Use "CTRL" + "MOUSE WHEEL" to zoom in and out.
+-Use "CTRL" + "A" to select all figure's points.
+-Use "CTRL" + "D" to deselect all selected points.</value>
   </data>
 </root>
