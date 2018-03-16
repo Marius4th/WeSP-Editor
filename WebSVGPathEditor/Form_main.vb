@@ -1597,7 +1597,10 @@ Public Class Form_main
     End Sub
 
     Private Sub But_mirror_Click(sender As Object, e As EventArgs) Handles But_mirror.Click
-        SVG.SelectedPoint.Clone(1, Nothing)
+        For Each pp As PathPoint In SVG.selectedPoints
+            pp.BreakMirror()
+        Next
+        Pic_canvas.Invalidate()
     End Sub
 
     Private Sub Cb_optimize_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_optimize.CheckedChanged

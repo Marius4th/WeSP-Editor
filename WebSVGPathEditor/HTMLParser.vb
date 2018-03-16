@@ -94,7 +94,7 @@ Public Class HTMLParser
         Dim attrs As New Dictionary(Of String, String)
         'html = html.Replace("'", """")
         'propName = propName.Replace("'", """")
-        Dim rxEnd As New Regex("/>[\s\n]+|>[\s\n]+")
+        Dim rxEnd As New Regex("/>[\s\n]+|>[\s\n]+|><")
 
         html = Regex.Replace(html, "^[\s\t]*<\w+\s+", "")
         html = rxEnd.Split(html, 2)(0)

@@ -51,7 +51,8 @@
 
         For Each pp As PathPoint In _points
             If pp.pointType = PointType.moveto Then Continue For
-            pp.Offset(New PointF((moveto.Pos.X - pp.Pos.X) * 2.0, 0))
+            pp.Offset(New PointF((moveto.Pos.X - pp.Pos.X) * 2.0, 0), False)
+            pp.FlipSecondary(Orientation.Horizontal)
         Next
     End Sub
 
@@ -60,7 +61,8 @@
 
         For Each pp As PathPoint In _points
             If pp.pointType = PointType.moveto Then Continue For
-            pp.Offset(New PointF(0, (moveto.Pos.Y - pp.Pos.Y) * 2.0))
+            pp.Offset(New PointF(0, (moveto.Pos.Y - pp.Pos.Y) * 2.0), False)
+            pp.FlipSecondary(Orientation.Vertical)
         Next
     End Sub
 

@@ -36,8 +36,8 @@ Public Module Commands
         Implements IDisposable
 
         Public pointType As PointType
-        Private _pos As CPointF
-        Private _prevPPoint As PathPoint
+        Protected _pos As CPointF
+        Protected _prevPPoint As PathPoint
         Public selPoint As CPointF
         Public mirroredPP As PathPoint      'Only mirror the position
         Public mirroredPos As PathPoint    'Mirror the econdary info
@@ -217,6 +217,19 @@ Public Module Commands
             End If
         End Sub
 
+        Public Sub BreakMirror()
+            If mirroredPos IsNot Nothing Then
+                mirroredPos.mirroredPos = Nothing
+                mirroredPos.nonInteractve = False
+                mirroredPos = Nothing
+                nonInteractve = False
+            End If
+            If mirroredPP IsNot Nothing Then
+                mirroredPP.mirroredPP = Nothing
+                mirroredPP = Nothing
+            End If
+        End Sub
+
         Public Sub RefreshPosition()
             'If mirroredPos.pointType = PointType.moveto Then
             '    SetPosition(mirroredPos.pos, False)
@@ -318,6 +331,10 @@ Public Module Commands
             'enqueued = True
             If refMirror Then RefreshMirror()
             RaiseEvent OnModified(Me)
+        End Sub
+
+        Public Overridable Sub FlipSecondary(dir As Orientation)
+
         End Sub
 
         Public Overridable Sub SetPosition(ByRef position As PointF, Optional refMirror As Boolean = True)
@@ -701,6 +718,19 @@ Public Module Commands
             'If refMirror = True Then RefreshMirror()
         End Sub
 
+        Public Overrides Sub FlipSecondary(dir As Orientation)
+            'flarge = Not flarge
+            fsweep = Not fsweep
+            selPoint = _secAngleRad
+
+            Select Case dir
+                Case Orientation.Horizontal
+                    OffsetSelPoint(New PointF(0, 0), New PointF((_secCenter.X - _secAngleRad.X) * 2, 0), 0, False)
+                Case Orientation.Vertical
+                    OffsetSelPoint(New PointF(0, 0), New PointF(0, (_secCenter.Y - _secAngleRad.Y) * 2), 0, False)
+            End Select
+        End Sub
+
         Public Overrides Function GetStringAbsolute() As String
             Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutRadii As PointF = CutDecimals(radii)
@@ -884,6 +914,15 @@ Public Module Commands
             MyBase.Offset(ammount, refMirror)
         End Sub
 
+        Public Overrides Sub FlipSecondary(dir As Orientation)
+            Select Case dir
+                Case Orientation.Horizontal
+                    ctrlPoint.X += (_pos.X - ctrlPoint.X) * 2
+                Case Orientation.Vertical
+                    ctrlPoint.Y += (_pos.Y - ctrlPoint.Y) * 2
+            End Select
+        End Sub
+
         Public Overrides Function GetStringAbsolute() As String
             Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutCtrlPt As PointF = CutDecimals(ctrlPoint)
@@ -1017,6 +1056,17 @@ Public Module Commands
             ctrlPoint2.Y += ammount.Y
 
             MyBase.Offset(ammount, refMirror)
+        End Sub
+
+        Public Overrides Sub FlipSecondary(dir As Orientation)
+            Select Case dir
+                Case Orientation.Horizontal
+                    ctrlPoint1.X += (_pos.X - ctrlPoint1.X) * 2
+                    ctrlPoint2.X += (_pos.X - ctrlPoint2.X) * 2
+                Case Orientation.Vertical
+                    ctrlPoint1.Y += (_pos.Y - ctrlPoint1.Y) * 2
+                    ctrlPoint2.Y += (_pos.Y - ctrlPoint2.Y) * 2
+            End Select
         End Sub
 
         Public Overrides Function GetStringAbsolute() As String

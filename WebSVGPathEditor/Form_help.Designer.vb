@@ -162,7 +162,8 @@ Partial Class Form_help
         Me.TextBox4.Size = New System.Drawing.Size(722, 48)
         Me.TextBox4.TabIndex = 1
         Me.TextBox4.Text = "-Use ""SHIFT"" to move all the points in the selected paths." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "-Use ""SPACE"" to move " &
-    "all the points in the entire SVG."
+    "all the points in the entire SVG." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "-Use ""CTRL"" to stop the closest point auto se" &
+    "lection."
         '
         'Form_help
         '
