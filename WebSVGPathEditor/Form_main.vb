@@ -14,7 +14,7 @@
 'You should have received a copy Of the GNU General Public License
 'along with this program.  If Not, see < https: //www.gnu.org/licenses/>.
 
-Imports System.Windows.Input
+Imports System.Text.RegularExpressions
 
 Public Class Form_main
 
@@ -415,6 +415,19 @@ Public Class Form_main
     'Custom Events
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Subroutines and Functions
+
+    Public Sub LoadVectorFile(fpath As String)
+        On Error Resume Next
+        filePath = fpath
+        Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
+        SVG.ParseString(IO.File.ReadAllText(filePath))
+    End Sub
+
+    Public Sub LoadBkgTemplateFile(fpath As String)
+        On Error Resume Next
+        Dim newBTemp As New BkgTemplate(fpath)
+        SVG.AddBkgTemplate(newBTemp)
+    End Sub
 
     Public Sub HighlightButton(ByRef but As Button, highlight As Boolean)
         If highlight Then
@@ -1479,9 +1492,7 @@ Public Class Form_main
     Private Sub LoadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadToolStripMenuItem.Click
         OpenFileDialog1.Filter = "WSVG|*.wsvg"
         If OpenFileDialog1.ShowDialog = DialogResult.OK Then
-            filePath = OpenFileDialog1.FileName
-            Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
-            SVG.ParseString(IO.File.ReadAllText(filePath))
+            LoadVectorFile(OpenFileDialog1.FileName)
         End If
     End Sub
 
@@ -1822,8 +1833,7 @@ Public Class Form_main
     Private Sub But_addTemplate_Click(sender As Object, e As EventArgs) Handles But_addTemplate.Click
         OpenFileDialog1.Filter = "ALL|*.*|BMP|*.bmp|JPG, JPEG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tiff"
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            Dim newBTemp As New BkgTemplate(OpenFileDialog1.FileName)
-            SVG.AddBkgTemplate(newBTemp)
+            LoadBkgTemplateFile(OpenFileDialog1.FileName)
         End If
     End Sub
 
@@ -1951,5 +1961,26 @@ Public Class Form_main
         Me.Enabled = False
         Form_scale.Show()
         Form_scale.SetScalingObjective(Form_scale.ScalingObjective.SVG)
+    End Sub
+
+    Private Sub Form_main_DragEnter(sender As Object, e As DragEventArgs) Handles MyBase.DragEnter
+        If (e.Data.GetDataPresent(DataFormats.FileDrop)) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+
+    Private Sub Form_main_DragDrop(sender As Object, e As DragEventArgs) Handles MyBase.DragDrop
+        Dim s() As String = e.Data.GetData("FileDrop", False)
+        Dim i As Integer
+        For i = 0 To s.Length - 1
+            Dim extension As String = IO.Path.GetExtension(s(i))
+            If extension = ".wsvg" Then
+                LoadVectorFile(s(i))
+            ElseIf Regex.IsMatch(s(i), ".bmp|.jpg|.jpeg|.png|.tiff") Then
+                LoadBkgTemplateFile(s(i))
+            End If
+        Next i
     End Sub
 End Class
