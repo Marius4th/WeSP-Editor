@@ -214,11 +214,13 @@ Public Class SVGPath
     End Sub
 
     Public Sub Offset(ammount As PointF)
-        SVG.selectedPoints.Clear()
         For Each fig As Figure In figures
+            'Select all point before moving so moveto's movement won't mess with the rest of the points
+            SVG.selectedPoints.Clear()
             For Each pp As PathPoint In fig
-                'If pp.isMirrorOrigin = False AndAlso pp.pointType <> PointType.moveto Then Continue For
                 SVG.selectedPoints.Add(pp)
+            Next
+            For Each pp As PathPoint In fig
                 pp.Offset(ammount)
             Next
         Next
