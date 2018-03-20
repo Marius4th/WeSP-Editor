@@ -128,7 +128,7 @@ Public Module Commands
 
         Public Overridable Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
-            Dim dup As New PathPoint(Me.pointType, CType(Me.pos, PointF), pa)
+            Dim dup As New PathPoint(Me.pointType, CType(Me.Pos, PointF), pa)
             pa.Insert(destIndex, dup, False)
             dup.RefreshPrevPPoint()
             Return dup
@@ -303,7 +303,7 @@ Public Module Commands
         Public Overridable Sub Offset(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             If pos Is Nothing Then Return
             pos.X += ammount.X
-            pos.Y += ammount.Y
+            Pos.Y += ammount.Y
             If refMirror Then RefreshMirror()
             RaiseEvent OnModified(Me)
         End Sub
@@ -524,6 +524,14 @@ Public Module Commands
             'pos = position
         End Sub
 
+        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+            If pa Is Nothing Then pa = Me.parent
+            Dim dup As New PPMoveto(CType(Me.Pos, PointF), pa)
+            pa.Insert(destIndex, dup, False)
+            dup.RefreshPrevPPoint()
+            Return dup
+        End Function
+
         Public Overrides Sub Multiply(ByRef ammount As PointF, Optional refMirror As Boolean = True)
             If Pos Is Nothing Then Return
             MyBase.Multiply(ammount, refMirror)
@@ -585,6 +593,14 @@ Public Module Commands
             'pointType = ptye
             'pos = position
         End Sub
+
+        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+            If pa Is Nothing Then pa = Me.parent
+            Dim dup As New PPLineto(CType(Me.Pos, PointF), pa)
+            pa.Insert(destIndex, dup, False)
+            dup.RefreshPrevPPoint()
+            Return dup
+        End Function
 
     End Class
 

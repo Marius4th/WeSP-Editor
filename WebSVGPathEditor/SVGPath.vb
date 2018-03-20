@@ -214,8 +214,11 @@ Public Class SVGPath
     End Sub
 
     Public Sub Offset(ammount As PointF)
+        SVG.selectedPoints.Clear()
         For Each fig As Figure In figures
             For Each pp As PathPoint In fig
+                'If pp.isMirrorOrigin = False AndAlso pp.pointType <> PointType.moveto Then Continue For
+                SVG.selectedPoints.Add(pp)
                 pp.Offset(ammount)
             Next
         Next

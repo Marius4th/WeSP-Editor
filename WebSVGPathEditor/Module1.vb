@@ -48,12 +48,13 @@ Public Module Module1
 
     Public history As New List(Of String)
     Public historySelected As Integer = 0
-    Public historyLock As Boolean = True
+    Private historyLocked As Boolean = True
+    Private historyLastLockState As Boolean = False
     Public modsSinceLastBkp As Integer = -2
     Public modsSinceLastSave As Integer = -2
 
     Public Sub AddToHistory()
-        If historyLock Then Return
+        If historyLocked Then Return
         Dim latest As String = SVG.GetHtml(optimizePath)
 
         If historySelected < history.Count - 1 Then
@@ -70,20 +71,29 @@ Public Module Module1
 
     Public Sub Undo()
         If history.Count <= 0 Then Return
-        historyLock = True
+        historyLocked = True
         historySelected = Math.Max(historySelected - 1, 0)
         SVG.ParseString(history(historySelected))
-        historyLock = False
+        historyLocked = False
         modsSinceLastSave += 1
     End Sub
 
     Public Sub Redo()
         If history.Count <= 0 Then Return
-        historyLock = True
+        historyLocked = True
         historySelected = Math.Min(historySelected + 1, history.Count - 1)
         SVG.ParseString(history(historySelected))
-        historyLock = False
+        historyLocked = False
         modsSinceLastSave += 1
+    End Sub
+
+    Public Sub HistoryLock()
+        historyLastLockState = historyLocked
+        historyLocked = True
+    End Sub
+
+    Public Sub HistoryLockRestore()
+        historyLocked = historyLastLockState
     End Sub
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

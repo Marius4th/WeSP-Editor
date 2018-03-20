@@ -180,6 +180,8 @@ Partial Class Form_main
         Me.Timer_refresh = New System.Windows.Forms.Timer(Me.components)
         Me.VScroll_canvasY = New System.Windows.Forms.VScrollBar()
         Me.HScroll_canvasX = New System.Windows.Forms.HScrollBar()
+        Me.But_bkgTempCenter = New System.Windows.Forms.Button()
+        Me.But_bkgTempFill = New System.Windows.Forms.Button()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -969,6 +971,8 @@ Partial Class Form_main
         'TabPage3
         '
         Me.TabPage3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TabPage3.Controls.Add(Me.But_bkgTempFill)
+        Me.TabPage3.Controls.Add(Me.But_bkgTempCenter)
         Me.TabPage3.Controls.Add(Me.Cb_templateVisible)
         Me.TabPage3.Controls.Add(Me.Cb_templateKeepAspect)
         Me.TabPage3.Controls.Add(Me.Num_templateH)
@@ -1296,6 +1300,18 @@ Partial Class Form_main
         resources.ApplyResources(Me.HScroll_canvasX, "HScroll_canvasX")
         Me.HScroll_canvasX.Name = "HScroll_canvasX"
         '
+        'But_bkgTempCenter
+        '
+        resources.ApplyResources(Me.But_bkgTempCenter, "But_bkgTempCenter")
+        Me.But_bkgTempCenter.Name = "But_bkgTempCenter"
+        Me.But_bkgTempCenter.UseVisualStyleBackColor = True
+        '
+        'But_bkgTempFill
+        '
+        resources.ApplyResources(Me.But_bkgTempFill, "But_bkgTempFill")
+        Me.But_bkgTempFill.Name = "But_bkgTempFill"
+        Me.But_bkgTempFill.UseVisualStyleBackColor = True
+        '
         'Form_main
         '
         Me.AllowDrop = True
@@ -1532,4 +1548,6 @@ Partial Class Form_main
     Friend WithEvents ToolStripSeparator13 As ToolStripSeparator
     Friend WithEvents ScaleToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ScaleToolStripMenuItem2 As ToolStripMenuItem
+    Friend WithEvents But_bkgTempFill As Button
+    Friend WithEvents But_bkgTempCenter As Button
 End Class

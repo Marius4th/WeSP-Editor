@@ -414,6 +414,7 @@ Public NotInheritable Class SVG
 
     Public Shared Sub AttributesSetDefaults()
         _attributes.Clear()
+        _attributes("xmlns") = "http://www.w3.org/2000/svg"
         _attributes("viewbox") = "0 0 64 64"
         _attributes("width") = "64px"
         _attributes("height") = "64px"
@@ -425,8 +426,8 @@ Public NotInheritable Class SVG
         Dim ppType As PointType = PointType.moveto
         Dim lastPP As PathPoint = Nothing
         Dim relative As Boolean = False
-        Dim lastLock As Boolean = historyLock
-        historyLock = True
+        'Dim lastLock As Boolean = HistoryLock()
+        HistoryLock()
         SVG.Clear()
         ClearBkgTemplates()
 
@@ -649,7 +650,8 @@ Public NotInheritable Class SVG
             newBkgt.visible = CBool(itemAttribs("visible"))
             AddBkgTemplate(newBkgt)
         Next
-        historyLock = lastLock
+
+        HistoryLockRestore()
         AddToHistory()
     End Sub
 

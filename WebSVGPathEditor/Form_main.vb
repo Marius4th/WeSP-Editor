@@ -567,7 +567,7 @@ Public Class Form_main
 
         Tb_html.Text = SVG.GetHtml(optimizePath)
 
-        historyLock = False
+        HistoryLockRestore()
         AddToHistory()
     End Sub
 
@@ -664,10 +664,10 @@ Public Class Form_main
 
                 Case Tool.Movement '----------------------------------------------------------------------------------------------
 
-                    If pressedKey = Keys.Space Then
-                        'Move the entire SVG (all paths)
+                    'If pressedKey = Keys.Space Then
+                    '    'Move the entire SVG (all paths)
 
-                    End If
+                    'End If
 
             End Select
         ElseIf e.Button = MouseButtons.Middle Then
@@ -715,7 +715,7 @@ Public Class Form_main
         Pic_canvas.Invalidate()
         'Timer_canvasMMove.Enabled = False
 
-        If pressedMButton <> MouseButtons.None Then
+        If pressedMButton = MouseButtons.Left Then
             AddToHistory()
         End If
 
@@ -749,8 +749,8 @@ Public Class Form_main
                     If pressedKey = Keys.Space Then
                         'Move the entire SVG (all paths)
                         SVG.Offset(mpos - mouseLastPos)
-                        mouseLastPos = mpos
 
+                        mouseLastPos = mpos
                         movingPoints = False
                     ElseIf My.Computer.Keyboard.ShiftKeyDown Then
                         'Move the entire Path (all figures in the selected paths)
@@ -1005,7 +1005,7 @@ Public Class Form_main
         If SVG.SelectedPath Is Nothing OrElse SVG.SelectedPath.selectedFigures.Count > 1 Then Return
         If SVG.SelectedFigure.mirrorOrient = Orientation.Vertical Then Return
 
-        historyLock = True
+        HistoryLock()
 
         Dim lastPP As PathPoint = SVG.GetSelectedPPLastInPath()
         SVG.SortSelectedPoints()
@@ -1028,7 +1028,7 @@ Public Class Form_main
             Pic_canvas.Invalidate()
         End If
 
-        historyLock = False
+        HistoryLockRestore()
         AddToHistory()
     End Sub
 
@@ -1036,7 +1036,7 @@ Public Class Form_main
         If SVG.SelectedPath Is Nothing OrElse SVG.SelectedPath.selectedFigures.Count > 1 Then Return
         If SVG.SelectedFigure.mirrorOrient = Orientation.Horizontal Then Return
 
-        historyLock = True
+        HistoryLock()
 
         Dim lastPP As PathPoint = SVG.GetSelectedPPLastInPath()
         SVG.SortSelectedPoints()
@@ -1059,7 +1059,7 @@ Public Class Form_main
             Pic_canvas.Invalidate()
         End If
 
-        historyLock = False
+        HistoryLockRestore()
         AddToHistory()
     End Sub
 
@@ -1948,6 +1948,7 @@ Public Class Form_main
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        SVG.CanvasSize = New SizeF(64, 64)
         SVG.Clear()
     End Sub
 
@@ -1982,5 +1983,24 @@ Public Class Form_main
                 LoadBkgTemplateFile(s(i))
             End If
         Next i
+    End Sub
+
+    Private Sub But_bkgTempCenter_Click(sender As Object, e As EventArgs) Handles But_bkgTempCenter.Click
+        If SVG.selectedBkgTemp Is Nothing Then Return
+        Dim cvCenter As New PointF(SVG.CanvasSize.Width / 2, SVG.CanvasSize.Height / 2)
+        Num_templateX.Value = cvCenter.X - (SVG.selectedBkgTemp.size.Width / 2)
+        Num_templateY.Value = cvCenter.Y - (SVG.selectedBkgTemp.size.Height / 2)
+        Pic_canvas.Refresh()
+
+        AddToHistory()
+    End Sub
+
+    Private Sub But_bkgTempFill_Click(sender As Object, e As EventArgs) Handles But_bkgTempFill.Click
+        If SVG.selectedBkgTemp Is Nothing Then Return
+        Num_templateH.Value = SVG.CanvasSize.Height
+        Num_templateW.Value = SVG.CanvasSize.Width
+        Num_templateX.Value = 0
+        Num_templateY.Value = 0
+        AddToHistory()
     End Sub
 End Class
