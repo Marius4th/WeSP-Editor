@@ -137,6 +137,8 @@ Partial Class Form_main
         Me.Num_canvasWidth = New System.Windows.Forms.NumericUpDown()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.But_bkgTempFill = New System.Windows.Forms.Button()
+        Me.But_bkgTempCenter = New System.Windows.Forms.Button()
         Me.Cb_templateVisible = New System.Windows.Forms.CheckBox()
         Me.Cb_templateKeepAspect = New System.Windows.Forms.CheckBox()
         Me.Num_templateH = New System.Windows.Forms.NumericUpDown()
@@ -180,8 +182,6 @@ Partial Class Form_main
         Me.Timer_refresh = New System.Windows.Forms.Timer(Me.components)
         Me.VScroll_canvasY = New System.Windows.Forms.VScrollBar()
         Me.HScroll_canvasX = New System.Windows.Forms.HScrollBar()
-        Me.But_bkgTempCenter = New System.Windows.Forms.Button()
-        Me.But_bkgTempFill = New System.Windows.Forms.Button()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -281,7 +281,7 @@ Partial Class Form_main
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripSeparator13, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.LoadToolStripMenuItem, Me.ToolStripSeparator12, Me.LoadBackupToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripSeparator13, Me.LoadToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.ToolStripSeparator12, Me.LoadBackupToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         resources.ApplyResources(Me.FileToolStripMenuItem, "FileToolStripMenuItem")
         '
@@ -988,6 +988,18 @@ Partial Class Form_main
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'But_bkgTempFill
+        '
+        resources.ApplyResources(Me.But_bkgTempFill, "But_bkgTempFill")
+        Me.But_bkgTempFill.Name = "But_bkgTempFill"
+        Me.But_bkgTempFill.UseVisualStyleBackColor = True
+        '
+        'But_bkgTempCenter
+        '
+        resources.ApplyResources(Me.But_bkgTempCenter, "But_bkgTempCenter")
+        Me.But_bkgTempCenter.Name = "But_bkgTempCenter"
+        Me.But_bkgTempCenter.UseVisualStyleBackColor = True
+        '
         'Cb_templateVisible
         '
         resources.ApplyResources(Me.Cb_templateVisible, "Cb_templateVisible")
@@ -1299,18 +1311,6 @@ Partial Class Form_main
         '
         resources.ApplyResources(Me.HScroll_canvasX, "HScroll_canvasX")
         Me.HScroll_canvasX.Name = "HScroll_canvasX"
-        '
-        'But_bkgTempCenter
-        '
-        resources.ApplyResources(Me.But_bkgTempCenter, "But_bkgTempCenter")
-        Me.But_bkgTempCenter.Name = "But_bkgTempCenter"
-        Me.But_bkgTempCenter.UseVisualStyleBackColor = True
-        '
-        'But_bkgTempFill
-        '
-        resources.ApplyResources(Me.But_bkgTempFill, "But_bkgTempFill")
-        Me.But_bkgTempFill.Name = "But_bkgTempFill"
-        Me.But_bkgTempFill.UseVisualStyleBackColor = True
         '
         'Form_main
         '

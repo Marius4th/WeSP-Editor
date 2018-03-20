@@ -1463,7 +1463,7 @@ Public Class Form_main
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        SaveFileDialog1.Filter = "WeSP SVG|*.wsvg"
+        SaveFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
 
         If filePath = defFilePath Then
             SaveFileDialog1.FileName = IO.Path.GetFileName(filePath)
@@ -1480,7 +1480,7 @@ Public Class Form_main
     End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsToolStripMenuItem.Click
-        SaveFileDialog1.Filter = "WSVG|*.wsvg"
+        SaveFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
         If SaveFileDialog1.ShowDialog = DialogResult.OK Then
             filePath = SaveFileDialog1.FileName
             Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
@@ -1490,7 +1490,7 @@ Public Class Form_main
     End Sub
 
     Private Sub LoadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadToolStripMenuItem.Click
-        OpenFileDialog1.Filter = "WSVG|*.wsvg"
+        OpenFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
         If OpenFileDialog1.ShowDialog = DialogResult.OK Then
             LoadVectorFile(OpenFileDialog1.FileName)
         End If
