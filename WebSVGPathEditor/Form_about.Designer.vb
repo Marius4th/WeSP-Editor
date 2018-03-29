@@ -51,9 +51,9 @@ Partial Class Form_about
         Me.Label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark
         Me.Label1.Location = New System.Drawing.Point(327, 182)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(140, 14)
+        Me.Label1.Size = New System.Drawing.Size(128, 14)
         Me.Label1.TabIndex = 4
-        Me.Label1.Text = "Version Alpha 0.2.3.2"
+        Me.Label1.Text = "Version Alpha 0.2.5"
         '
         'Label2
         '

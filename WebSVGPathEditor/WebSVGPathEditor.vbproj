@@ -253,6 +253,8 @@
     <None Include="Resources\moveUp.png" />
     <None Include="Resources\rename.png" />
     <None Include="Resources\checker.jpg" />
+    <None Include="Resources\ok.png" />
+    <None Include="Resources\ok2.png" />
     <Content Include="weSP.ico" />
   </ItemGroup>
   <ItemGroup>

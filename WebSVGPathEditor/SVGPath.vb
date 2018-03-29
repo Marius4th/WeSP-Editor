@@ -102,7 +102,7 @@ Public Class SVGPath
     Public Shared Event OnIdChanged(ByRef sender As SVGPath, id As String)
     Public Shared Event OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
     Public Shared Event OnChangeFigureIndex(ByRef sender As SVGPath, oldIndx As Integer, newIndx As Integer)
-
+    Public Shared Event OnSetAttribute(ByRef sender As SVGPath, attr As String, newVal As String)
 
     Public Sub New()
         _attributes.Add("id", "Path_" & _idCount)
@@ -578,6 +578,25 @@ Public Class SVGPath
         'transform.Reset()
         'transform.Translate(posDiff.X, posDiff.Y)
         'transform.Scale(sx, sy)
+    End Sub
+
+    Public Sub SetAttribute(name As String, value As String)
+        If _attributes.ContainsKey(name) Then
+            _attributes(name) = value
+        Else
+            _attributes.Add(name, value)
+        End If
+
+        Select Case name
+            Case "fill"
+                FillColor = HTMLParser.HTMLStringToColor(value)
+            Case "stroke"
+                StrokeColor = HTMLParser.HTMLStringToColor(value)
+            Case "stroke-width"
+                StrokeWidth = value.GetNumbers
+        End Select
+
+        RaiseEvent OnSetAttribute(Me, name, value)
     End Sub
 
 End Class

@@ -61,6 +61,7 @@ Public Class Form_main
         AddHandler SVGPath.OnIdChanged, AddressOf SVGPath_OnIdChanged
         AddHandler SVGPath.OnSelectFigure, AddressOf SVGPath_OnSelectFigure
         AddHandler SVGPath.OnChangeFigureIndex, AddressOf SVGPath_OnChangeFigureIndex
+        AddHandler SVGPath.OnSetAttribute, AddressOf SVGPath_OnSetAttribute
 
         AddHandler PathPoint.OnModified, AddressOf PPoint_OnModified
     End Sub
@@ -102,10 +103,11 @@ Public Class Form_main
         Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
         Lb_paths.SelectionMode = SelectionMode.MultiExtended
 
-        Col_stroke.BackColor = path.StrokeColor
-        Col_fill.BackColor = path.FillColor
-        Num_strokeAlpha.Value = path.StrokeColor.A
-        Num_fillAlpha.Value = path.FillColor.A
+        'Load atributes into the listbox
+        'Lb_attributes.Items.Clear()
+        'For Each attr In path.Attributes
+        '    Lb_attributes.Items.Add(attr.Key & ":" & attr.Value)
+        'Next
 
         AddToHistory()
     End Sub
@@ -123,17 +125,16 @@ Public Class Form_main
     End Sub
 
     Public Sub SVG_OnSelectPath(ByRef path As SVGPath)
-        Col_stroke.BackColor = path.StrokeColor
-        Col_fill.BackColor = path.FillColor
-        Num_strokeAlpha.Value = path.StrokeColor.A
-        Num_fillAlpha.Value = path.FillColor.A
-        Num_strokeWidth.Value = path.StrokeWidth
-
+        'Load atributes into the listbox
+        Lb_attributes.Items.Clear()
+        For Each attr In path.Attributes
+            Lb_attributes.Items.Add(attr.Key & ":" & attr.Value)
+        Next
+        'Load figures
         Lb_figures.Items.Clear()
         For Each fig In path.GetFigures
             Lb_figures.Items.Add("Figure_" & fig.GetIndex() + 1)
         Next
-
         'Change selected figure
         Lb_figures.SelectionMode = SelectionMode.None
         Lb_figures.SelectionMode = SelectionMode.MultiExtended
@@ -275,7 +276,7 @@ Public Class Form_main
 
     Public Sub SVGPath_OnStrokeWidthChanged(ByRef sender As SVGPath)
         If sender Is SVG.SelectedPath Then
-            Num_strokeWidth.Value = sender.StrokeWidth
+            'Num_strokeWidth.Value = sender.StrokeWidth
         End If
     End Sub
 
@@ -298,6 +299,14 @@ Public Class Form_main
         Dim oldItem = Lb_figures.Items(oldIndx)
         Lb_figures.Items.RemoveAt(oldIndx)
         Lb_figures.Items.Insert(newIndx, oldItem)
+    End Sub
+
+    Public Sub SVGPath_OnSetAttribute(ByRef sender As SVGPath, attr As String, newVal As String)
+        For i As Integer = 0 To Lb_attributes.Items.Count - 1
+            If Lb_attributes.Items(i).StartsWith(attr & ":") Then
+                Lb_attributes.Items(i) = attr & ":" & newVal
+            End If
+        Next
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
@@ -331,6 +340,8 @@ Public Class Form_main
     End Sub
 
     Public Sub PPoint_OnModified(ByRef pp As PathPoint)
+        Static tim As New Timer
+
         'Static tim As Timer = Nothing
         'If tim Is Nothing Then
         '    tim = New Timer
@@ -350,8 +361,16 @@ Public Class Form_main
         If index >= 0 Then
             Lb_selPoints.Items.Item(index) = pp.GetString(False)
         End If
-        Pic_canvas.Invalidate()
 
+        tim.Interval = 1000
+        tim.Enabled = False
+        tim.Enabled = True
+        AddHandler tim.Tick, Sub(ByVal sender As Object, ByVal e As EventArgs)
+                                 RefreshAttributesList()
+                                 CType(sender, Timer).Enabled = False
+                             End Sub
+
+        Pic_canvas.Invalidate()
     End Sub
 
     Public Sub SVGSelectedPoints_OnAdd(ByRef sender As ListWithEvents(Of PathPoint), ByRef d As PathPoint)
@@ -415,6 +434,65 @@ Public Class Form_main
     'Custom Events
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Subroutines and Functions
+
+    Public Sub LoadSettings()
+        'Load Attributes
+        For Each item As String In My.Settings.attrnames
+            If item.Length <= 0 Then Continue For
+            Combo_attrName.Items.Add(item)
+        Next
+        For Each item As String In My.Settings.attrvalues
+            If item.Length <= 0 Then Continue For
+            Combo_attrVal.Items.Add(item)
+        Next
+
+        'Load Recent Files
+        For Each item As String In My.Settings.recentfiles
+            If item = "/PLACEHOLDER\" Then Continue For
+            RecentFilesToolStripMenuItem.DropDownItems.Add(New ToolStripMenuItem(item, Nothing, Sub(ByVal sender As Object, ByVal e As EventArgs)
+                                                                                                    LoadVectorFile(item)
+                                                                                                End Sub))
+        Next
+    End Sub
+
+    Public Sub RecentFilesAdd(filePath)
+        If My.Settings.recentfiles.Contains(filePath) Then
+            My.Settings.recentfiles.Remove(filePath)
+        End If
+
+        My.Settings.recentfiles.Add(filePath)
+        RecentFilesToolStripMenuItem.DropDownItems.Add(New ToolStripMenuItem(filePath, Nothing, Sub(ByVal sender As Object, ByVal e As EventArgs)
+                                                                                                    LoadVectorFile(filePath)
+                                                                                                End Sub))
+
+        If My.Settings.recentfiles.Count > 10 Then
+            My.Settings.recentfiles.RemoveAt(My.Settings.recentfiles.Count - 1)
+        End If
+        My.Settings.Save()
+    End Sub
+
+    Public Sub RecentFilesLoad()
+
+    End Sub
+
+    Public Sub RefreshAttributesList()
+        'Load atributes into the listbox
+        If SVG.SelectedPath Is Nothing Then Return
+        Dim num As Integer = 0
+        'Lb_attributes.Items.Clear()
+        For Each attr In SVG.SelectedPath.Attributes
+            If Lb_attributes.Items.Count > num Then
+                Lb_attributes.Items(num) = attr.Key & ":" & attr.Value
+            Else
+                Lb_attributes.Items.Add(attr.Key & ":" & attr.Value)
+            End If
+            num += 1
+        Next
+
+        While Lb_attributes.Items.Count > SVG.SelectedPath.Attributes.Count
+            Lb_attributes.Items.RemoveAt(Lb_attributes.Items.Count - 1)
+        End While
+    End Sub
 
     Public Sub LoadVectorFile(fpath As String)
         On Error Resume Next
@@ -569,6 +647,8 @@ Public Class Form_main
 
         HistoryLockRestore()
         AddToHistory()
+
+        LoadSettings()
     End Sub
 
     'Initializations
@@ -718,6 +798,7 @@ Public Class Form_main
         If pressedMButton = MouseButtons.Left Then
             AddToHistory()
         End If
+        RefreshAttributesList()
 
         pressedMButton = MouseButtons.None
     End Sub
@@ -1293,42 +1374,6 @@ Public Class Form_main
         SVG.AddPath()
     End Sub
 
-    Private Sub Col_stroke_Click(sender As Object, e As EventArgs) Handles Col_stroke.Click
-        If ColorDialog1.ShowDialog = DialogResult.OK Then
-            Col_stroke.BackColor = Color.FromArgb(Num_strokeAlpha.Value, ColorDialog1.Color)
-            SVG.SelectedPath.StrokeColor = Col_stroke.BackColor
-            Pic_canvas.Invalidate()
-        End If
-        AddToHistory()
-    End Sub
-
-    Private Sub Col_fill_Click(sender As Object, e As EventArgs) Handles Col_fill.Click
-        If ColorDialog1.ShowDialog = DialogResult.OK Then
-            Col_fill.BackColor = Color.FromArgb(Num_fillAlpha.Value, ColorDialog1.Color)
-            SVG.SelectedPath.FillColor = Col_fill.BackColor
-            Pic_canvas.Invalidate()
-        End If
-        AddToHistory()
-    End Sub
-
-    Private Sub Num_strokeAlpha_ValueChanged(sender As Object, e As EventArgs) Handles Num_strokeAlpha.ValueChanged
-        If SVG.SelectedPath Is Nothing Then Return
-        Col_stroke.BackColor = Color.FromArgb(Num_strokeAlpha.Value, Col_stroke.BackColor)
-        SVG.SelectedPath.StrokeColor = Col_stroke.BackColor
-        Pic_canvas.Invalidate()
-    End Sub
-
-    Private Sub Num_fillAlpha_ValueChanged(sender As Object, e As EventArgs) Handles Num_fillAlpha.ValueChanged
-        If SVG.SelectedPath Is Nothing Then Return
-        Col_fill.BackColor = Color.FromArgb(Num_fillAlpha.Value, Col_fill.BackColor)
-        SVG.SelectedPath.FillColor = Col_fill.BackColor
-        Pic_canvas.Invalidate()
-    End Sub
-
-    Private Sub Num_strokeAlpha_LostFocus(sender As Object, e As EventArgs) Handles Num_strokeAlpha.LostFocus, Num_fillAlpha.LostFocus
-        AddToHistory()
-    End Sub
-
     Private Sub Pic_canvas_MouseLeave(sender As Object, e As EventArgs) Handles Pic_canvas.MouseLeave
         'Timer_canvasMMove.Enabled = False
     End Sub
@@ -1470,6 +1515,7 @@ Public Class Form_main
             If SaveFileDialog1.ShowDialog = DialogResult.OK Then
                 filePath = SaveFileDialog1.FileName
                 Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
+                RecentFilesAdd(OpenFileDialog1.FileName)
             Else
                 Return
             End If
@@ -1486,6 +1532,7 @@ Public Class Form_main
             Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
             IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
             modsSinceLastSave = 0
+            RecentFilesAdd(OpenFileDialog1.FileName)
         End If
     End Sub
 
@@ -1493,6 +1540,7 @@ Public Class Form_main
         OpenFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
         If OpenFileDialog1.ShowDialog = DialogResult.OK Then
             LoadVectorFile(OpenFileDialog1.FileName)
+            RecentFilesAdd(OpenFileDialog1.FileName)
         End If
     End Sub
 
@@ -1539,16 +1587,6 @@ Public Class Form_main
 
     Private Sub RedoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RedoToolStripMenuItem.Click
         Redo()
-    End Sub
-
-    Private Sub Num_strokeWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_strokeWidth.ValueChanged
-        If SVG.SelectedPath Is Nothing Then Return
-        SVG.SelectedPath.StrokeWidth = Num_strokeWidth.Value
-        Pic_canvas.Invalidate()
-    End Sub
-
-    Private Sub Num_strokeWidth_LostFocus(sender As Object, e As EventArgs) Handles Num_strokeWidth.LostFocus
-        AddToHistory()
     End Sub
 
     Private Sub Num_stikyGWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_stikyGWidth.ValueChanged
@@ -2002,5 +2040,53 @@ Public Class Form_main
         Num_templateX.Value = 0
         Num_templateY.Value = 0
         AddToHistory()
+    End Sub
+
+    Private Sub ConfirmAttribute()
+        If Not Combo_attrName.Items.Contains(Combo_attrName.Text) Then
+            Combo_attrName.Items.Add(Combo_attrName.Text)
+            My.Settings.attrnames.Add(Combo_attrName.Text)
+        End If
+        If Not Combo_attrVal.Items.Contains(Combo_attrVal.Text) Then
+            Combo_attrVal.Items.Add(Combo_attrVal.Text)
+            My.Settings.attrvalues.Add(Combo_attrVal.Text)
+        End If
+
+        'Set new values
+        SVG.SelectedPath.SetAttribute(Combo_attrName.Text, Combo_attrVal.Text)
+        '<<
+
+        My.Settings.Save()
+        AddToHistory()
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub But_attrOk_Click(sender As Object, e As EventArgs) Handles But_attrOk.Click
+        ConfirmAttribute()
+    End Sub
+
+    Private Sub Pic_attrColor_Click(sender As Object, e As EventArgs) Handles Pic_attrColor.Click
+        ColorDialog1.Color = Pic_attrColor.BackColor
+        If ColorDialog1.ShowDialog = DialogResult.OK Then
+            Pic_attrColor.BackColor = ColorDialog1.Color
+            Combo_attrVal.Text = HTMLParser.ColorToHexString(ColorDialog1.Color)
+        End If
+    End Sub
+
+    Private Sub Lb_attributes_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_attributes.SelectedIndexChanged
+        If Lb_attributes.SelectedIndex < 0 Then Return
+
+        Dim parts As String() = Split(Lb_attributes.SelectedItem, ":")
+        If parts.Length >= 2 Then
+            Combo_attrName.Text = parts(0)
+            Combo_attrVal.Text = parts(1)
+            Pic_attrColor.BackColor = HTMLParser.HTMLStringToColor(parts(1))
+        End If
+    End Sub
+
+    Private Sub Combo_attrVal_KeyUp(sender As Object, e As KeyEventArgs) Handles Combo_attrVal.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            ConfirmAttribute()
+        End If
     End Sub
 End Class

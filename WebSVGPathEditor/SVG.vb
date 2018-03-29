@@ -99,7 +99,7 @@ Public NotInheritable Class SVG
             Return _canvasZoom
         End Get
         Set(ByVal value As Single)
-            Dim maxZoom As Single = Math.Min(20, 4000.0F / Math.Max(_canvasSize.Width, _canvasSize.Height))
+            Dim maxZoom As Single = 50 'Math.Min(20, 4000.0F / Math.Max(_canvasSize.Width, _canvasSize.Height))
             _canvasZoom = Math.Min(maxZoom, Math.Max(0.1F, value))
             _canvasSizeZoomed = New Size(_canvasSize.Width * _canvasZoom, _canvasSize.Height * _canvasZoom)
             RaiseEvent OnCanvasZoomChanged()

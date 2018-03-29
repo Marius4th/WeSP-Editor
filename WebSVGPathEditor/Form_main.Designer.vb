@@ -38,9 +38,10 @@ Partial Class Form_main
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator13 = New System.Windows.Forms.ToolStripSeparator()
+        Me.LoadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RecentFilesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveAsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.LoadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator12 = New System.Windows.Forms.ToolStripSeparator()
         Me.LoadBackupToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator7 = New System.Windows.Forms.ToolStripSeparator()
@@ -112,16 +113,12 @@ Partial Class Form_main
         Me.Lab_lastBkp = New System.Windows.Forms.Label()
         Me.Lab_zoom = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.Num_strokeAlpha = New System.Windows.Forms.NumericUpDown()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Num_fillAlpha = New System.Windows.Forms.NumericUpDown()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Num_strokeWidth = New System.Windows.Forms.NumericUpDown()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Col_fill = New System.Windows.Forms.PictureBox()
-        Me.Col_stroke = New System.Windows.Forms.PictureBox()
+        Me.Lb_attributes = New System.Windows.Forms.ListBox()
+        Me.But_attrOk = New System.Windows.Forms.Button()
+        Me.Pic_attrColor = New System.Windows.Forms.PictureBox()
+        Me.Combo_attrVal = New System.Windows.Forms.ComboBox()
+        Me.Combo_attrName = New System.Windows.Forms.ComboBox()
+        Me.Label16 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.Num_decimals = New System.Windows.Forms.NumericUpDown()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -156,7 +153,6 @@ Partial Class Form_main
         Me.Cb_optimize = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Pic_preview = New System.Windows.Forms.PictureBox()
-        Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -165,6 +161,10 @@ Partial Class Form_main
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.Lb_paths = New System.Windows.Forms.ListBox()
         Me.Timer_autoBackup = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer_refresh = New System.Windows.Forms.Timer(Me.components)
+        Me.VScroll_canvasY = New System.Windows.Forms.VScrollBar()
+        Me.HScroll_canvasX = New System.Windows.Forms.HScrollBar()
+        Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.But_removeSelPts = New System.Windows.Forms.Button()
         Me.But_pathRename = New System.Windows.Forms.Button()
         Me.But_pathMoveUp = New System.Windows.Forms.Button()
@@ -179,9 +179,8 @@ Partial Class Form_main
         Me.But_figMoveBottom = New System.Windows.Forms.Button()
         Me.But_addFigure = New System.Windows.Forms.Button()
         Me.But_removeFigure = New System.Windows.Forms.Button()
-        Me.Timer_refresh = New System.Windows.Forms.Timer(Me.components)
-        Me.VScroll_canvasY = New System.Windows.Forms.VScrollBar()
-        Me.HScroll_canvasX = New System.Windows.Forms.HScrollBar()
+        Me.Context_attributes = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.RemoveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -190,11 +189,7 @@ Partial Class Form_main
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage4.SuspendLayout()
-        CType(Me.Num_strokeAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num_fillAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Pic_attrColor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
         CType(Me.Num_decimals, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Num_stickyGHeight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -212,6 +207,7 @@ Partial Class Form_main
         Me.Box_html.SuspendLayout()
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Context_attributes.SuspendLayout()
         Me.SuspendLayout()
         '
         'Group_info
@@ -281,7 +277,7 @@ Partial Class Form_main
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripSeparator13, Me.LoadToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.ToolStripSeparator12, Me.LoadBackupToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ToolStripSeparator13, Me.LoadToolStripMenuItem, Me.RecentFilesToolStripMenuItem, Me.SaveToolStripMenuItem, Me.SaveAsToolStripMenuItem, Me.ToolStripSeparator12, Me.LoadBackupToolStripMenuItem, Me.ToolStripSeparator7, Me.ExportAsToolStripMenuItem, Me.ToolStripSeparator1, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         resources.ApplyResources(Me.FileToolStripMenuItem, "FileToolStripMenuItem")
         '
@@ -295,6 +291,16 @@ Partial Class Form_main
         Me.ToolStripSeparator13.Name = "ToolStripSeparator13"
         resources.ApplyResources(Me.ToolStripSeparator13, "ToolStripSeparator13")
         '
+        'LoadToolStripMenuItem
+        '
+        Me.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem"
+        resources.ApplyResources(Me.LoadToolStripMenuItem, "LoadToolStripMenuItem")
+        '
+        'RecentFilesToolStripMenuItem
+        '
+        Me.RecentFilesToolStripMenuItem.Name = "RecentFilesToolStripMenuItem"
+        resources.ApplyResources(Me.RecentFilesToolStripMenuItem, "RecentFilesToolStripMenuItem")
+        '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
@@ -304,11 +310,6 @@ Partial Class Form_main
         '
         Me.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem"
         resources.ApplyResources(Me.SaveAsToolStripMenuItem, "SaveAsToolStripMenuItem")
-        '
-        'LoadToolStripMenuItem
-        '
-        Me.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem"
-        resources.ApplyResources(Me.LoadToolStripMenuItem, "LoadToolStripMenuItem")
         '
         'ToolStripSeparator12
         '
@@ -776,82 +777,61 @@ Partial Class Form_main
         'TabPage4
         '
         Me.TabPage4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.TabPage4.Controls.Add(Me.Num_strokeAlpha)
-        Me.TabPage4.Controls.Add(Me.Label15)
-        Me.TabPage4.Controls.Add(Me.Num_fillAlpha)
-        Me.TabPage4.Controls.Add(Me.Label14)
-        Me.TabPage4.Controls.Add(Me.Num_strokeWidth)
-        Me.TabPage4.Controls.Add(Me.Label9)
-        Me.TabPage4.Controls.Add(Me.Label8)
-        Me.TabPage4.Controls.Add(Me.Label7)
-        Me.TabPage4.Controls.Add(Me.Col_fill)
-        Me.TabPage4.Controls.Add(Me.Col_stroke)
+        Me.TabPage4.Controls.Add(Me.Lb_attributes)
+        Me.TabPage4.Controls.Add(Me.But_attrOk)
+        Me.TabPage4.Controls.Add(Me.Pic_attrColor)
+        Me.TabPage4.Controls.Add(Me.Combo_attrVal)
+        Me.TabPage4.Controls.Add(Me.Combo_attrName)
+        Me.TabPage4.Controls.Add(Me.Label16)
         resources.ApplyResources(Me.TabPage4, "TabPage4")
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.UseVisualStyleBackColor = True
         '
-        'Num_strokeAlpha
+        'Lb_attributes
         '
-        resources.ApplyResources(Me.Num_strokeAlpha, "Num_strokeAlpha")
-        Me.Num_strokeAlpha.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
-        Me.Num_strokeAlpha.Name = "Num_strokeAlpha"
-        Me.Num_strokeAlpha.Value = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.Lb_attributes.FormattingEnabled = True
+        resources.ApplyResources(Me.Lb_attributes, "Lb_attributes")
+        Me.Lb_attributes.Name = "Lb_attributes"
         '
-        'Label15
+        'But_attrOk
         '
-        resources.ApplyResources(Me.Label15, "Label15")
-        Me.Label15.Name = "Label15"
+        resources.ApplyResources(Me.But_attrOk, "But_attrOk")
+        Me.But_attrOk.BackColor = System.Drawing.Color.Snow
+        Me.But_attrOk.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.ok2
+        Me.But_attrOk.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_attrOk.Name = "But_attrOk"
+        Me.But_attrOk.UseVisualStyleBackColor = False
         '
-        'Num_fillAlpha
+        'Pic_attrColor
         '
-        resources.ApplyResources(Me.Num_fillAlpha, "Num_fillAlpha")
-        Me.Num_fillAlpha.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
-        Me.Num_fillAlpha.Name = "Num_fillAlpha"
-        Me.Num_fillAlpha.Value = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.Pic_attrColor.BackColor = System.Drawing.Color.Gray
+        Me.Pic_attrColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        resources.ApplyResources(Me.Pic_attrColor, "Pic_attrColor")
+        Me.Pic_attrColor.Name = "Pic_attrColor"
+        Me.Pic_attrColor.TabStop = False
         '
-        'Label14
+        'Combo_attrVal
         '
-        resources.ApplyResources(Me.Label14, "Label14")
-        Me.Label14.Name = "Label14"
+        Me.Combo_attrVal.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me.Combo_attrVal.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.Combo_attrVal.FormattingEnabled = True
+        resources.ApplyResources(Me.Combo_attrVal, "Combo_attrVal")
+        Me.Combo_attrVal.Name = "Combo_attrVal"
+        Me.Combo_attrVal.Sorted = True
         '
-        'Num_strokeWidth
+        'Combo_attrName
         '
-        Me.Num_strokeWidth.DecimalPlaces = 1
-        resources.ApplyResources(Me.Num_strokeWidth, "Num_strokeWidth")
-        Me.Num_strokeWidth.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
-        Me.Num_strokeWidth.Name = "Num_strokeWidth"
-        Me.Num_strokeWidth.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Combo_attrName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me.Combo_attrName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.Combo_attrName.FormattingEnabled = True
+        resources.ApplyResources(Me.Combo_attrName, "Combo_attrName")
+        Me.Combo_attrName.Name = "Combo_attrName"
+        Me.Combo_attrName.Sorted = True
         '
-        'Label9
+        'Label16
         '
-        resources.ApplyResources(Me.Label9, "Label9")
-        Me.Label9.Name = "Label9"
-        '
-        'Label8
-        '
-        resources.ApplyResources(Me.Label8, "Label8")
-        Me.Label8.Name = "Label8"
-        '
-        'Label7
-        '
-        resources.ApplyResources(Me.Label7, "Label7")
-        Me.Label7.Name = "Label7"
-        '
-        'Col_fill
-        '
-        Me.Col_fill.BackColor = System.Drawing.Color.White
-        Me.Col_fill.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        resources.ApplyResources(Me.Col_fill, "Col_fill")
-        Me.Col_fill.Name = "Col_fill"
-        Me.Col_fill.TabStop = False
-        '
-        'Col_stroke
-        '
-        Me.Col_stroke.BackColor = System.Drawing.Color.Gray
-        Me.Col_stroke.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        resources.ApplyResources(Me.Col_stroke, "Col_stroke")
-        Me.Col_stroke.Name = "Col_stroke"
-        Me.Col_stroke.TabStop = False
+        resources.ApplyResources(Me.Label16, "Label16")
+        Me.Label16.Name = "Label16"
         '
         'TabPage2
         '
@@ -1126,13 +1106,6 @@ Partial Class Form_main
         Me.Pic_preview.Name = "Pic_preview"
         Me.Pic_preview.TabStop = False
         '
-        'Pic_canvas
-        '
-        resources.ApplyResources(Me.Pic_canvas, "Pic_canvas")
-        Me.Pic_canvas.BackColor = System.Drawing.Color.Black
-        Me.Pic_canvas.Name = "Pic_canvas"
-        Me.Pic_canvas.TabStop = False
-        '
         'Label1
         '
         resources.ApplyResources(Me.Label1, "Label1")
@@ -1170,6 +1143,28 @@ Partial Class Form_main
         '
         Me.Timer_autoBackup.Enabled = True
         Me.Timer_autoBackup.Interval = 60000
+        '
+        'Timer_refresh
+        '
+        Me.Timer_refresh.Enabled = True
+        Me.Timer_refresh.Interval = 1000
+        '
+        'VScroll_canvasY
+        '
+        resources.ApplyResources(Me.VScroll_canvasY, "VScroll_canvasY")
+        Me.VScroll_canvasY.Name = "VScroll_canvasY"
+        '
+        'HScroll_canvasX
+        '
+        resources.ApplyResources(Me.HScroll_canvasX, "HScroll_canvasX")
+        Me.HScroll_canvasX.Name = "HScroll_canvasX"
+        '
+        'Pic_canvas
+        '
+        resources.ApplyResources(Me.Pic_canvas, "Pic_canvas")
+        Me.Pic_canvas.BackColor = System.Drawing.Color.Black
+        Me.Pic_canvas.Name = "Pic_canvas"
+        Me.Pic_canvas.TabStop = False
         '
         'But_removeSelPts
         '
@@ -1297,20 +1292,16 @@ Partial Class Form_main
         Me.But_removeFigure.Name = "But_removeFigure"
         Me.But_removeFigure.UseVisualStyleBackColor = False
         '
-        'Timer_refresh
+        'Context_attributes
         '
-        Me.Timer_refresh.Enabled = True
-        Me.Timer_refresh.Interval = 1000
+        Me.Context_attributes.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RemoveToolStripMenuItem})
+        Me.Context_attributes.Name = "Context_attributes"
+        resources.ApplyResources(Me.Context_attributes, "Context_attributes")
         '
-        'VScroll_canvasY
+        'RemoveToolStripMenuItem
         '
-        resources.ApplyResources(Me.VScroll_canvasY, "VScroll_canvasY")
-        Me.VScroll_canvasY.Name = "VScroll_canvasY"
-        '
-        'HScroll_canvasX
-        '
-        resources.ApplyResources(Me.HScroll_canvasX, "HScroll_canvasX")
-        Me.HScroll_canvasX.Name = "HScroll_canvasX"
+        Me.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem"
+        resources.ApplyResources(Me.RemoveToolStripMenuItem, "RemoveToolStripMenuItem")
         '
         'Form_main
         '
@@ -1362,11 +1353,7 @@ Partial Class Form_main
         Me.TabPage1.PerformLayout()
         Me.TabPage4.ResumeLayout(False)
         Me.TabPage4.PerformLayout()
-        CType(Me.Num_strokeAlpha, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num_fillAlpha, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Num_strokeWidth, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Col_fill, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Col_stroke, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Pic_attrColor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         CType(Me.Num_decimals, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1387,6 +1374,7 @@ Partial Class Form_main
         Me.Box_html.PerformLayout()
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Context_attributes.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1449,10 +1437,6 @@ Partial Class Form_main
     Friend WithEvents CreateFigureToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
     Friend WithEvents TabPage4 As TabPage
-    Friend WithEvents Col_fill As PictureBox
-    Friend WithEvents Label8 As Label
-    Friend WithEvents Col_stroke As PictureBox
-    Friend WithEvents Label7 As Label
     Friend WithEvents Num_zoom As NumericUpDown
     Friend WithEvents Label6 As Label
     Friend WithEvents Num_canvasHeight As NumericUpDown
@@ -1488,8 +1472,6 @@ Partial Class Form_main
     Friend WithEvents SelectAllToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator9 As ToolStripSeparator
     Friend WithEvents DeleteToolStripMenuItem2 As ToolStripMenuItem
-    Friend WithEvents Num_strokeWidth As NumericUpDown
-    Friend WithEvents Label9 As Label
     Friend WithEvents Num_stickyGHeight As NumericUpDown
     Friend WithEvents Num_stikyGWidth As NumericUpDown
     Friend WithEvents Label10 As Label
@@ -1535,10 +1517,6 @@ Partial Class Form_main
     Friend WithEvents But_addTemplate As Button
     Friend WithEvents But_removeTemplate As Button
     Friend WithEvents Combo_templates As ComboBox
-    Friend WithEvents Num_strokeAlpha As NumericUpDown
-    Friend WithEvents Label15 As Label
-    Friend WithEvents Num_fillAlpha As NumericUpDown
-    Friend WithEvents Label14 As Label
     Friend WithEvents Cb_templateVisible As CheckBox
     Friend WithEvents ScaleToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents Timer_refresh As Timer
@@ -1550,4 +1528,13 @@ Partial Class Form_main
     Friend WithEvents ScaleToolStripMenuItem2 As ToolStripMenuItem
     Friend WithEvents But_bkgTempFill As Button
     Friend WithEvents But_bkgTempCenter As Button
+    Friend WithEvents But_attrOk As Button
+    Friend WithEvents Pic_attrColor As PictureBox
+    Friend WithEvents Combo_attrVal As ComboBox
+    Friend WithEvents Combo_attrName As ComboBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Lb_attributes As ListBox
+    Friend WithEvents Context_attributes As ContextMenuStrip
+    Friend WithEvents RemoveToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RecentFilesToolStripMenuItem As ToolStripMenuItem
 End Class
