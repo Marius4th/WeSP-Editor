@@ -39,7 +39,7 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
 - [x] Drag & Drop for loading template images and wsvg files.
 - [ ] Button to show/hide figures and paths.
 - [ ] Button to duplicate figures and paths.
-- [ ] Change "Path props" to a list of path's attributes where you can add remove them (maybe add a list for every element in the file).
+- [x] Change "Path props" to a list of path's attributes where you can add remove them (maybe add a list for every element in the file).
 - [ ] Support other elements beside paths, like circles, ellipses, rects, texts...
 
 Feedback and Sugestions are welcome.
