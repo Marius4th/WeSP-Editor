@@ -33,15 +33,19 @@
         'SVG.SelectedFigure = Me
     End Sub
 
-    Public Function Clone(Optional pa As SVGPath = Nothing) As Figure
+    Public Function Clone(Optional insertInPa As Boolean = True, Optional pa As SVGPath = Nothing) As Figure
         If pa Is Nothing Then pa = Me.parent
         Dim dup As New Figure(pa)
         Dim pp As PathPoint
 
         For i As Integer = 0 To _points.Count - 1
             pp = _points(i)
-            dup.Add(pp.Clone(dup), _refs(i))
+            dup.Add(pp.Clone(False, dup), _refs(i))
         Next
+
+        If insertInPa Then
+            pa.Add(dup)
+        End If
 
         Return dup
     End Function
@@ -388,7 +392,7 @@
     End Sub
 
     Public Sub SelectAllPPoints(Optional clear As Boolean = True)
-        SelectPPoints(0, _points.Count - 1)
+        SelectPPoints(0, _points.Count - 1, clear)
     End Sub
 
     Public Function HasMoveto() As Boolean

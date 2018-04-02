@@ -119,6 +119,25 @@ Public Class SVGPath
         AddNewFigure()
     End Sub
 
+    Public Function Clone(Optional insertInPa As Boolean = True) As SVGPath
+        Dim dup As New SVGPath()
+
+        For Each fig As Figure In figures
+            fig.Clone(True, dup)
+        Next
+
+        dup._attributes.Clear()
+        For Each attr In _attributes
+            dup.SetAttribute(attr.Key, attr.Value)
+        Next
+
+        If insertInPa Then
+            SVG.AddPath(dup)
+        End If
+
+        Return dup
+    End Function
+
     Public Function InsertNewFigure(index As Integer) As Figure
         Dim newFig As Figure = New Figure(Me)
         figures.Insert(index, newFig)
@@ -145,7 +164,7 @@ Public Class SVGPath
     End Sub
 
     Public Function DuplicateFigure(ByRef fig As Figure) As Figure
-        Dim newFig As Figure = fig.Clone
+        Dim newFig As Figure = fig.Clone(False)
         Insert(fig.GetIndex + 1, newFig)
         Return newFig
     End Function

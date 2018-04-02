@@ -126,16 +126,19 @@ Public Module Commands
             _prevPPoint = prev
         End Sub
 
-        Public Overridable Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+        Public Overridable Function Clone(destIndex As Integer, Optional insertInPa As Boolean = True, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PathPoint(Me.pointType, CType(Me.Pos, PointF), pa)
-            pa.Insert(destIndex, dup, False)
-            dup.RefreshPrevPPoint()
+            If insertInPa Then
+                pa.Insert(destIndex, dup, False)
+                dup.RefreshPrevPPoint()
+            End If
             Return dup
         End Function
 
-        Public Overridable Function Clone(Optional pa As Figure = Nothing) As PathPoint
-            Return Clone(parent.Count, pa)
+        Public Overridable Function Clone(Optional insertInPa As Boolean = True, Optional pa As Figure = Nothing) As PathPoint
+            If pa Is Nothing Then pa = Me.parent
+            Return Clone(pa.Count, insertInPa, pa)
         End Function
 
         Public Overridable Sub SetMirrorPPoint(ByRef mirror As PathPoint, orient As Orientation)
@@ -175,7 +178,7 @@ Public Module Commands
                 Dim clon As PathPoint ' = Me.Clone()
                 If prevPPoint.mirroredPos IsNot Nothing Then
                     'Add the mirroring ppoint in prev ppoint's mirror's pos
-                    clon = Me.Clone(prevPPoint.mirroredPos.GetIndex + 1, Nothing)
+                    clon = Me.Clone(PrevPPoint.mirroredPos.GetIndex + 1, True, Nothing)
 
                     mirroredPP = clon
                     mirroredPos = prevPPoint.mirroredPos
@@ -191,7 +194,7 @@ Public Module Commands
                     mirroredPos.nonInteractve = False
                 Else
                     'Add the mirroring ppoint to the end of the figure
-                    clon = Me.Clone()
+                    clon = Me.Clone(True)
 
                     mirroredPP = clon
                     mirroredPos = clon.prevPPoint
@@ -524,11 +527,13 @@ Public Module Commands
             'pos = position
         End Sub
 
-        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer,  Optional insertInPa As Boolean = True, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PPMoveto(CType(Me.Pos, PointF), pa)
-            pa.Insert(destIndex, dup, False)
-            dup.RefreshPrevPPoint()
+            If insertInPa Then
+                pa.Insert(destIndex, dup, False)
+                dup.RefreshPrevPPoint()
+            End If
             Return dup
         End Function
 
@@ -594,11 +599,13 @@ Public Module Commands
             'pos = position
         End Sub
 
-        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer, Optional insertInPa As Boolean = True, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PPLineto(CType(Me.Pos, PointF), pa)
-            pa.Insert(destIndex, dup, False)
-            dup.RefreshPrevPPoint()
+            If insertInPa Then
+                pa.Insert(destIndex, dup, False)
+                dup.RefreshPrevPPoint()
+            End If
             Return dup
         End Function
 
@@ -665,11 +672,13 @@ Public Module Commands
             _secHeight = _secCenter + AngleToPointf(DegsToRads(360 - xangle + 90), radii.Y)
         End Sub
 
-        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer, Optional insertInPa As Boolean = True, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
-            Dim dup As New PPEllipticalArc(CType(pos, PointF), radii, xangle, flarge, fsweep, pa)
-            pa.Insert(destIndex, dup, False)
-            dup.RefreshPrevPPoint()
+            Dim dup As New PPEllipticalArc(CType(Pos, PointF), radii, xangle, flarge, fsweep, pa)
+            If insertInPa Then
+                pa.Insert(destIndex, dup, False)
+                dup.RefreshPrevPPoint()
+            End If
             Return dup
         End Function
 
@@ -908,11 +917,13 @@ Public Module Commands
             Me.ctrlPoint = ctrlPt
         End Sub
 
-        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer, Optional insertInPa As Boolean = True, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PPQuadraticBezier(CType(Me.Pos, PointF), CType(Me.ctrlPoint, PointF), pa)
-            pa.Insert(destIndex, dup, False)
-            dup.RefreshPrevPPoint()
+            If insertInPa Then
+                pa.Insert(destIndex, dup, False)
+                dup.RefreshPrevPPoint()
+            End If
             Return dup
         End Function
 
@@ -1048,11 +1059,13 @@ Public Module Commands
             Me.ctrlPoint2 = ctrlPt2
         End Sub
 
-        Public Overrides Function Clone(destIndex As Integer, Optional pa As Figure = Nothing) As PathPoint
+        Public Overrides Function Clone(destIndex As Integer, Optional insertInPa As Boolean = True, Optional pa As Figure = Nothing) As PathPoint
             If pa Is Nothing Then pa = Me.parent
             Dim dup As New PPCurveto(CType(Me.Pos, PointF), CType(Me.ctrlPoint1, PointF), CType(Me.ctrlPoint2, PointF), pa)
-            pa.Insert(destIndex, dup, False)
-            dup.RefreshPrevPPoint()
+            If insertInPa Then
+                pa.Insert(destIndex, dup, False)
+                dup.RefreshPrevPPoint()
+            End If
             Return dup
         End Function
 

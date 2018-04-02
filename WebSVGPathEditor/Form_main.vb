@@ -287,6 +287,7 @@ Public Class Form_main
     Public Sub SVGPath_OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
         If SVG.SelectedPath IsNot sender Then Return
         If Lb_figures.Items.Count <= 0 Then Return
+        SVG.selectedPoints.Clear()
 
         Lb_figures.SelectionMode = SelectionMode.One
         Lb_figures.SelectedIndex = fig.GetIndex()
@@ -1248,8 +1249,9 @@ Public Class Form_main
 
             If e.KeyCode = Keys.A AndAlso e.Modifiers = Keys.Control Then
                 'Select all points in the selected path
+                SVG.selectedPoints.Clear()
                 For Each fig As Figure In SVG.GetSelectedFigures()
-                    fig.SelectAllPPoints(True)
+                    fig.SelectAllPPoints(False)
                 Next
                 Pic_canvas.Invalidate()
 
@@ -1377,7 +1379,7 @@ Public Class Form_main
     End Sub
 
     Private Sub ToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem1.Click, But_addPath.Click
-        SVG.AddPath()
+        SVG.AddNewPath()
     End Sub
 
     Private Sub Pic_canvas_MouseLeave(sender As Object, e As EventArgs) Handles Pic_canvas.MouseLeave
@@ -1430,6 +1432,8 @@ Public Class Form_main
     Private Sub Lb_figures_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_figures.SelectedIndexChanged
         'Change selected figure
         If SVG.SelectedPath IsNot Nothing Then
+            SVG.selectedPoints.Clear()
+
             'Select the last figure if nothing is selected
             If Lb_figures.SelectedIndices.Count <= 0 Then
                 Lb_figures.SelectedIndex = Lb_figures.Items.Count - 1
@@ -1521,7 +1525,7 @@ Public Class Form_main
             If SaveFileDialog1.ShowDialog = DialogResult.OK Then
                 filePath = SaveFileDialog1.FileName
                 Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
-                RecentFilesAdd(OpenFileDialog1.FileName)
+                RecentFilesAdd(SaveFileDialog1.FileName)
             Else
                 Return
             End If
@@ -1538,7 +1542,7 @@ Public Class Form_main
             Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
             IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
             modsSinceLastSave = 0
-            RecentFilesAdd(OpenFileDialog1.FileName)
+            RecentFilesAdd(SaveFileDialog1.FileName)
         End If
     End Sub
 
@@ -2108,5 +2112,25 @@ Public Class Form_main
             Dim index As Integer = Lb_attributes.IndexFromPoint(New Point(e.X, e.Y))
             Lb_attributes.SelectedIndex = index
         End If
+    End Sub
+
+    Private Sub But_figDuplicate_Click(sender As Object, e As EventArgs) Handles But_figDuplicate.Click
+        Dim newFigs As New List(Of Figure)
+        For Each fig As Figure In SVG.GetSelectedFigures
+            newFigs.Add(fig.Clone(False))
+        Next
+        For Each fig As Figure In newFigs
+            fig.parent.Add(fig)
+        Next
+    End Sub
+
+    Private Sub But_pathDuplicate_Click(sender As Object, e As EventArgs) Handles But_pathDuplicate.Click
+        Dim newPaths As New List(Of SVGPath)
+        For Each path As SVGPath In SVG.selectedPaths
+            newPaths.Add(path.Clone(False))
+        Next
+        For Each path As SVGPath In newPaths
+            SVG.AddPath(path)
+        Next
     End Sub
 End Class

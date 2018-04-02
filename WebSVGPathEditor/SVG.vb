@@ -174,7 +174,7 @@ Public NotInheritable Class SVG
     Public Shared Sub Init()
         AttributesSetDefaults()
 
-        AddPath()
+        AddNewPath()
         RaiseEvent OnCanvasSizeChanged()
         RaiseEvent OnCanvasZoomChanged()
     End Sub
@@ -278,7 +278,7 @@ Public NotInheritable Class SVG
         Return str
     End Function
 
-    Public Shared Function AddPath() As SVGPath
+    Public Shared Function AddNewPath() As SVGPath
         Dim newPath As SVGPath = New SVGPath
         _paths.Add(newPath)
 
@@ -292,6 +292,17 @@ Public NotInheritable Class SVG
         Return newPath
     End Function
 
+    Public Shared Sub AddPath(path As SVGPath)
+        _paths.Add(path)
+
+        RaiseEvent OnPathAdded(_paths.Last)
+
+        SelectPath(_paths.Count - 1)
+
+        path.FillColor = SelectedPath.FillColor
+        path.StrokeColor = SelectedPath.StrokeColor
+    End Sub
+
     Public Shared Sub RemovePath(ByRef path As SVGPath)
         RaiseEvent OnPathRemoving(_paths.Last)
 
@@ -301,7 +312,7 @@ Public NotInheritable Class SVG
 
         _paths.Remove(path)
 
-        If _paths.Count <= 0 Then AddPath()
+        If _paths.Count <= 0 Then AddNewPath()
         If SelectedPath Is Nothing Then SelectedPath = _paths(_paths.Count - 1)
     End Sub
 
@@ -367,7 +378,7 @@ Public NotInheritable Class SVG
         RaiseEvent OnPathClear()
 
         SVGPath.ResetIdCount()
-        AddPath()
+        AddNewPath()
     End Sub
 
     Public Shared Function UnZoom(val As Double) As Double
@@ -442,7 +453,7 @@ Public NotInheritable Class SVG
             'path = path.Replace("'", """")
             If Not path.Contains("d=""") Then Continue For
 
-            If Not SVG.SelectedPath.IsEmpty Then SVG.AddPath()
+            If Not SVG.SelectedPath.IsEmpty Then SVG.AddNewPath()
 
             Dim pathAttribs = HTMLParser.GetAttributes(path)
             'SVG.SelectedPath.Attributes = pathAttribs
