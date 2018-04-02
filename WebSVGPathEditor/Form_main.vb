@@ -305,8 +305,11 @@ Public Class Form_main
         For i As Integer = 0 To Lb_attributes.Items.Count - 1
             If Lb_attributes.Items(i).StartsWith(attr & ":") Then
                 Lb_attributes.Items(i) = attr & ":" & newVal
+                Return
             End If
         Next
+        'Add if not found
+        Lb_attributes.Items.Add(attr & ":" & newVal)
     End Sub
 
     '----------------------------------------------------------------------------------------------------------------------------
@@ -340,7 +343,18 @@ Public Class Form_main
     End Sub
 
     Public Sub PPoint_OnModified(ByRef pp As PathPoint)
-        Static tim As New Timer
+        Static tim As Timer = Nothing
+        If tim Is Nothing Then
+            tim = New Timer
+            tim.Interval = 1000
+            AddHandler tim.Tick, Sub(ByVal sender As Object, ByVal e As EventArgs)
+                                     RefreshAttributesList()
+                                     CType(sender, Timer).Enabled = False
+                                 End Sub
+        End If
+        'Reset timer
+        tim.Enabled = False
+        tim.Enabled = True
 
         'Static tim As Timer = Nothing
         'If tim Is Nothing Then
@@ -361,14 +375,6 @@ Public Class Form_main
         If index >= 0 Then
             Lb_selPoints.Items.Item(index) = pp.GetString(False)
         End If
-
-        tim.Interval = 1000
-        tim.Enabled = False
-        tim.Enabled = True
-        AddHandler tim.Tick, Sub(ByVal sender As Object, ByVal e As EventArgs)
-                                 RefreshAttributesList()
-                                 CType(sender, Timer).Enabled = False
-                             End Sub
 
         Pic_canvas.Invalidate()
     End Sub
@@ -2054,6 +2060,7 @@ Public Class Form_main
 
         'Set new values
         SVG.SelectedPath.SetAttribute(Combo_attrName.Text, Combo_attrVal.Text)
+
         '<<
 
         My.Settings.Save()
@@ -2087,6 +2094,19 @@ Public Class Form_main
     Private Sub Combo_attrVal_KeyUp(sender As Object, e As KeyEventArgs) Handles Combo_attrVal.KeyUp
         If e.KeyCode = Keys.Enter Then
             ConfirmAttribute()
+        End If
+    End Sub
+
+    Private Sub RemoveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RemoveToolStripMenuItem.Click
+        SVG.SelectedPath.RemoveAttribute(Combo_attrName.Text)
+        RefreshAttributesList()
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Private Sub Lb_attributes_MouseDown(sender As Object, e As MouseEventArgs) Handles Lb_attributes.MouseDown
+        If e.Button = MouseButtons.Right Then
+            Dim index As Integer = Lb_attributes.IndexFromPoint(New Point(e.X, e.Y))
+            Lb_attributes.SelectedIndex = index
         End If
     End Sub
 End Class

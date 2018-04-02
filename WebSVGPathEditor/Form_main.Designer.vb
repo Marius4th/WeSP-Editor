@@ -789,6 +789,7 @@ Partial Class Form_main
         '
         'Lb_attributes
         '
+        Me.Lb_attributes.ContextMenuStrip = Me.Context_attributes
         Me.Lb_attributes.FormattingEnabled = True
         resources.ApplyResources(Me.Lb_attributes, "Lb_attributes")
         Me.Lb_attributes.Name = "Lb_attributes"

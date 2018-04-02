@@ -415,61 +415,61 @@
     <value>File</value>
   </data>
   <data name="NewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="NewToolStripMenuItem.Text" xml:space="preserve">
     <value>New</value>
   </data>
   <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>142, 6</value>
   </data>
   <data name="LoadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="LoadToolStripMenuItem.Text" xml:space="preserve">
     <value>Open</value>
   </data>
   <data name="RecentFilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="RecentFilesToolStripMenuItem.Text" xml:space="preserve">
     <value>Recent Files</value>
   </data>
   <data name="SaveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="SaveToolStripMenuItem.Text" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="SaveAsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="SaveAsToolStripMenuItem.Text" xml:space="preserve">
     <value>Save As...</value>
   </data>
   <data name="ToolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>142, 6</value>
   </data>
   <data name="LoadBackupToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="LoadBackupToolStripMenuItem.Text" xml:space="preserve">
     <value>Open Backup</value>
   </data>
   <data name="ToolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>142, 6</value>
   </data>
   <data name="ExportAsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="ExportAsToolStripMenuItem.Text" xml:space="preserve">
     <value>Export as...</value>
   </data>
   <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>142, 6</value>
   </data>
   <data name="ExitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
@@ -1628,6 +1628,24 @@
   </data>
   <data name="&gt;&gt;TabPage1.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <metadata name="Context_attributes.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1121, 8</value>
+  </metadata>
+  <data name="RemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="RemoveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Context_attributes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 26</value>
+  </data>
+  <data name="&gt;&gt;Context_attributes.Name" xml:space="preserve">
+    <value>Context_attributes</value>
+  </data>
+  <data name="&gt;&gt;Context_attributes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Lb_attributes.HorizontalScrollbar" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3905,24 +3923,6 @@
   </data>
   <data name="&gt;&gt;But_removeFigure.ZOrder" xml:space="preserve">
     <value>19</value>
-  </data>
-  <metadata name="Context_attributes.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1121, 8</value>
-  </metadata>
-  <data name="Context_attributes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 26</value>
-  </data>
-  <data name="&gt;&gt;Context_attributes.Name" xml:space="preserve">
-    <value>Context_attributes</value>
-  </data>
-  <data name="&gt;&gt;Context_attributes.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="RemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 22</value>
-  </data>
-  <data name="RemoveToolStripMenuItem.Text" xml:space="preserve">
-    <value>Remove</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

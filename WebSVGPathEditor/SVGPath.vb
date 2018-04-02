@@ -21,7 +21,7 @@ Public Class SVGPath
 
     Public Property StrokeColor() As Color
         Get
-            Return HTMLParser.HTMLStringToColor(_attributes("stroke"))
+            Return HTMLParser.HTMLStringToColor(_attributes.GetValue("stroke", "lightgray"))
         End Get
         Set(ByVal value As Color)
             _attributes("stroke") = HTMLParser.ColorToHexString(value)
@@ -31,7 +31,7 @@ Public Class SVGPath
 
     Public Property StrokeWidth() As Integer
         Get
-            Return CInt(_attributes("stroke-width"))
+            Return CInt(_attributes.GetValue("stroke-width", 1))
         End Get
         Set(ByVal value As Integer)
             _attributes("stroke-width") = value
@@ -41,7 +41,7 @@ Public Class SVGPath
 
     Public Property FillColor() As Color
         Get
-            Return HTMLParser.HTMLStringToColor(_attributes("fill"))
+            Return HTMLParser.HTMLStringToColor(_attributes.GetValue("fill", "black"))
         End Get
         Set(ByVal value As Color)
             _attributes("fill") = HTMLParser.ColorToHexString(value)
@@ -280,7 +280,11 @@ Public Class SVGPath
         'graphs.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
         'graphs.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
-        _strokePen.Width = StrokeWidth * SVG.CanvasZoom
+        If _attributes.ContainsKey("stroke") Then
+            _strokePen.Width = StrokeWidth * SVG.CanvasZoom
+        Else
+            _strokePen.Width = 0
+        End If
 
         'Draw the Path of every Figure
         For Each fig As Figure In figures
@@ -597,6 +601,21 @@ Public Class SVGPath
         End Select
 
         RaiseEvent OnSetAttribute(Me, name, value)
+    End Sub
+
+    Public Sub RemoveAttribute(name As String)
+        If _attributes.ContainsKey(name) Then
+            _attributes.Remove(name)
+        End If
+
+        Select Case name
+            Case "fill"
+                _fillBrush.Color = Color.Black
+            Case "stroke"
+                _strokePen.Color = Color.LightGray
+            Case "stroke-width"
+                _strokePen.Width = 1
+        End Select
     End Sub
 
 End Class
