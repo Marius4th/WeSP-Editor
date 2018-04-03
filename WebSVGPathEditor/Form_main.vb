@@ -21,6 +21,7 @@ Public Class Form_main
     Private canvasImg As Bitmap
     Private canvasBack As Bitmap
     Private refreshHtml As Boolean = True
+    Private showGrid As Boolean = True
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Custom Events
@@ -506,6 +507,7 @@ Public Class Form_main
         filePath = fpath
         Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
         SVG.ParseString(IO.File.ReadAllText(filePath))
+        SaveFileDialog1.FileName = fpath
     End Sub
 
     Public Sub LoadBkgTemplateFile(fpath As String)
@@ -607,7 +609,7 @@ Public Class Form_main
     Public Sub RefreshBackGrid()
         canvasBack = New Bitmap(Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Width), 1), Math.Max(CInt(SVG.CanvasZoom * SVG.StikyGrid.Height), 1))
         Dim grx As Graphics = Graphics.FromImage(canvasBack)
-        Dim br As New SolidBrush(Color.Black)
+        Dim br As New SolidBrush(Color.FromArgb(0, 0, 0, 0))
         Dim pen As New Pen(Color.FromArgb(255, 30, 30, 30), 1)
 
         grx.FillRectangle(br, New Rectangle(0, 0, canvasBack.Width, canvasBack.Height))
@@ -646,6 +648,7 @@ Public Class Form_main
         HighlightButton(But_placeBetClosest, placeBetweenClosest)
         HighlightButton(But_showPoints, showPoints)
         HighlightButton(But_lineto, showPoints)
+        HighlightButton(But_showGrid, showGrid)
 
         'Add first figure
         SVG.Init()
@@ -917,10 +920,12 @@ Public Class Form_main
         'ht.Start()
 
         'Draw the back grid (stiky grid)
-        Dim visibleRect As Rectangle = GetVisibleCanvasRect()
-        Dim tb As New TextureBrush(canvasBack)
-        tb.TranslateTransform(SVG.CanvasOffset.X, SVG.CanvasOffset.Y)
-        e.Graphics.FillRectangle(tb, visibleRect)
+        If showGrid Then
+            Dim visibleRect As Rectangle = GetVisibleCanvasRect()
+            Dim tb As New TextureBrush(canvasBack)
+            tb.TranslateTransform(SVG.CanvasOffset.X, SVG.CanvasOffset.Y)
+            e.Graphics.FillRectangle(tb, visibleRect)
+        End If
 
         'Offset the position of everything
         e.Graphics.TranslateTransform(SVG.CanvasOffset.X, SVG.CanvasOffset.Y)
@@ -1526,6 +1531,7 @@ Public Class Form_main
                 filePath = SaveFileDialog1.FileName
                 Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
                 RecentFilesAdd(SaveFileDialog1.FileName)
+                OpenFileDialog1.FileName = SaveFileDialog1.FileName
             Else
                 Return
             End If
@@ -1543,6 +1549,7 @@ Public Class Form_main
             IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
             modsSinceLastSave = 0
             RecentFilesAdd(SaveFileDialog1.FileName)
+            OpenFileDialog1.FileName = SaveFileDialog1.FileName
         End If
     End Sub
 
@@ -2132,5 +2139,43 @@ Public Class Form_main
         For Each path As SVGPath In newPaths
             SVG.AddPath(path)
         Next
+    End Sub
+
+    Private Sub But_hideMain_Click(sender As Object, e As EventArgs) Handles But_hideMain.Click
+        If Pan_main.Visible Then
+            Pan_main.Hide()
+            'Pan_main.Width = 50
+            Pan_drawArea.Width = Me.ClientSize.Width - Pan_drawArea.Left - (But_hideMain.Width / 2)
+            But_hideMain.BackgroundImage = My.Resources.show_left
+        Else
+            Pan_main.Show()
+            'Pan_main.Width = 50
+            Pan_drawArea.Width = Me.ClientSize.Width - Pan_drawArea.Left - Pan_main.Width - 2
+            But_hideMain.BackgroundImage = My.Resources.hide_right
+        End If
+
+        But_hideMain.BringToFront()
+    End Sub
+
+    Private Sub But_hideHtml_Click(sender As Object, e As EventArgs) Handles But_hideHtml.Click
+        If Pan_html.Visible Then
+            Pan_html.Hide()
+            'Pan_main.Width = 50
+            Pan_drawArea.Height = Me.ClientSize.Height - Pan_drawArea.Top - (But_hideHtml.Height / 2)
+            But_hideHtml.BackgroundImage = My.Resources.show_up
+        Else
+            Pan_html.Show()
+            'Pan_main.Width = 50
+            Pan_drawArea.Height = Me.ClientSize.Height - Pan_drawArea.Top - Pan_html.Height - 4
+            But_hideHtml.BackgroundImage = My.Resources.hide_down
+        End If
+
+        But_hideHtml.BringToFront()
+    End Sub
+
+    Private Sub But_showGrid_Click(sender As Object, e As EventArgs) Handles But_showGrid.Click
+        showGrid = Not showGrid
+        HighlightButton(But_showGrid, showGrid)
+        Pic_canvas.Refresh()
     End Sub
 End Class

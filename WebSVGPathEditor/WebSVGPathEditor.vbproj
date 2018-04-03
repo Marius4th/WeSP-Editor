@@ -256,6 +256,12 @@
     <None Include="Resources\ok.png" />
     <None Include="Resources\ok2.png" />
     <None Include="Resources\duplicate.png" />
+    <None Include="Resources\grid.png" />
+    <None Include="Resources\hide_right.png" />
+    <None Include="Resources\hide_left.png" />
+    <None Include="Resources\show_left.png" />
+    <None Include="Resources\hide_down.png" />
+    <None Include="Resources\show_up.png" />
     <Content Include="weSP.ico" />
   </ItemGroup>
   <ItemGroup>
