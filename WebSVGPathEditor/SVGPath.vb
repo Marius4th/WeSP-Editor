@@ -617,6 +617,25 @@ Public Class SVGPath
                 StrokeColor = HTMLParser.HTMLStringToColor(value)
             Case "stroke-width"
                 StrokeWidth = value.GetNumbers
+            Case "stroke-dasharray"
+                Dim patt As List(Of Single) = Split(_attributes("stroke-dasharray"), ",").ToSingleList(True)
+                If patt.Count >= 2 AndAlso Not patt.Contains(0) Then
+                    _strokePen.DashPattern = patt.ToArray
+                Else
+                    _strokePen.DashStyle = Drawing2D.DashStyle.Solid
+                End If
+            Case "stroke-linecap"
+                Select Case value
+                    Case "butt"
+                        _strokePen.SetLineCap(Drawing2D.LineCap.Flat, Drawing2D.LineCap.Flat, Drawing2D.DashCap.Flat)
+                    Case "round"
+                        _strokePen.SetLineCap(Drawing2D.LineCap.Round, Drawing2D.LineCap.Round, Drawing2D.DashCap.Round)
+                    Case "square"
+                        _strokePen.SetLineCap(Drawing2D.LineCap.Square, Drawing2D.LineCap.Square, Drawing2D.DashCap.Flat)
+
+                End Select
+            Case "stroke-dashoffset"
+                _strokePen.DashOffset = value.GetNumbers(0)
         End Select
 
         RaiseEvent OnSetAttribute(Me, name, value)
@@ -634,6 +653,12 @@ Public Class SVGPath
                 _strokePen.Color = Color.LightGray
             Case "stroke-width"
                 _strokePen.Width = 1
+            Case "stroke-dasharray"
+                _strokePen.DashStyle = Drawing2D.DashStyle.Solid
+            Case "stroke-linecap"
+                _strokePen.DashCap = Drawing2D.DashCap.Triangle
+            Case "stroke-dashoffset"
+                _strokePen.DashOffset = 0
         End Select
     End Sub
 

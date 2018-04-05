@@ -2011,6 +2011,9 @@ Public Class Form_main
         If refreshHtml Then
             'Dim oldZoom As Single = SVG.CanvasZoom
             'SVG.CanvasZoom = 1
+            If Pic_preview.Image IsNot Nothing Then
+                Pic_preview.Image.Dispose()
+            End If
             Pic_preview.Image = SVG.GetBitmap()
             If Form_result.Visible Then
                 If Form_result.Pic_realSize.Image IsNot Nothing Then Form_result.Pic_realSize.Image.Dispose()

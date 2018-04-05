@@ -159,6 +159,22 @@ Public Module Module1
     End Function
 
     <Extension()>
+    Public Function ToSingleList(strArr As String(), Optional ignoreInvalids As Boolean = False, Optional defItemVal As Single = 0) As List(Of Single)
+        Dim retlst As New List(Of Single)
+        Dim num As String
+        For Each item As String In strArr
+            num = item.GetNumbers(":(")
+            If num <> ":(" Then
+                retlst.Add(Convert.ToSingle(num))
+            ElseIf ignoreInvalids = False Then
+                retlst.Add(defItemVal)
+            End If
+        Next
+
+        Return retlst
+    End Function
+
+    <Extension()>
     Public Function ToList(sellist As ListBox.SelectedIndexCollection) As List(Of Integer)
         Dim lst As New List(Of Integer)
         For Each indx In sellist

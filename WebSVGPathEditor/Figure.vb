@@ -228,6 +228,10 @@
             p2.AddToPath(path)
         Next
 
+        'If _points.Count > 1 Then
+        '    path.AddLine(SVG.ApplyZoom(_points(_points.Count - 1).Pos), SVG.ApplyZoom(_points(0).Pos))
+        'End If
+
         If IsOpen = False Then path.CloseFigure()
 
         Return path

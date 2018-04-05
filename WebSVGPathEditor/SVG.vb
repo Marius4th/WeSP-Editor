@@ -457,7 +457,10 @@ Public NotInheritable Class SVG
             Dim pathAttribs = HTMLParser.GetAttributes(path)
             'SVG.SelectedPath.Attributes = pathAttribs
 
-            SVG.SelectedPath.AppedAttributes(pathAttribs, True)
+            For Each attr In pathAttribs
+                SVG.SelectedPath.SetAttribute(attr.Key, attr.Value)
+            Next
+            'SVG.SelectedPath.AppedAttributes(pathAttribs, True)
 
             'Parse path's commands
             d = pathAttribs("d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
@@ -513,7 +516,7 @@ Public NotInheritable Class SVG
                         Select Case ppType
                             Case PointType.moveto, PointType.lineto
                                 For i As Integer = 1 To coords.Count - 1 Step 2
-                                    If ppType = PointType.lineto Then
+                                    If ppType = PointType.lineto OrElse i > 1 Then
                                         lastPP = New PPLineto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
                                     Else
                                         lastPP = New PPMoveto(New CPointF(coords(i - 1), coords(i)), SelectedFigure)
@@ -728,7 +731,18 @@ Public NotInheritable Class SVG
     End Sub
 
     Public Shared Function GetBitmap() As Bitmap
-        Dim bmp As New Bitmap(SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height)
+        Dim imgSize As Size = SVG.CanvasSizeZoomed
+        If imgSize.Width > 4000 OrElse imgSize.Height > 4000 Then
+            Dim ratio As Single = imgSize.Width / imgSize.Height
+            If imgSize.Width > imgSize.Height Then
+                imgSize.Width = 4000
+                imgSize.Height = imgSize.Width / ratio
+            Else
+                imgSize.Height = 4000
+                imgSize.Width = imgSize.Height * ratio
+            End If
+        End If
+        Dim bmp As New Bitmap(imgSize.Width, imgSize.Height)
         Dim grxCanvas As Graphics = Graphics.FromImage(bmp)
 
         grxCanvas.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
@@ -738,6 +752,8 @@ Public NotInheritable Class SVG
         For Each path As SVGPath In _paths
             path.Draw(grxCanvas)
         Next
+
+        grxCanvas.Dispose()
 
         Return bmp
     End Function
