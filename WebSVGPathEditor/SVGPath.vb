@@ -360,7 +360,7 @@ Public Class SVGPath
                 If fig.IsPointRef(i) AndAlso pp.pointType = PointType.moveto Then Continue For
                 str &= pp.GetString(optimize) & " "
             Next
-            str &= "Z"
+            If fig.IsOpen = False Then str &= "Z"
         Next
 
         'If Me.GetAllPPoints().Count > 0 AndAlso Me.GetAllPPoints().Last.pointType <> PointType.closepath Then str &= "Z"

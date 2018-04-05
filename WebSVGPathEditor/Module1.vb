@@ -152,7 +152,7 @@ Public Module Module1
 
     <Extension()>
     Public Function GetNumbers(str As String, Optional defValue As String = "0") As String
-        Static rx As New Regex("[^\d,.]")
+        Static rx As New Regex("[^\d,.-]")
         Dim retnum As String = rx.Replace(str, "")
         If retnum.Length <= 0 Then Return defValue
         Return retnum
@@ -650,75 +650,79 @@ Public Module Module1
 
         Dim optD As String = ""
 
-        For Each fig As String In Split(d, "Z")
-            If fig.Length <= 1 Then Continue For
-            'dData = Regex.Split(d, "([A-Z]+)", RegexOptions.IgnoreCase)
-            figData = Regex.Split(fig, "([A-Z]+)", RegexOptions.IgnoreCase)
+        'dData = Regex.Split(d, "([A-Z]+)", RegexOptions.IgnoreCase)
+        figData = Regex.Split(d, "([A-Z])", RegexOptions.IgnoreCase)
 
-            Dim lastHadDecimals As Boolean = True
+        Dim lastHadDecimals As Boolean = True
 
-            For Each dat As String In figData
-                If dat.Length <= 0 Then Continue For
+        For Each dat As String In figData
+            If dat.Length <= 0 Then Continue For
 
-                Select Case dat.ToUpper
-                    Case Chr(PointType.moveto), Chr(PointType.lineto), Chr(PointType.horizontalLineto), Chr(PointType.verticalLineto), Chr(PointType.curveto), Chr(PointType.smoothCurveto), Chr(PointType.quadraticBezierCurve), Chr(PointType.smoothQuadraticBezierCurveto), Chr(PointType.ellipticalArc)
-                        ppType = Asc(dat.ToUpper)
-                        If dat = dat.ToUpper Then
-                            ppRelative = False
-                        Else
-                            ppRelative = True
-                        End If
+            Select Case dat.ToUpper
+                Case Chr(PointType.moveto), Chr(PointType.lineto), Chr(PointType.horizontalLineto), Chr(PointType.verticalLineto), Chr(PointType.curveto), Chr(PointType.smoothCurveto), Chr(PointType.quadraticBezierCurve), Chr(PointType.smoothQuadraticBezierCurveto), Chr(PointType.ellipticalArc)
+                    ppType = Asc(dat.ToUpper)
+                    If dat = dat.ToUpper Then
+                        ppRelative = False
+                    Else
+                        ppRelative = True
+                    End If
 
-                        If ppType <> lastType AndAlso (lastType <> PointType.moveto OrElse ppType <> PointType.lineto) OrElse lastRelative <> ppRelative Then
-                            optD = Regex.Replace(optD, "\s+$|,+$", "")
-                            lastType = ppType
-                            lastRelative = ppRelative
-                            optD &= dat
-                        End If
+                    If ppType = PointType.moveto OrElse ppType <> lastType AndAlso (lastType <> PointType.moveto OrElse ppType <> PointType.lineto) OrElse lastRelative <> ppRelative Then
+                        optD = Regex.Replace(optD, "\s+$|,+$", "")
+                        lastType = ppType
+                        lastRelative = ppRelative
+                        optD &= dat
+                    End If
 
-                    Case Else
-                        Dim coords As New List(Of Single)
-                        Dim numb As String = ""
-                        Dim strLst As String() = dat.Split(New String() {" "}, StringSplitOptions.RemoveEmptyEntries)
-                        Dim numLst As String()
+                Case Chr(PointType.closepath)
+                    lastHadDecimals = True
+                    optD = Regex.Replace(optD, "\s+$|,+$", "")
+                    optD &= "Z"
+                    ppType = Asc(dat.ToUpper)
+                    lastType = ppType
+                    ppRelative = False
+                    lastRelative = ppRelative
 
-                        'Parse the string to get all the numbers
-                        For si As Integer = 0 To strLst.Length - 1
-                            numLst = strLst(si).Split(New String() {","}, StringSplitOptions.RemoveEmptyEntries)
-                            For ni As Integer = 0 To numLst.Length - 1
-                                numb = numLst(ni)
+                Case Else
+                    Dim coords As New List(Of Single)
+                    Dim numb As String = ""
+                    Dim strLst As String() = dat.Split(New String() {" "}, StringSplitOptions.RemoveEmptyEntries)
+                    Dim numLst As String()
 
-                                If numb.StartsWith("0.") Then
-                                    If lastHadDecimals AndAlso (optD.EndsWith(" ") OrElse optD.EndsWith(",")) Then optD = optD.Remove(optD.Length - 1, 1)
-                                    optD &= numb.Remove(0, 1)
-                                ElseIf numb.StartsWith("-0.") Then
-                                    If lastHadDecimals AndAlso (optD.EndsWith(" ") OrElse optD.EndsWith(",")) Then optD = optD.Remove(optD.Length - 1, 1)
-                                    optD &= numb.Remove(1, 1)
-                                Else
-                                    optD &= numb
-                                End If
+                    'Parse the string to get all the numbers
+                    For si As Integer = 0 To strLst.Length - 1
+                        numLst = strLst(si).Split(New String() {","}, StringSplitOptions.RemoveEmptyEntries)
+                        For ni As Integer = 0 To numLst.Length - 1
+                            numb = numLst(ni)
 
-                                If ni < numLst.Length - 1 Then
-                                    optD &= ","
-                                End If
+                            If numb.StartsWith("0.") Then
+                                If lastHadDecimals AndAlso (optD.EndsWith(" ") OrElse optD.EndsWith(",")) Then optD = optD.Remove(optD.Length - 1, 1)
+                                optD &= numb.Remove(0, 1)
+                            ElseIf numb.StartsWith("-0.") Then
+                                If lastHadDecimals AndAlso (optD.EndsWith(" ") OrElse optD.EndsWith(",")) Then optD = optD.Remove(optD.Length - 1, 1)
+                                optD &= numb.Remove(1, 1)
+                            Else
+                                optD &= numb
+                            End If
 
-                                If numb.Contains(".") Then
-                                    lastHadDecimals = True
-                                Else
-                                    lastHadDecimals = False
-                                End If
-                            Next
+                            If ni < numLst.Length - 1 Then
+                                optD &= ","
+                            End If
 
-                            optD &= " "
+                            If numb.Contains(".") Then
+                                lastHadDecimals = True
+                            Else
+                                lastHadDecimals = False
+                            End If
                         Next
 
-                        'optD &= dat
-                End Select
+                        optD &= " "
+                    Next
 
-            Next
-            optD = Regex.Replace(optD, "\s+$|,+$", "")
-            If containsZ Then optD &= "Z"
+                    'optD &= dat
+            End Select
         Next
+
 
         optD = optD.Replace(" -", "-")
         optD = optD.Replace(",-", "-")

@@ -262,6 +262,8 @@
     <None Include="Resources\show_left.png" />
     <None Include="Resources\hide_down.png" />
     <None Include="Resources\show_up.png" />
+    <None Include="Resources\open.png" />
+    <None Include="Resources\grid1.png" />
     <Content Include="weSP.ico" />
   </ItemGroup>
   <ItemGroup>

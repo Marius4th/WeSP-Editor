@@ -15,7 +15,7 @@ Public Module Commands
         quadraticBezierCurve = Asc("Q")         'Quadratic Bezier
         smoothQuadraticBezierCurveto = Asc("T") 'Reflexion of Quadratic Bezier
         ellipticalArc = Asc("A")
-        'closepath = Asc("Z")
+        closepath = Asc("Z")
     End Enum
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

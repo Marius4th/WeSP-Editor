@@ -148,6 +148,7 @@ Partial Class Form_main
         Me.HScroll_canvasX = New System.Windows.Forms.HScrollBar()
         Me.Pan_main = New System.Windows.Forms.Panel()
         Me.Pan_drawArea = New System.Windows.Forms.Panel()
+        Me.But_hideHtml = New System.Windows.Forms.Button()
         Me.But_hideMain = New System.Windows.Forms.Button()
         Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.But_showGrid = New System.Windows.Forms.Button()
@@ -166,6 +167,7 @@ Partial Class Form_main
         Me.But_lineto = New System.Windows.Forms.Button()
         Me.But_moveto = New System.Windows.Forms.Button()
         Me.But_selection = New System.Windows.Forms.Button()
+        Me.But_figOpen = New System.Windows.Forms.Button()
         Me.But_pathDuplicate = New System.Windows.Forms.Button()
         Me.But_attrOk = New System.Windows.Forms.Button()
         Me.Pic_attrColor = New System.Windows.Forms.PictureBox()
@@ -186,7 +188,6 @@ Partial Class Form_main
         Me.But_removePath = New System.Windows.Forms.Button()
         Me.But_pathMoveBottom = New System.Windows.Forms.Button()
         Me.But_addPath = New System.Windows.Forms.Button()
-        Me.But_hideHtml = New System.Windows.Forms.Button()
         Me.Pic_preview = New System.Windows.Forms.PictureBox()
         Me.Group_info.SuspendLayout()
         Me.Context_selPoints.SuspendLayout()
@@ -1001,6 +1002,7 @@ Partial Class Form_main
         'Pan_main
         '
         resources.ApplyResources(Me.Pan_main, "Pan_main")
+        Me.Pan_main.Controls.Add(Me.But_figOpen)
         Me.Pan_main.Controls.Add(Me.But_pathDuplicate)
         Me.Pan_main.Controls.Add(Me.TabControl1)
         Me.Pan_main.Controls.Add(Me.But_removeFigure)
@@ -1036,6 +1038,15 @@ Partial Class Form_main
         Me.Pan_drawArea.Controls.Add(Me.Pan_tools)
         Me.Pan_drawArea.Name = "Pan_drawArea"
         '
+        'But_hideHtml
+        '
+        resources.ApplyResources(Me.But_hideHtml, "But_hideHtml")
+        Me.But_hideHtml.BackColor = System.Drawing.SystemColors.Control
+        Me.But_hideHtml.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.hide_down
+        Me.But_hideHtml.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_hideHtml.Name = "But_hideHtml"
+        Me.But_hideHtml.UseVisualStyleBackColor = False
+        '
         'But_hideMain
         '
         resources.ApplyResources(Me.But_hideMain, "But_hideMain")
@@ -1055,7 +1066,7 @@ Partial Class Form_main
         'But_showGrid
         '
         Me.But_showGrid.BackColor = System.Drawing.Color.Snow
-        Me.But_showGrid.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.grid
+        Me.But_showGrid.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.grid1
         resources.ApplyResources(Me.But_showGrid, "But_showGrid")
         Me.But_showGrid.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_showGrid.Name = "But_showGrid"
@@ -1203,6 +1214,15 @@ Partial Class Form_main
         Me.But_selection.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_selection.Name = "But_selection"
         Me.But_selection.UseVisualStyleBackColor = False
+        '
+        'But_figOpen
+        '
+        resources.ApplyResources(Me.But_figOpen, "But_figOpen")
+        Me.But_figOpen.BackColor = System.Drawing.Color.Snow
+        Me.But_figOpen.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.open
+        Me.But_figOpen.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
+        Me.But_figOpen.Name = "But_figOpen"
+        Me.But_figOpen.UseVisualStyleBackColor = False
         '
         'But_pathDuplicate
         '
@@ -1382,15 +1402,6 @@ Partial Class Form_main
         Me.But_addPath.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_addPath.Name = "But_addPath"
         Me.But_addPath.UseVisualStyleBackColor = False
-        '
-        'But_hideHtml
-        '
-        resources.ApplyResources(Me.But_hideHtml, "But_hideHtml")
-        Me.But_hideHtml.BackColor = System.Drawing.SystemColors.Control
-        Me.But_hideHtml.BackgroundImage = Global.WebSVGPathEditor.My.Resources.Resources.hide_down
-        Me.But_hideHtml.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
-        Me.But_hideHtml.Name = "But_hideHtml"
-        Me.But_hideHtml.UseVisualStyleBackColor = False
         '
         'Pic_preview
         '
@@ -1621,4 +1632,5 @@ Partial Class Form_main
     Friend WithEvents But_hideMain As Button
     Friend WithEvents Pan_drawArea As Panel
     Friend WithEvents But_hideHtml As Button
+    Friend WithEvents But_figOpen As Button
 End Class

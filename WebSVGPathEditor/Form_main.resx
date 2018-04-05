@@ -117,11 +117,86 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&gt;&gt;Lab_sizeH.Name" xml:space="preserve">
+    <value>Lab_sizeH</value>
+  </data>
+  <data name="&gt;&gt;Lab_sizeH.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lab_sizeH.Parent" xml:space="preserve">
+    <value>Group_info</value>
+  </data>
+  <data name="&gt;&gt;Lab_sizeH.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposY.Name" xml:space="preserve">
+    <value>Lab_mposY</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposY.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposY.Parent" xml:space="preserve">
+    <value>Group_info</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposY.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Lab_sizeW.Name" xml:space="preserve">
+    <value>Lab_sizeW</value>
+  </data>
+  <data name="&gt;&gt;Lab_sizeW.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lab_sizeW.Parent" xml:space="preserve">
+    <value>Group_info</value>
+  </data>
+  <data name="&gt;&gt;Lab_sizeW.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposX.Name" xml:space="preserve">
+    <value>Lab_mposX</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposX.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposX.Parent" xml:space="preserve">
+    <value>Group_info</value>
+  </data>
+  <data name="&gt;&gt;Lab_mposX.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="Group_info.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="Group_info.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 9</value>
+  </data>
+  <data name="Group_info.Size" type="System.Drawing.Size, System.Drawing">
+    <value>306, 58</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Group_info.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="Group_info.Text" xml:space="preserve">
+    <value>Path Info:</value>
+  </data>
+  <data name="&gt;&gt;Group_info.Name" xml:space="preserve">
+    <value>Group_info</value>
+  </data>
+  <data name="&gt;&gt;Group_info.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Group_info.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;Group_info.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="Lab_sizeH.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Lab_sizeH.Font" type="System.Drawing.Font, System.Drawing">
     <value>Verdana, 8.25pt</value>
   </data>
@@ -252,54 +327,12 @@
   <data name="&gt;&gt;Lab_mposX.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="Group_info.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="Group_info.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 9</value>
-  </data>
-  <data name="Group_info.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 58</value>
-  </data>
-  <data name="Group_info.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="Group_info.Text" xml:space="preserve">
-    <value>Path Info:</value>
-  </data>
-  <data name="&gt;&gt;Group_info.Name" xml:space="preserve">
-    <value>Group_info</value>
-  </data>
-  <data name="&gt;&gt;Group_info.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Group_info.Parent" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="&gt;&gt;Group_info.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="Lb_selPoints.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <metadata name="Context_selPoints.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>697, 8</value>
   </metadata>
-  <data name="DeselectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 22</value>
-  </data>
-  <data name="DeselectToolStripMenuItem.Text" xml:space="preserve">
-    <value>Deselect</value>
-  </data>
-  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 6</value>
-  </data>
-  <data name="DelteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 22</value>
-  </data>
-  <data name="DelteToolStripMenuItem.Text" xml:space="preserve">
-    <value>Delete</value>
-  </data>
   <data name="Context_selPoints.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 54</value>
   </data>
@@ -331,11 +364,56 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;Lb_selPoints.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
+  </data>
+  <data name="DeselectToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 22</value>
+  </data>
+  <data name="DeselectToolStripMenuItem.Text" xml:space="preserve">
+    <value>Deselect</value>
+  </data>
+  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 6</value>
+  </data>
+  <data name="DelteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 22</value>
+  </data>
+  <data name="DelteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
   </data>
   <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>14, 8</value>
   </metadata>
+  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>914, 24</value>
+  </data>
+  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="MenuStrip1.Text" xml:space="preserve">
+    <value>MenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
+    <value>MenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="FileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="FileToolStripMenuItem.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
   <data name="NewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 22</value>
   </data>
@@ -396,11 +474,11 @@
   <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
-  <data name="FileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+  <data name="EditToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 20</value>
   </data>
-  <data name="FileToolStripMenuItem.Text" xml:space="preserve">
-    <value>File</value>
+  <data name="EditToolStripMenuItem.Text" xml:space="preserve">
+    <value>Edit</value>
   </data>
   <data name="UndoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 22</value>
@@ -432,11 +510,11 @@
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>Select All</value>
   </data>
-  <data name="EditToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
+  <data name="ViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
   </data>
-  <data name="EditToolStripMenuItem.Text" xml:space="preserve">
-    <value>Edit</value>
+  <data name="ViewToolStripMenuItem.Text" xml:space="preserve">
+    <value>View</value>
   </data>
   <data name="ShowRealSizePreviewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>195, 22</value>
@@ -444,11 +522,11 @@
   <data name="ShowRealSizePreviewToolStripMenuItem.Text" xml:space="preserve">
     <value>Show Real Size Preview</value>
   </data>
-  <data name="ViewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+  <data name="SVGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 20</value>
   </data>
-  <data name="ViewToolStripMenuItem.Text" xml:space="preserve">
-    <value>View</value>
+  <data name="SVGToolStripMenuItem.Text" xml:space="preserve">
+    <value>SVG</value>
   </data>
   <data name="MoveTo00ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 22</value>
@@ -477,11 +555,11 @@
   <data name="ClearToolStripMenuItem2.Text" xml:space="preserve">
     <value>Clear</value>
   </data>
-  <data name="SVGToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
+  <data name="PathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 20</value>
   </data>
-  <data name="SVGToolStripMenuItem.Text" xml:space="preserve">
-    <value>SVG</value>
+  <data name="PathToolStripMenuItem.Text" xml:space="preserve">
+    <value>Path</value>
   </data>
   <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
@@ -525,11 +603,11 @@
   <data name="DeleteToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="PathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 20</value>
+  <data name="FigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 20</value>
   </data>
-  <data name="PathToolStripMenuItem.Text" xml:space="preserve">
-    <value>Path</value>
+  <data name="FigureToolStripMenuItem.Text" xml:space="preserve">
+    <value>Figure</value>
   </data>
   <data name="CreateFigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 22</value>
@@ -579,11 +657,11 @@
   <data name="DeleteToolStripMenuItem1.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="FigureToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
+  <data name="HelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
   </data>
-  <data name="FigureToolStripMenuItem.Text" xml:space="preserve">
-    <value>Figure</value>
+  <data name="HelpToolStripMenuItem.Text" xml:space="preserve">
+    <value>Help</value>
   </data>
   <data name="ViewHelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>127, 22</value>
@@ -600,18 +678,6 @@
   <data name="AboutToolStripMenuItem.Text" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="HelpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="HelpToolStripMenuItem.Text" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="AddLotsOPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>164, 22</value>
-  </data>
-  <data name="AddLotsOPointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Add lots o points</value>
-  </data>
   <data name="TESTToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 20</value>
   </data>
@@ -621,53 +687,14 @@
   <data name="TESTToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="MenuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="AddLotsOPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 22</value>
   </data>
-  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>914, 24</value>
-  </data>
-  <data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="MenuStrip1.Text" xml:space="preserve">
-    <value>MenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Name" xml:space="preserve">
-    <value>MenuStrip1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip1.ZOrder" xml:space="preserve">
-    <value>7</value>
+  <data name="AddLotsOPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Add lots o points</value>
   </data>
   <data name="Pan_tools.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
-  </data>
-  <data name="But_movement.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_movement.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_movement.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_movement.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_movement.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 45</value>
-  </data>
-  <data name="But_movement.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_movement.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
   </data>
   <data name="&gt;&gt;But_movement.Name" xml:space="preserve">
     <value>But_movement</value>
@@ -681,27 +708,6 @@
   <data name="&gt;&gt;But_movement.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="But_closePath.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_closePath.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_closePath.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_closePath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_closePath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 297</value>
-  </data>
-  <data name="But_closePath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_closePath.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
   <data name="&gt;&gt;But_closePath.Name" xml:space="preserve">
     <value>But_closePath</value>
   </data>
@@ -714,27 +720,6 @@
   <data name="&gt;&gt;But_closePath.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="But_elliArc.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_elliArc.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_elliArc.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_elliArc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_elliArc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 255</value>
-  </data>
-  <data name="But_elliArc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_elliArc.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
   <data name="&gt;&gt;But_elliArc.Name" xml:space="preserve">
     <value>But_elliArc</value>
   </data>
@@ -746,6 +731,135 @@
   </data>
   <data name="&gt;&gt;But_elliArc.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="&gt;&gt;But_smoothBezier.Name" xml:space="preserve">
+    <value>But_smoothBezier</value>
+  </data>
+  <data name="&gt;&gt;But_smoothBezier.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_smoothBezier.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_smoothBezier.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.Name" xml:space="preserve">
+    <value>But_bezier</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;But_smoothCurveto.Name" xml:space="preserve">
+    <value>But_smoothCurveto</value>
+  </data>
+  <data name="&gt;&gt;But_smoothCurveto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_smoothCurveto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_smoothCurveto.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.Name" xml:space="preserve">
+    <value>But_curveto</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.Name" xml:space="preserve">
+    <value>But_vertLineto</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.Name" xml:space="preserve">
+    <value>But_horLineto</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.Name" xml:space="preserve">
+    <value>But_lineto</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.Name" xml:space="preserve">
+    <value>But_moveto</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;But_selection.Name" xml:space="preserve">
+    <value>But_selection</value>
+  </data>
+  <data name="&gt;&gt;But_selection.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_selection.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_selection.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="Pan_tools.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 4</value>
+  </data>
+  <data name="Pan_tools.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 560</value>
+  </data>
+  <data name="Pan_tools.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;Pan_tools.Name" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;Pan_tools.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pan_tools.Parent" xml:space="preserve">
+    <value>Pan_drawArea</value>
+  </data>
+  <data name="&gt;&gt;Pan_tools.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="But_smoothBezier.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
@@ -789,39 +903,6 @@
   <data name="&gt;&gt;But_smoothBezier.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="But_bezier.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_bezier.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_bezier.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_bezier.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_bezier.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 213</value>
-  </data>
-  <data name="But_bezier.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_bezier.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;But_bezier.Name" xml:space="preserve">
-    <value>But_bezier</value>
-  </data>
-  <data name="&gt;&gt;But_bezier.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_bezier.Parent" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;But_bezier.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="But_smoothCurveto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
   </data>
@@ -863,237 +944,6 @@
   </data>
   <data name="&gt;&gt;But_smoothCurveto.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="But_curveto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_curveto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_curveto.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_curveto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_curveto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 171</value>
-  </data>
-  <data name="But_curveto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_curveto.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;But_curveto.Name" xml:space="preserve">
-    <value>But_curveto</value>
-  </data>
-  <data name="&gt;&gt;But_curveto.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_curveto.Parent" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;But_curveto.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="But_vertLineto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_vertLineto.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="But_vertLineto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_vertLineto.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_vertLineto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_vertLineto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 404</value>
-  </data>
-  <data name="But_vertLineto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_vertLineto.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="But_vertLineto.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;But_vertLineto.Name" xml:space="preserve">
-    <value>But_vertLineto</value>
-  </data>
-  <data name="&gt;&gt;But_vertLineto.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_vertLineto.Parent" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;But_vertLineto.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="But_horLineto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_horLineto.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="But_horLineto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_horLineto.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_horLineto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_horLineto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 361</value>
-  </data>
-  <data name="But_horLineto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_horLineto.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="But_horLineto.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;But_horLineto.Name" xml:space="preserve">
-    <value>But_horLineto</value>
-  </data>
-  <data name="&gt;&gt;But_horLineto.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_horLineto.Parent" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;But_horLineto.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="But_lineto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_lineto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_lineto.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_lineto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_lineto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 129</value>
-  </data>
-  <data name="But_lineto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_lineto.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;But_lineto.Name" xml:space="preserve">
-    <value>But_lineto</value>
-  </data>
-  <data name="&gt;&gt;But_lineto.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_lineto.Parent" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;But_lineto.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="But_moveto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_moveto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_moveto.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 14pt, style=Bold</value>
-  </data>
-  <data name="But_moveto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_moveto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 87</value>
-  </data>
-  <data name="But_moveto.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_moveto.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;But_moveto.Name" xml:space="preserve">
-    <value>But_moveto</value>
-  </data>
-  <data name="&gt;&gt;But_moveto.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_moveto.Parent" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;But_moveto.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="But_selection.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_selection.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_selection.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_selection.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_selection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="But_selection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 36</value>
-  </data>
-  <data name="But_selection.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;But_selection.Name" xml:space="preserve">
-    <value>But_selection</value>
-  </data>
-  <data name="&gt;&gt;But_selection.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_selection.Parent" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;But_selection.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="Pan_tools.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 4</value>
-  </data>
-  <data name="Pan_tools.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 560</value>
-  </data>
-  <data name="Pan_tools.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;Pan_tools.Name" xml:space="preserve">
-    <value>Pan_tools</value>
-  </data>
-  <data name="&gt;&gt;Pan_tools.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Pan_tools.Parent" xml:space="preserve">
-    <value>Pan_drawArea</value>
-  </data>
-  <data name="&gt;&gt;Pan_tools.ZOrder" xml:space="preserve">
-    <value>4</value>
   </data>
   <data name="Pan_toggles.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -1360,13 +1210,133 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="TabControl1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <data name="TabControl1.Appearance" type="System.Windows.Forms.TabAppearance, System.Windows.Forms">
     <value>FlatButtons</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Name" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabPage4.Name" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;TabPage4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage4.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;TabPage4.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.Name" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TabPage3.Name" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;TabPage3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage3.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;TabPage3.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="TabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 3</value>
+  </data>
+  <data name="TabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>332, 164</value>
+  </data>
+  <data name="TabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Name" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Lab_lastBkp.Name" xml:space="preserve">
+    <value>Lab_lastBkp</value>
+  </data>
+  <data name="&gt;&gt;Lab_lastBkp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lab_lastBkp.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;Lab_lastBkp.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Lab_zoom.Name" xml:space="preserve">
+    <value>Lab_zoom</value>
+  </data>
+  <data name="&gt;&gt;Lab_zoom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lab_zoom.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;Lab_zoom.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="TabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>324, 134</value>
+  </data>
+  <data name="TabPage1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TabPage1.Text" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Name" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="Lab_lastBkp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1434,42 +1404,105 @@
   <data name="&gt;&gt;Lab_zoom.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="TabPage1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="&gt;&gt;Lb_attributes.Name" xml:space="preserve">
+    <value>Lb_attributes</value>
+  </data>
+  <data name="&gt;&gt;Lb_attributes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Lb_attributes.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;Lb_attributes.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrVal.Name" xml:space="preserve">
+    <value>Combo_attrVal</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrVal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrVal.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrVal.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrName.Name" xml:space="preserve">
+    <value>Combo_attrName</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrName.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;Combo_attrName.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Label16.Name" xml:space="preserve">
+    <value>Label16</value>
+  </data>
+  <data name="&gt;&gt;Label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label16.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;Label16.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.Name" xml:space="preserve">
+    <value>But_attrOk</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.Name" xml:space="preserve">
+    <value>Pic_attrColor</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="TabPage4.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 26</value>
   </data>
-  <data name="TabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="TabPage1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TabPage4.Size" type="System.Drawing.Size, System.Drawing">
     <value>324, 134</value>
   </data>
-  <data name="TabPage1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="TabPage4.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="TabPage1.Text" xml:space="preserve">
-    <value>Info</value>
+  <data name="TabPage4.Text" xml:space="preserve">
+    <value>Attributes</value>
   </data>
-  <data name="&gt;&gt;TabPage1.Name" xml:space="preserve">
-    <value>TabPage1</value>
+  <data name="&gt;&gt;TabPage4.Name" xml:space="preserve">
+    <value>TabPage4</value>
   </data>
-  <data name="&gt;&gt;TabPage1.Type" xml:space="preserve">
+  <data name="&gt;&gt;TabPage4.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TabPage1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TabPage4.Parent" xml:space="preserve">
     <value>TabControl1</value>
   </data>
-  <data name="&gt;&gt;TabPage1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;TabPage4.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="Context_attributes.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1121, 8</value>
   </metadata>
-  <data name="RemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 22</value>
-  </data>
-  <data name="RemoveToolStripMenuItem.Text" xml:space="preserve">
-    <value>Remove</value>
-  </data>
   <data name="Context_attributes.Size" type="System.Drawing.Size, System.Drawing">
     <value>118, 26</value>
   </data>
@@ -1505,6 +1538,12 @@
   </data>
   <data name="&gt;&gt;Lb_attributes.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="RemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 22</value>
+  </data>
+  <data name="RemoveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="Combo_attrVal.Location" type="System.Drawing.Point, System.Drawing">
     <value>149, 107</value>
@@ -1587,89 +1626,188 @@
   <data name="&gt;&gt;Label16.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="But_attrOk.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="&gt;&gt;Num_decimals.Name" xml:space="preserve">
+    <value>Num_decimals</value>
   </data>
-  <data name="But_attrOk.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
+  <data name="&gt;&gt;Num_decimals.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="But_attrOk.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
+  <data name="&gt;&gt;Num_decimals.Parent" xml:space="preserve">
+    <value>TabPage2</value>
   </data>
-  <data name="But_attrOk.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
+  <data name="&gt;&gt;Num_decimals.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="But_attrOk.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;Label11.Name" xml:space="preserve">
+    <value>Label11</value>
   </data>
-  <data name="But_attrOk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>292, 108</value>
+  <data name="&gt;&gt;Label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="But_attrOk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
+  <data name="&gt;&gt;Label11.Parent" xml:space="preserve">
+    <value>TabPage2</value>
   </data>
-  <data name="But_attrOk.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
+  <data name="&gt;&gt;Label11.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;But_attrOk.Name" xml:space="preserve">
-    <value>But_attrOk</value>
+  <data name="&gt;&gt;Num_stickyGHeight.Name" xml:space="preserve">
+    <value>Num_stickyGHeight</value>
   </data>
-  <data name="&gt;&gt;But_attrOk.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;Num_stickyGHeight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;But_attrOk.Parent" xml:space="preserve">
-    <value>TabPage4</value>
+  <data name="&gt;&gt;Num_stickyGHeight.Parent" xml:space="preserve">
+    <value>TabPage2</value>
   </data>
-  <data name="&gt;&gt;But_attrOk.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;Num_stickyGHeight.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="Pic_attrColor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;Num_stikyGWidth.Name" xml:space="preserve">
+    <value>Num_stikyGWidth</value>
   </data>
-  <data name="Pic_attrColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 108</value>
+  <data name="&gt;&gt;Num_stikyGWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Pic_attrColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
+  <data name="&gt;&gt;Num_stikyGWidth.Parent" xml:space="preserve">
+    <value>TabPage2</value>
   </data>
-  <data name="Pic_attrColor.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;Pic_attrColor.Name" xml:space="preserve">
-    <value>Pic_attrColor</value>
-  </data>
-  <data name="&gt;&gt;Pic_attrColor.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Pic_attrColor.Parent" xml:space="preserve">
-    <value>TabPage4</value>
-  </data>
-  <data name="&gt;&gt;Pic_attrColor.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="TabPage4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="TabPage4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 134</value>
-  </data>
-  <data name="TabPage4.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;Num_stikyGWidth.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="TabPage4.Text" xml:space="preserve">
-    <value>Attributes</value>
+  <data name="&gt;&gt;Label10.Name" xml:space="preserve">
+    <value>Label10</value>
   </data>
-  <data name="&gt;&gt;TabPage4.Name" xml:space="preserve">
-    <value>TabPage4</value>
+  <data name="&gt;&gt;Label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TabPage4.Type" xml:space="preserve">
+  <data name="&gt;&gt;Label10.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Label10.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Num_gridHeight.Name" xml:space="preserve">
+    <value>Num_gridHeight</value>
+  </data>
+  <data name="&gt;&gt;Num_gridHeight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_gridHeight.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Num_gridHeight.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Num_gridWidth.Name" xml:space="preserve">
+    <value>Num_gridWidth</value>
+  </data>
+  <data name="&gt;&gt;Num_gridWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_gridWidth.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Num_gridWidth.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
+    <value>Label2</value>
+  </data>
+  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;Num_zoom.Name" xml:space="preserve">
+    <value>Num_zoom</value>
+  </data>
+  <data name="&gt;&gt;Num_zoom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_zoom.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Num_zoom.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Label6.Name" xml:space="preserve">
+    <value>Label6</value>
+  </data>
+  <data name="&gt;&gt;Label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label6.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasHeight.Name" xml:space="preserve">
+    <value>Num_canvasHeight</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasHeight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasHeight.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasHeight.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasWidth.Name" xml:space="preserve">
+    <value>Num_canvasWidth</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasWidth.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Num_canvasWidth.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;Label5.Name" xml:space="preserve">
+    <value>Label5</value>
+  </data>
+  <data name="&gt;&gt;Label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label5.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="TabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="TabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>324, 134</value>
+  </data>
+  <data name="TabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TabPage2.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.Name" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TabPage4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TabPage2.Parent" xml:space="preserve">
     <value>TabControl1</value>
   </data>
-  <data name="&gt;&gt;TabPage4.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;TabPage2.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="Num_decimals.Location" type="System.Drawing.Point, System.Drawing">
     <value>173, 107</value>
@@ -1989,32 +2127,188 @@
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="TabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
+  <data name="&gt;&gt;But_bkgTempFill.Name" xml:space="preserve">
+    <value>But_bkgTempFill</value>
   </data>
-  <data name="TabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="&gt;&gt;But_bkgTempFill.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="TabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 134</value>
+  <data name="&gt;&gt;But_bkgTempFill.Parent" xml:space="preserve">
+    <value>TabPage3</value>
   </data>
-  <data name="TabPage2.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;But_bkgTempFill.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;But_bkgTempCenter.Name" xml:space="preserve">
+    <value>But_bkgTempCenter</value>
+  </data>
+  <data name="&gt;&gt;But_bkgTempCenter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_bkgTempCenter.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;But_bkgTempCenter.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="TabPage2.Text" xml:space="preserve">
-    <value>Settings</value>
+  <data name="&gt;&gt;Cb_templateVisible.Name" xml:space="preserve">
+    <value>Cb_templateVisible</value>
   </data>
-  <data name="&gt;&gt;TabPage2.Name" xml:space="preserve">
-    <value>TabPage2</value>
+  <data name="&gt;&gt;Cb_templateVisible.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TabPage2.Type" xml:space="preserve">
+  <data name="&gt;&gt;Cb_templateVisible.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Cb_templateVisible.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Cb_templateKeepAspect.Name" xml:space="preserve">
+    <value>Cb_templateKeepAspect</value>
+  </data>
+  <data name="&gt;&gt;Cb_templateKeepAspect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Cb_templateKeepAspect.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Cb_templateKeepAspect.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;Num_templateH.Name" xml:space="preserve">
+    <value>Num_templateH</value>
+  </data>
+  <data name="&gt;&gt;Num_templateH.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_templateH.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Num_templateH.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Num_templateW.Name" xml:space="preserve">
+    <value>Num_templateW</value>
+  </data>
+  <data name="&gt;&gt;Num_templateW.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_templateW.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Num_templateW.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;Label13.Name" xml:space="preserve">
+    <value>Label13</value>
+  </data>
+  <data name="&gt;&gt;Label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label13.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Label13.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;Num_templateY.Name" xml:space="preserve">
+    <value>Num_templateY</value>
+  </data>
+  <data name="&gt;&gt;Num_templateY.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_templateY.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Num_templateY.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;Num_templateX.Name" xml:space="preserve">
+    <value>Num_templateX</value>
+  </data>
+  <data name="&gt;&gt;Num_templateX.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Num_templateX.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Num_templateX.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;Label12.Name" xml:space="preserve">
+    <value>Label12</value>
+  </data>
+  <data name="&gt;&gt;Label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Label12.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Label12.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;Combo_templates.Name" xml:space="preserve">
+    <value>Combo_templates</value>
+  </data>
+  <data name="&gt;&gt;Combo_templates.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Combo_templates.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;Combo_templates.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.Name" xml:space="preserve">
+    <value>But_addTemplate</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.Name" xml:space="preserve">
+    <value>But_removeTemplate</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="TabPage3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 26</value>
+  </data>
+  <data name="TabPage3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPage3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>324, 134</value>
+  </data>
+  <data name="TabPage3.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="TabPage3.Text" xml:space="preserve">
+    <value>Templates</value>
+  </data>
+  <data name="&gt;&gt;TabPage3.Name" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;TabPage3.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TabPage2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TabPage3.Parent" xml:space="preserve">
     <value>TabControl1</value>
   </data>
-  <data name="&gt;&gt;TabPage2.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;TabPage3.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="But_bkgTempFill.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -2301,120 +2595,6 @@
   <data name="&gt;&gt;Combo_templates.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="But_addTemplate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_addTemplate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_addTemplate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_addTemplate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_addTemplate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>268, 7</value>
-  </data>
-  <data name="But_addTemplate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_addTemplate.TabIndex" type="System.Int32, mscorlib">
-    <value>39</value>
-  </data>
-  <data name="&gt;&gt;But_addTemplate.Name" xml:space="preserve">
-    <value>But_addTemplate</value>
-  </data>
-  <data name="&gt;&gt;But_addTemplate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_addTemplate.Parent" xml:space="preserve">
-    <value>TabPage3</value>
-  </data>
-  <data name="&gt;&gt;But_addTemplate.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="But_removeTemplate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_removeTemplate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_removeTemplate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_removeTemplate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_removeTemplate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>292, 7</value>
-  </data>
-  <data name="But_removeTemplate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_removeTemplate.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
-  </data>
-  <data name="&gt;&gt;But_removeTemplate.Name" xml:space="preserve">
-    <value>But_removeTemplate</value>
-  </data>
-  <data name="&gt;&gt;But_removeTemplate.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;But_removeTemplate.Parent" xml:space="preserve">
-    <value>TabPage3</value>
-  </data>
-  <data name="&gt;&gt;But_removeTemplate.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="TabPage3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 26</value>
-  </data>
-  <data name="TabPage3.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="TabPage3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>324, 134</value>
-  </data>
-  <data name="TabPage3.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="TabPage3.Text" xml:space="preserve">
-    <value>Templates</value>
-  </data>
-  <data name="&gt;&gt;TabPage3.Name" xml:space="preserve">
-    <value>TabPage3</value>
-  </data>
-  <data name="&gt;&gt;TabPage3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPage3.Parent" xml:space="preserve">
-    <value>TabControl1</value>
-  </data>
-  <data name="&gt;&gt;TabPage3.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="TabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 3</value>
-  </data>
-  <data name="TabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>332, 164</value>
-  </data>
-  <data name="TabControl1.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.Name" xml:space="preserve">
-    <value>TabControl1</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.Parent" xml:space="preserve">
-    <value>Pan_main</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="Tb_html.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
@@ -2450,6 +2630,78 @@
   </data>
   <data name="Pan_html.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;Cb_htmlWrap.Name" xml:space="preserve">
+    <value>Cb_htmlWrap</value>
+  </data>
+  <data name="&gt;&gt;Cb_htmlWrap.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Cb_htmlWrap.Parent" xml:space="preserve">
+    <value>Pan_html</value>
+  </data>
+  <data name="&gt;&gt;Cb_htmlWrap.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;Cb_optimize.Name" xml:space="preserve">
+    <value>Cb_optimize</value>
+  </data>
+  <data name="&gt;&gt;Cb_optimize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Cb_optimize.Parent" xml:space="preserve">
+    <value>Pan_html</value>
+  </data>
+  <data name="&gt;&gt;Cb_optimize.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Button1.Name" xml:space="preserve">
+    <value>Button1</value>
+  </data>
+  <data name="&gt;&gt;Button1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button1.Parent" xml:space="preserve">
+    <value>Pan_html</value>
+  </data>
+  <data name="&gt;&gt;Button1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.Name" xml:space="preserve">
+    <value>Pic_preview</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.Parent" xml:space="preserve">
+    <value>Pan_html</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Pan_html.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 607</value>
+  </data>
+  <data name="Pan_html.Size" type="System.Drawing.Size, System.Drawing">
+    <value>910, 106</value>
+  </data>
+  <data name="Pan_html.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="Pan_html.Text" xml:space="preserve">
+    <value>Html Code:</value>
+  </data>
+  <data name="&gt;&gt;Pan_html.Name" xml:space="preserve">
+    <value>Pan_html</value>
+  </data>
+  <data name="&gt;&gt;Pan_html.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pan_html.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Pan_html.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="Cb_htmlWrap.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -2547,60 +2799,6 @@
   <data name="&gt;&gt;Button1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="Pic_preview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="Pic_preview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Pic_preview.Location" type="System.Drawing.Point, System.Drawing">
-    <value>823, 15</value>
-  </data>
-  <data name="Pic_preview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 84</value>
-  </data>
-  <data name="Pic_preview.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="Pic_preview.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.Name" xml:space="preserve">
-    <value>Pic_preview</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.Parent" xml:space="preserve">
-    <value>Pan_html</value>
-  </data>
-  <data name="&gt;&gt;Pic_preview.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Pan_html.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 607</value>
-  </data>
-  <data name="Pan_html.Size" type="System.Drawing.Size, System.Drawing">
-    <value>910, 106</value>
-  </data>
-  <data name="Pan_html.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="Pan_html.Text" xml:space="preserve">
-    <value>Html Code:</value>
-  </data>
-  <data name="&gt;&gt;Pan_html.Name" xml:space="preserve">
-    <value>Pan_html</value>
-  </data>
-  <data name="&gt;&gt;Pan_html.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Pan_html.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Pan_html.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="Label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -2635,7 +2833,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <metadata name="ColorDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>295, 8</value>
@@ -2674,7 +2872,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Lb_figures.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -2701,7 +2899,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;Lb_figures.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <metadata name="SaveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>418, 8</value>
@@ -2734,7 +2932,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;Lb_paths.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <metadata name="Timer_autoBackup.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>844, 8</value>
@@ -2799,29 +2997,17 @@
   <data name="Pan_main.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
-  <data name="But_pathDuplicate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="&gt;&gt;But_figOpen.Name" xml:space="preserve">
+    <value>But_figOpen</value>
   </data>
-  <data name="But_pathDuplicate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
+  <data name="&gt;&gt;But_figOpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="But_pathDuplicate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
+  <data name="&gt;&gt;But_figOpen.Parent" xml:space="preserve">
+    <value>Pan_main</value>
   </data>
-  <data name="But_pathDuplicate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_pathDuplicate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_pathDuplicate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 288</value>
-  </data>
-  <data name="But_pathDuplicate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_pathDuplicate.TabIndex" type="System.Int32, mscorlib">
-    <value>46</value>
+  <data name="&gt;&gt;But_figOpen.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;But_pathDuplicate.Name" xml:space="preserve">
     <value>But_pathDuplicate</value>
@@ -2833,31 +3019,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_pathDuplicate.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="But_removeFigure.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_removeFigure.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_removeFigure.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_removeFigure.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_removeFigure.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_removeFigure.Location" type="System.Drawing.Point, System.Drawing">
-    <value>311, 434</value>
-  </data>
-  <data name="But_removeFigure.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_removeFigure.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;But_removeFigure.Name" xml:space="preserve">
     <value>But_removeFigure</value>
@@ -2869,31 +3031,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_removeFigure.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="But_figDuplicate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_figDuplicate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_figDuplicate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_figDuplicate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_figDuplicate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_figDuplicate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 434</value>
-  </data>
-  <data name="But_figDuplicate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_figDuplicate.TabIndex" type="System.Int32, mscorlib">
-    <value>45</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;But_figDuplicate.Name" xml:space="preserve">
     <value>But_figDuplicate</value>
@@ -2905,31 +3043,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_figDuplicate.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="But_addFigure.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_addFigure.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_addFigure.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_addFigure.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_addFigure.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_addFigure.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 434</value>
-  </data>
-  <data name="But_addFigure.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_addFigure.TabIndex" type="System.Int32, mscorlib">
-    <value>29</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;But_addFigure.Name" xml:space="preserve">
     <value>But_addFigure</value>
@@ -2941,31 +3055,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_addFigure.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="But_removeSelPts.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_removeSelPts.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_removeSelPts.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_removeSelPts.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_removeSelPts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_removeSelPts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>311, 566</value>
-  </data>
-  <data name="But_removeSelPts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_removeSelPts.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;But_removeSelPts.Name" xml:space="preserve">
     <value>But_removeSelPts</value>
@@ -2977,31 +3067,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_removeSelPts.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="But_figMoveBottom.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_figMoveBottom.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_figMoveBottom.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_figMoveBottom.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_figMoveBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_figMoveBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>235, 434</value>
-  </data>
-  <data name="But_figMoveBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_figMoveBottom.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;But_figMoveBottom.Name" xml:space="preserve">
     <value>But_figMoveBottom</value>
@@ -3013,31 +3079,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_figMoveBottom.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="But_pathRename.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_pathRename.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_pathRename.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_pathRename.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_pathRename.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_pathRename.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 288</value>
-  </data>
-  <data name="But_pathRename.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_pathRename.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;But_pathRename.Name" xml:space="preserve">
     <value>But_pathRename</value>
@@ -3049,31 +3091,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_pathRename.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="But_figMoveTop.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_figMoveTop.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_figMoveTop.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_figMoveTop.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_figMoveTop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_figMoveTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 434</value>
-  </data>
-  <data name="But_figMoveTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_figMoveTop.TabIndex" type="System.Int32, mscorlib">
-    <value>32</value>
+    <value>10</value>
   </data>
   <data name="&gt;&gt;But_figMoveTop.Name" xml:space="preserve">
     <value>But_figMoveTop</value>
@@ -3085,31 +3103,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_figMoveTop.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="But_pathMoveUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_pathMoveUp.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_pathMoveUp.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_pathMoveUp.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_pathMoveUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_pathMoveUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>162, 288</value>
-  </data>
-  <data name="But_pathMoveUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_pathMoveUp.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
+    <value>12</value>
   </data>
   <data name="&gt;&gt;But_pathMoveUp.Name" xml:space="preserve">
     <value>But_pathMoveUp</value>
@@ -3121,31 +3115,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_pathMoveUp.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="But_figMoveDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_figMoveDown.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_figMoveDown.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_figMoveDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_figMoveDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_figMoveDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>185, 434</value>
-  </data>
-  <data name="But_figMoveDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_figMoveDown.TabIndex" type="System.Int32, mscorlib">
-    <value>33</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;But_figMoveDown.Name" xml:space="preserve">
     <value>But_figMoveDown</value>
@@ -3157,31 +3127,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_figMoveDown.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="But_pathMoveDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_pathMoveDown.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_pathMoveDown.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_pathMoveDown.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_pathMoveDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_pathMoveDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>185, 288</value>
-  </data>
-  <data name="But_pathMoveDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_pathMoveDown.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
+    <value>15</value>
   </data>
   <data name="&gt;&gt;But_pathMoveDown.Name" xml:space="preserve">
     <value>But_pathMoveDown</value>
@@ -3193,31 +3139,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_pathMoveDown.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="But_figMoveUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_figMoveUp.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_figMoveUp.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_figMoveUp.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_figMoveUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_figMoveUp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>162, 434</value>
-  </data>
-  <data name="But_figMoveUp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_figMoveUp.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
+    <value>16</value>
   </data>
   <data name="&gt;&gt;But_figMoveUp.Name" xml:space="preserve">
     <value>But_figMoveUp</value>
@@ -3229,31 +3151,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_figMoveUp.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="But_pathMoveTop.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_pathMoveTop.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_pathMoveTop.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_pathMoveTop.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_pathMoveTop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_pathMoveTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>212, 288</value>
-  </data>
-  <data name="But_pathMoveTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_pathMoveTop.TabIndex" type="System.Int32, mscorlib">
-    <value>39</value>
+    <value>18</value>
   </data>
   <data name="&gt;&gt;But_pathMoveTop.Name" xml:space="preserve">
     <value>But_pathMoveTop</value>
@@ -3265,31 +3163,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_pathMoveTop.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
-  <data name="But_removePath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_removePath.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_removePath.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_removePath.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_removePath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_removePath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>311, 288</value>
-  </data>
-  <data name="But_removePath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_removePath.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
+    <value>19</value>
   </data>
   <data name="&gt;&gt;But_removePath.Name" xml:space="preserve">
     <value>But_removePath</value>
@@ -3301,31 +3175,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_removePath.ZOrder" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <data name="But_pathMoveBottom.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_pathMoveBottom.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_pathMoveBottom.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_pathMoveBottom.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_pathMoveBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_pathMoveBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>235, 288</value>
-  </data>
-  <data name="But_pathMoveBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_pathMoveBottom.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
+    <value>21</value>
   </data>
   <data name="&gt;&gt;But_pathMoveBottom.Name" xml:space="preserve">
     <value>But_pathMoveBottom</value>
@@ -3337,31 +3187,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_pathMoveBottom.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="But_addPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="But_addPath.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Center</value>
-  </data>
-  <data name="But_addPath.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="But_addPath.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Verdana, 9pt, style=Bold</value>
-  </data>
-  <data name="But_addPath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="But_addPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>285, 288</value>
-  </data>
-  <data name="But_addPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
-  </data>
-  <data name="But_addPath.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
+    <value>22</value>
   </data>
   <data name="&gt;&gt;But_addPath.Name" xml:space="preserve">
     <value>But_addPath</value>
@@ -3373,7 +3199,7 @@
     <value>Pan_main</value>
   </data>
   <data name="&gt;&gt;But_addPath.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="Pan_main.Location" type="System.Drawing.Point, System.Drawing">
     <value>577, 27</value>
@@ -3450,6 +3276,42 @@
   <data name="&gt;&gt;Pan_drawArea.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="But_hideHtml.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="But_hideHtml.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_hideHtml.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_hideHtml.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_hideHtml.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_hideHtml.Location" type="System.Drawing.Point, System.Drawing">
+    <value>892, 688</value>
+  </data>
+  <data name="But_hideHtml.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_hideHtml.TabIndex" type="System.Int32, mscorlib">
+    <value>49</value>
+  </data>
+  <data name="&gt;&gt;But_hideHtml.Name" xml:space="preserve">
+    <value>But_hideHtml</value>
+  </data>
+  <data name="&gt;&gt;But_hideHtml.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_hideHtml.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;But_hideHtml.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="But_hideMain.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -3486,41 +3348,1115 @@
   <data name="&gt;&gt;But_hideMain.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="But_hideHtml.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="But_hideHtml.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+  <data name="But_movement.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Center</value>
   </data>
-  <data name="But_hideHtml.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+  <data name="But_movement.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
   </data>
-  <data name="But_hideHtml.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="But_movement.Font" type="System.Drawing.Font, System.Drawing">
     <value>Verdana, 9pt, style=Bold</value>
   </data>
-  <data name="But_hideHtml.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="But_movement.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="But_hideHtml.Location" type="System.Drawing.Point, System.Drawing">
-    <value>892, 688</value>
+  <data name="But_movement.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 45</value>
   </data>
-  <data name="But_hideHtml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>20, 20</value>
+  <data name="But_movement.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
   </data>
-  <data name="But_hideHtml.TabIndex" type="System.Int32, mscorlib">
-    <value>49</value>
+  <data name="But_movement.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
-  <data name="&gt;&gt;But_hideHtml.Name" xml:space="preserve">
-    <value>But_hideHtml</value>
+  <data name="&gt;&gt;But_movement.Name" xml:space="preserve">
+    <value>But_movement</value>
   </data>
-  <data name="&gt;&gt;But_hideHtml.Type" xml:space="preserve">
+  <data name="&gt;&gt;But_movement.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;But_hideHtml.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;But_movement.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
   </data>
-  <data name="&gt;&gt;But_hideHtml.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;But_movement.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="But_closePath.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_closePath.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_closePath.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_closePath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_closePath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 297</value>
+  </data>
+  <data name="But_closePath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_closePath.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;But_closePath.Name" xml:space="preserve">
+    <value>But_closePath</value>
+  </data>
+  <data name="&gt;&gt;But_closePath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_closePath.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_closePath.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="But_elliArc.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_elliArc.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_elliArc.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_elliArc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_elliArc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 255</value>
+  </data>
+  <data name="But_elliArc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_elliArc.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;But_elliArc.Name" xml:space="preserve">
+    <value>But_elliArc</value>
+  </data>
+  <data name="&gt;&gt;But_elliArc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_elliArc.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_elliArc.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="But_bezier.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_bezier.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_bezier.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_bezier.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_bezier.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 213</value>
+  </data>
+  <data name="But_bezier.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_bezier.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.Name" xml:space="preserve">
+    <value>But_bezier</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_bezier.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="But_curveto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_curveto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_curveto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_curveto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_curveto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 171</value>
+  </data>
+  <data name="But_curveto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_curveto.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.Name" xml:space="preserve">
+    <value>But_curveto</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_curveto.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="But_vertLineto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_vertLineto.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="But_vertLineto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_vertLineto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_vertLineto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_vertLineto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 404</value>
+  </data>
+  <data name="But_vertLineto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_vertLineto.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="But_vertLineto.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.Name" xml:space="preserve">
+    <value>But_vertLineto</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_vertLineto.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="But_horLineto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_horLineto.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="But_horLineto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_horLineto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_horLineto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_horLineto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 361</value>
+  </data>
+  <data name="But_horLineto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_horLineto.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="But_horLineto.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.Name" xml:space="preserve">
+    <value>But_horLineto</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_horLineto.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="But_lineto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_lineto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_lineto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_lineto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_lineto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 129</value>
+  </data>
+  <data name="But_lineto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_lineto.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.Name" xml:space="preserve">
+    <value>But_lineto</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_lineto.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="But_moveto.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_moveto.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_moveto.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 14pt, style=Bold</value>
+  </data>
+  <data name="But_moveto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_moveto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 87</value>
+  </data>
+  <data name="But_moveto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_moveto.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.Name" xml:space="preserve">
+    <value>But_moveto</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_moveto.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="But_selection.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_selection.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_selection.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_selection.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_selection.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="But_selection.Size" type="System.Drawing.Size, System.Drawing">
+    <value>36, 36</value>
+  </data>
+  <data name="But_selection.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;But_selection.Name" xml:space="preserve">
+    <value>But_selection</value>
+  </data>
+  <data name="&gt;&gt;But_selection.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_selection.Parent" xml:space="preserve">
+    <value>Pan_tools</value>
+  </data>
+  <data name="&gt;&gt;But_selection.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="But_figOpen.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_figOpen.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_figOpen.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_figOpen.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 8.25pt</value>
+  </data>
+  <data name="But_figOpen.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_figOpen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 434</value>
+  </data>
+  <data name="But_figOpen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_figOpen.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="&gt;&gt;But_figOpen.Name" xml:space="preserve">
+    <value>But_figOpen</value>
+  </data>
+  <data name="&gt;&gt;But_figOpen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_figOpen.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_figOpen.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="But_pathDuplicate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_pathDuplicate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_pathDuplicate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_pathDuplicate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_pathDuplicate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_pathDuplicate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>262, 288</value>
+  </data>
+  <data name="But_pathDuplicate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_pathDuplicate.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="&gt;&gt;But_pathDuplicate.Name" xml:space="preserve">
+    <value>But_pathDuplicate</value>
+  </data>
+  <data name="&gt;&gt;But_pathDuplicate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_pathDuplicate.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_pathDuplicate.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="But_attrOk.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_attrOk.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_attrOk.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_attrOk.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_attrOk.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_attrOk.Location" type="System.Drawing.Point, System.Drawing">
+    <value>292, 108</value>
+  </data>
+  <data name="But_attrOk.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_attrOk.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.Name" xml:space="preserve">
+    <value>But_attrOk</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;But_attrOk.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Pic_attrColor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Pic_attrColor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 108</value>
+  </data>
+  <data name="Pic_attrColor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="Pic_attrColor.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.Name" xml:space="preserve">
+    <value>Pic_attrColor</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.Parent" xml:space="preserve">
+    <value>TabPage4</value>
+  </data>
+  <data name="&gt;&gt;Pic_attrColor.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="But_addTemplate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_addTemplate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_addTemplate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_addTemplate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_addTemplate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>268, 7</value>
+  </data>
+  <data name="But_addTemplate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_addTemplate.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.Name" xml:space="preserve">
+    <value>But_addTemplate</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;But_addTemplate.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="But_removeTemplate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_removeTemplate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_removeTemplate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_removeTemplate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_removeTemplate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>292, 7</value>
+  </data>
+  <data name="But_removeTemplate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_removeTemplate.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.Name" xml:space="preserve">
+    <value>But_removeTemplate</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.Parent" xml:space="preserve">
+    <value>TabPage3</value>
+  </data>
+  <data name="&gt;&gt;But_removeTemplate.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="But_removeFigure.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_removeFigure.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_removeFigure.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_removeFigure.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_removeFigure.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_removeFigure.Location" type="System.Drawing.Point, System.Drawing">
+    <value>311, 434</value>
+  </data>
+  <data name="But_removeFigure.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_removeFigure.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;But_removeFigure.Name" xml:space="preserve">
+    <value>But_removeFigure</value>
+  </data>
+  <data name="&gt;&gt;But_removeFigure.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_removeFigure.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_removeFigure.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="But_figDuplicate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_figDuplicate.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_figDuplicate.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_figDuplicate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_figDuplicate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_figDuplicate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>262, 434</value>
+  </data>
+  <data name="But_figDuplicate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_figDuplicate.TabIndex" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="&gt;&gt;But_figDuplicate.Name" xml:space="preserve">
+    <value>But_figDuplicate</value>
+  </data>
+  <data name="&gt;&gt;But_figDuplicate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_figDuplicate.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_figDuplicate.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="But_addFigure.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_addFigure.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_addFigure.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_addFigure.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_addFigure.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_addFigure.Location" type="System.Drawing.Point, System.Drawing">
+    <value>285, 434</value>
+  </data>
+  <data name="But_addFigure.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_addFigure.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="&gt;&gt;But_addFigure.Name" xml:space="preserve">
+    <value>But_addFigure</value>
+  </data>
+  <data name="&gt;&gt;But_addFigure.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_addFigure.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_addFigure.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="But_removeSelPts.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_removeSelPts.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_removeSelPts.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_removeSelPts.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_removeSelPts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_removeSelPts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>311, 566</value>
+  </data>
+  <data name="But_removeSelPts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_removeSelPts.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="&gt;&gt;But_removeSelPts.Name" xml:space="preserve">
+    <value>But_removeSelPts</value>
+  </data>
+  <data name="&gt;&gt;But_removeSelPts.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_removeSelPts.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_removeSelPts.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="But_figMoveBottom.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_figMoveBottom.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_figMoveBottom.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_figMoveBottom.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_figMoveBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_figMoveBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 434</value>
+  </data>
+  <data name="But_figMoveBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_figMoveBottom.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveBottom.Name" xml:space="preserve">
+    <value>But_figMoveBottom</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveBottom.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveBottom.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="But_pathRename.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_pathRename.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_pathRename.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_pathRename.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_pathRename.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_pathRename.Location" type="System.Drawing.Point, System.Drawing">
+    <value>135, 288</value>
+  </data>
+  <data name="But_pathRename.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_pathRename.TabIndex" type="System.Int32, mscorlib">
+    <value>42</value>
+  </data>
+  <data name="&gt;&gt;But_pathRename.Name" xml:space="preserve">
+    <value>But_pathRename</value>
+  </data>
+  <data name="&gt;&gt;But_pathRename.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_pathRename.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_pathRename.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="But_figMoveTop.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_figMoveTop.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_figMoveTop.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_figMoveTop.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_figMoveTop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_figMoveTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 434</value>
+  </data>
+  <data name="But_figMoveTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_figMoveTop.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveTop.Name" xml:space="preserve">
+    <value>But_figMoveTop</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveTop.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveTop.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="But_pathMoveUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_pathMoveUp.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_pathMoveUp.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_pathMoveUp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_pathMoveUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_pathMoveUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>162, 288</value>
+  </data>
+  <data name="But_pathMoveUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_pathMoveUp.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveUp.Name" xml:space="preserve">
+    <value>But_pathMoveUp</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveUp.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveUp.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="But_figMoveDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_figMoveDown.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_figMoveDown.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_figMoveDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_figMoveDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_figMoveDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>185, 434</value>
+  </data>
+  <data name="But_figMoveDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_figMoveDown.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveDown.Name" xml:space="preserve">
+    <value>But_figMoveDown</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveDown.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveDown.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="But_pathMoveDown.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_pathMoveDown.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_pathMoveDown.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_pathMoveDown.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_pathMoveDown.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_pathMoveDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>185, 288</value>
+  </data>
+  <data name="But_pathMoveDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_pathMoveDown.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveDown.Name" xml:space="preserve">
+    <value>But_pathMoveDown</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveDown.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveDown.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveDown.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="But_figMoveUp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_figMoveUp.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_figMoveUp.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_figMoveUp.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_figMoveUp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_figMoveUp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>162, 434</value>
+  </data>
+  <data name="But_figMoveUp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_figMoveUp.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveUp.Name" xml:space="preserve">
+    <value>But_figMoveUp</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveUp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveUp.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_figMoveUp.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="But_pathMoveTop.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_pathMoveTop.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_pathMoveTop.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_pathMoveTop.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_pathMoveTop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_pathMoveTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>212, 288</value>
+  </data>
+  <data name="But_pathMoveTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_pathMoveTop.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveTop.Name" xml:space="preserve">
+    <value>But_pathMoveTop</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveTop.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveTop.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="But_removePath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_removePath.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_removePath.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_removePath.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_removePath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_removePath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>311, 288</value>
+  </data>
+  <data name="But_removePath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_removePath.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="&gt;&gt;But_removePath.Name" xml:space="preserve">
+    <value>But_removePath</value>
+  </data>
+  <data name="&gt;&gt;But_removePath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_removePath.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_removePath.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="But_pathMoveBottom.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_pathMoveBottom.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_pathMoveBottom.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_pathMoveBottom.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_pathMoveBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_pathMoveBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 288</value>
+  </data>
+  <data name="But_pathMoveBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_pathMoveBottom.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveBottom.Name" xml:space="preserve">
+    <value>But_pathMoveBottom</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveBottom.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_pathMoveBottom.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="But_addPath.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="But_addPath.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="But_addPath.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="But_addPath.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Verdana, 9pt, style=Bold</value>
+  </data>
+  <data name="But_addPath.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="But_addPath.Location" type="System.Drawing.Point, System.Drawing">
+    <value>285, 288</value>
+  </data>
+  <data name="But_addPath.Size" type="System.Drawing.Size, System.Drawing">
+    <value>20, 20</value>
+  </data>
+  <data name="But_addPath.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="&gt;&gt;But_addPath.Name" xml:space="preserve">
+    <value>But_addPath</value>
+  </data>
+  <data name="&gt;&gt;But_addPath.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;But_addPath.Parent" xml:space="preserve">
+    <value>Pan_main</value>
+  </data>
+  <data name="&gt;&gt;But_addPath.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="Pic_preview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="Pic_preview.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Pic_preview.Location" type="System.Drawing.Point, System.Drawing">
+    <value>823, 15</value>
+  </data>
+  <data name="Pic_preview.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 84</value>
+  </data>
+  <data name="Pic_preview.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="Pic_preview.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.Name" xml:space="preserve">
+    <value>Pic_preview</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.Parent" xml:space="preserve">
+    <value>Pan_html</value>
+  </data>
+  <data name="&gt;&gt;Pic_preview.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

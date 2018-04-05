@@ -133,8 +133,11 @@ Public Class Form_main
         Next
         'Load figures
         Lb_figures.Items.Clear()
-        For Each fig In path.GetFigures
-            Lb_figures.Items.Add("Figure_" & fig.GetIndex() + 1)
+        'For Each fig In path.GetFigures
+        For Each fig In SVG.SelectedPath.GetFigures
+            Dim figname As String = "Figure_" & fig.GetIndex() + 1
+            If fig.IsOpen Then figname &= " [Open]"
+            Lb_figures.Items.Add(figname)
         Next
         'Change selected figure
         Lb_figures.SelectionMode = SelectionMode.None
@@ -456,25 +459,37 @@ Public Class Form_main
 
         'Load Recent Files
         For Each item As String In My.Settings.recentfiles
-            If item = "/PLACEHOLDER\" Then Continue For
+            If item = "/PLACEHOLDER\" Then
+                My.Settings.recentfiles.Remove(item)
+                Continue For
+            End If
             RecentFilesToolStripMenuItem.DropDownItems.Add(New ToolStripMenuItem(item, Nothing, Sub(ByVal sender As Object, ByVal e As EventArgs)
                                                                                                     LoadVectorFile(item)
+                                                                                                    RecentFilesAdd(item)
                                                                                                 End Sub))
         Next
     End Sub
 
     Public Sub RecentFilesAdd(filePath)
+        'If exists, delete to put at top
         If My.Settings.recentfiles.Contains(filePath) Then
+            Dim ioi As Integer = My.Settings.recentfiles.IndexOf(filePath)
+            If ioi >= 0 Then
+                RecentFilesToolStripMenuItem.DropDownItems.RemoveAt(ioi)
+            End If
             My.Settings.recentfiles.Remove(filePath)
         End If
 
-        My.Settings.recentfiles.Add(filePath)
-        RecentFilesToolStripMenuItem.DropDownItems.Add(New ToolStripMenuItem(filePath, Nothing, Sub(ByVal sender As Object, ByVal e As EventArgs)
-                                                                                                    LoadVectorFile(filePath)
-                                                                                                End Sub))
+        My.Settings.recentfiles.Insert(0, filePath)
+        RecentFilesToolStripMenuItem.DropDownItems.Insert(0, New ToolStripMenuItem(filePath, Nothing, Sub(ByVal sender As Object, ByVal e As EventArgs)
+                                                                                                          LoadVectorFile(filePath)
+                                                                                                          RecentFilesAdd(filePath)
+                                                                                                      End Sub))
 
+        'Ma 10 items
         If My.Settings.recentfiles.Count > 10 Then
             My.Settings.recentfiles.RemoveAt(My.Settings.recentfiles.Count - 1)
+            RecentFilesToolStripMenuItem.DropDownItems.RemoveAt(RecentFilesToolStripMenuItem.DropDownItems.Count - 1)
         End If
         My.Settings.Save()
     End Sub
@@ -500,6 +515,24 @@ Public Class Form_main
         While Lb_attributes.Items.Count > SVG.SelectedPath.Attributes.Count
             Lb_attributes.Items.RemoveAt(Lb_attributes.Items.Count - 1)
         End While
+    End Sub
+
+    Public Sub RefreshFiguresList()
+        'Load figures
+        Lb_figures.Items.Clear()
+        For Each fig In SVG.SelectedPath.GetFigures
+            Dim figname As String = "Figure_" & fig.GetIndex() + 1
+            If fig.IsOpen Then figname &= " [Open]"
+            Lb_figures.Items.Add(figname)
+        Next
+        'Change selected figure
+        Lb_figures.SelectionMode = SelectionMode.None
+        Lb_figures.SelectionMode = SelectionMode.MultiExtended
+        If SVG.SelectedPath IsNot Nothing Then
+            For Each fig As Figure In SVG.SelectedPath.selectedFigures.Reverse
+                Lb_figures.SelectedIndices.Add(fig.GetIndex())
+            Next
+        End If
     End Sub
 
     Public Sub LoadVectorFile(fpath As String)
@@ -658,6 +691,8 @@ Public Class Form_main
         HistoryLockRestore()
         AddToHistory()
 
+        'My.Settings.recentfiles = New Collections.Specialized.StringCollection
+        'My.Settings.Reload()
         LoadSettings()
     End Sub
 
@@ -2005,6 +2040,8 @@ Public Class Form_main
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
         SVG.CanvasSize = New SizeF(64, 64)
         SVG.Clear()
+        filePath = defFilePath
+        SVG.ClearBkgTemplates()
     End Sub
 
     Private Sub ScaleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem.Click
@@ -2176,6 +2213,14 @@ Public Class Form_main
     Private Sub But_showGrid_Click(sender As Object, e As EventArgs) Handles But_showGrid.Click
         showGrid = Not showGrid
         HighlightButton(But_showGrid, showGrid)
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub But_figOpen_Click(sender As Object, e As EventArgs) Handles But_figOpen.Click
+        For Each fig As Figure In SVG.GetSelectedFigures
+            fig.IsOpen = Not fig.IsOpen
+        Next
+        RefreshFiguresList()
         Pic_canvas.Refresh()
     End Sub
 End Class

@@ -8,6 +8,7 @@
     Public mirrorOrient As Orientation = Orientation.None
     Private _numMirrored As Integer = 0
     Private _transform As New Drawing2D.Matrix
+    Public _isOpen As Boolean = False
 
     Public Shared Event OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
     Public Shared Event OnPPointRemoving(ByRef sender As Figure, ByRef pp As PathPoint)
@@ -25,6 +26,18 @@
                 mirrorOrient = Orientation.None
             End If
             _numMirrored = value
+        End Set
+    End Property
+
+    Public Property IsOpen As Boolean
+        Get
+            Return _isOpen
+        End Get
+        Set(ByVal value As Boolean)
+            Dim nxt As Figure = GetNextFigure()
+            If nxt Is Nothing OrElse nxt.IsMovetoRef = False Then
+                _isOpen = value
+            End If
         End Set
     End Property
 
@@ -215,7 +228,7 @@
             p2.AddToPath(path)
         Next
 
-        path.CloseFigure()
+        If IsOpen = False Then path.CloseFigure()
 
         Return path
     End Function
@@ -399,9 +412,24 @@
         Return (_points.Count > 0 AndAlso _points(0).pointType = PointType.moveto)
     End Function
 
+    Public Function IsMovetoRef() As Boolean
+        If HasMoveto() Then
+            Return _refs(0)
+        End If
+        Return False
+    End Function
+
     Public Function GetMoveto() As PathPoint
-        If _points.Count > 0 AndAlso _points(0).pointType = PointType.moveto Then
+        If HasMoveto() Then
             Return _points(0)
+        End If
+        Return Nothing
+    End Function
+
+    Public Function GetNextFigure() As Figure
+        Dim index As Integer = GetIndex()
+        If parent.GetFigures.Count > index + 1 Then
+            Return parent.Figure(index + 1)
         End If
         Return Nothing
     End Function
