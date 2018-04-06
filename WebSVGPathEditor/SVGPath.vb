@@ -114,7 +114,9 @@ Public Class SVGPath
 
         _fillBrush = New SolidBrush(FillColor)
         _strokePen = New Pen(StrokeColor, StrokeWidth)
-        _strokePen.LineJoin = Drawing2D.LineJoin.Miter
+        '_strokePen.LineJoin = Drawing2D.LineJoin.Miter
+        _strokePen.LineJoin = Drawing2D.LineJoin.MiterClipped
+        _strokePen.MiterLimit = 4
 
         AddNewFigure()
     End Sub
@@ -235,13 +237,14 @@ Public Class SVGPath
     Public Sub Offset(ammount As PointF)
         For Each fig As Figure In figures
             'Select all point before moving so moveto's movement won't mess with the rest of the points
-            SVG.selectedPoints.Clear()
-            For Each pp As PathPoint In fig
-                SVG.selectedPoints.Add(pp)
-            Next
-            For Each pp As PathPoint In fig
-                pp.Offset(ammount)
-            Next
+            'SVG.selectedPoints.Clear()
+            'For Each pp As PathPoint In fig
+            '    SVG.selectedPoints.Add(pp)
+            'Next
+            'For Each pp As PathPoint In fig
+            '    pp.Offset(ammount)
+            'Next
+            fig.Offset(ammount)
         Next
     End Sub
 
@@ -529,25 +532,28 @@ Public Class SVGPath
     End Sub
 
     Public Sub AppedAttributes(ByRef attrs As Dictionary(Of String, String), fireEvents As Boolean)
-        For Each item In attrs
-            If fireEvents Then
-                Select Case item.Key
-                    Case "id"
-                        Id = item.Value
-                        Continue For
-                    Case "stroke-width"
-                        StrokeWidth = item.Value
-                        Continue For
-                    Case "stroke"
-                        StrokeColor = HTMLParser.HTMLStringToColor(item.Value)
-                        Continue For
-                    Case "fill"
-                        FillColor = HTMLParser.HTMLStringToColor(item.Value)
-                        Continue For
-                End Select
-            End If
+        'For Each item In attrs
+        '    If fireEvents Then
+        '        Select Case item.Key
+        '            Case "id"
+        '                Id = item.Value
+        '                Continue For
+        '            Case "stroke-width"
+        '                StrokeWidth = item.Value
+        '                Continue For
+        '            Case "stroke"
+        '                StrokeColor = HTMLParser.HTMLStringToColor(item.Value)
+        '                Continue For
+        '            Case "fill"
+        '                FillColor = HTMLParser.HTMLStringToColor(item.Value)
+        '                Continue For
+        '        End Select
+        '    End If
 
-            _attributes(item.Key) = item.Value
+        '    _attributes(item.Key) = item.Value
+        'Next
+        For Each item In attrs
+            Me.SetAttribute(item.Key, item.Value)
         Next
     End Sub
 
@@ -611,6 +617,8 @@ Public Class SVGPath
         End If
 
         Select Case name
+            Case "id"
+                Id = value
             Case "fill"
                 FillColor = HTMLParser.HTMLStringToColor(value)
             Case "stroke"
@@ -647,6 +655,8 @@ Public Class SVGPath
         End If
 
         Select Case name
+            Case "id"
+                Id = "Path_" & _idCount
             Case "fill"
                 _fillBrush.Color = Color.Black
             Case "stroke"

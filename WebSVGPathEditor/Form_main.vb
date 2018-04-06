@@ -18,10 +18,19 @@ Imports System.Text.RegularExpressions
 
 Public Class Form_main
 
+    Private Enum ClipOp
+        None = -1
+        Cut = 0
+        Copy = 1
+    End Enum
+
     Private canvasImg As Bitmap
     Private canvasBack As Bitmap
     Private refreshHtml As Boolean = True
     Private showGrid As Boolean = True
+
+    Private myClipboard As New List(Of Object)
+    Private myClipboarOp As ClipOp = ClipOp.None
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Custom Events
@@ -265,9 +274,11 @@ Public Class Form_main
     End Sub
 
     Public Sub SVGPath_OnFigureRemoving(ByRef sender As SVGPath, ByRef fig As Figure)
-        Lb_figures.Items.RemoveAt(fig.GetIndex())
-        Pic_canvas.Invalidate()
+        If SVG.SelectedPath Is sender Then
+            Lb_figures.Items.RemoveAt(fig.GetIndex())
+        End If
 
+        Pic_canvas.Invalidate()
         AddToHistory()
     End Sub
 
@@ -377,16 +388,34 @@ Public Class Form_main
 
         ''Form1.Pic_canvas.Invalidate()
         Dim index As Integer = SVG.selectedPoints.IndexOf(pp)
-        If index >= 0 Then
+        If index >= 0 AndAlso index < Lb_selPoints.Items.Count Then
             Lb_selPoints.Items.Item(index) = pp.GetString(False)
         End If
 
         Pic_canvas.Invalidate()
     End Sub
 
+    Private queueSelectedPts As New List(Of PathPoint)
+
     Public Sub SVGSelectedPoints_OnAdd(ByRef sender As ListWithEvents(Of PathPoint), ByRef d As PathPoint)
-        Lb_selPoints.Items.Add(d.GetString(False))
-        Pic_canvas.Invalidate()
+        queueSelectedPts.Add(d)
+
+        'Performance optimization
+        Static tim As Timer = Nothing
+        If tim Is Nothing Then
+            tim = New Timer
+            tim.Interval = 300
+            AddHandler tim.Tick, Sub(ByVal sender2 As Object, ByVal e As EventArgs)
+                                     For Each pp As PathPoint In queueSelectedPts
+                                         Lb_selPoints.Items.Add(pp.GetString(False))
+                                     Next
+                                     Pic_canvas.Invalidate()
+                                     CType(sender2, Timer).Enabled = False
+                                 End Sub
+        End If
+        'Reset timer
+        tim.Enabled = False
+        tim.Enabled = True
 
         If SVG.SelectedPath IsNot Nothing AndAlso SVG.SelectedFigure.NumMirrored > 0 Then
             Dim anyMirrored As Boolean = False
@@ -429,15 +458,18 @@ Public Class Form_main
     End Sub
     Public Sub SVGSelectedPoints_OnRemovingRange(ByRef sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer)
         For i As Integer = start To start + count - 1
+            queueSelectedPts.Remove(SVG.selectedPoints(i))
             Lb_selPoints.Items.RemoveAt(i)
         Next
         Pic_canvas.Invalidate()
     End Sub
     Public Sub SVGSelectedPoints_OnRemoving(ByRef sender As ListWithEvents(Of PathPoint), ByRef d As PathPoint)
+        queueSelectedPts.Remove(d)
         Lb_selPoints.Items.RemoveAt(sender.IndexOf(d))
         Pic_canvas.Invalidate()
     End Sub
     Public Sub SVGSelectedPoints_OnClear(ByRef sender As ListWithEvents(Of PathPoint))
+        queueSelectedPts.Clear()
         Lb_selPoints.Items.Clear()
         Pic_canvas.Invalidate()
     End Sub
@@ -2045,6 +2077,7 @@ Public Class Form_main
         SVG.Clear()
         filePath = defFilePath
         SVG.ClearBkgTemplates()
+        Me.Text = "untitled - WeSP Editor"
     End Sub
 
     Private Sub ScaleToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ScaleToolStripMenuItem.Click
@@ -2225,5 +2258,49 @@ Public Class Form_main
         Next
         RefreshFiguresList()
         Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub CopyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyToolStripMenuItem.Click
+        'Dim str As String = ""
+        'For Each fig As Figure In SVG.GetSelectedFigures
+        '    str &= fig.GetString(True)
+        'Next
+        'My.Computer.Clipboard.SetText(str)
+        myClipboard.Clear()
+
+        For Each fig As Figure In SVG.GetSelectedFigures
+            myClipboard.Add(fig)
+        Next
+        myClipboarOp = ClipOp.Copy
+    End Sub
+
+    Private Sub CutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CutToolStripMenuItem.Click
+        myClipboard.Clear()
+
+        For Each fig As Figure In SVG.GetSelectedFigures
+            myClipboard.Add(fig)
+        Next
+        myClipboarOp = ClipOp.Cut
+    End Sub
+
+    Private Sub PasteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PasteToolStripMenuItem.Click
+        If SVG.SelectedPath Is Nothing Then Return
+        For Each fig As Figure In myClipboard
+            fig.Clone(True, SVG.SelectedPath)
+        Next
+        If myClipboarOp = ClipOp.Cut Then
+            For Each fig As Figure In myClipboard
+                fig.DeleteSelf()
+            Next
+        End If
+    End Sub
+
+    Private Sub CenterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CenterToolStripMenuItem.Click
+        Dim bounds As RectangleF = SVG.GetBounds()
+        Dim bcenter As New PointF(bounds.Width / 2 + bounds.X, bounds.Height / 2 + bounds.Y)
+        Dim cvcenter As New PointF(SVG.CanvasSize.Width / 2, SVG.CanvasSize.Height / 2)
+
+        SVG.Offset(cvcenter.X - bcenter.X, cvcenter.Y - bcenter.Y)
+        Pic_canvas.Invalidate()
     End Sub
 End Class

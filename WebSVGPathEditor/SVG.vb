@@ -356,11 +356,12 @@ Public NotInheritable Class SVG
 
     Public Shared Sub Offset(ammount As PointF)
         For Each path As SVGPath In _paths
-            For Each fig As Figure In path.GetFigures
-                For Each pp As PathPoint In fig
-                    pp.Offset(ammount)
-                Next
-            Next
+            path.Offset(ammount)
+            'For Each fig As Figure In path.GetFigures
+            '    For Each pp As PathPoint In fig
+            '        pp.Offset(ammount)
+            '    Next
+            'Next
         Next
     End Sub
 
@@ -457,10 +458,10 @@ Public NotInheritable Class SVG
             Dim pathAttribs = HTMLParser.GetAttributes(path)
             'SVG.SelectedPath.Attributes = pathAttribs
 
-            For Each attr In pathAttribs
-                SVG.SelectedPath.SetAttribute(attr.Key, attr.Value)
-            Next
-            'SVG.SelectedPath.AppedAttributes(pathAttribs, True)
+            'For Each attr In pathAttribs
+            '    SVG.SelectedPath.SetAttribute(attr.Key, attr.Value)
+            'Next
+            SVG.SelectedPath.AppedAttributes(pathAttribs, True)
 
             'Parse path's commands
             d = pathAttribs("d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
@@ -762,6 +763,10 @@ Public NotInheritable Class SVG
         _canvasOffset.X += offx
         _canvasOffset.Y += offy
         RaiseEvent OnCanvasOffsetChanged(_canvasOffset)
+    End Sub
+
+    Public Shared Sub PointsSelectionAdd(ByRef pp As PathPoint)
+        selectedPoints.Add(pp)
     End Sub
 
 End Class

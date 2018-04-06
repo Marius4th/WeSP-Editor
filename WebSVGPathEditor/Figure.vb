@@ -170,6 +170,21 @@
         srcItem.mirroredPP.mirroredPP = Nothing
     End Sub
 
+    Public Sub Offset(ammount As PointF)
+        'Select all point before moving so moveto's movement won't mess with the rest of the points
+        SVG.selectedPoints.Clear()
+        For Each pp As PathPoint In _points
+            SVG.selectedPoints.Add(pp)
+        Next
+        For Each pp As PathPoint In _points
+            pp.Offset(ammount)
+        Next
+    End Sub
+
+    Public Sub Offset(xoff As Single, yoff As Single)
+        Offset(New PointF(xoff, yoff))
+    End Sub
+
     Public Sub RemoveAt(index As Integer)
         RaiseEvent OnPPointRemoving(Me, _points(index))
 
@@ -212,8 +227,12 @@
         _refs.Clear()
     End Sub
 
+    Public Sub DeleteSelf()
+        parent.Remove(Me)
+    End Sub
 
     '----------------------------------------------------------------------------------------------------------------------
+
 
 
     Public Function GetPath() As Drawing2D.GraphicsPath
@@ -577,5 +596,19 @@
         _transform.Translate(posDiff.X, posDiff.Y)
         _transform.Scale(sx, sy)
     End Sub
+
+    Public Function GetString(optimize As Boolean) As String
+        Dim str As String = ""
+
+        For i As Integer = 0 To _points.Count - 1
+            Dim pp As PathPoint = _points(i)
+            If IsPointRef(i) AndAlso pp.pointType = PointType.moveto Then Continue For
+            str &= pp.GetString(optimize) & " "
+        Next
+        If IsOpen = False Then str &= "Z"
+
+        If optimize Then Return OptimizePathD(str)
+        Return str
+    End Function
 
 End Class
