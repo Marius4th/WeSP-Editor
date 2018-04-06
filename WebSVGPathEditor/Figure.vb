@@ -50,10 +50,18 @@
         If pa Is Nothing Then pa = Me.parent
         Dim dup As New Figure(pa)
         Dim pp As PathPoint
+        Dim dpp As PathPoint
 
         For i As Integer = 0 To _points.Count - 1
             pp = _points(i)
             dup.Add(pp.Clone(False, dup), _refs(i))
+        Next
+
+        For i As Integer = 0 To dup.Count - 1
+            dpp = dup(i)
+            pp = _points(i)
+            If pp.mirroredPos IsNot Nothing Then dpp.SetMirrorPos(dup(pp.mirroredPos.GetIndex()), pp.mirrorOrient)
+            If pp.mirroredPP IsNot Nothing Then dpp.SetMirrorPPoint(dup(pp.mirroredPP.GetIndex()), pp.mirrorOrient)
         Next
 
         If insertInPa Then
