@@ -38,8 +38,9 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
 - [ ] Add settings to set the drawing quality so you can lower it to improve performance.
 - [x] Drag & Drop for loading template images and wsvg files.
 - [ ] Button to show/hide figures and paths.
-- [ ] Button to duplicate figures and paths.
+- [x] Button to duplicate figures and paths.
 - [x] Change "Path props" to a list of path's attributes where you can add remove them (maybe add a list for every element in the file).
 - [ ] Support other elements beside paths, like circles, ellipses, rects, texts...
+- [x] Buttons to show/hide right and bottom panels.
 
 Feedback and Sugestions are welcome.
