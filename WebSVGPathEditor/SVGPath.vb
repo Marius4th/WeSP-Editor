@@ -9,6 +9,8 @@ Public Class SVGPath
     Private _attributes As New Dictionary(Of String, String)
     Private _strokePen As Pen
     Private _fillBrush As SolidBrush
+    Private _gpath As New Drawing2D.GraphicsPath
+    Private _gpathFillMode As Drawing2D.FillMode = Drawing2D.FillMode.Winding
 
     Public Property Attributes() As Dictionary(Of String, String)
         Get
@@ -117,6 +119,9 @@ Public Class SVGPath
         '_strokePen.LineJoin = Drawing2D.LineJoin.Miter
         _strokePen.LineJoin = Drawing2D.LineJoin.MiterClipped
         _strokePen.MiterLimit = 4
+
+        _gpath.Reset()
+        _gpath.FillMode = Drawing2D.FillMode.Winding
 
         AddNewFigure()
     End Sub
@@ -301,6 +306,9 @@ Public Class SVGPath
         'graphs.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
         'graphs.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
         'graphs.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        Static figGxPath As Drawing2D.GraphicsPath
+        _gpath.Reset()
+        _gpath.FillMode = _gpathFillMode
 
         If _attributes.ContainsKey("stroke") Then
             _strokePen.Width = StrokeWidth * SVG.CanvasZoom
@@ -310,8 +318,12 @@ Public Class SVGPath
 
         'Draw the Path of every Figure
         For Each fig As Figure In figures
-            fig.DrawPath(graphs, _strokePen, _fillBrush)
+            figGxPath = fig.GetGxPath()
+            If figGxPath.PointCount > 0 Then _gpath.AddPath(figGxPath, False)
         Next
+
+        If _fillBrush.Color.A > 0 Then graphs.FillPath(_fillBrush, _gpath)
+        If _strokePen.Width > 0 AndAlso _strokePen.Color.A > 0 Then graphs.DrawPath(_strokePen, _gpath)
     End Sub
 
     Public Function IsEmpty() As Boolean
@@ -616,7 +628,7 @@ Public Class SVGPath
             _attributes.Add(name, value)
         End If
 
-        Select Case name
+        Select Case name.ToLower
             Case "id"
                 Id = value
             Case "fill"
@@ -629,7 +641,7 @@ Public Class SVGPath
                 Dim patt As List(Of Single) = Split(_attributes("stroke-dasharray"), ",").ToSingleList(True)
                 If patt.Count >= 2 AndAlso Not patt.Contains(0) Then
                     _strokePen.DashPattern = patt.ToArray
-                Else
+                Else 'Default
                     _strokePen.DashStyle = Drawing2D.DashStyle.Solid
                 End If
             Case "stroke-linecap"
@@ -640,10 +652,20 @@ Public Class SVGPath
                         _strokePen.SetLineCap(Drawing2D.LineCap.Round, Drawing2D.LineCap.Round, Drawing2D.DashCap.Round)
                     Case "square"
                         _strokePen.SetLineCap(Drawing2D.LineCap.Square, Drawing2D.LineCap.Square, Drawing2D.DashCap.Flat)
-
+                    Case Else 'Default
+                        _strokePen.SetLineCap(Drawing2D.LineCap.Flat, Drawing2D.LineCap.Flat, Drawing2D.DashCap.Flat)
                 End Select
             Case "stroke-dashoffset"
                 _strokePen.DashOffset = value.GetNumbers(0)
+            Case "fill-rule"
+                Select Case value
+                    Case "evenodd"
+                        _gpathFillMode = Drawing2D.FillMode.Alternate
+                    Case "nonzero"
+                        _gpathFillMode = Drawing2D.FillMode.Winding
+                    Case Else 'Default
+                        _gpathFillMode = Drawing2D.FillMode.Winding
+                End Select
         End Select
 
         RaiseEvent OnSetAttribute(Me, name, value)
@@ -654,7 +676,8 @@ Public Class SVGPath
             _attributes.Remove(name)
         End If
 
-        Select Case name
+        'Reset values to default
+        Select Case name.ToLower
             Case "id"
                 Id = "Path_" & _idCount
             Case "fill"
@@ -666,10 +689,11 @@ Public Class SVGPath
             Case "stroke-dasharray"
                 _strokePen.DashStyle = Drawing2D.DashStyle.Solid
             Case "stroke-linecap"
-                _strokePen.DashCap = Drawing2D.DashCap.Triangle
+                _strokePen.SetLineCap(Drawing2D.LineCap.Flat, Drawing2D.LineCap.Flat, Drawing2D.DashCap.Flat)
             Case "stroke-dashoffset"
                 _strokePen.DashOffset = 0
+            Case "fill-Rule"
+                _gpathFillMode = Drawing2D.FillMode.Winding 'nonzero
         End Select
     End Sub
-
 End Class

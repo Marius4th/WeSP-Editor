@@ -37,6 +37,8 @@
             Dim nxt As Figure = GetNextFigure()
             If nxt Is Nothing OrElse nxt.IsMovetoRef = False Then
                 _isOpen = value
+            Else
+                _isOpen = False
             End If
         End Set
     End Property
@@ -126,22 +128,24 @@
     End Function
 
     Public Sub Add(ByRef item As PathPoint, isref As Boolean)
-        'Add reference to last moveto in the path, if necessary
-        If _points.Count <= 0 AndAlso Not item.pointType = PointType.moveto Then
-            Dim mp As PathPoint = Me.parent.GetLastMoveto(item)
-            If mp IsNot Nothing Then
-                Me.Insert(0, mp, True)
-                'item.SetPrevPPoint(mp)
-                Me.Insert(1, item, False)
-            End If
-        Else
-            _points.Add(item)
-            _refs.Add(isref)
-        End If
+        ''Add reference to last moveto in the path, if necessary
+        'If _points.Count <= 0 AndAlso Not item.pointType = PointType.moveto Then
+        '    Dim mp As PathPoint = Me.parent.GetLastMoveto(item)
+        '    If mp IsNot Nothing Then
+        '        Me.Insert(0, mp, True)
+        '        'item.SetPrevPPoint(mp)
+        '        Me.Insert(1, item, False)
+        '        mp.parent.IsOpen = False
+        '    End If
+        'Else
+        '    _points.Add(item)
+        '    _refs.Add(isref)
+        'End If
 
-        item.RefreshSeccondaryData()
+        'item.RefreshSeccondaryData()
 
-        RaiseEvent OnPPointAdded(Me, item)
+        'RaiseEvent OnPPointAdded(Me, item)
+        Insert(_points.Count, item, isref)
     End Sub
 
     Public Sub Insert(index As Integer, ByRef item As PathPoint, isref As Boolean)
@@ -153,6 +157,7 @@
                 Me.Insert(0, mp, True)
                 'item.SetPrevPPoint(mp)
                 Me.Insert(1, item, False)
+                mp.parent.IsOpen = False
             End If
         Else
             _points.Insert(index, item)
@@ -241,9 +246,7 @@
 
     '----------------------------------------------------------------------------------------------------------------------
 
-
-
-    Public Function GetPath() As Drawing2D.GraphicsPath
+    Public Function GetGxPath() As Drawing2D.GraphicsPath
         Dim path As New Drawing2D.GraphicsPath
 
         If _points.Count <= 0 Then Return path
@@ -252,7 +255,7 @@
             Dim p1 As PathPoint = _points(i - 1)
             Dim p2 As PathPoint = _points(i)
 
-            p2.AddToPath(path)
+            p2.AddToGxPath(path)
         Next
 
         'If _points.Count > 1 Then
@@ -260,20 +263,16 @@
         'End If
 
         If IsOpen = False Then path.CloseFigure()
+        path.Transform(_transform)
 
         Return path
     End Function
 
-    Public Sub DrawPath(graphs As Graphics, ByRef pen As Pen, ByRef brush As SolidBrush)
-        Dim path As Drawing2D.GraphicsPath = Me.GetPath()
-        path.Transform(_transform)
+    Public Sub DrawGxPath(graphs As Graphics, ByRef pen As Pen, ByRef brush As SolidBrush)
+        Dim path As Drawing2D.GraphicsPath = Me.GetGxPath()
 
-        'Dim translateMatrix As New Drawing2D.Matrix
-        'translateMatrix.Translate(offset.X, offset.Y)
-        'path.Transform(translateMatrix)
-
-        graphs.FillPath(brush, path)
-        If pen.Width > 0 Then graphs.DrawPath(pen, path)
+        If brush.Color.A > 0 Then graphs.FillPath(brush, path)
+        If pen.Width > 0 AndAlso pen.Color.A > 0 Then graphs.DrawPath(pen, path)
     End Sub
 
     Public Function IsPointRef(index As Integer) As Boolean

@@ -409,9 +409,9 @@ Public Module Commands
             Return Chr(pointType).ToString.ToLower & relPos.X & "," & relPos.Y
         End Function
 
-        Public Overridable Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
-            If prevPPoint Is Nothing Then Return
-            path.AddLine(SVG.ApplyZoom(prevPPoint.pos), SVG.ApplyZoom(pos))
+        Public Overridable Sub AddToGxPath(ByRef path As Drawing2D.GraphicsPath)
+            If PrevPPoint Is Nothing Then Return
+            path.AddLine(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(Pos))
         End Sub
 
         Public Overridable Sub DrawSecPoints(ByRef graphs As Graphics)
@@ -772,7 +772,7 @@ Public Module Commands
             Return Chr(pointType).ToString.ToLower & cutRadii.X & "," & cutRadii.Y & " " & CutDecimals(xangle) & " " & Math.Abs(CInt(flarge)) & "," & Math.Abs(CInt(fsweep)) & " " & relPos.X & "," & relPos.Y
         End Function
 
-        Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
+        Public Overrides Sub AddToGxPath(ByRef path As Drawing2D.GraphicsPath)
             '_secCenter = Midpoint(PrevPPoint.Pos, Pos)
             'xangle = 360 - LineAngle(_secCenter, _secAngleRad)
             'radii.Y = Math.Max(0.0001, LineLength(prevPPoint.pos, pos) / 2)
@@ -791,7 +791,7 @@ Public Module Commands
             Dim c As New CPointF
             Dim angles As New CPointF
 
-            EndpointToCenterArcParams(prevPPoint.pos, pos, r, rads, flarge, fsweep, c, angles)
+            EndpointToCenterArcParams(PrevPPoint.Pos, Pos, r, rads, flarge, fsweep, c, angles)
             EllipticArcToBezierCurves(SVG.ApplyZoom(c), SVG.ApplyZoom(r), rads, angles.X, angles.Y, path)
         End Sub
 
@@ -965,7 +965,7 @@ Public Module Commands
             Return Chr(pointType).ToString.ToLower & relCtrlP.X & "," & relCtrlP.Y & " " & relPos.X & "," & relPos.Y
         End Function
 
-        Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
+        Public Overrides Sub AddToGxPath(ByRef path As Drawing2D.GraphicsPath)
             path.AddBezier(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint), SVG.ApplyZoom(Pos), SVG.ApplyZoom(Pos))
         End Sub
 
@@ -1120,7 +1120,7 @@ Public Module Commands
                         relPos.X & "," & relPos.Y
         End Function
 
-        Public Overrides Sub AddToPath(ByRef path As Drawing2D.GraphicsPath)
+        Public Overrides Sub AddToGxPath(ByRef path As Drawing2D.GraphicsPath)
             path.AddBezier(SVG.ApplyZoom(PrevPPoint.Pos), SVG.ApplyZoom(ctrlPoint1), SVG.ApplyZoom(ctrlPoint2), SVG.ApplyZoom(Pos))
             'path.AddBezier(prevPoint.pos, prevPoint.pos, refPoint, pos)
         End Sub

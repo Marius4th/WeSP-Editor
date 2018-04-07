@@ -333,7 +333,7 @@ Public Class Form_main
     Public Sub Figure_OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
         If sender.HasMoveto Then EnableButton(But_moveto, False)
         If pp.pointType = PointType.moveto Then
-            SetSelectedCommand(PointType.lineto)
+            SetSelectedCommand(lastSelectedType)
         End If
 
         Pic_canvas.Invalidate()
@@ -612,11 +612,14 @@ Public Class Form_main
 
     Public Sub SetSelectedTool(tool As Tool)
         UnhighlightAll()
+        lastSelectedTool = selectedTool
         selectedTool = tool
 
         Select Case selectedTool
             Case Tool.Selection
                 HighlightButton(But_selection, True)
+            Case Tool.Movement
+                HighlightButton(But_movement, True)
             Case Tool.Drawing
                 Select Case selectedType
                     Case PointType.moveto
@@ -644,6 +647,7 @@ Public Class Form_main
     End Sub
 
     Public Sub SetSelectedCommand(typ As PointType)
+        lastSelectedType = selectedType
         selectedType = typ
         SetSelectedTool(Tool.Drawing)
     End Sub
@@ -1224,89 +1228,54 @@ Public Class Form_main
     End Sub
 
     Private Sub But_selection_Click(sender As Object, e As EventArgs) Handles But_selection.Click
-        UnhighlightAll()
-        selectedTool = Tool.Selection
-        HighlightButton(But_selection, True)
+        SetSelectedTool(Tool.Selection)
     End Sub
 
     Private Sub But_movement_Click(sender As Object, e As EventArgs) Handles But_movement.Click
-        UnhighlightAll()
-        selectedTool = Tool.Movement
-        HighlightButton(But_movement, True)
+        SetSelectedTool(Tool.Movement)
     End Sub
 
     Private Sub But_moveto_Click(sender As Object, e As EventArgs) Handles But_moveto.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.moveto
-        HighlightButton(But_moveto, True)
+        SetSelectedCommand(PointType.moveto)
     End Sub
 
     Private Sub But_lineto_Click(sender As Object, e As EventArgs) Handles But_lineto.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.lineto
-        HighlightButton(But_lineto, True)
+        SetSelectedCommand(PointType.lineto)
     End Sub
 
     Private Sub But_horLineto_Click(sender As Object, e As EventArgs) Handles But_horLineto.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.horizontalLineto
-        HighlightButton(But_horLineto, True)
+        SetSelectedCommand(PointType.horizontalLineto)
     End Sub
 
     Private Sub But_vertLineto_Click(sender As Object, e As EventArgs) Handles But_vertLineto.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.verticalLineto
-        HighlightButton(But_vertLineto, True)
+        SetSelectedCommand(PointType.verticalLineto)
     End Sub
 
     Private Sub But_curveto_Click(sender As Object, e As EventArgs) Handles But_curveto.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.curveto
-        HighlightButton(But_curveto, True)
+        SetSelectedCommand(PointType.curveto)
     End Sub
 
     Private Sub But_smoothCurveto_Click(sender As Object, e As EventArgs) Handles But_smoothCurveto.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.smoothCurveto
-        HighlightButton(But_smoothCurveto, True)
+        SetSelectedCommand(PointType.smoothCurveto)
     End Sub
 
     Private Sub But_bezier_Click(sender As Object, e As EventArgs) Handles But_bezier.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.quadraticBezierCurve
-        HighlightButton(But_bezier, True)
+        SetSelectedCommand(PointType.quadraticBezierCurve)
     End Sub
 
     Private Sub But_smoothBezier_Click(sender As Object, e As EventArgs) Handles But_smoothBezier.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.smoothQuadraticBezierCurveto
-        HighlightButton(But_smoothBezier, True)
+        SetSelectedCommand(PointType.smoothQuadraticBezierCurveto)
     End Sub
 
     Private Sub But_elliArc_Click(sender As Object, e As EventArgs) Handles But_elliArc.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-        selectedType = PointType.ellipticalArc
-        HighlightButton(But_elliArc, True)
+        SetSelectedCommand(PointType.ellipticalArc)
     End Sub
 
     Private Sub But_closePath_Click(sender As Object, e As EventArgs) Handles But_closePath.Click, CreateFigureToolStripMenuItem.Click, But_addFigure.Click
-        UnhighlightAll()
-        selectedTool = Tool.Drawing
-
-        selectedType = PointType.moveto
-        HighlightButton(But_moveto, True)
-
         SVG.SelectedPath.AddNewFigure()
         EnableButton(But_moveto, True)
+
+        SetSelectedCommand(PointType.moveto)
 
         Pic_canvas.Invalidate()
     End Sub
