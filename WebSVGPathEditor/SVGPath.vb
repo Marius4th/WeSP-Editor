@@ -587,7 +587,7 @@ Public Class SVGPath
             Next
         Next
 
-        If minx = Single.PositiveInfinity Then Return New RectangleF(New PointF(0, 0), SVG.CanvasSizeZoomed)
+        If minx = Single.PositiveInfinity Then Return New RectangleF(New PointF(0, 0), SVG.CanvasSize)
 
         Dim halfSW As Single = StrokeWidth / 2.0F
 

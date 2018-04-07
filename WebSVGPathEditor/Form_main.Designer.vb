@@ -24,7 +24,6 @@ Partial Class Form_main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form_main))
-        Me.Group_info = New System.Windows.Forms.GroupBox()
         Me.Lab_sizeH = New System.Windows.Forms.Label()
         Me.Lab_mposY = New System.Windows.Forms.Label()
         Me.Lab_sizeW = New System.Windows.Forms.Label()
@@ -59,6 +58,7 @@ Partial Class Form_main
         Me.ShowRealSizePreviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SVGToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveTo00ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CropToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScaleToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
@@ -160,6 +160,10 @@ Partial Class Form_main
         Me.ColorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Lb_figures = New System.Windows.Forms.ListBox()
+        Me.Context_figures = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.Lb_paths = New System.Windows.Forms.ListBox()
@@ -189,12 +193,8 @@ Partial Class Form_main
         Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.But_hideHtml = New System.Windows.Forms.Button()
         Me.But_hideMain = New System.Windows.Forms.Button()
-        Me.Context_figures = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Group_info.SuspendLayout()
+        Me.Lab_zoomedH = New System.Windows.Forms.Label()
+        Me.Lab_zoomedW = New System.Windows.Forms.Label()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
@@ -220,41 +220,35 @@ Partial Class Form_main
         CType(Me.Num_templateX, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Pan_html.SuspendLayout()
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Context_figures.SuspendLayout()
         Me.Pan_main.SuspendLayout()
         Me.Pan_drawArea.SuspendLayout()
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Context_figures.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'Group_info
-        '
-        Me.Group_info.Controls.Add(Me.Lab_sizeH)
-        Me.Group_info.Controls.Add(Me.Lab_mposY)
-        Me.Group_info.Controls.Add(Me.Lab_sizeW)
-        Me.Group_info.Controls.Add(Me.Lab_mposX)
-        resources.ApplyResources(Me.Group_info, "Group_info")
-        Me.Group_info.Name = "Group_info"
-        Me.Group_info.TabStop = False
         '
         'Lab_sizeH
         '
         resources.ApplyResources(Me.Lab_sizeH, "Lab_sizeH")
         Me.Lab_sizeH.Name = "Lab_sizeH"
+        Me.Lab_sizeH.Tag = "Drawing H: "
         '
         'Lab_mposY
         '
         resources.ApplyResources(Me.Lab_mposY, "Lab_mposY")
         Me.Lab_mposY.Name = "Lab_mposY"
+        Me.Lab_mposY.Tag = "Mouse Y: "
         '
         'Lab_sizeW
         '
         resources.ApplyResources(Me.Lab_sizeW, "Lab_sizeW")
         Me.Lab_sizeW.Name = "Lab_sizeW"
+        Me.Lab_sizeW.Tag = "Drawing W: "
         '
         'Lab_mposX
         '
         resources.ApplyResources(Me.Lab_mposX, "Lab_mposX")
         Me.Lab_mposX.Name = "Lab_mposX"
+        Me.Lab_mposX.Tag = "Mouse X: "
         '
         'Lb_selPoints
         '
@@ -414,6 +408,11 @@ Partial Class Form_main
         '
         Me.MoveTo00ToolStripMenuItem1.Name = "MoveTo00ToolStripMenuItem1"
         resources.ApplyResources(Me.MoveTo00ToolStripMenuItem1, "MoveTo00ToolStripMenuItem1")
+        '
+        'CenterToolStripMenuItem
+        '
+        Me.CenterToolStripMenuItem.Name = "CenterToolStripMenuItem"
+        resources.ApplyResources(Me.CenterToolStripMenuItem, "CenterToolStripMenuItem")
         '
         'CropToolStripMenuItem
         '
@@ -782,9 +781,14 @@ Partial Class Form_main
         'TabPage1
         '
         Me.TabPage1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.TabPage1.Controls.Add(Me.Lab_sizeH)
+        Me.TabPage1.Controls.Add(Me.Lab_zoomedH)
+        Me.TabPage1.Controls.Add(Me.Lab_sizeW)
+        Me.TabPage1.Controls.Add(Me.Lab_mposY)
+        Me.TabPage1.Controls.Add(Me.Lab_zoomedW)
         Me.TabPage1.Controls.Add(Me.Lab_lastBkp)
+        Me.TabPage1.Controls.Add(Me.Lab_mposX)
         Me.TabPage1.Controls.Add(Me.Lab_zoom)
-        Me.TabPage1.Controls.Add(Me.Group_info)
         resources.ApplyResources(Me.TabPage1, "TabPage1")
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -794,11 +798,13 @@ Partial Class Form_main
         resources.ApplyResources(Me.Lab_lastBkp, "Lab_lastBkp")
         Me.Lab_lastBkp.ForeColor = System.Drawing.SystemColors.AppWorkspace
         Me.Lab_lastBkp.Name = "Lab_lastBkp"
+        Me.Lab_lastBkp.Tag = "Last Bkp: "
         '
         'Lab_zoom
         '
         resources.ApplyResources(Me.Lab_zoom, "Lab_zoom")
         Me.Lab_zoom.Name = "Lab_zoom"
+        Me.Lab_zoom.Tag = "Zoom: "
         '
         'TabPage4
         '
@@ -1164,6 +1170,27 @@ Partial Class Form_main
         Me.Lb_figures.Name = "Lb_figures"
         Me.Lb_figures.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
         '
+        'Context_figures
+        '
+        Me.Context_figures.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem})
+        Me.Context_figures.Name = "Context_figures"
+        resources.ApplyResources(Me.Context_figures, "Context_figures")
+        '
+        'CutToolStripMenuItem
+        '
+        Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
+        resources.ApplyResources(Me.CutToolStripMenuItem, "CutToolStripMenuItem")
+        '
+        'CopyToolStripMenuItem
+        '
+        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+        resources.ApplyResources(Me.CopyToolStripMenuItem, "CopyToolStripMenuItem")
+        '
+        'PasteToolStripMenuItem
+        '
+        Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
+        resources.ApplyResources(Me.PasteToolStripMenuItem, "PasteToolStripMenuItem")
+        '
         'SaveFileDialog1
         '
         Me.SaveFileDialog1.DefaultExt = "png"
@@ -1417,31 +1444,17 @@ Partial Class Form_main
         Me.But_hideMain.Name = "But_hideMain"
         Me.But_hideMain.UseVisualStyleBackColor = False
         '
-        'Context_figures
+        'Lab_zoomedH
         '
-        Me.Context_figures.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem})
-        Me.Context_figures.Name = "Context_figures"
-        resources.ApplyResources(Me.Context_figures, "Context_figures")
+        resources.ApplyResources(Me.Lab_zoomedH, "Lab_zoomedH")
+        Me.Lab_zoomedH.Name = "Lab_zoomedH"
+        Me.Lab_zoomedH.Tag = "Zoomed CH: "
         '
-        'CutToolStripMenuItem
+        'Lab_zoomedW
         '
-        Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
-        resources.ApplyResources(Me.CutToolStripMenuItem, "CutToolStripMenuItem")
-        '
-        'CopyToolStripMenuItem
-        '
-        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-        resources.ApplyResources(Me.CopyToolStripMenuItem, "CopyToolStripMenuItem")
-        '
-        'PasteToolStripMenuItem
-        '
-        Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
-        resources.ApplyResources(Me.PasteToolStripMenuItem, "PasteToolStripMenuItem")
-        '
-        'CenterToolStripMenuItem
-        '
-        Me.CenterToolStripMenuItem.Name = "CenterToolStripMenuItem"
-        resources.ApplyResources(Me.CenterToolStripMenuItem, "CenterToolStripMenuItem")
+        resources.ApplyResources(Me.Lab_zoomedW, "Lab_zoomedW")
+        Me.Lab_zoomedW.Name = "Lab_zoomedW"
+        Me.Lab_zoomedW.Tag = "Zoomed CW: "
         '
         'Form_main
         '
@@ -1459,8 +1472,6 @@ Partial Class Form_main
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "Form_main"
-        Me.Group_info.ResumeLayout(False)
-        Me.Group_info.PerformLayout()
         Me.Context_selPoints.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
@@ -1492,18 +1503,17 @@ Partial Class Form_main
         Me.Pan_html.ResumeLayout(False)
         Me.Pan_html.PerformLayout()
         CType(Me.Pic_preview, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Context_figures.ResumeLayout(False)
         Me.Pan_main.ResumeLayout(False)
         Me.Pan_main.PerformLayout()
         Me.Pan_drawArea.ResumeLayout(False)
         CType(Me.Pic_canvas, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Context_figures.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
 
     Friend WithEvents Pic_canvas As PictureBox
-    Friend WithEvents Group_info As GroupBox
     Friend WithEvents Lab_sizeW As Label
     Friend WithEvents Lab_mposY As Label
     Friend WithEvents Lab_sizeH As Label
@@ -1672,4 +1682,6 @@ Partial Class Form_main
     Friend WithEvents CopyToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PasteToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CenterToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Lab_zoomedH As Label
+    Friend WithEvents Lab_zoomedW As Label
 End Class

@@ -32,6 +32,8 @@ Public Class Form_main
     Private myClipboard As New List(Of Object)
     Private myClipboarOp As ClipOp = ClipOp.None
 
+    Private initializing As Boolean = True
+
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Custom Events
 
@@ -90,6 +92,9 @@ Public Class Form_main
             Form_result.Pic_realSize.Size = SVG.CanvasSize.ToSize
         End If
 
+        Lab_zoomedW.Text = "Zoomed W: " & SVG.CanvasSizeZoomed.Width
+        Lab_zoomedH.Text = "Zoomed H: " & SVG.CanvasSizeZoomed.Height
+
         Pic_canvas.Invalidate()
         AddToHistory()
     End Sub
@@ -102,6 +107,8 @@ Public Class Form_main
         gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
 
         Lab_zoom.Text = "Zoom: " & Math.Round(SVG.CanvasZoom * 100, 1) & "%"
+        Lab_zoomedW.Text = Lab_zoomedW.Tag & SVG.CanvasSizeZoomed.Width
+        Lab_zoomedH.Text = Lab_zoomedH.Tag & SVG.CanvasSizeZoomed.Height
 
         RefreshBackGrid()
     End Sub
@@ -479,6 +486,24 @@ Public Class Form_main
     'Subroutines and Functions
 
     Public Sub LoadSettings()
+        Cb_htmlWrap.Checked = My.Settings.htmlWarp
+        Cb_optimize.Checked = My.Settings.htmlOptimize
+        If My.Settings.windowSize.Width > 0 AndAlso My.Settings.windowSize.Height > 0 Then
+            Me.Size = My.Settings.windowSize
+        End If
+
+        If My.Settings.gridSize.Width > 0 AndAlso My.Settings.gridSize.Height > 0 Then
+            Num_gridWidth.Value = My.Settings.gridSize.Width
+            Num_gridHeight.Value = My.Settings.gridSize.Height
+        End If
+
+        If My.Settings.stickyGridSize.Width > 0 AndAlso My.Settings.stickyGridSize.Height > 0 Then
+            Num_stikyGWidth.Value = My.Settings.stickyGridSize.Width
+            Num_stickyGHeight.Value = My.Settings.stickyGridSize.Height
+        End If
+
+        Num_decimals.Value = My.Settings.decimals
+
         'Load Attributes
         For Each item As String In My.Settings.attrnames
             If item.Length <= 0 Then Continue For
@@ -657,15 +682,13 @@ Public Class Form_main
         Static mpos As PointF = GetMousePlacePos(Pic_canvas)
         Dim digits As Integer = Math.Max(Math.Ceiling(SVG.CanvasSize.Width).ToString.Length, Math.Ceiling(SVG.CanvasSize.Height).ToString.Length) + 3
         mpos = GetMousePlacePos(Pic_canvas)
-        Lab_mposX.Text = "Mouse X: " & FormatNumber(mpos.X, 2, TriState.True, TriState.False, TriState.False).ToString.PadLeft(digits, "0") & " (" & SVG.ApplyZoom(mpos).X & ")"
-        Lab_mposY.Text = "Mouse Y: " & FormatNumber(mpos.Y, 2, TriState.True, TriState.False, TriState.False).ToString.PadLeft(digits, "0") & " (" & SVG.ApplyZoom(mpos).Y & ")"
+        Lab_mposX.Text = Lab_mposX.Tag & FormatNumber(mpos.X, 2, TriState.True, TriState.False, TriState.False).ToString.PadLeft(digits, "0") & " (" & SVG.ApplyZoom(mpos).X & ")"
+        Lab_mposY.Text = Lab_mposY.Tag & FormatNumber(mpos.Y, 2, TriState.True, TriState.False, TriState.False).ToString.PadLeft(digits, "0") & " (" & SVG.ApplyZoom(mpos).Y & ")"
 
         Static rc As RectangleF
-        rc = SVG.UnZoom(SVG.GetBounds())
-        Lab_sizeW.Text = "Width: " & Math.Round(rc.Width, 2)
-        Lab_sizeH.Text = "Height: " & Math.Round(rc.Height, 2)
-
-        Group_info.Invalidate()
+        rc = SVG.GetBounds()
+        Lab_sizeW.Text = Lab_sizeW.Tag & Math.Round(rc.Width, 2)
+        Lab_sizeH.Text = Lab_sizeH.Tag & Math.Round(rc.Height, 2)
     End Sub
 
     Private Function GetVisibleCanvasRect() As Rectangle
@@ -693,6 +716,21 @@ Public Class Form_main
             SVG.SelectedPoint = SVG.SelectedPath.GetClosestPoint(mpos, False)
             Pic_canvas.Invalidate()
         End If
+    End Sub
+
+    Public Sub SaveSettingsAsync()
+        Static tim As Timer = Nothing
+        If tim Is Nothing Then
+            tim = New Timer
+            tim.Interval = 1000
+            AddHandler tim.Tick, Sub(ByVal sender As Object, ByVal e As EventArgs)
+                                     My.Settings.Save()
+                                     CType(sender, Timer).Enabled = False
+                                 End Sub
+        End If
+        'Reset timer
+        tim.Enabled = False
+        tim.Enabled = True
     End Sub
 
     'Subroutines and Functions
@@ -730,6 +768,8 @@ Public Class Form_main
         'My.Settings.recentfiles = New Collections.Specialized.StringCollection
         'My.Settings.Reload()
         LoadSettings()
+
+        initializing = False
     End Sub
 
     'Initializations
@@ -1625,12 +1665,18 @@ Public Class Form_main
     Private Sub Num_gridWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_gridWidth.ValueChanged
         grid = New SizeF(Num_gridWidth.Value, grid.Height)
         gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
+
+        SetSettingValue(My.Settings.gridSize, New Size(grid.ToSize.Width, My.Settings.gridSize.Height))
+
         Pic_canvas.Invalidate()
     End Sub
 
     Private Sub Num_gridHeight_ValueChanged(sender As Object, e As EventArgs) Handles Num_gridHeight.ValueChanged
         grid = New SizeF(grid.Width, Num_gridHeight.Value)
         gridZoomed = New SizeF(grid.Width * SVG.CanvasZoom, grid.Height * SVG.CanvasZoom)
+
+        SetSettingValue(My.Settings.gridSize, New Size(My.Settings.gridSize.Width, grid.ToSize.Height))
+
         Pic_canvas.Invalidate()
     End Sub
 
@@ -1644,10 +1690,12 @@ Public Class Form_main
 
     Private Sub Num_stikyGWidth_ValueChanged(sender As Object, e As EventArgs) Handles Num_stikyGWidth.ValueChanged
         SVG.StikyGrid = New SizeF(Num_stikyGWidth.Value, SVG.StikyGrid.Height)
+        SetSettingValue(My.Settings.stickyGridSize, New Size(SVG.StikyGrid.ToSize.Width, My.Settings.stickyGridSize.Height))
     End Sub
 
     Private Sub Num_stickyGHeight_ValueChanged(sender As Object, e As EventArgs) Handles Num_stickyGHeight.ValueChanged
         SVG.StikyGrid = New SizeF(SVG.StikyGrid.Width, Num_stickyGHeight.Value)
+        SetSettingValue(My.Settings.stickyGridSize, New Size(My.Settings.stickyGridSize.Width, SVG.StikyGrid.ToSize.Height))
     End Sub
 
     Private Sub DuplicateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DuplicateToolStripMenuItem.Click
@@ -1707,11 +1755,17 @@ Public Class Form_main
 
     Private Sub Cb_optimize_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_optimize.CheckedChanged
         optimizePath = Cb_optimize.Checked
+
+        SetSettingValue(My.Settings.htmlOptimize, Cb_optimize.Checked)
+
         Pic_canvas.Invalidate()
     End Sub
 
     Private Sub Num_decimals_ValueChanged(sender As Object, e As EventArgs) Handles Num_decimals.ValueChanged
         decimalPlaces = Num_decimals.Value
+
+        SetSettingValue(My.Settings.decimals, Num_decimals.Value)
+
         Pic_canvas.Invalidate()
     End Sub
 
@@ -1873,7 +1927,7 @@ Public Class Form_main
     Private Sub Timer_autoBackup_Tick(sender As Object, e As EventArgs) Handles Timer_autoBackup.Tick
         If modsSinceLastBkp > 0 Then
             IO.File.WriteAllText("backup.wsvg", SVG.GetHtml(optimizePath))
-            Lab_lastBkp.Text = "Last Bkp: " & Now.ToShortTimeString
+            Lab_lastBkp.Text = Lab_lastBkp.Tag & Now.ToShortTimeString
             modsSinceLastBkp = 0
         End If
     End Sub
@@ -1910,6 +1964,7 @@ Public Class Form_main
 
     Private Sub Cb_htmlWrap_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_htmlWrap.CheckedChanged
         Tb_html.WordWrap = Cb_htmlWrap.Checked
+        SetSettingValue(My.Settings.htmlWarp, Cb_htmlWrap.Checked)
     End Sub
 
     Private Sub But_removeSelPts_Click(sender As Object, e As EventArgs) Handles But_removeSelPts.Click
@@ -2272,4 +2327,16 @@ Public Class Form_main
         SVG.Offset(cvcenter.X - bcenter.X, cvcenter.Y - bcenter.Y)
         Pic_canvas.Invalidate()
     End Sub
+
+    Private Sub Form_main_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
+        SetSettingValue(My.Settings.windowSize, Me.Size)
+    End Sub
+
+    Private Sub SetSettingValue(ByRef settng As Object, val As Object)
+        If initializing = False Then
+            settng = val
+            SaveSettingsAsync()
+        End If
+    End Sub
+
 End Class

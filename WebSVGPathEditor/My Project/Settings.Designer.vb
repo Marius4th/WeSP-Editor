@@ -92,6 +92,78 @@ Namespace My
                 Me("recentfiles") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property htmlWarp() As Boolean
+            Get
+                Return CType(Me("htmlWarp"),Boolean)
+            End Get
+            Set
+                Me("htmlWarp") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property windowSize() As Global.System.Drawing.Size
+            Get
+                Return CType(Me("windowSize"),Global.System.Drawing.Size)
+            End Get
+            Set
+                Me("windowSize") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property htmlOptimize() As Boolean
+            Get
+                Return CType(Me("htmlOptimize"),Boolean)
+            End Get
+            Set
+                Me("htmlOptimize") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property gridSize() As Global.System.Drawing.Size
+            Get
+                Return CType(Me("gridSize"),Global.System.Drawing.Size)
+            End Get
+            Set
+                Me("gridSize") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0, 0")>  _
+        Public Property stickyGridSize() As Global.System.Drawing.Size
+            Get
+                Return CType(Me("stickyGridSize"),Global.System.Drawing.Size)
+            End Get
+            Set
+                Me("stickyGridSize") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
+        Public Property decimals() As Integer
+            Get
+                Return CType(Me("decimals"),Integer)
+            End Get
+            Set
+                Me("decimals") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

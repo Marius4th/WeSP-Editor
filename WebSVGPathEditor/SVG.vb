@@ -350,7 +350,7 @@ Public NotInheritable Class SVG
             If rc.Bottom > maxy Then maxy = rc.Bottom
         Next
 
-        If minx = Single.PositiveInfinity Then Return New RectangleF(New PointF(0, 0), _canvasSizeZoomed)
+        If minx = Single.PositiveInfinity Then Return New RectangleF(New PointF(0, 0), _canvasSize)
         Return New RectangleF(minx, miny, maxx - minx, maxy - miny)
     End Function
 

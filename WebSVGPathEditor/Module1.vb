@@ -20,6 +20,7 @@ Public Module Module1
         Movement
         Drawing
     End Enum
+
     Public selectedTool As Tool = Tool.Drawing
     Public lastSelectedTool As Tool = Tool.Drawing
     Public selectedType As PointType = PointType.lineto
