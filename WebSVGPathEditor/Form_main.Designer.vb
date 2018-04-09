@@ -111,6 +111,8 @@ Partial Class Form_main
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Lab_zoomedH = New System.Windows.Forms.Label()
+        Me.Lab_zoomedW = New System.Windows.Forms.Label()
         Me.Lab_lastBkp = New System.Windows.Forms.Label()
         Me.Lab_zoom = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
@@ -193,8 +195,6 @@ Partial Class Form_main
         Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.But_hideHtml = New System.Windows.Forms.Button()
         Me.But_hideMain = New System.Windows.Forms.Button()
-        Me.Lab_zoomedH = New System.Windows.Forms.Label()
-        Me.Lab_zoomedW = New System.Windows.Forms.Label()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
@@ -792,6 +792,18 @@ Partial Class Form_main
         resources.ApplyResources(Me.TabPage1, "TabPage1")
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Lab_zoomedH
+        '
+        resources.ApplyResources(Me.Lab_zoomedH, "Lab_zoomedH")
+        Me.Lab_zoomedH.Name = "Lab_zoomedH"
+        Me.Lab_zoomedH.Tag = "Zoomed CH: "
+        '
+        'Lab_zoomedW
+        '
+        resources.ApplyResources(Me.Lab_zoomedW, "Lab_zoomedW")
+        Me.Lab_zoomedW.Name = "Lab_zoomedW"
+        Me.Lab_zoomedW.Tag = "Zoomed CW: "
         '
         'Lab_lastBkp
         '
@@ -1443,18 +1455,6 @@ Partial Class Form_main
         Me.But_hideMain.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_hideMain.Name = "But_hideMain"
         Me.But_hideMain.UseVisualStyleBackColor = False
-        '
-        'Lab_zoomedH
-        '
-        resources.ApplyResources(Me.Lab_zoomedH, "Lab_zoomedH")
-        Me.Lab_zoomedH.Name = "Lab_zoomedH"
-        Me.Lab_zoomedH.Tag = "Zoomed CH: "
-        '
-        'Lab_zoomedW
-        '
-        resources.ApplyResources(Me.Lab_zoomedW, "Lab_zoomedW")
-        Me.Lab_zoomedW.Name = "Lab_zoomedW"
-        Me.Lab_zoomedW.Tag = "Zoomed CW: "
         '
         'Form_main
         '

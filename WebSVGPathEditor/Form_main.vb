@@ -1557,18 +1557,18 @@ Public Class Form_main
             'SVG.CanvasZoom = 1
             Select Case IO.Path.GetExtension(SaveFileDialog1.FileName).ToLower
                 Case ".jpg"
-                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Jpeg)
+                    SVG.GetBitmap(SVG.CanvasSizeZoomed).Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Jpeg)
                 Case ".bmp"
-                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Bmp)
+                    SVG.GetBitmap(SVG.CanvasSizeZoomed).Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Bmp)
                 Case ".tiff"
-                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Tiff)
+                    SVG.GetBitmap(SVG.CanvasSizeZoomed).Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Tiff)
                 Case ".ico"
-                    Dim ico As Drawing.Icon = Drawing.Icon.FromHandle(SVG.GetBitmap().GetHicon)
+                    Dim ico As Drawing.Icon = Drawing.Icon.FromHandle(SVG.GetBitmap(SVG.CanvasSizeZoomed).GetHicon)
                     Dim oFileStream As New IO.FileStream(SaveFileDialog1.FileName, IO.FileMode.CreateNew)
                     ico.Save(oFileStream)
                     oFileStream.Close()
                 Case Else
-                    SVG.GetBitmap().Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Png)
+                    SVG.GetBitmap(SVG.CanvasSizeZoomed).Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Png)
             End Select
             'SVG.CanvasZoom = oldZoom
         End If
@@ -2070,7 +2070,7 @@ Public Class Form_main
             If Pic_preview.Image IsNot Nothing Then
                 Pic_preview.Image.Dispose()
             End If
-            Pic_preview.Image = SVG.GetBitmap()
+            Pic_preview.Image = SVG.GetBitmap(SVG.CanvasSize.ToSize)
             If Form_result.Visible Then
                 If Form_result.Pic_realSize.Image IsNot Nothing Then Form_result.Pic_realSize.Image.Dispose()
                 Form_result.Pic_realSize.Image = Pic_preview.Image
@@ -2339,4 +2339,17 @@ Public Class Form_main
         End If
     End Sub
 
+    Private Sub Combo_attrName_TextChanged(sender As Object, e As EventArgs) Handles Combo_attrName.TextChanged
+        If Combo_attrName.Text.Contains("=") Then
+            Dim str As String() = Split(Combo_attrName.Text, "=")
+            If str.Length > 1 Then
+                Combo_attrName.Text = str(0)
+                Combo_attrVal.Text = str(1).Replace("""", "")
+                'Focus on value and move carret to the end
+                Combo_attrVal.Focus()
+                Combo_attrVal.SelectionStart = Combo_attrVal.Text.Length
+                Combo_attrVal.SelectionLength = 0
+            End If
+        End If
+    End Sub
 End Class

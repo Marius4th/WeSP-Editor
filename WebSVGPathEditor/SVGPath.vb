@@ -543,32 +543,6 @@ Public Class SVGPath
         _idCount = 1
     End Sub
 
-    Public Sub AppedAttributes(ByRef attrs As Dictionary(Of String, String), fireEvents As Boolean)
-        'For Each item In attrs
-        '    If fireEvents Then
-        '        Select Case item.Key
-        '            Case "id"
-        '                Id = item.Value
-        '                Continue For
-        '            Case "stroke-width"
-        '                StrokeWidth = item.Value
-        '                Continue For
-        '            Case "stroke"
-        '                StrokeColor = HTMLParser.HTMLStringToColor(item.Value)
-        '                Continue For
-        '            Case "fill"
-        '                FillColor = HTMLParser.HTMLStringToColor(item.Value)
-        '                Continue For
-        '        End Select
-        '    End If
-
-        '    _attributes(item.Key) = item.Value
-        'Next
-        For Each item In attrs
-            Me.SetAttribute(item.Key, item.Value)
-        Next
-    End Sub
-
     Public Function GetBounds() As RectangleF
         Dim minx As Single = Single.PositiveInfinity
         Dim miny As Single = Single.PositiveInfinity
@@ -695,5 +669,37 @@ Public Class SVGPath
             Case "fill-Rule"
                 _gpathFillMode = Drawing2D.FillMode.Winding 'nonzero
         End Select
+    End Sub
+
+    Public Sub AppedAttributes(ByRef attrs As Dictionary(Of String, String))
+        'For Each item In attrs
+        '    If fireEvents Then
+        '        Select Case item.Key
+        '            Case "id"
+        '                Id = item.Value
+        '                Continue For
+        '            Case "stroke-width"
+        '                StrokeWidth = item.Value
+        '                Continue For
+        '            Case "stroke"
+        '                StrokeColor = HTMLParser.HTMLStringToColor(item.Value)
+        '                Continue For
+        '            Case "fill"
+        '                FillColor = HTMLParser.HTMLStringToColor(item.Value)
+        '                Continue For
+        '        End Select
+        '    End If
+
+        '    _attributes(item.Key) = item.Value
+        'Next
+        For Each item In attrs
+            Me.SetAttribute(item.Key, item.Value)
+        Next
+    End Sub
+
+    Public Sub ClearAttributes()
+        For Each attr In _attributes.AsEnumerable.Reverse
+            RemoveAttribute(attr.Key)
+        Next
     End Sub
 End Class

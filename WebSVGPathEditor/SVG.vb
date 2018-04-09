@@ -73,12 +73,15 @@ Public NotInheritable Class SVG
             Return _canvasSize
         End Get
         Set(ByVal value As SizeF)
+            _attributes("viewbox") = "0 0 " & value.Width & " " & value.Height
+            'If viewbox is different than teh size, keep the size as is
+            If _attributes.ContainsKey("width") AndAlso CSng(_attributes("width").GetNumbers("1")) = _canvasSize.Width Then _attributes("width") = value.Width & "px"
+            If _attributes.ContainsKey("height") AndAlso CSng(_attributes("height").GetNumbers("1")) = _canvasSize.Height Then _attributes("height") = value.Height & "px"
+
             _canvasSize = value
             _canvasSizeZoomed = New Size(_canvasSize.Width * _canvasZoom, _canvasSize.Height * _canvasZoom)
             CanvasZoom = _canvasZoom
-            _attributes("viewbox") = "0 0 " & value.Width & " " & value.Height
-            _attributes("width") = value.Width & "px"
-            _attributes("height") = value.Height & "px"
+
             RaiseEvent OnCanvasSizeChanged()
         End Set
     End Property
@@ -445,6 +448,7 @@ Public NotInheritable Class SVG
 
         AttributesSetDefaults()
         AppedAttributes(HTMLParser.GetAttributes(str), True)
+
         '_attributes = HTMLParser.GetAttributes(str)
 
         'Parse SVG's Size
@@ -461,7 +465,8 @@ Public NotInheritable Class SVG
             'For Each attr In pathAttribs
             '    SVG.SelectedPath.SetAttribute(attr.Key, attr.Value)
             'Next
-            SVG.SelectedPath.AppedAttributes(pathAttribs, True)
+            SVG.SelectedPath.ClearAttributes()
+            SVG.SelectedPath.AppedAttributes(pathAttribs)
 
             'Parse path's commands
             d = pathAttribs("d").Replace(" ", ",").Replace("-", ",-").Replace("z", "Z")
@@ -690,17 +695,28 @@ Public NotInheritable Class SVG
         oredered.CopyTo(selectedPoints)
     End Sub
 
-
     Public Shared Sub AppedAttributes(ByRef attrs As Dictionary(Of String, String), fireEvents As Boolean)
         For Each item In attrs
             If fireEvents Then
                 Select Case item.Key
+                    Case "viewbox"
+                        Dim num As List(Of String) = Regex.Split(item.Value, "[\s,]").ToList
+                        num.RemoveAll(Function(ByVal s As String) As Boolean
+                                          Return s.Length <= 0
+                                      End Function)
+                        If num.Count >= 4 Then
+                            CanvasSize = New SizeF(Math.Max(1, CSng(num(2).GetNumbers("1"))), Math.Max(1, CSng(num(3).GetNumbers("1"))))
+                        End If
                     Case "width"
-                        CanvasSize = New SizeF(item.Value.GetNumbers("1"), CanvasSize.Height)
-                        Continue For
+                        If Not _attributes.ContainsKey("viewbox") Then
+                            CanvasSize = New SizeF(Math.Max(1, CSng(item.Value.GetNumbers("1"))), CanvasSize.Height)
+                            Continue For
+                        End If
                     Case "height"
-                        CanvasSize = New SizeF(CanvasSize.Width, item.Value.GetNumbers("1"))
-                        Continue For
+                        If Not _attributes.ContainsKey("viewbox") Then
+                            CanvasSize = New SizeF(CanvasSize.Width, Math.Max(1, CSng(item.Value.GetNumbers("1"))))
+                            Continue For
+                        End If
                 End Select
             End If
 
@@ -731,30 +747,35 @@ Public NotInheritable Class SVG
         selectedBkgTemp = Nothing
     End Sub
 
-    Public Shared Function GetBitmap() As Bitmap
-        Dim imgSize As Size = SVG.CanvasSizeZoomed
-        If imgSize.Width > 4000 OrElse imgSize.Height > 4000 Then
-            Dim ratio As Single = imgSize.Width / imgSize.Height
-            If imgSize.Width > imgSize.Height Then
-                imgSize.Width = 4000
-                imgSize.Height = imgSize.Width / ratio
+    Public Shared Function GetBitmap(ByVal destSize As Size) As Bitmap
+        Dim prevZoom As Single = _canvasZoom
+
+        If destSize.Width > 4000 OrElse destSize.Height > 4000 Then
+            Dim ratio As Single = destSize.Width / destSize.Height
+            If destSize.Width > destSize.Height Then
+                destSize.Width = 4000
+                destSize.Height = destSize.Width / ratio
             Else
-                imgSize.Height = 4000
-                imgSize.Width = imgSize.Height * ratio
+                destSize.Height = 4000
+                destSize.Width = destSize.Height * ratio
             End If
         End If
-        Dim bmp As New Bitmap(imgSize.Width, imgSize.Height)
+        Dim bmp As New Bitmap(destSize.Width, destSize.Height)
         Dim grxCanvas As Graphics = Graphics.FromImage(bmp)
 
         grxCanvas.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
         grxCanvas.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
         grxCanvas.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
 
+        _canvasZoom = destSize.Width / _canvasSize.Width
+
         For Each path As SVGPath In _paths
             path.Draw(grxCanvas)
         Next
 
         grxCanvas.Dispose()
+
+        _canvasZoom = prevZoom
 
         Return bmp
     End Function
