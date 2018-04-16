@@ -610,7 +610,7 @@
         For i As Integer = 0 To _points.Count - 1
             Dim pp As PathPoint = _points(i)
             If IsPointRef(i) AndAlso pp.pointType = PointType.moveto Then Continue For
-            str &= pp.GetString(optimize) & " "
+            str &= pp.GetString(optimize, noHV) & " "
         Next
         If IsOpen = False Then str &= "Z"
 

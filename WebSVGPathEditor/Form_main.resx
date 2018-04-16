@@ -2491,10 +2491,43 @@
     <value>Pan_html</value>
   </data>
   <data name="&gt;&gt;Tb_html.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="Pan_html.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
+  </data>
+  <data name="Cb_noHV.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="Cb_noHV.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Cb_noHV.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Cb_noHV.Location" type="System.Drawing.Point, System.Drawing">
+    <value>739, 82</value>
+  </data>
+  <data name="Cb_noHV.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 18</value>
+  </data>
+  <data name="Cb_noHV.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="Cb_noHV.Text" xml:space="preserve">
+    <value>No H or V</value>
+  </data>
+  <data name="&gt;&gt;Cb_noHV.Name" xml:space="preserve">
+    <value>Cb_noHV</value>
+  </data>
+  <data name="&gt;&gt;Cb_noHV.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Cb_noHV.Parent" xml:space="preserve">
+    <value>Pan_html</value>
+  </data>
+  <data name="&gt;&gt;Cb_noHV.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="Cb_htmlWrap.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -2506,7 +2539,7 @@
     <value>NoControl</value>
   </data>
   <data name="Cb_htmlWrap.Location" type="System.Drawing.Point, System.Drawing">
-    <value>739, 63</value>
+    <value>739, 44</value>
   </data>
   <data name="Cb_htmlWrap.Size" type="System.Drawing.Size, System.Drawing">
     <value>60, 18</value>
@@ -2527,7 +2560,7 @@
     <value>Pan_html</value>
   </data>
   <data name="&gt;&gt;Cb_htmlWrap.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Cb_optimize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -2539,7 +2572,7 @@
     <value>NoControl</value>
   </data>
   <data name="Cb_optimize.Location" type="System.Drawing.Point, System.Drawing">
-    <value>739, 82</value>
+    <value>739, 63</value>
   </data>
   <data name="Cb_optimize.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 18</value>
@@ -2560,7 +2593,7 @@
     <value>Pan_html</value>
   </data>
   <data name="&gt;&gt;Cb_optimize.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="Button1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -2590,7 +2623,7 @@
     <value>Pan_html</value>
   </data>
   <data name="&gt;&gt;Button1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="Pic_preview.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -2620,7 +2653,7 @@
     <value>Pan_html</value>
   </data>
   <data name="&gt;&gt;Pic_preview.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Pan_html.Location" type="System.Drawing.Point, System.Drawing">
     <value>2, 607</value>

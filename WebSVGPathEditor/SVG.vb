@@ -232,7 +232,7 @@ Public NotInheritable Class SVG
         Return _paths.IndexOf(path)
     End Function
 
-    Public Shared Function GetHtml(optimize As Boolean) As String
+    Public Shared Function GetHtml(optimize As Boolean, pnoHV As Boolean) As String
         Dim str As String = "<svg "
 
         For Each item In _attributes
@@ -242,7 +242,7 @@ Public NotInheritable Class SVG
         str &= ">" & vbCrLf
 
         For Each path As SVGPath In _paths
-            str &= vbTab & path.GetHtml(optimize) & vbCrLf
+            str &= vbTab & path.GetHtml(optimize, pnoHV) & vbCrLf
         Next
 
         str &= "</svg>" & vbCrLf & vbCrLf

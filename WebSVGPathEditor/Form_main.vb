@@ -396,7 +396,7 @@ Public Class Form_main
         ''Form1.Pic_canvas.Invalidate()
         Dim index As Integer = SVG.selectedPoints.IndexOf(pp)
         If index >= 0 AndAlso index < Lb_selPoints.Items.Count Then
-            Lb_selPoints.Items.Item(index) = pp.GetString(False)
+            Lb_selPoints.Items.Item(index) = pp.GetString(False, noHV)
         End If
 
         Pic_canvas.Invalidate()
@@ -414,7 +414,7 @@ Public Class Form_main
             tim.Interval = 300
             AddHandler tim.Tick, Sub(ByVal sender2 As Object, ByVal e As EventArgs)
                                      For Each pp As PathPoint In queueSelectedPts
-                                         Lb_selPoints.Items.Add(pp.GetString(False))
+                                         Lb_selPoints.Items.Add(pp.GetString(False, noHV))
                                      Next
                                      Pic_canvas.Invalidate()
                                      CType(sender2, Timer).Enabled = False
@@ -484,6 +484,36 @@ Public Class Form_main
     'Custom Events
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Subroutines and Functions
+
+    Public Sub RefreshTitle()
+        Me.Text = IO.Path.GetFileNameWithoutExtension(filePath)
+
+        If modsSinceLastSave <> 0 Then
+            Me.Text &= "* - WeSP Editor"
+        Else
+            Me.Text &= " - WeSP Editor"
+        End If
+
+    End Sub
+
+    Public Sub SaveProject(newName As Boolean)
+        SaveFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
+
+        If filePath = defFilePath OrElse newName = True Then
+            SaveFileDialog1.FileName = IO.Path.GetFileName(filePath)
+            If SaveFileDialog1.ShowDialog = DialogResult.OK Then
+                filePath = SaveFileDialog1.FileName
+                RecentFilesAdd(SaveFileDialog1.FileName)
+                OpenFileDialog1.FileName = SaveFileDialog1.FileName
+            Else
+                Return
+            End If
+        End If
+
+        IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath, noHV))
+        modsSinceLastSave = 0
+        RefreshTitle()
+    End Sub
 
     Public Sub LoadSettings()
         Cb_htmlWrap.Checked = My.Settings.htmlWarp
@@ -760,7 +790,7 @@ Public Class Form_main
         'Add first figure
         SVG.Init()
 
-        Tb_html.Text = SVG.GetHtml(optimizePath)
+        Tb_html.Text = SVG.GetHtml(optimizePath, noHV)
 
         HistoryLockRestore()
         AddToHistory()
@@ -1336,7 +1366,7 @@ Public Class Form_main
                 Next
                 Pic_canvas.Invalidate()
 
-            ElseIf e.KeyCode = Keys.D AndAlso e.Control Then
+            ElseIf e.KeyCode = Keys.D AndAlso e.Modifiers = Keys.Control Then
                 'Clear selection
                 SVG.selectedPoints.Clear()
                 Pic_canvas.Invalidate()
@@ -1348,6 +1378,10 @@ Public Class Form_main
                     pp.Delete()
                 Next
                 Pic_canvas.Invalidate()
+
+            ElseIf e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
+                'Clear selection
+                SaveProject(False)
 
             ElseIf e.KeyCode = Keys.M Then
                 'Mirror PPoint
@@ -1599,39 +1633,25 @@ Public Class Form_main
     End Sub
 
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
-        SaveFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
-
-        If filePath = defFilePath Then
-            SaveFileDialog1.FileName = IO.Path.GetFileName(filePath)
-            If SaveFileDialog1.ShowDialog = DialogResult.OK Then
-                filePath = SaveFileDialog1.FileName
-                Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
-                RecentFilesAdd(SaveFileDialog1.FileName)
-                OpenFileDialog1.FileName = SaveFileDialog1.FileName
-            Else
-                Return
-            End If
-        End If
-
-        IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
-        modsSinceLastSave = 0
+        SaveProject(False)
     End Sub
 
     Private Sub SaveAsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsToolStripMenuItem.Click
-        SaveFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
-        If SaveFileDialog1.ShowDialog = DialogResult.OK Then
-            filePath = SaveFileDialog1.FileName
-            Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
-            IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
-            modsSinceLastSave = 0
-            RecentFilesAdd(SaveFileDialog1.FileName)
-            OpenFileDialog1.FileName = SaveFileDialog1.FileName
-        End If
+        SaveProject(True)
     End Sub
 
     Private Sub LoadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadToolStripMenuItem.Click
         OpenFileDialog1.Filter = "WeSP SVG|*.wsvg|SVG|*.svg|All Formats|*"
         If OpenFileDialog1.ShowDialog = DialogResult.OK Then
+            If modsSinceLastSave <> 0 Then
+                Dim answer As MsgBoxResult = MsgBox("Save changes to actual project, before opening the new one?", MsgBoxStyle.YesNoCancel)
+                If answer = MsgBoxResult.Yes Then
+                    SaveProject(False)
+                ElseIf answer = MsgBoxResult.Cancel Then
+                    Return
+                End If
+            End If
+
             LoadVectorFile(OpenFileDialog1.FileName)
             RecentFilesAdd(OpenFileDialog1.FileName)
         End If
@@ -1926,13 +1946,22 @@ Public Class Form_main
 
     Private Sub Timer_autoBackup_Tick(sender As Object, e As EventArgs) Handles Timer_autoBackup.Tick
         If modsSinceLastBkp > 0 Then
-            IO.File.WriteAllText("backup.wsvg", SVG.GetHtml(optimizePath))
+            IO.File.WriteAllText("backup.wsvg", SVG.GetHtml(optimizePath, noHV))
             Lab_lastBkp.Text = Lab_lastBkp.Tag & Now.ToShortTimeString
             modsSinceLastBkp = 0
         End If
     End Sub
 
     Private Sub LoadBackupToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LoadBackupToolStripMenuItem.Click
+        If modsSinceLastSave <> 0 Then
+            Dim answer As MsgBoxResult = MsgBox("Save changes to actual project?", MsgBoxStyle.YesNoCancel)
+            If answer = MsgBoxResult.Yes Then
+                SaveProject(False)
+            ElseIf answer = MsgBoxResult.Cancel Then
+                Return
+            End If
+        End If
+
         If IO.File.Exists("backup.wsvg") Then
             SVG.ParseString(IO.File.ReadAllText("backup.wsvg"))
         End If
@@ -1941,21 +1970,10 @@ Public Class Form_main
     Private Sub Form_main_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         'If e.CloseReason = CloseReason.WindowsShutDown Then Return
 
-        If e.CloseReason = CloseReason.UserClosing AndAlso modsSinceLastSave > 0 Then
+        If e.CloseReason = CloseReason.UserClosing AndAlso modsSinceLastSave <> 0 Then
             Dim answer As MsgBoxResult = MsgBox("Save changes before exiting?", MsgBoxStyle.YesNoCancel)
             If answer = MsgBoxResult.Yes Then
-                SaveFileDialog1.Filter = "WeSP SVG|*.wsvg"
-                If filePath = defFilePath Then
-                    SaveFileDialog1.FileName = IO.Path.GetFileName(filePath)
-                    If SaveFileDialog1.ShowDialog = DialogResult.OK Then
-                        filePath = SaveFileDialog1.FileName
-                        Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
-                    Else
-                        Return
-                    End If
-                End If
-
-                IO.File.WriteAllText(filePath, SVG.GetHtml(optimizePath))
+                SaveProject(False)
             ElseIf answer = MsgBoxResult.Cancel Then
                 e.Cancel = True
             End If
@@ -2057,12 +2075,12 @@ Public Class Form_main
     End Sub
 
     Private Sub Tb_html_Enter(sender As Object, e As EventArgs) Handles Tb_html.Enter
-        Tb_html.Text = SVG.GetHtml(optimizePath)
+        Tb_html.Text = SVG.GetHtml(optimizePath, noHV)
     End Sub
 
     Private Sub Timer_refresh_Tick(sender As Object, e As EventArgs) Handles Timer_refresh.Tick
         If Not Tb_html.Focused And refreshHtml Then
-            Tb_html.Text = SVG.GetHtml(optimizePath)
+            Tb_html.Text = SVG.GetHtml(optimizePath, noHV)
         End If
         If refreshHtml Then
             'Dim oldZoom As Single = SVG.CanvasZoom
@@ -2097,6 +2115,15 @@ Public Class Form_main
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        If modsSinceLastSave <> 0 Then
+            Dim answer As MsgBoxResult = MsgBox("Save changes to actual project?", MsgBoxStyle.YesNoCancel)
+            If answer = MsgBoxResult.Yes Then
+                SaveProject(False)
+            ElseIf answer = MsgBoxResult.Cancel Then
+                Return
+            End If
+        End If
+
         SVG.CanvasSize = New SizeF(64, 64)
         SVG.Clear()
         filePath = defFilePath
@@ -2173,7 +2200,7 @@ Public Class Form_main
 
         My.Settings.Save()
         AddToHistory()
-        Pic_canvas.Invalidate()
+        Pic_canvas.Refresh()
     End Sub
 
     Private Sub But_attrOk_Click(sender As Object, e As EventArgs) Handles But_attrOk.Click
@@ -2351,5 +2378,10 @@ Public Class Form_main
                 Combo_attrVal.SelectionLength = 0
             End If
         End If
+    End Sub
+
+    Private Sub Cb_noHV_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_noHV.CheckedChanged
+        noHV = Cb_noHV.Checked
+        Pic_canvas.Refresh()
     End Sub
 End Class

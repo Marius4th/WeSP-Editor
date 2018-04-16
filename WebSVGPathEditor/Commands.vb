@@ -27,8 +27,14 @@ Public Module Commands
     End Enum
 
     Public Enum MoveMods As Long
+        None = 0
         StickToGrid = 1     '10000000
         StickTo45Degs = 2   '01000000
+    End Enum
+
+    Public Enum StringMod
+        None = 0
+        NoHV = 1    '10000000: Won't transform linetos intho its horizontal/vertical equivalents
     End Enum
 
     'Public MustInherit Class PathPoint
@@ -365,22 +371,22 @@ Public Module Commands
             Return str.Replace(" -", "-")
         End Function
 
-        Public Overridable Function GetString(Optional optimize As Boolean = True) As String
+        Public Overridable Function GetString(Optional optimize As Boolean = True, Optional mods As Long = 0) As String
             If optimize = False Then
-                Return GetStringAbsolute()
+                Return GetStringAbsolute(mods)
             Else
-                Dim abs As String = OptimizePathD(GetStringAbsolute())
-                Dim rel As String = OptimizePathD(GetStringRelative())
+                Dim abs As String = OptimizePathD(GetStringAbsolute(mods))
+                Dim rel As String = OptimizePathD(GetStringRelative(mods))
 
                 If abs.Length > rel.Length Then Return rel
                 Return abs
             End If
         End Function
 
-        Public Overridable Function GetStringAbsolute() As String
+        Public Overridable Function GetStringAbsolute(mods As Long) As String
             Dim cutPos As PointF = CutDecimals(Pos)
 
-            If pointType = PointType.lineto Then
+            If pointType = PointType.lineto AndAlso (mods And StringMod.NoHV) <= 0 Then
                 'Treat it as a Horizontal/Vertical Lineto
                 If PrevPPoint.Pos.Y = Pos.Y Then
                     Return "H" & cutPos.X
@@ -392,12 +398,12 @@ Public Module Commands
             Return Chr(pointType) & cutPos.X & "," & cutPos.Y
         End Function
 
-        Public Overridable Function GetStringRelative() As String
+        Public Overridable Function GetStringRelative(mods As Long) As String
             Dim relPos As PointF = CutDecimals(Pos)
 
             If PrevPPoint IsNot Nothing Then relPos = CutDecimals(Pos - PrevPPoint.Pos)
 
-            If pointType = PointType.lineto Then
+            If pointType = PointType.lineto AndAlso (mods And StringMod.NoHV) <= 0 Then
                 'Treat it as a Horizontal/Vertical Lineto
                 If PrevPPoint.Pos.Y = Pos.Y Then
                     Return "h" & relPos.X
@@ -756,14 +762,14 @@ Public Module Commands
             End Select
         End Sub
 
-        Public Overrides Function GetStringAbsolute() As String
+        Public Overrides Function GetStringAbsolute(mods As Long) As String
             Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutRadii As PointF = CutDecimals(radii)
 
             Return Chr(pointType) & cutRadii.X & "," & cutRadii.Y & " " & CutDecimals(xangle) & " " & Math.Abs(CInt(flarge)) & "," & Math.Abs(CInt(fsweep)) & " " & cutPos.X & "," & cutPos.Y
         End Function
 
-        Public Overrides Function GetStringRelative() As String
+        Public Overrides Function GetStringRelative(mods As Long) As String
             Dim cutRadii As PointF = CutDecimals(radii)
 
             Dim relPos As PointF = CutDecimals(Pos)
@@ -950,14 +956,14 @@ Public Module Commands
             End Select
         End Sub
 
-        Public Overrides Function GetStringAbsolute() As String
+        Public Overrides Function GetStringAbsolute(mods As Long) As String
             Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutCtrlPt As PointF = CutDecimals(ctrlPoint)
 
             Return Chr(pointType) & cutCtrlPt.X & "," & cutCtrlPt.Y & " " & cutPos.X & "," & cutPos.Y
         End Function
 
-        Public Overrides Function GetStringRelative() As String
+        Public Overrides Function GetStringRelative(mods As Long) As String
             Dim relPos As PointF = CutDecimals(Pos)
             If PrevPPoint IsNot Nothing Then relPos = CutDecimals(Pos - PrevPPoint.Pos)
             Dim relCtrlP As PointF = CutDecimals(ctrlPoint - PrevPPoint.Pos)
@@ -1098,7 +1104,7 @@ Public Module Commands
             End Select
         End Sub
 
-        Public Overrides Function GetStringAbsolute() As String
+        Public Overrides Function GetStringAbsolute(mods As Long) As String
             Dim cutPos As PointF = CutDecimals(Pos)
             Dim cutCtrlPt1 As PointF = CutDecimals(ctrlPoint1)
             Dim cutCtrlPt2 As PointF = CutDecimals(ctrlPoint2)
@@ -1108,7 +1114,7 @@ Public Module Commands
                     cutPos.X & "," & cutPos.Y
         End Function
 
-        Public Overrides Function GetStringRelative() As String
+        Public Overrides Function GetStringRelative(mods As Long) As String
             Dim relPos As PointF = CutDecimals(Pos)
             If PrevPPoint IsNot Nothing Then relPos = CutDecimals(Pos - PrevPPoint.Pos)
 

@@ -366,14 +366,14 @@ Public Class SVGPath
         Return pathRc
     End Function
 
-    Public Function GetString(optimize As Boolean) As String
+    Public Function GetString(optimize As Boolean, pnoHV As Boolean) As String
         Dim str As String = ""
 
         For Each fig As Figure In figures
             For i As Integer = 0 To fig.Count - 1
                 Dim pp As PathPoint = fig(i)
                 If fig.IsPointRef(i) AndAlso pp.pointType = PointType.moveto Then Continue For
-                str &= pp.GetString(optimize) & " "
+                str &= pp.GetString(optimize, pnoHV) & " "
             Next
             If fig.IsOpen = False Then str &= "Z"
         Next
@@ -383,10 +383,10 @@ Public Class SVGPath
         Return str
     End Function
 
-    Public Function GetHtml(optimize As Boolean) As String
+    Public Function GetHtml(optimize As Boolean, pnoHV As Boolean) As String
         Dim str As String = "<path "
 
-        _attributes("d") = GetString(optimize)
+        _attributes("d") = GetString(optimize, pnoHV)
 
         For Each item In _attributes
             str &= item.Key & "=""" & item.Value & """ "

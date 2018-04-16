@@ -154,6 +154,7 @@ Partial Class Form_main
         Me.But_removeTemplate = New System.Windows.Forms.Button()
         Me.Tb_html = New System.Windows.Forms.TextBox()
         Me.Pan_html = New System.Windows.Forms.GroupBox()
+        Me.Cb_noHV = New System.Windows.Forms.CheckBox()
         Me.Cb_htmlWrap = New System.Windows.Forms.CheckBox()
         Me.Cb_optimize = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
@@ -1127,6 +1128,7 @@ Partial Class Form_main
         'Pan_html
         '
         resources.ApplyResources(Me.Pan_html, "Pan_html")
+        Me.Pan_html.Controls.Add(Me.Cb_noHV)
         Me.Pan_html.Controls.Add(Me.Cb_htmlWrap)
         Me.Pan_html.Controls.Add(Me.Cb_optimize)
         Me.Pan_html.Controls.Add(Me.Button1)
@@ -1134,6 +1136,12 @@ Partial Class Form_main
         Me.Pan_html.Controls.Add(Me.Tb_html)
         Me.Pan_html.Name = "Pan_html"
         Me.Pan_html.TabStop = False
+        '
+        'Cb_noHV
+        '
+        resources.ApplyResources(Me.Cb_noHV, "Cb_noHV")
+        Me.Cb_noHV.Name = "Cb_noHV"
+        Me.Cb_noHV.UseVisualStyleBackColor = True
         '
         'Cb_htmlWrap
         '
@@ -1684,4 +1692,5 @@ Partial Class Form_main
     Friend WithEvents CenterToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Lab_zoomedH As Label
     Friend WithEvents Lab_zoomedW As Label
+    Friend WithEvents Cb_noHV As CheckBox
 End Class

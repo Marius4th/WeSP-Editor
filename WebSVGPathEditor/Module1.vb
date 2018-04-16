@@ -13,6 +13,7 @@ Public Module Module1
     Public mirrorHor As Boolean = False
     Public mirrorVert As Boolean = False
     Public optimizePath As Boolean = True
+    Public noHV As Boolean = False
 
     'Tools
     Public Enum Tool
@@ -58,7 +59,7 @@ Public Module Module1
 
     Public Sub AddToHistory()
         If historyLocked Then Return
-        Dim latest As String = SVG.GetHtml(optimizePath)
+        Dim latest As String = SVG.GetHtml(optimizePath, noHV)
 
         If historySelected < history.Count - 1 Then
             history.RemoveRange(historySelected + 1, history.Count - historySelected - 1)
@@ -69,6 +70,7 @@ Public Module Module1
             historySelected = history.Count - 1
             modsSinceLastBkp += 1
             modsSinceLastSave += 1
+            Form_main.RefreshTitle()
         End If
     End Sub
 
@@ -78,7 +80,8 @@ Public Module Module1
         historySelected = Math.Max(historySelected - 1, 0)
         SVG.ParseString(history(historySelected))
         historyLocked = False
-        modsSinceLastSave += 1
+        modsSinceLastSave -= 1
+        Form_main.RefreshTitle()
     End Sub
 
     Public Sub Redo()
@@ -88,6 +91,7 @@ Public Module Module1
         SVG.ParseString(history(historySelected))
         historyLocked = False
         modsSinceLastSave += 1
+        Form_main.RefreshTitle()
     End Sub
 
     Public Sub HistoryLock()
