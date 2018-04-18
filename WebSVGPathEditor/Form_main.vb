@@ -28,6 +28,7 @@ Public Class Form_main
     Private canvasBack As Bitmap
     Private refreshHtml As Boolean = True
     Private showGrid As Boolean = True
+    Private showBigGrid As Boolean = True
 
     Private myClipboard As New List(Of Object)
     Private myClipboarOp As ClipOp = ClipOp.None
@@ -350,6 +351,9 @@ Public Class Form_main
 
     Public Sub Figure_OnPPointRemoving(ByRef sender As Figure, ByRef pp As PathPoint)
         If SVG.selectedPoints.Contains(pp) Then SVG.selectedPoints.Remove(pp)
+
+        If sender.HasMoveto = False Then EnableButton(But_moveto, True)
+
         Pic_canvas.Invalidate()
 
         AddToHistory()
@@ -464,15 +468,15 @@ Public Class Form_main
         End If
     End Sub
     Public Sub SVGSelectedPoints_OnRemovingRange(ByRef sender As ListWithEvents(Of PathPoint), start As Integer, count As Integer)
-        For i As Integer = start To start + count - 1
+        For i As Integer = start + count - 1 To start Step -1
+            If Not queueSelectedPts.Contains(SVG.selectedPoints(i)) Then Lb_selPoints.Items.RemoveAt(i)
             queueSelectedPts.Remove(SVG.selectedPoints(i))
-            Lb_selPoints.Items.RemoveAt(i)
         Next
         Pic_canvas.Invalidate()
     End Sub
     Public Sub SVGSelectedPoints_OnRemoving(ByRef sender As ListWithEvents(Of PathPoint), ByRef d As PathPoint)
+        If Not queueSelectedPts.Contains(d) Then Lb_selPoints.Items.RemoveAt(sender.IndexOf(d))
         queueSelectedPts.Remove(d)
-        Lb_selPoints.Items.RemoveAt(sender.IndexOf(d))
         Pic_canvas.Invalidate()
     End Sub
     Public Sub SVGSelectedPoints_OnClear(ByRef sender As ListWithEvents(Of PathPoint))
@@ -628,6 +632,7 @@ Public Class Form_main
         Me.Text = IO.Path.GetFileNameWithoutExtension(filePath) & " - WeSP Editor"
         SVG.ParseString(IO.File.ReadAllText(filePath))
         SaveFileDialog1.FileName = fpath
+        HistoryModsReset()
     End Sub
 
     Public Sub LoadBkgTemplateFile(fpath As String)
@@ -794,6 +799,10 @@ Public Class Form_main
 
         HistoryLockRestore()
         AddToHistory()
+        HistoryModsReset()
+
+        'Load setting from previous version
+        If My.Settings.recentfiles.Count <= 0 Then My.Settings.Upgrade()
 
         'My.Settings.recentfiles = New Collections.Specialized.StringCollection
         'My.Settings.Reload()
@@ -1054,7 +1063,8 @@ Public Class Form_main
     End Sub
 
     Private Sub Pic_canvas_Paint(sender As Object, e As PaintEventArgs) Handles Pic_canvas.Paint
-        Static penAxis As New Pen(Color.FromArgb(150, Color.Chocolate), 1)
+        Static penBigGrid As New Pen(Color.FromArgb(150, Color.Yellow), 1)
+        Static penSelAxis As New Pen(Color.FromArgb(150, Color.Chocolate), 1)
         Static penCentralAxis As New Pen(Color.FromArgb(100, Color.White), 1)
 
         'Dim ht As New HiResTimer
@@ -1097,17 +1107,24 @@ Public Class Form_main
         e.Graphics.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
 
         'Draw 32x32 cells reference Grid --------------------------------------------------------------------------------------
-        penAxis.DashPattern = {5, 5}
-        For ix As Integer = gridZoomed.Width To SVG.CanvasSizeZoomed.Width - 1 Step gridZoomed.Width
-            e.Graphics.DrawLine(penAxis, ix, 0, ix, SVG.CanvasSizeZoomed.Height)
-        Next
-        For iy As Integer = gridZoomed.Height To SVG.CanvasSizeZoomed.Height - 1 Step gridZoomed.Height
-            e.Graphics.DrawLine(penAxis, 0, iy, SVG.CanvasSizeZoomed.Width, iy)
-        Next
+        If showBigGrid Then
+            penBigGrid.DashPattern = {4 * SVG.CanvasZoom, 4 * SVG.CanvasZoom}
+            For ix As Integer = gridZoomed.Width To SVG.CanvasSizeZoomed.Width - 1 Step gridZoomed.Width
+                If ix = SVG.CanvasSizeZoomed.Width / 2.0F Then Continue For
+                e.Graphics.DrawLine(penBigGrid, ix, 0, ix, SVG.CanvasSizeZoomed.Height)
+            Next
+            For iy As Integer = gridZoomed.Height To SVG.CanvasSizeZoomed.Height - 1 Step gridZoomed.Height
+                If iy = SVG.CanvasSizeZoomed.Height / 2.0F Then Continue For
+                e.Graphics.DrawLine(penBigGrid, 0, iy, SVG.CanvasSizeZoomed.Width, iy)
+            Next
 
-        penCentralAxis.DashPattern = {5, 5}
-        e.Graphics.DrawLine(penCentralAxis, 0, SVG.CanvasSizeZoomed.Height / 2.0F, SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height / 2.0F)
-        e.Graphics.DrawLine(penCentralAxis, SVG.CanvasSizeZoomed.Width / 2.0F, 0, SVG.CanvasSizeZoomed.Width / 2.0F, SVG.CanvasSizeZoomed.Height)
+            'Central axis
+            penCentralAxis.DashPattern = {4 * SVG.CanvasZoom, 4 * SVG.CanvasZoom}
+            penCentralAxis.DashOffset = -(SVG.CanvasSizeZoomed.Width / 2.0F / penCentralAxis.Width - (4 * SVG.CanvasZoom / 2)) 'keep the dashed line centered
+            e.Graphics.DrawLine(penCentralAxis, 0, SVG.CanvasSizeZoomed.Height / 2.0F, SVG.CanvasSizeZoomed.Width, SVG.CanvasSizeZoomed.Height / 2.0F)
+            penCentralAxis.DashOffset = -(SVG.CanvasSizeZoomed.Height / 2.0F / penCentralAxis.Width - (4 * SVG.CanvasZoom / 2)) 'keep the dashed line centered
+            e.Graphics.DrawLine(penCentralAxis, SVG.CanvasSizeZoomed.Width / 2.0F, 0, SVG.CanvasSizeZoomed.Width / 2.0F, SVG.CanvasSizeZoomed.Height)
+        End If
 
         'Draw SVG -------------------------------------------------------------------------------------------------------------
         'Dim grxCanvas As Graphics = Graphics.FromImage(canvasImg)
@@ -1188,17 +1205,17 @@ Public Class Form_main
 
 
         'Draw moving point's axis ---------------------------------------------------------------------------------------------
-        penAxis.DashPattern = {16, 16}
+        penSelAxis.DashPattern = {4 * SVG.CanvasZoom, 4 * SVG.CanvasZoom}
 
         If movingPoints = True AndAlso SVG.selectedPoints.Count = 1 AndAlso SVG.SelectedPoint.selPoint IsNot Nothing Then
-            e.Graphics.DrawLine(penAxis, New PointF(SVG.ApplyZoom(SVG.SelectedPoint.selPoint).X, 0), New PointF(SVG.ApplyZoom(SVG.SelectedPoint.selPoint).X, SVG.CanvasSizeZoomed.Height))
-            e.Graphics.DrawLine(penAxis, New PointF(0, SVG.ApplyZoom(SVG.SelectedPoint.selPoint).Y), New PointF(SVG.CanvasSizeZoomed.Width, SVG.ApplyZoom(SVG.SelectedPoint.selPoint).Y))
+            e.Graphics.DrawLine(penSelAxis, New PointF(SVG.ApplyZoom(SVG.SelectedPoint.selPoint).X, 0), New PointF(SVG.ApplyZoom(SVG.SelectedPoint.selPoint).X, SVG.CanvasSizeZoomed.Height))
+            e.Graphics.DrawLine(penSelAxis, New PointF(0, SVG.ApplyZoom(SVG.SelectedPoint.selPoint).Y), New PointF(SVG.CanvasSizeZoomed.Width, SVG.ApplyZoom(SVG.SelectedPoint.selPoint).Y))
         End If
 
         'Draw selection -------------------------------------------------------------------------------------------------------
-        penAxis.DashPattern = {3, 3}
+        penSelAxis.DashPattern = {3, 3}
         If selectedTool = Tool.Selection Then
-            e.Graphics.DrawRectangle(penAxis, SVG.ApplyZoom(selectionRect).ToRectangle)
+            e.Graphics.DrawRectangle(penSelAxis, SVG.ApplyZoom(selectionRect).ToRectangle)
         End If
 
         ' ---------------------------------------------------------------------------------------------------------------------
@@ -1374,7 +1391,7 @@ Public Class Form_main
             ElseIf e.KeyCode = Keys.Delete AndAlso e.Modifiers = Keys.None Then
                 'Delete the selected points
                 For Each pp As PathPoint In SVG.selectedPoints.Reverse
-                    If pp.pointType = PointType.moveto Then Continue For
+                    If pp.pointType = PointType.moveto AndAlso pp.parent.Count > 1 Then Continue For
                     pp.Delete()
                 Next
                 Pic_canvas.Invalidate()
@@ -2382,6 +2399,12 @@ Public Class Form_main
 
     Private Sub Cb_noHV_CheckedChanged(sender As Object, e As EventArgs) Handles Cb_noHV.CheckedChanged
         noHV = Cb_noHV.Checked
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub But_showBigGrid_Click(sender As Object, e As EventArgs) Handles But_showBigGrid.Click
+        showBigGrid = Not showBigGrid
+        HighlightButton(But_showBigGrid, showBigGrid)
         Pic_canvas.Refresh()
     End Sub
 End Class

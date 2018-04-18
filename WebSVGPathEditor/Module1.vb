@@ -54,8 +54,8 @@ Public Module Module1
     Public historySelected As Integer = 0
     Private historyLocked As Boolean = True
     Private historyLastLockState As Boolean = False
-    Public modsSinceLastBkp As Integer = -2
-    Public modsSinceLastSave As Integer = -2
+    Public modsSinceLastBkp As Integer = -1
+    Public modsSinceLastSave As Integer = -1
 
     Public Sub AddToHistory()
         If historyLocked Then Return
@@ -101,6 +101,11 @@ Public Module Module1
 
     Public Sub HistoryLockRestore()
         historyLocked = historyLastLockState
+    End Sub
+
+    Public Sub HistoryModsReset()
+        modsSinceLastBkp = 0
+        modsSinceLastSave = 0
     End Sub
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

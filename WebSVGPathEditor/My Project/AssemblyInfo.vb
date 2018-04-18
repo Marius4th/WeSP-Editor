@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("WeSP Editor")>
 <Assembly: AssemblyDescription("A program for making and editing vector graphics for the web.")>
-<Assembly: AssemblyCompany("Marius I. V.")>
+<Assembly: AssemblyCompany("M4th")>
 <Assembly: AssemblyProduct("WeSP Editor")>
 <Assembly: AssemblyCopyright("Copyright © Marius I. V., @marius4th 2018")>
 <Assembly: AssemblyTrademark("WeSP Editor")>
@@ -32,6 +32,6 @@ Imports System.Runtime.InteropServices
 ' mediante el carácter '*', como se muestra a continuación:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("0.2.6.3")>
-<Assembly: AssemblyFileVersion("0.2.6.3")>
+<Assembly: AssemblyVersion("0.2.6.5")>
+<Assembly: AssemblyFileVersion("0.2.6.5")>
 <Assembly: NeutralResourcesLanguage("en")>
