@@ -5,7 +5,7 @@ Public Class SVGPath
 
     Private figures As New List(Of Figure)
     Public selectedPoints As New ListWithEvents(Of PathPoint)
-    Public selectedFigures As New ListWithEvents(Of Figure)
+    Public WithEvents selectedFigures As New ListWithEvents(Of Figure)
     Private _attributes As New Dictionary(Of String, String)
     Private _strokePen As Pen
     Private _fillBrush As SolidBrush
@@ -73,7 +73,7 @@ Public Class SVGPath
         Set(ByVal value As Figure)
             selectedFigures.Clear()
             selectedFigures.Add(value)
-            RaiseEvent OnSelectFigure(Me, value)
+            'RaiseEvent OnSelectFigure(Me, value)
         End Set
     End Property
 
@@ -102,9 +102,24 @@ Public Class SVGPath
     Public Shared Event OnFiguresClear(ByRef sender As SVGPath)
     Public Shared Event OnStrokeWidthChanged(ByRef sender As SVGPath)
     Public Shared Event OnIdChanged(ByRef sender As SVGPath, id As String)
-    Public Shared Event OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
     Public Shared Event OnChangeFigureIndex(ByRef sender As SVGPath, oldIndx As Integer, newIndx As Integer)
     Public Shared Event OnSetAttribute(ByRef sender As SVGPath, attr As String, newVal As String)
+
+    Public Shared Event OnSelectionAddFigure(ByRef sender As SVGPath, ByRef fig As Figure)
+    Public Shared Event OnSelectionRemovingFigure(ByRef sender As SVGPath, ByRef fig As Figure)
+    Public Shared Event OnSelectionClearFigures(ByRef sender As SVGPath)
+
+    Private Sub HOnSelectionAddFigure(ByRef sender As ListWithEvents(Of Figure), ByRef d As Figure) Handles selectedFigures.OnAdd
+        RaiseEvent OnSelectionAddFigure(Me, d)
+    End Sub
+
+    Private Sub HOnSelectionRemovingFigure(ByRef sender As ListWithEvents(Of Figure), ByRef d As Figure) Handles selectedFigures.OnRemoving
+        RaiseEvent OnSelectionRemovingFigure(Me, d)
+    End Sub
+
+    Private Sub HOnSelectionRemovingFigure(ByRef sender As ListWithEvents(Of Figure)) Handles selectedFigures.OnClear
+        RaiseEvent OnSelectionClearFigures(Me)
+    End Sub
 
     Public Sub New()
         _attributes.Add("id", "Path_" & _idCount)
@@ -702,4 +717,6 @@ Public Class SVGPath
             RemoveAttribute(attr.Key)
         Next
     End Sub
+
+
 End Class

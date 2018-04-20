@@ -198,6 +198,21 @@
         Offset(New PointF(xoff, yoff))
     End Sub
 
+    Public Sub Multiply(ByRef ammount As PointF)
+        'Select all point before moving so moveto's movement won't mess with the rest of the points
+        SVG.selectedPoints.Clear()
+        For Each pp As PathPoint In _points
+            SVG.selectedPoints.Add(pp)
+        Next
+        For Each pp As PathPoint In _points
+            pp.Multiply(ammount)
+        Next
+    End Sub
+
+    Public Sub Multiply(xscale As Single, yscale As Single)
+        Multiply(New PointF(xscale, yscale))
+    End Sub
+
     Public Sub RemoveAt(index As Integer)
         RaiseEvent OnPPointRemoving(Me, _points(index))
 
@@ -572,11 +587,8 @@
         posDiff.X = (1 - sx) * pivotPt.X
         posDiff.Y = (1 - sy) * pivotPt.Y
 
-        For Each pp As PathPoint In _points
-            If pp.Pos Is Nothing Then Continue For
-            pp.Multiply(sx, sy)
-            pp.Offset(posDiff.X, posDiff.Y)
-        Next
+        Multiply(sx, sy)
+        Offset(posDiff.X, posDiff.Y)
     End Sub
 
     'Applyies scaling to the path of the figure but doesn't change the values of it's points

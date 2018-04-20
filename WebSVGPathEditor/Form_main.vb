@@ -72,7 +72,9 @@ Public Class Form_main
         AddHandler SVGPath.OnFiguresClear, AddressOf SVGPath_OnFiguresClear
         AddHandler SVGPath.OnStrokeWidthChanged, AddressOf SVGPath_OnStrokeWidthChanged
         AddHandler SVGPath.OnIdChanged, AddressOf SVGPath_OnIdChanged
-        AddHandler SVGPath.OnSelectFigure, AddressOf SVGPath_OnSelectFigure
+        AddHandler SVGPath.OnSelectionAddFigure, AddressOf SVGPath_OnSelectionAddFigure
+        AddHandler SVGPath.OnSelectionRemovingFigure, AddressOf SVGPath_OnSelectionRemovingFigure
+        AddHandler SVGPath.OnSelectionClearFigures, AddressOf SVGPath_OnSelectionClearFigures
         AddHandler SVGPath.OnChangeFigureIndex, AddressOf SVGPath_OnChangeFigureIndex
         AddHandler SVGPath.OnSetAttribute, AddressOf SVGPath_OnSetAttribute
 
@@ -163,6 +165,12 @@ Public Class Form_main
             For Each fig As Figure In SVG.SelectedPath.selectedFigures.Reverse
                 Lb_figures.SelectedIndices.Add(fig.GetIndex())
             Next
+        End If
+
+        If SVG.SelectedPath.SelectedFigure.HasMoveto Then
+            EnableButton(But_moveto, False)
+        Else
+            EnableButton(But_moveto, True)
         End If
 
         Pic_canvas.Invalidate()
@@ -307,14 +315,45 @@ Public Class Form_main
         Lb_paths.Items.Item(sender.GetIndex()) = id
     End Sub
 
-    Public Sub SVGPath_OnSelectFigure(ByRef sender As SVGPath, ByRef fig As Figure)
+    Public Sub SVGPath_OnSelectionAddFigure(ByRef sender As SVGPath, ByRef fig As Figure)
+        If fig.HasMoveto Then
+            EnableButton(But_moveto, False)
+        Else
+            EnableButton(But_moveto, True)
+        End If
+
+        If SVG.SelectedPath IsNot sender Then Return
+
+        If Lb_figures.Items.Count <= 0 Then Return
+        SVG.selectedPoints.Clear()
+
+        If Not Lb_figures.SelectedIndices.Contains(fig.GetIndex) Then
+            Lb_figures.SelectedIndices.Add(fig.GetIndex)
+        End If
+
+        'Lb_figures.SelectionMode = SelectionMode.One
+        'Lb_figures.SelectedIndex = fig.GetIndex()
+        'Lb_figures.SelectionMode = SelectionMode.MultiExtended
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Public Sub SVGPath_OnSelectionRemovingFigure(ByRef sender As SVGPath, ByRef fig As Figure)
         If SVG.SelectedPath IsNot sender Then Return
         If Lb_figures.Items.Count <= 0 Then Return
         SVG.selectedPoints.Clear()
 
-        Lb_figures.SelectionMode = SelectionMode.One
-        Lb_figures.SelectedIndex = fig.GetIndex()
-        Lb_figures.SelectionMode = SelectionMode.MultiExtended
+        Lb_figures.SelectedIndices.Remove(fig.GetIndex)
+
+        Pic_canvas.Invalidate()
+    End Sub
+
+    Public Sub SVGPath_OnSelectionClearFigures(ByRef sender As SVGPath)
+        If SVG.SelectedPath IsNot sender Then Return
+        If Lb_figures.Items.Count <= 0 Then Return
+        SVG.selectedPoints.Clear()
+
+        Lb_figures.SelectedIndices.Clear()
+
         Pic_canvas.Invalidate()
     End Sub
 
@@ -1395,11 +1434,6 @@ Public Class Form_main
                     pp.Delete()
                 Next
                 Pic_canvas.Invalidate()
-
-            ElseIf e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
-                'Clear selection
-                SaveProject(False)
-
             ElseIf e.KeyCode = Keys.M Then
                 'Mirror PPoint
                 If SVG.selectedPoints.Count > 0 Then
@@ -1416,6 +1450,11 @@ Public Class Form_main
             End If
 
         End If
+
+        If e.KeyCode = Keys.S AndAlso e.Modifiers = Keys.Control Then
+            SaveProject(False)
+        End If
+
         pressedKey = e.KeyCode
         pressedMod = e.Modifiers
     End Sub
@@ -1461,9 +1500,12 @@ Public Class Form_main
     End Sub
 
     Private Sub RoundPositionsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RoundPositionsToolStripMenuItem.Click
-        For Each pp As PathPoint In SVG.GetAllPPoints
-            pp.RoundPosition()
+        For Each path In SVG.selectedPaths
+            For Each pp As PathPoint In path.GetAllPPoints
+                pp.RoundPosition()
+            Next
         Next
+
         Pic_canvas.Invalidate()
     End Sub
 
@@ -2406,5 +2448,12 @@ Public Class Form_main
         showBigGrid = Not showBigGrid
         HighlightButton(But_showBigGrid, showBigGrid)
         Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub RoundPositionsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RoundPositionsToolStripMenuItem1.Click
+        For Each pp As PathPoint In SVG.GetAllPPoints
+            pp.RoundPosition()
+        Next
+        Pic_canvas.Invalidate()
     End Sub
 End Class
