@@ -37,7 +37,7 @@ Check 'Help > View Help' inside the program for a list of Key Bindings.
   -Fixed by using DrwingPath's Transform matrix for the preview and then modifying the point's position for real when hitting the 'Apply' button.
 - [ ] Add settings to set the drawing quality so you can lower it to improve performance.
 - [x] Drag & Drop for loading template images and wsvg files.
-- [ ] Button to show/hide figures and paths.
+- [x] Button to show/hide figures and paths.
 - [x] Button to duplicate figures and paths.
 - [x] Change "Path props" to a list of path's attributes where you can add remove them (maybe add a list for every element in the file).
 - [ ] Support other elements beside paths, like circles, ellipses, rects, texts...
