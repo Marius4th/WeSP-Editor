@@ -73,29 +73,8 @@ Public Class SVGPath
         Set(ByVal value As Figure)
             selectedFigures.Clear()
             selectedFigures.Add(value)
-            'RaiseEvent OnSelectFigure(Me, value)
         End Set
     End Property
-
-    'Public Sub SelectionAddFigure(ByRef fig As Figure)
-    '    selectedFigures.Add(fig)
-    'End Sub
-    'Public Sub SelectionRemoveFigure(ByRef fig As Figure)
-    '    selectedFigures.Remove(fig)
-    'End Sub
-    'Public Sub SelectionRemoveFigureAt(ByVal index As Integer)
-    '    selectedFigures.RemoveAt(index)
-    'End Sub
-    'Public Sub SelectionClearFigures()
-    '    selectedFigures.Clear()
-    'End Sub
-
-
-    'Public Iterator Function GetSelectedFigures() As IEnumerator(Of Figure)
-    '    For Each fig As Figure In selectedFigures
-    '        Yield fig
-    '    Next
-    'End Function
 
     Public Shared Event OnFigureAdded(ByRef sender As SVGPath, ByRef fig As Figure)
     Public Shared Event OnFigureRemoving(ByRef sender As SVGPath, ByRef fig As Figure)
@@ -718,5 +697,9 @@ Public Class SVGPath
         Next
     End Sub
 
+    Public Sub SelectFigure(index As Integer)
+        If index <= 0 OrElse index >= figures.Count Then Return
+        SelectedFigure = figures(index)
+    End Sub
 
 End Class

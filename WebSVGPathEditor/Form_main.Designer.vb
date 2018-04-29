@@ -59,6 +59,7 @@ Partial Class Form_main
         Me.SVGToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MoveTo00ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.CenterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RoundPositionsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.CropToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ScaleToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
@@ -197,7 +198,6 @@ Partial Class Form_main
         Me.Pic_canvas = New System.Windows.Forms.PictureBox()
         Me.But_hideHtml = New System.Windows.Forms.Button()
         Me.But_hideMain = New System.Windows.Forms.Button()
-        Me.RoundPositionsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.Context_selPoints.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.Pan_tools.SuspendLayout()
@@ -260,6 +260,7 @@ Partial Class Form_main
         Me.Lb_selPoints.FormattingEnabled = True
         Me.Lb_selPoints.Name = "Lb_selPoints"
         Me.Lb_selPoints.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.Lb_selPoints.Tag = "0"
         '
         'Context_selPoints
         '
@@ -416,6 +417,11 @@ Partial Class Form_main
         '
         Me.CenterToolStripMenuItem.Name = "CenterToolStripMenuItem"
         resources.ApplyResources(Me.CenterToolStripMenuItem, "CenterToolStripMenuItem")
+        '
+        'RoundPositionsToolStripMenuItem1
+        '
+        Me.RoundPositionsToolStripMenuItem1.Name = "RoundPositionsToolStripMenuItem1"
+        resources.ApplyResources(Me.RoundPositionsToolStripMenuItem1, "RoundPositionsToolStripMenuItem1")
         '
         'CropToolStripMenuItem
         '
@@ -1201,6 +1207,7 @@ Partial Class Form_main
         Me.Lb_figures.FormattingEnabled = True
         Me.Lb_figures.Name = "Lb_figures"
         Me.Lb_figures.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.Lb_figures.Tag = "0"
         '
         'Context_figures
         '
@@ -1238,6 +1245,7 @@ Partial Class Form_main
         Me.Lb_paths.FormattingEnabled = True
         Me.Lb_paths.Name = "Lb_paths"
         Me.Lb_paths.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
+        Me.Lb_paths.Tag = "0"
         '
         'Timer_autoBackup
         '
@@ -1475,11 +1483,6 @@ Partial Class Form_main
         Me.But_hideMain.FlatAppearance.BorderColor = System.Drawing.Color.DimGray
         Me.But_hideMain.Name = "But_hideMain"
         Me.But_hideMain.UseVisualStyleBackColor = False
-        '
-        'RoundPositionsToolStripMenuItem1
-        '
-        Me.RoundPositionsToolStripMenuItem1.Name = "RoundPositionsToolStripMenuItem1"
-        resources.ApplyResources(Me.RoundPositionsToolStripMenuItem1, "RoundPositionsToolStripMenuItem1")
         '
         'Form_main
         '

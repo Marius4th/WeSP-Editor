@@ -115,4 +115,45 @@ Public Class HTMLParser
         Return attrs
     End Function
 
+
+
+
+    'TODO
+    Public Class ClFakeDOM
+        Public Elements As New List(Of ClElement) 'root elements
+
+        'Iterates through all the elements and sub elements
+        Public Iterator Function GetAllElements() As IEnumerable(Of ClElement)
+            For Each elem As ClElement In Elements
+                Yield elem
+                Yield elem.GetAllElements()
+            Next
+        End Function
+    End Class
+    'TODO
+    Public Class ClElement
+        Public Name As String
+        Public Attributes As New Dictionary(Of String, String)
+        Public Elements As New List(Of ClElement) 'sub elements
+
+        Public Iterator Function GetAllElements() As IEnumerable(Of ClElement)
+            For Each elem As ClElement In Elements
+                Yield elem
+                Yield elem.GetAllElements()
+            Next
+        End Function
+    End Class
+    'TODO
+    Public Shared Function GetElements(html As String) As ClFakeDOM
+        Dim fdom As New ClFakeDOM
+        Dim lst As List(Of String)
+        Dim rx As New Regex("(<[a-z|A-Z])")
+
+        lst = SplitRxKeep(html, "<[a-z|A-Z]", True)
+
+        For Each item In lst
+
+        Next
+    End Function
+
 End Class

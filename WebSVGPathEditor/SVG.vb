@@ -25,7 +25,7 @@ End Class
 
 Public NotInheritable Class SVG
     Public Shared _paths As New ListWithEvents(Of SVGPath)
-    Public Shared selectedPaths As New ListWithEvents(Of SVGPath)
+    Public Shared WithEvents selectedPaths As New ListWithEvents(Of SVGPath)
 
     Public Shared CanvasImg As New Bitmap(640, 640)
     Private Shared _canvasZoom As Single = 8.0F
@@ -47,7 +47,6 @@ Public NotInheritable Class SVG
     Public Shared Event OnPathAdded(ByRef path As SVGPath)
     Public Shared Event OnPathRemoving(ByRef path As SVGPath)
     Public Shared Event OnPathClear()
-    Public Shared Event OnSelectPath(ByRef path As SVGPath)
     Public Shared Event OnSelectPoint(ByRef pp As PathPoint)
     Public Shared Event OnStickyGridChanged()
     Public Shared Event OnChangePathIndex(oldIndx As Integer, newIndx As Integer)
@@ -55,6 +54,23 @@ Public NotInheritable Class SVG
     Public Shared Event OnBkgTemplateRemoving(ByRef bkgTemp As BkgTemplate, index As Integer)
     Public Shared Event OnBkgTemplatesClear()
     Public Shared Event OnCanvasOffsetChanged(ByVal newVal As Point)
+
+    Public Shared Event OnSelectionAddPath(ByRef fig As SVGPath)
+    Public Shared Event OnSelectionRemovingPath(ByRef fig As SVGPath)
+    Public Shared Event OnSelectionClearPaths()
+
+    Private Shared Sub HOnSelectionAddPath(ByRef sender As ListWithEvents(Of SVGPath), ByRef d As SVGPath) Handles selectedPaths.OnAdd
+        RaiseEvent OnSelectionAddPath(d)
+    End Sub
+
+    Private Shared Sub HOnSelectionRemovingPath(ByRef sender As ListWithEvents(Of SVGPath), ByRef d As SVGPath) Handles selectedPaths.OnRemoving
+        RaiseEvent OnSelectionRemovingPath(d)
+    End Sub
+
+    Private Shared Sub HOnSelectionRemovingPath(ByRef sender As ListWithEvents(Of SVGPath)) Handles selectedPaths.OnClear
+        RaiseEvent OnSelectionClearPaths()
+    End Sub
+
 
     Public Shared ReadOnly Property BkgTemplates() As List(Of BkgTemplate)
         Get
@@ -137,7 +153,6 @@ Public NotInheritable Class SVG
         Set(ByVal value As SVGPath)
             selectedPaths.Clear()
             selectedPaths.Add(value)
-            RaiseEvent OnSelectPath(value)
         End Set
     End Property
 
@@ -249,9 +264,11 @@ Public NotInheritable Class SVG
 
         str &= "<!--<wesp "
         str &= "zoom=""" & CanvasZoom & """"
+        str &= " voff=""" & CanvasOffset.ToStringForm & """"
         str &= ">" & vbCrLf
 
         For Each path As SVGPath In _paths
+            'Mirrored points
             For Each fig As Figure In path.GetFigures
                 For Each pp As PathPoint In fig
                     If pp.mirroredPos IsNot Nothing AndAlso pp.mirroredPP IsNot Nothing Then
@@ -276,6 +293,16 @@ Public NotInheritable Class SVG
             str &= "/>" & vbCrLf
         Next
 
+        For Each path As SVGPath In _paths
+            'Selected path
+            If SVG.selectedPaths.Contains(path) Then
+                str &= "<psel id=""" & path.GetIndex & """/>" & vbCrLf
+            End If
+            'Selected figures
+            For Each fsel As Figure In path.selectedFigures
+                str &= "<fsel pid=""" & path.GetIndex & """ id=""" & fsel.GetIndex & """/>" & vbCrLf
+            Next
+        Next
         str &= "</wesp>-->"
 
         Return str
@@ -321,8 +348,6 @@ Public NotInheritable Class SVG
 
     Public Shared Sub SelectPath(index As Integer)
         SelectedPath = _paths(index)
-
-        RaiseEvent OnSelectPath(_paths(index))
     End Sub
 
     Public Shared Sub ChangePathIndex(oldIndx As Integer, newIndx As Integer)
@@ -605,7 +630,10 @@ Public NotInheritable Class SVG
                 End Select
             Next
 
-            If SelectedFigure.IsEmpty Then SelectedPath.Remove(SelectedFigure)
+            If SelectedFigure.IsEmpty Then
+                SelectedPath.Remove(SelectedFigure)
+                SelectedPath.SelectedFigure = SelectedPath.GetFigures.Last 'Select last one
+            End If
         Next
 
         'Make sure UI gets updated with the new data (by firing the path selection event)
@@ -618,6 +646,7 @@ Public NotInheritable Class SVG
         Dim wesphAttribs = HTMLParser.GetAttributes(wesp)
         'Zoom
         CanvasZoom = wesphAttribs.GetValue("zoom", "10").GetNumbers
+        CanvasOffset.Parse(wesphAttribs.GetValue("voff", "0,0"))
 
         'Mirrored PPoints
         Dim mirrors As String() = Split(wesp, "<mirror", -1, StringSplitOptions.RemoveEmptyEntries)
@@ -656,6 +685,7 @@ Public NotInheritable Class SVG
             End With
         Next
 
+        'Background templates
         Dim bkgtemps As String() = Split(mirrors.Last, "<bkgtemp", -1, StringSplitOptions.RemoveEmptyEntries)
         For Each item As String In bkgtemps
             Dim itemAttribs = HTMLParser.GetAttributes(item)
@@ -666,6 +696,33 @@ Public NotInheritable Class SVG
             newBkgt.keepAspect = CBool(itemAttribs("kaspect"))
             newBkgt.visible = CBool(itemAttribs("visible"))
             AddBkgTemplate(newBkgt)
+        Next
+
+        'Selections
+        Dim psels As String() = Split(mirrors.Last, "<psel", -1, StringSplitOptions.RemoveEmptyEntries)
+        Dim first As Boolean = True
+        For Each item As String In psels
+            Dim itemAttribs = HTMLParser.GetAttributes(item)
+            If Not itemAttribs.ContainsKey("id") Then Continue For
+            Dim pindx As Integer = itemAttribs("id").GetNumbers
+            If first Then
+                SVG.SelectPath(pindx)
+                first = False
+            Else
+                SVG.selectedPaths.Add(SVG.Paths(pindx))
+            End If
+        Next
+        Dim fsels As String() = Split(mirrors.Last, "<fsel", -1, StringSplitOptions.RemoveEmptyEntries)
+        'Clear selections first
+        For Each path In SVG.Paths
+            path.selectedFigures.Clear()
+        Next
+        For Each item As String In fsels
+            Dim itemAttribs = HTMLParser.GetAttributes(item)
+            If Not itemAttribs.ContainsKey("id") Then Continue For
+            Dim pindx As Integer = itemAttribs("pid").GetNumbers
+            Dim findx As Integer = itemAttribs("id").GetNumbers
+            SVG.Paths(pindx).selectedFigures.Add(SVG.Paths(pindx).Figure(findx))
         Next
 
         HistoryLockRestore()

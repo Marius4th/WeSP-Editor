@@ -24,6 +24,13 @@ Public Class Form_main
         Copy = 1
     End Enum
 
+    Private Enum LBLockMode
+        None = 0
+        User = 1
+        SVG = 2
+    End Enum
+
+
     Private canvasImg As Bitmap
     Private canvasBack As Bitmap
     Private refreshHtml As Boolean = True
@@ -44,7 +51,9 @@ Public Class Form_main
         AddHandler SVG.OnPathAdded, AddressOf SVG_OnPathAdded
         AddHandler SVG.OnPathRemoving, AddressOf SVG_OnPathRemoving
         AddHandler SVG.OnPathClear, AddressOf SVG_OnPathClear
-        AddHandler SVG.OnSelectPath, AddressOf SVG_OnSelectPath
+        AddHandler SVG.OnSelectionAddPath, AddressOf SVG_OnSelectionAddPath
+        AddHandler SVG.OnSelectionRemovingPath, AddressOf SVG_OnSelectionRemovingPath
+        AddHandler SVG.OnSelectionClearPaths, AddressOf SVG_OnSelectionClearPaths
         AddHandler SVG.OnSelectPoint, AddressOf SVG_OnSelectPoint
         AddHandler SVG.OnStickyGridChanged, AddressOf SVG_OnStickyGridChanged
         AddHandler SVG.OnChangePathIndex, AddressOf SVG_OnChangePathIndex
@@ -144,27 +153,41 @@ Public Class Form_main
         AddToHistory()
     End Sub
 
-    Public Sub SVG_OnSelectPath(ByRef path As SVGPath)
+
+    Public Sub SVG_OnSelectionAddPath(ByRef path As SVGPath)
+        If path Is Nothing Then Return
+        If Lb_paths.Tag <> LBLockMode.User Then Lb_paths.Tag = LBLockMode.SVG
+
         'Load atributes into the listbox
-        Lb_attributes.Items.Clear()
-        For Each attr In path.Attributes
-            Lb_attributes.Items.Add(attr.Key & ":" & attr.Value)
-        Next
-        'Load figures
-        Lb_figures.Items.Clear()
-        'For Each fig In path.GetFigures
-        For Each fig In SVG.SelectedPath.GetFigures
-            Dim figname As String = "Figure_" & fig.GetIndex() + 1
-            If fig.IsOpen Then figname &= " [Open]"
-            Lb_figures.Items.Add(figname)
-        Next
-        'Change selected figure
-        Lb_figures.SelectionMode = SelectionMode.None
-        Lb_figures.SelectionMode = SelectionMode.MultiExtended
-        If SVG.SelectedPath IsNot Nothing Then
-            For Each fig As Figure In SVG.SelectedPath.selectedFigures.Reverse
-                Lb_figures.SelectedIndices.Add(fig.GetIndex())
+        If SVG.SelectedPath Is path Then
+            Lb_attributes.Items.Clear()
+            For Each attr In path.Attributes
+                Lb_attributes.Items.Add(attr.Key & ":" & attr.Value)
             Next
+
+            'Load figures
+            Lb_figures.Items.Clear()
+            For Each fig In SVG.SelectedPath.GetFigures
+                Dim figname As String = "Figure_" & fig.GetIndex() + 1
+                If fig.IsOpen Then figname &= " [Open]"
+                Lb_figures.Items.Add(figname)
+            Next
+
+            'Change selected figure
+            Lb_figures.SelectionMode = SelectionMode.None
+            Lb_figures.SelectionMode = SelectionMode.MultiExtended
+            If SVG.SelectedPath IsNot Nothing Then
+                If SVG.SelectedPath.selectedFigures.Count <= 0 Then SVG.SelectedPath.SelectFigure(0)
+                For Each fig As Figure In SVG.SelectedPath.selectedFigures.Reverse
+                    Lb_figures.SelectedIndices.Add(fig.GetIndex())
+                Next
+            End If
+
+        End If
+
+        'Change selected path
+        If Lb_paths.Tag <> LBLockMode.User AndAlso Not Lb_paths.SelectedIndices.Contains(path.GetIndex) Then
+            Lb_paths.SelectedIndices.Add(path.GetIndex)
         End If
 
         If SVG.SelectedPath.SelectedFigure.HasMoveto Then
@@ -174,7 +197,40 @@ Public Class Form_main
         End If
 
         Pic_canvas.Invalidate()
+
+        If Lb_paths.Tag = LBLockMode.SVG Then Lb_paths.Tag = LBLockMode.None
     End Sub
+
+    Public Sub SVG_OnSelectionRemovingPath(ByRef path As SVGPath)
+        If Lb_paths.Tag = LBLockMode.User Then Return
+        If Lb_paths.Tag <> LBLockMode.User Then Lb_paths.Tag = LBLockMode.SVG
+
+        Lb_paths.SelectedIndices.Remove(path.GetIndex)
+
+        If SVG.SelectedPath IsNot path Then
+
+        Else
+
+        End If
+
+        Pic_canvas.Invalidate()
+        If Lb_paths.Tag = LBLockMode.SVG Then Lb_paths.Tag = LBLockMode.None
+    End Sub
+
+    Public Sub SVG_OnSelectionClearPaths()
+        If Lb_paths.Tag = LBLockMode.User Then Return
+        If Lb_paths.Tag <> LBLockMode.User Then Lb_paths.Tag = LBLockMode.SVG
+
+        SVG.selectedPoints.Clear()
+        Lb_figures.Items.Clear()
+        Lb_paths.SelectionMode = SelectionMode.None
+        Lb_paths.SelectedIndices.Clear()
+        Lb_paths.SelectionMode = SelectionMode.MultiExtended
+
+        Pic_canvas.Invalidate()
+        If Lb_paths.Tag = LBLockMode.SVG Then Lb_paths.Tag = LBLockMode.None
+    End Sub
+
 
     Public Sub SVG_OnSelectPoint(ByRef pp As PathPoint)
     End Sub
@@ -323,8 +379,10 @@ Public Class Form_main
         End If
 
         If SVG.SelectedPath IsNot sender Then Return
-
         If Lb_figures.Items.Count <= 0 Then Return
+        If Lb_figures.Tag <> LBLockMode.User Then Lb_figures.Tag = LBLockMode.SVG
+        If Lb_figures.Tag = LBLockMode.User Then Return
+
         SVG.selectedPoints.Clear()
 
         If Not Lb_figures.SelectedIndices.Contains(fig.GetIndex) Then
@@ -335,26 +393,38 @@ Public Class Form_main
         'Lb_figures.SelectedIndex = fig.GetIndex()
         'Lb_figures.SelectionMode = SelectionMode.MultiExtended
         Pic_canvas.Invalidate()
+
+        If Lb_figures.Tag = LBLockMode.SVG Then Lb_figures.Tag = LBLockMode.None
     End Sub
 
     Public Sub SVGPath_OnSelectionRemovingFigure(ByRef sender As SVGPath, ByRef fig As Figure)
+        If Lb_figures.Tag = LBLockMode.User Then Return
+        If Lb_figures.Tag <> LBLockMode.User Then Lb_figures.Tag = LBLockMode.SVG
         If SVG.SelectedPath IsNot sender Then Return
         If Lb_figures.Items.Count <= 0 Then Return
+
         SVG.selectedPoints.Clear()
 
         Lb_figures.SelectedIndices.Remove(fig.GetIndex)
 
         Pic_canvas.Invalidate()
+
+        If Lb_figures.Tag = LBLockMode.SVG Then Lb_figures.Tag = LBLockMode.None
     End Sub
 
     Public Sub SVGPath_OnSelectionClearFigures(ByRef sender As SVGPath)
+        If Lb_figures.Tag = LBLockMode.User Then Return
+        If Lb_figures.Tag <> LBLockMode.User Then Lb_figures.Tag = LBLockMode.SVG
         If SVG.SelectedPath IsNot sender Then Return
         If Lb_figures.Items.Count <= 0 Then Return
+
         SVG.selectedPoints.Clear()
 
         Lb_figures.SelectedIndices.Clear()
 
         Pic_canvas.Invalidate()
+
+        If Lb_figures.Tag = LBLockMode.SVG Then Lb_figures.Tag = LBLockMode.None
     End Sub
 
     Public Sub SVGPath_OnChangeFigureIndex(ByRef sender As SVGPath, oldIndx As Integer, newIndx As Integer)
@@ -846,6 +916,9 @@ Public Class Form_main
         'My.Settings.recentfiles = New Collections.Specialized.StringCollection
         'My.Settings.Reload()
         LoadSettings()
+
+        'Center the canvas
+        SVG.CanvasOffset = New Point(Pic_canvas.Width / 2 - SVG.CanvasSizeZoomed.Width / 2, Pic_canvas.Height / 2 - SVG.CanvasSizeZoomed.Height / 2)
 
         initializing = False
     End Sub
@@ -1604,6 +1677,9 @@ Public Class Form_main
     End Sub
 
     Private Sub Lb_figures_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_figures.SelectedIndexChanged
+        If Lb_figures.Tag = LBLockMode.SVG Then Return
+        Lb_figures.Tag = LBLockMode.User 'Modifying selection
+
         'Change selected figure
         If SVG.SelectedPath IsNot Nothing Then
             SVG.selectedPoints.Clear()
@@ -1613,21 +1689,18 @@ Public Class Form_main
                 Lb_figures.SelectedIndex = Lb_figures.Items.Count - 1
             End If
 
+            SVG.SelectedPath.selectedFigures.Clear()
+
             For Each i As Integer In Lb_figures.SelectedIndices
                 Dim fig As Figure = SVG.SelectedPath.Figure(i)
-                If Not SVG.SelectedPath.selectedFigures.Contains(fig) Then
-                    SVG.SelectedPath.selectedFigures.Add(fig)
-                End If
-            Next
 
-            For Each fig As Figure In SVG.SelectedPath.selectedFigures.Reverse
-                If Not Lb_figures.SelectedIndices.Contains(fig.GetIndex()) Then
-                    SVG.SelectedPath.selectedFigures.Remove(fig)
-                End If
+                SVG.SelectedPath.selectedFigures.Add(fig)
             Next
 
             Pic_canvas.Invalidate()
         End If
+
+        Lb_figures.Tag = LBLockMode.None 'Selection done
     End Sub
 
     Private Sub ViewHelpToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewHelpToolStripMenuItem.Click
@@ -1685,6 +1758,8 @@ Public Class Form_main
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        HTMLParser.GetElements(Tb_html.Text.ToString)
+
         SVG.ParseString(Tb_html.Text.ToString)
         Focus()
         Tb_html.Focus()
@@ -1905,29 +1980,25 @@ Public Class Form_main
     End Sub
 
     Private Sub Lb_paths_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lb_paths.SelectedIndexChanged
+        If Lb_paths.Tag = LBLockMode.SVG Then Return
+        Lb_paths.Tag = LBLockMode.User 'Modifying selection
+
         'Select the last path if nothing is selected
         If Lb_paths.SelectedIndices.Count <= 0 Then
             Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
         End If
 
+        SVG.selectedPaths.Clear()
+
         For Each i As Integer In Lb_paths.SelectedIndices
             Dim path As SVGPath = SVG.Paths(i)
-            If i = Lb_paths.SelectedIndices(0) Then
-                SVG.SelectedPath = path
-            Else
-                If Not SVG.selectedPaths.Contains(path) Then
-                    SVG.selectedPaths.Add(path)
-                End If
-            End If
-        Next
 
-        For Each path As SVGPath In SVG.selectedPaths.AsEnumerable.Reverse
-            If Not Lb_paths.SelectedIndices.Contains(path.GetIndex()) Then
-                SVG.selectedPaths.Remove(path)
-            End If
+            SVG.selectedPaths.Add(path)
         Next
 
         Pic_canvas.Invalidate()
+
+        Lb_paths.Tag = LBLockMode.None 'Selection done
     End Sub
 
     Private Sub But_pathMoveUp_Click(sender As Object, e As EventArgs) Handles But_pathMoveUp.Click
@@ -2184,9 +2255,12 @@ Public Class Form_main
         End If
 
         SVG.CanvasSize = New SizeF(64, 64)
+        SVG.AttributesSetDefaults()
         SVG.Clear()
-        filePath = defFilePath
         SVG.ClearBkgTemplates()
+
+        filePath = defFilePath
+
         Me.Text = "untitled - WeSP Editor"
     End Sub
 

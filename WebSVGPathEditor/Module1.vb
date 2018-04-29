@@ -920,4 +920,32 @@ Public Module Module1
         Return newPos
     End Function
 
+    Public Function SplitRxKeep(input As String, patt As String, Optional ignoreFirst As Boolean = False) As List(Of String)
+        Dim lst As New List(Of String)
+        Dim rx As New Regex(patt)
+
+        Dim mts As MatchCollection = rx.Matches(input)
+        If mts.Count <= 0 Then
+            If ignoreFirst = False Then lst.Add(input)
+            Return lst
+        End If
+
+        Dim mtch As Match
+        Dim starti As Integer = 0
+        Dim si As Integer = 0
+
+        If ignoreFirst Then
+            si = 1
+            starti = mts(0).Index
+        End If
+
+        For i = si To mts.Count - 1
+            mtch = mts(i)
+            lst.Add(input.Substring(starti, mtch.Index - starti))
+            starti = mtch.Index
+        Next
+
+        Return lst
+    End Function
+
 End Module
