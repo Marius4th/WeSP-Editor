@@ -168,9 +168,7 @@ Public Class Form_main
             'Load figures
             Lb_figures.Items.Clear()
             For Each fig In SVG.SelectedPath.GetFigures
-                Dim figname As String = "Figure_" & fig.GetIndex() + 1
-                If fig.IsOpen Then figname &= " [Open]"
-                Lb_figures.Items.Add(figname)
+                Lb_figures.Items.Add(MakeFigureName(fig))
             Next
 
             'Change selected figure
@@ -368,7 +366,7 @@ Public Class Form_main
     End Sub
 
     Public Sub SVGPath_OnIdChanged(ByRef sender As SVGPath, id As String)
-        Lb_paths.Items.Item(sender.GetIndex()) = id
+        Lb_paths.Items.Item(sender.GetIndex()) = MakePathName(sender)
     End Sub
 
     Public Sub SVGPath_OnSelectionAddFigure(ByRef sender As SVGPath, ByRef fig As Figure)
@@ -598,6 +596,19 @@ Public Class Form_main
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     'Subroutines and Functions
 
+    Public Function MakeFigureName(ByRef fig As Figure) As String
+        Dim figname As String = "Figure_" & fig.GetIndex() + 1
+        If fig.IsOpen Then figname &= " [Open]"
+        If Not fig.IsVisible Then figname &= " [H]"
+        Return figname
+    End Function
+
+    Public Function MakePathName(ByRef path As SVGPath) As String
+        Dim pathname As String = path.Id
+        If Not path.IsVisible Then pathname &= " [H]"
+        Return pathname
+    End Function
+
     Public Sub RefreshTitle()
         Me.Text = IO.Path.GetFileNameWithoutExtension(filePath)
 
@@ -721,9 +732,7 @@ Public Class Form_main
         'Load figures
         Lb_figures.Items.Clear()
         For Each fig In SVG.SelectedPath.GetFigures
-            Dim figname As String = "Figure_" & fig.GetIndex() + 1
-            If fig.IsOpen Then figname &= " [Open]"
-            Lb_figures.Items.Add(figname)
+            Lb_figures.Items.Add(MakeFigureName(fig))
         Next
         'Change selected figure
         Lb_figures.SelectionMode = SelectionMode.None
@@ -2528,6 +2537,38 @@ Public Class Form_main
         For Each pp As PathPoint In SVG.GetAllPPoints
             pp.RoundPosition()
         Next
-        Pic_canvas.Invalidate()
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub But_figHide_Click(sender As Object, e As EventArgs) Handles But_figHide.Click
+        Dim newVal As Boolean = Not SVG.SelectedPath.selectedFigures(0).IsVisible
+
+        Lb_figures.Tag = LBLockMode.SVG
+        For Each fig As Figure In SVG.SelectedPath.selectedFigures
+            fig.IsVisible = newVal
+            Lb_figures.Items.Item(fig.GetIndex()) = MakeFigureName(fig)
+        Next
+        For Each fig As Figure In SVG.SelectedPath.selectedFigures
+            Lb_figures.SelectedIndices.Add(fig.GetIndex)
+        Next
+        Lb_figures.Tag = LBLockMode.None
+
+        Pic_canvas.Refresh()
+    End Sub
+
+    Private Sub But_pathHide_Click(sender As Object, e As EventArgs) Handles But_pathHide.Click
+        Dim newVal As Boolean = Not SVG.SelectedPath.IsVisible
+
+        Lb_paths.Tag = LBLockMode.SVG
+        For Each path In SVG.selectedPaths
+            path.IsVisible = newVal
+            Lb_paths.Items.Item(path.GetIndex()) = MakePathName(path)
+        Next
+        For Each path In SVG.selectedPaths
+            Lb_paths.SelectedIndices.Add(path.GetIndex)
+        Next
+        Lb_paths.Tag = LBLockMode.None
+
+        Pic_canvas.Refresh()
     End Sub
 End Class

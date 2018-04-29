@@ -267,6 +267,7 @@
     <None Include="Resources\grid_central.png" />
     <None Include="Resources\grid2.png" />
     <None Include="Resources\grid3.png" />
+    <None Include="Resources\visible.png" />
     <Content Include="weSP.ico" />
   </ItemGroup>
   <ItemGroup>

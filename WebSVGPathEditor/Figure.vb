@@ -8,7 +8,8 @@
     Public mirrorOrient As Orientation = Orientation.None
     Private _numMirrored As Integer = 0
     Private _transform As New Drawing2D.Matrix
-    Public _isOpen As Boolean = False
+    Private _isOpen As Boolean = False
+    Public IsVisible As Boolean = True
 
     Public Shared Event OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
     Public Shared Event OnPPointRemoving(ByRef sender As Figure, ByRef pp As PathPoint)

@@ -11,6 +11,7 @@ Public Class SVGPath
     Private _fillBrush As SolidBrush
     Private _gpath As New Drawing2D.GraphicsPath
     Private _gpathFillMode As Drawing2D.FillMode = Drawing2D.FillMode.Winding
+    Public IsVisible As Boolean = True
 
     Public Property Attributes() As Dictionary(Of String, String)
         Get
@@ -296,6 +297,7 @@ Public Class SVGPath
     End Function
 
     Public Sub Draw(ByRef graphs As Graphics)
+        If IsVisible = False Then Return
         'Set drawing to be smooth
         'graphs.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
         'graphs.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
@@ -312,6 +314,8 @@ Public Class SVGPath
 
         'Draw the Path of every Figure
         For Each fig As Figure In figures
+            If fig.IsVisible = False Then Continue For
+
             figGxPath = fig.GetGxPath()
             If figGxPath.PointCount > 0 Then _gpath.AddPath(figGxPath, False)
         Next
