@@ -149,7 +149,7 @@ Public Class HTMLParser
         Dim lst As List(Of String)
         Dim rx As New Regex("(<[a-z|A-Z])")
 
-        lst = SplitRxKeep(html, "<[a-z|A-Z]", True)
+        lst = SplitRxKeep(html, "<[a-z|A-Z]", -1, True)
 
         For Each item In lst
 

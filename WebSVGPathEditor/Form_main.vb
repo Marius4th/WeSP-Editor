@@ -61,6 +61,8 @@ Public Class Form_main
         AddHandler SVG.OnBkgTemplateRemoving, AddressOf SVG_OnBkgTemplateRemoving
         AddHandler SVG.OnBkgTemplatesClear, AddressOf SVG_OnBkgTemplatesClear
         AddHandler SVG.OnCanvasOffsetChanged, AddressOf SVG_OnCanvasOffsetChanged
+        AddHandler SVG.OnParsingStart, AddressOf SVG_OnParsingStart
+        AddHandler SVG.OnParsingEnd, AddressOf SVG_OnParsingEnd
 
         'AddHandler SVG.selectedPaths.OnAdd, AddressOf SVGSelectedPaths_OnAdd
         'AddHandler SVG.selectedPaths.OnRemoving, AddressOf SVGSelectedPaths_OnRemoving
@@ -180,18 +182,20 @@ Public Class Form_main
                     Lb_figures.SelectedIndices.Add(fig.GetIndex())
                 Next
             End If
-
-        End If
-
-        'Change selected path
-        If Lb_paths.Tag <> LBLockMode.User AndAlso Not Lb_paths.SelectedIndices.Contains(path.GetIndex) Then
-            Lb_paths.SelectedIndices.Add(path.GetIndex)
+            Pic_canvas.Invalidate()
         End If
 
         If SVG.SelectedPath.SelectedFigure.HasMoveto Then
             EnableButton(But_moveto, False)
         Else
             EnableButton(But_moveto, True)
+        End If
+
+        If Lb_figures.Tag = LBLockMode.User Then Return '  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+        'Change selected path
+        If Not Lb_paths.SelectedIndices.Contains(path.GetIndex) Then
+            Lb_paths.SelectedIndices.Add(path.GetIndex)
         End If
 
         Pic_canvas.Invalidate()
@@ -288,6 +292,18 @@ Public Class Form_main
         Pic_canvas.Invalidate()
     End Sub
 
+    Public Sub SVG_OnParsingStart()
+        'Stop controls from drawing, to speed thing up a bit
+        Pan_all.SuspendDrawing()
+        Cursor = Cursors.WaitCursor
+    End Sub
+
+    Public Sub SVG_OnParsingEnd()
+        'Reenable drawing
+        Pan_all.ResumeDrawing()
+        Cursor = Cursors.Default
+    End Sub
+
     'Public Sub SVGSelectedPaths_OnAdd(ByRef sender As ListWithEvents(Of SVGPath), ByRef d As SVGPath)
     '    If Lb_paths.Items.Count <= 0 Then Return
     '    If sender.Count = 1 Then
@@ -366,6 +382,7 @@ Public Class Form_main
     End Sub
 
     Public Sub SVGPath_OnIdChanged(ByRef sender As SVGPath, id As String)
+        If sender.GetIndex() < 0 Then Return
         Lb_paths.Items.Item(sender.GetIndex()) = MakePathName(sender)
     End Sub
 
@@ -447,7 +464,7 @@ Public Class Form_main
 
     Public Sub Figure_OnPPointAdded(ByRef sender As Figure, ByRef pp As PathPoint)
         If sender.HasMoveto Then EnableButton(But_moveto, False)
-        If pp.pointType = PointType.moveto Then
+        If pp.pointType = PointType.moveto AndAlso selectedTool = Tool.Drawing Then
             SetSelectedCommand(lastSelectedType)
         End If
 
@@ -703,10 +720,6 @@ Public Class Form_main
             RecentFilesToolStripMenuItem.DropDownItems.RemoveAt(RecentFilesToolStripMenuItem.DropDownItems.Count - 1)
         End If
         My.Settings.Save()
-    End Sub
-
-    Public Sub RecentFilesLoad()
-
     End Sub
 
     Public Sub RefreshAttributesList()

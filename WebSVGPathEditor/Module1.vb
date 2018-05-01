@@ -3,8 +3,25 @@ Imports System.Runtime.InteropServices
 Imports System.Text.RegularExpressions
 
 Public Module Module1
+    ' función SendMessage
+    Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (
+        ByVal hwnd As Integer,
+        ByVal wMsg As Integer,
+        ByVal wParam As Integer,
+        ByVal lParam As Integer) As Integer
+
+    Public Declare Function PostMessage Lib "user32" Alias "PostMessageA" (
+        ByVal hwnd As Integer,
+        ByVal wMsg As Integer,
+        ByVal wParam As Integer,
+        ByVal lParam As Long) As Integer
+
+
+
     'Constants
-    Const DEGS_PER_RAD As Double = 180 / Math.PI
+    Public Const WM_SETREDRAW As Integer = 11
+    Public Const DEGS_PER_RAD As Double = 180 / Math.PI
+
 
     'Toggles
     Public placeBetweenClosest As Boolean = False
@@ -234,6 +251,24 @@ Public Module Module1
         If dic.ContainsKey(key) Then Return dic(key)
         Return defVal
     End Function
+
+    <Extension()>
+    Public Sub ResumeDrawing(ByVal Target As Control, ByVal Redraw As Boolean)
+        SendMessage(Target.Handle, WM_SETREDRAW, 1, 0)
+        If Redraw Then
+            Target.Refresh()
+        End If
+    End Sub
+
+    <Extension()>
+    Public Sub SuspendDrawing(ByVal Target As Control)
+        SendMessage(Target.Handle, WM_SETREDRAW, 0, 0)
+    End Sub
+
+    <Extension()>
+    Public Sub ResumeDrawing(ByVal Target As Control)
+        ResumeDrawing(Target, True)
+    End Sub
 
     '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -920,9 +955,14 @@ Public Module Module1
         Return newPos
     End Function
 
-    Public Function SplitRxKeep(input As String, patt As String, Optional ignoreFirst As Boolean = False) As List(Of String)
+    Public Function SplitRxKeep(input As String, patt As String, Optional limit As Integer = -1, Optional ignoreFirst As Boolean = False, Optional removeEmpties As Boolean = True) As List(Of String)
         Dim lst As New List(Of String)
         Dim rx As New Regex(patt)
+
+        If limit = 0 Then
+            lst.Add(input)
+            Return lst
+        End If
 
         Dim mts As MatchCollection = rx.Matches(input)
         If mts.Count <= 0 Then
@@ -931,18 +971,27 @@ Public Module Module1
         End If
 
         Dim mtch As Match
-        Dim starti As Integer = 0
+        Dim endi As Integer = 0
         Dim si As Integer = 0
 
-        If ignoreFirst Then
-            si = 1
-            starti = mts(0).Index
+        If Not ignoreFirst Then
+            mtch = mts(0)
+            If Not removeEmpties OrElse mtch.Index >= 0 Then
+                lst.Add(input.Substring(0, mtch.Index))
+            End If
         End If
 
-        For i = si To mts.Count - 1
+        For i = 0 To mts.Count - 1
             mtch = mts(i)
-            lst.Add(input.Substring(starti, mtch.Index - starti))
-            starti = mtch.Index
+            If i + 1 < mts.Count Then
+                endi = mts(i + 1).Index
+            Else
+                endi = input.Length - 1
+            End If
+            If Not removeEmpties OrElse endi - mtch.Index + 1 > 0 Then
+                lst.Add(input.Substring(mtch.Index, endi - mtch.Index + 1))
+            End If
+            If limit > -1 AndAlso lst.Count >= limit Then Exit For
         Next
 
         Return lst

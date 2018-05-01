@@ -72,6 +72,7 @@ Public Class SVGPath
             Return selectedFigures(0)
         End Get
         Set(ByVal value As Figure)
+            If value Is Nothing Then Return
             selectedFigures.Clear()
             selectedFigures.Add(value)
         End Set
@@ -123,6 +124,7 @@ Public Class SVGPath
 
     Public Function Clone(Optional insertInPa As Boolean = True) As SVGPath
         Dim dup As New SVGPath()
+        dup.Clear()
 
         For Each fig As Figure In figures
             fig.Clone(True, dup)
@@ -130,7 +132,11 @@ Public Class SVGPath
 
         dup._attributes.Clear()
         For Each attr In _attributes
-            dup.SetAttribute(attr.Key, attr.Value)
+            If attr.Key.ToLower = "id" Then
+                dup.SetAttribute(attr.Key, attr.Value & "_copy")
+            Else
+                dup.SetAttribute(attr.Key, attr.Value)
+            End If
         Next
 
         If insertInPa Then
@@ -702,7 +708,7 @@ Public Class SVGPath
     End Sub
 
     Public Sub SelectFigure(index As Integer)
-        If index <= 0 OrElse index >= figures.Count Then Return
+        If index < 0 OrElse index >= figures.Count Then Return
         SelectedFigure = figures(index)
     End Sub
 

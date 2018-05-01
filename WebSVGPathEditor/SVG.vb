@@ -54,6 +54,8 @@ Public NotInheritable Class SVG
     Public Shared Event OnBkgTemplateRemoving(ByRef bkgTemp As BkgTemplate, index As Integer)
     Public Shared Event OnBkgTemplatesClear()
     Public Shared Event OnCanvasOffsetChanged(ByVal newVal As Point)
+    Public Shared Event OnParsingStart()
+    Public Shared Event OnParsingEnd()
 
     Public Shared Event OnSelectionAddPath(ByRef fig As SVGPath)
     Public Shared Event OnSelectionRemovingPath(ByRef fig As SVGPath)
@@ -151,6 +153,7 @@ Public NotInheritable Class SVG
             Return selectedPaths(0)
         End Get
         Set(ByVal value As SVGPath)
+            If value Is Nothing Then Return
             selectedPaths.Clear()
             selectedPaths.Add(value)
         End Set
@@ -163,6 +166,7 @@ Public NotInheritable Class SVG
         End Get
         Set(ByVal value As Figure)
             If SelectedPath Is Nothing Then Return
+            If value Is Nothing Then Return
             SelectedPath.SelectedFigure = value
         End Set
     End Property
@@ -461,6 +465,8 @@ Public NotInheritable Class SVG
     End Sub
 
     Public Shared Sub ParseString(str As String)
+        RaiseEvent OnParsingStart()
+
         Dim d As String = "", substr As String = ""
         Dim figData As String()
         Dim ppType As PointType = PointType.moveto
@@ -686,7 +692,7 @@ Public NotInheritable Class SVG
         Next
 
         'Background templates
-        Dim bkgtemps As String() = Split(mirrors.Last, "<bkgtemp", -1, StringSplitOptions.RemoveEmptyEntries)
+        Dim bkgtemps As List(Of String) = SplitRxKeep(mirrors.Last, "<bkgtemp", -1, True, True)
         For Each item As String In bkgtemps
             Dim itemAttribs = HTMLParser.GetAttributes(item)
             If Not itemAttribs.ContainsKey("path") Then Continue For
@@ -699,7 +705,7 @@ Public NotInheritable Class SVG
         Next
 
         'Selections
-        Dim psels As String() = Split(mirrors.Last, "<psel", -1, StringSplitOptions.RemoveEmptyEntries)
+        Dim psels As List(Of String) = SplitRxKeep(mirrors.Last, "<psel", -1, True, True)
         Dim first As Boolean = True
         For Each item As String In psels
             Dim itemAttribs = HTMLParser.GetAttributes(item)
@@ -712,21 +718,28 @@ Public NotInheritable Class SVG
                 SVG.selectedPaths.Add(SVG.Paths(pindx))
             End If
         Next
-        Dim fsels As String() = Split(mirrors.Last, "<fsel", -1, StringSplitOptions.RemoveEmptyEntries)
+        Dim fsels As List(Of String) = SplitRxKeep(mirrors.Last, "<fsel", -1, True, True)
         'Clear selections first
         For Each path In SVG.Paths
             path.selectedFigures.Clear()
         Next
         For Each item As String In fsels
             Dim itemAttribs = HTMLParser.GetAttributes(item)
-            If Not itemAttribs.ContainsKey("id") Then Continue For
+            If Not itemAttribs.ContainsKey("pid") Then Continue For
             Dim pindx As Integer = itemAttribs("pid").GetNumbers
             Dim findx As Integer = itemAttribs("id").GetNumbers
             SVG.Paths(pindx).selectedFigures.Add(SVG.Paths(pindx).Figure(findx))
         Next
+        For Each path In SVG.Paths
+            If path.selectedFigures.Count <= 0 Then
+                path.SelectFigure(0)
+            End If
+        Next
 
         HistoryLockRestore()
         AddToHistory()
+
+        RaiseEvent OnParsingEnd()
     End Sub
 
     Public Shared Function GetSelectedPPLastInPath() As PathPoint
