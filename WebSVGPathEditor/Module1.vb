@@ -16,8 +16,6 @@ Public Module Module1
         ByVal wParam As Integer,
         ByVal lParam As Long) As Integer
 
-
-
     'Constants
     Public Const WM_SETREDRAW As Integer = 11
     Public Const DEGS_PER_RAD As Double = 180 / Math.PI

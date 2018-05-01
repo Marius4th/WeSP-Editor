@@ -382,8 +382,11 @@ Public Class Form_main
     End Sub
 
     Public Sub SVGPath_OnIdChanged(ByRef sender As SVGPath, id As String)
-        If sender.GetIndex() < 0 Then Return
-        Lb_paths.Items.Item(sender.GetIndex()) = MakePathName(sender)
+        Dim index As Integer = sender.GetIndex()
+        If index < 0 Then Return
+        'Lb_paths.Tag = LBLockMode.SVG
+        Lb_paths.Items.Item(index) = MakePathName(sender)
+        'Lb_paths.Tag = LBLockMode.None
     End Sub
 
     Public Sub SVGPath_OnSelectionAddFigure(ByRef sender As SVGPath, ByRef fig As Figure)
@@ -1707,9 +1710,11 @@ Public Class Form_main
             SVG.selectedPoints.Clear()
 
             'Select the last figure if nothing is selected
-            If Lb_figures.SelectedIndices.Count <= 0 Then
-                Lb_figures.SelectedIndex = Lb_figures.Items.Count - 1
-            End If
+            'If Lb_figures.SelectedIndices.Count <= 0 Then
+            '    Lb_figures.Tag = LBLockMode.SVG
+            '    Lb_figures.SelectedIndex = Lb_figures.Items.Count - 1
+            '    Lb_figures.Tag = LBLockMode.User
+            'End If
 
             SVG.SelectedPath.selectedFigures.Clear()
 
@@ -2006,9 +2011,11 @@ Public Class Form_main
         Lb_paths.Tag = LBLockMode.User 'Modifying selection
 
         'Select the last path if nothing is selected
-        If Lb_paths.SelectedIndices.Count <= 0 Then
-            Lb_paths.SelectedIndex = Lb_paths.Items.Count - 1
-        End If
+        'If Lb_paths.SelectedIndices.Count <= 0 Then
+        '    Lb_paths.Tag = LBLockMode.SVG
+        '    Lb_paths.SelectedIndices.Add(Lb_paths.Items.Count - 1)
+        '    Lb_paths.Tag = LBLockMode.User
+        'End If
 
         SVG.selectedPaths.Clear()
 

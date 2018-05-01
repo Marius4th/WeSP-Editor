@@ -949,7 +949,7 @@ Partial Class Form_main
         Me.Num_stickyGHeight.DecimalPlaces = 1
         resources.ApplyResources(Me.Num_stickyGHeight, "Num_stickyGHeight")
         Me.Num_stickyGHeight.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
-        Me.Num_stickyGHeight.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Num_stickyGHeight.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.Num_stickyGHeight.Name = "Num_stickyGHeight"
         Me.Num_stickyGHeight.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
@@ -958,7 +958,7 @@ Partial Class Form_main
         Me.Num_stikyGWidth.DecimalPlaces = 1
         resources.ApplyResources(Me.Num_stikyGWidth, "Num_stikyGWidth")
         Me.Num_stikyGWidth.Maximum = New Decimal(New Integer() {4000, 0, 0, 0})
-        Me.Num_stikyGWidth.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Num_stikyGWidth.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.Num_stikyGWidth.Name = "Num_stikyGWidth"
         Me.Num_stikyGWidth.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
